@@ -14,7 +14,9 @@ interface PageProps {
 
 export async function generateStaticParams() {
   const candidates = getAllCandidates();
-  return candidates.map((c: { id: string }) => ({ id: c.id }));
+  return candidates
+    .filter((c: { id: string }) => c?.id)
+    .map((c: { id: string }) => ({ id: c.id }));
 }
 
 export default async function CandidateProfilePage({ params }: PageProps) {
