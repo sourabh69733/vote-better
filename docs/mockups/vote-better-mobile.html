@@ -3,211 +3,416 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Vote Better - citizen-first profile concept</title>
+  <title>Vote Better - full product journey mockup</title>
   <style>
-    :root { font-family: Inter, system-ui, sans-serif; color: #17243d; background: #eaf0f8; }
+    :root {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #17233b;
+      background: #edf1f5;
+    }
     * { box-sizing: border-box; }
     body { margin: 0; }
     button, select { font: inherit; }
     button { cursor: pointer; }
-    button:focus-visible, select:focus-visible, summary:focus-visible { outline: 3px solid #efab48; outline-offset: 3px; }
-    .stage { min-height: 100vh; display: grid; grid-template-columns: minmax(280px, 390px) minmax(350px, 430px); align-content: center; justify-content: center; gap: 60px; padding: 32px 24px; background: radial-gradient(circle at 20% 20%, #fff, #eaf0f8 55%, #dce7f5); }
-    .intro { align-self: center; }
-    .brand { display: flex; align-items: center; gap: 9px; color: #234a9b; font-size: .85rem; font-weight: 900; letter-spacing: .12em; }
-    .mark { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 8px; background: #2856b6; color: #fff; }
-    .intro h1 { margin: 23px 0; color: #162a4d; font-size: clamp(2.3rem, 5vw, 4rem); line-height: 1.05; letter-spacing: -.055em; }
-    .intro p { color: #52627d; font-size: 1.04rem; line-height: 1.65; }
-    .points { display: grid; gap: 11px; margin-top: 24px; color: #31435f; }
-    .points span::before { content: "✓"; margin-right: 10px; color: #177c60; font-weight: 900; }
-    .intro-note, .notice { padding: 12px 14px; border: 1px solid #efdcb4; border-radius: 11px; background: #fff7e9; color: #735629; line-height: 1.45; }
-    .intro-note { margin-top: 28px; font-size: .85rem; }
-    .notice { margin: 14px 0; font-size: .72rem; }
-    .device { display: flex; flex-direction: column; width: 100%; max-width: 430px; height: min(850px, calc(100vh - 42px)); min-height: 690px; overflow: hidden; border: 9px solid #15243d; border-radius: 42px; background: #fff; box-shadow: 0 34px 65px #1a355b33; }
-    .app-header { flex: none; padding: 24px 19px 15px; border-bottom: 1px solid #ebeff5; background: #f8faff; }
-    .topline { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-    .mini-brand { display: flex; align-items: center; gap: 8px; font-size: .9rem; font-weight: 900; }
-    .mini-brand .mark { width: 25px; height: 25px; border-radius: 7px; }
-    .preview { padding: 5px 8px; border-radius: 99px; background: #fff0d6; color: #925c13; font-size: .68rem; font-weight: 800; }
-    .location { margin-top: 14px; color: #607392; font-size: .76rem; }
-    .location strong { color: #254578; }
-    .viewport { flex: 1; min-height: 0; }
-    .screen { height: 100%; overflow-y: auto; padding: 22px 18px 30px; scrollbar-width: thin; }
+    button:focus-visible, select:focus-visible, summary:focus-visible {
+      outline: 3px solid #dc8e35;
+      outline-offset: 3px;
+    }
     [hidden] { display: none !important; }
-    .eyebrow, .section-label { color: #607596; font-size: .69rem; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
-    .eyebrow { margin: 0 0 7px; }
-    .section-label { margin: 22px 0 10px; }
-    h2 { margin: 0 0 7px; font-size: 1.7rem; line-height: 1.14; letter-spacing: -.045em; }
-    h3 { margin: 0; font-size: .95rem; }
-    .sub { margin: 0 0 17px; color: #687993; font-size: .83rem; line-height: 1.5; }
-    .area-card { padding: 14px; border: 1px solid #dce7f7; border-radius: 14px; background: #f2f6fd; }
-    .area-card label { display: block; margin-bottom: 8px; color: #536d96; font-size: .73rem; font-weight: 800; }
-    .area-card select { width: 100%; padding: 10px; border: 1px solid #cbd9ef; border-radius: 9px; background: #fff; color: #21385f; font-weight: 800; }
-    .area-card p { margin: 9px 0 0; color: #697b96; font-size: .72rem; line-height: 1.4; }
-    .rep-card { width: 100%; padding: 15px; border: 1px solid #dce5f2; border-radius: 14px; background: #fff; color: inherit; text-align: left; box-shadow: 0 5px 16px #294e8910; }
-    .rep-top, .profile-head { display: flex; align-items: center; gap: 11px; }
-    .avatar { display: grid; flex: none; place-items: center; width: 44px; height: 44px; border-radius: 13px; background: #e7edfc; color: #2c56b3; font-size: 1.05rem; font-weight: 900; }
-    .avatar.green { background: #e1f4ed; color: #15775c; }
-    .rep-name { display: block; font-size: .95rem; font-weight: 900; }
-    .rep-role { display: block; margin-top: 2px; color: #6a7b96; font-size: .72rem; }
-    .rep-foot { display: flex; justify-content: space-between; margin-top: 14px; padding-top: 11px; border-top: 1px solid #edf1f7; color: #536f9f; font-size: .72rem; font-weight: 800; }
-    .quiet-card, .empty { padding: 15px; border: 1px dashed #cad5e6; border-radius: 13px; background: #fbfcff; color: #65768e; font-size: .77rem; line-height: 1.5; }
-    .quiet-card { margin-top: 11px; }
-    .panel { margin-top: 12px; padding: 15px; border: 1px solid #e1e8f2; border-radius: 14px; }
-    .panel p { margin: 7px 0 0; color: #667891; font-size: .76rem; line-height: 1.5; }
-    .profile-head { margin-bottom: 12px; }
-    .profile-head .avatar { width: 58px; height: 58px; font-size: 1.3rem; }
-    .profile-head h2 { margin: 0 0 4px; font-size: 1.43rem; }
-    .profile-head p { margin: 0; color: #637694; font-size: .74rem; }
-    .badges { display: flex; flex-wrap: wrap; gap: 6px; }
-    .badge { padding: 5px 8px; border-radius: 7px; background: #eaf1ff; color: #2b58a9; font-size: .68rem; font-weight: 800; }
-    .badge.soft { background: #eef6f1; color: #236e56; }
-    .record { display: flex; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 1px solid #edf1f6; font-size: .78rem; }
-    .record:last-child { padding-bottom: 0; border-bottom: 0; }
-    .record span { color: #657791; }
-    .record strong { text-align: right; }
-    .activity { padding: 12px 0; border-bottom: 1px solid #edf1f6; }
-    .activity:last-child { padding-bottom: 0; border-bottom: 0; }
-    .activity strong { font-size: .8rem; }
-    .activity p { margin: 4px 0; }
-    .activity small { color: #647fa9; font-size: .68rem; font-weight: 700; }
-    details { margin-top: 12px; padding: 12px; border: 1px solid #dce6f4; border-radius: 10px; background: #f5f8fd; }
-    summary { color: #315aa0; font-size: .75rem; font-weight: 800; cursor: pointer; }
-    details p { margin: 8px 0 0; color: #61728d; font-size: .72rem; line-height: 1.5; }
-    .compare-people { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
-    .compare-person { padding: 13px; border: 1px solid #e0e7f0; border-radius: 12px; }
-    .compare-person strong { display: block; margin-top: 8px; font-size: .82rem; }
-    .compare-person small { color: #75839a; font-size: .69rem; }
-    .compare-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px 0; border-bottom: 1px solid #ebeff5; }
-    .compare-row strong { grid-column: 1 / -1; font-size: .78rem; }
-    .compare-row span { color: #425673; font-size: .77rem; }
-    .compare-row small { display: block; margin-top: 3px; color: #8190a5; font-size: .67rem; }
-    .nav { flex: none; display: grid; grid-template-columns: repeat(3, 1fr); padding: 8px 8px 14px; border-top: 1px solid #e7edf5; background: #fff; }
-    .nav button { display: grid; place-items: center; gap: 3px; padding: 6px 2px; border: 0; background: none; color: #8391a7; font-size: .7rem; font-weight: 800; }
-    .nav button[aria-selected="true"] { color: #2858bd; }
-    .nav button:disabled { color: #bdc7d5; cursor: not-allowed; }
-    .nav .icon { font-size: 1.14rem; }
-    @media (max-width: 850px) {
-      .stage { display: block; padding: 0; background: #fff; }
-      .intro { display: none; }
-      .device { max-width: none; height: 100dvh; min-height: 0; border: 0; border-radius: 0; box-shadow: none; }
-      .app-header { padding-top: 17px; }
+    .shell {
+      display: grid;
+      grid-template-columns: 268px minmax(0, 680px);
+      justify-content: center;
+      gap: 30px;
+      min-height: 100vh;
+      padding: 28px;
+    }
+    .sidebar {
+      position: sticky;
+      top: 28px;
+      align-self: start;
+      padding: 24px 18px;
+      border: 1px solid #dce3ec;
+      border-radius: 22px;
+      background: #fff;
+      box-shadow: 0 16px 45px #2334500e;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-size: 1rem; font-weight: 900; letter-spacing: -.025em; }
+    .mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: #173e86; color: #fff; }
+    .sidebar h1 { margin: 22px 6px 8px; font-size: 1.5rem; line-height: 1.1; letter-spacing: -.04em; }
+    .sidebar p { margin: 0 6px 18px; color: #63728b; font-size: .78rem; line-height: 1.5; }
+    .nav-label { margin: 17px 8px 7px; color: #8290a3; font-size: .64rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+    .nav { display: grid; gap: 4px; }
+    .nav button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 11px;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      color: #50617d;
+      text-align: left;
+      font-size: .8rem;
+      font-weight: 750;
+    }
+    .nav button[aria-selected="true"] { background: #e9f0ff; color: #19499a; }
+    .nav button span:first-child { width: 20px; font-size: 1rem; text-align: center; }
+    .sidebar-foot { margin-top: 22px; padding: 13px; border-radius: 12px; background: #fff6e7; color: #71552e; font-size: .72rem; line-height: 1.45; }
+    .preview {
+      min-height: calc(100vh - 56px);
+      overflow: hidden;
+      border: 1px solid #d8e1ed;
+      border-radius: 24px;
+      background: #f9fbfd;
+      box-shadow: 0 20px 55px #263e5b19;
+    }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 18px 25px; border-bottom: 1px solid #e6ebf2; background: #fff; }
+    .topbar .brand { font-size: .95rem; }
+    .topbar .mark { width: 29px; height: 29px; border-radius: 8px; }
+    .tag { display: inline-flex; align-items: center; width: fit-content; padding: 5px 8px; border-radius: 7px; background: #eaf0fc; color: #2853a0; font-size: .66rem; font-weight: 850; }
+    .tag.gold { background: #fff0cf; color: #8d6419; }
+    .tag.green { background: #e1f3e9; color: #186b4f; }
+    .topbar .tag { white-space: nowrap; }
+    .screen { padding: 28px 26px 50px; }
+    .eyebrow { margin: 0 0 8px; color: #4268a7; font-size: .69rem; font-weight: 900; letter-spacing: .11em; text-transform: uppercase; }
+    h2 { margin: 0; color: #172743; font-size: clamp(1.8rem, 5vw, 2.25rem); line-height: 1.11; letter-spacing: -.05em; }
+    h3 { margin: 0; font-size: 1rem; letter-spacing: -.018em; }
+    .lead { margin: 11px 0 20px; color: #60718a; font-size: .91rem; line-height: 1.55; }
+    .notice { margin: 15px 0; padding: 11px 13px; border: 1px solid #f0dcaf; border-radius: 10px; background: #fff8e8; color: #745727; font-size: .74rem; line-height: 1.5; }
+    .section-title { margin: 26px 0 11px; color: #526784; font-size: .69rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+    .card { padding: 18px; border: 1px solid #e1e7f0; border-radius: 15px; background: #fff; box-shadow: 0 5px 17px #2a466d09; }
+    .card + .card { margin-top: 10px; }
+    .card p { margin: 7px 0 0; color: #64748d; font-size: .8rem; line-height: 1.55; }
+    .primary, .secondary, .quiet-button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 42px; padding: 10px 15px; border-radius: 10px; font-size: .8rem; font-weight: 850; }
+    .primary { border: 1px solid #1d4da7; background: #2456b6; color: #fff; }
+    .secondary { border: 1px solid #cbd9ef; background: #fff; color: #2555aa; }
+    .quiet-button { border: 0; background: transparent; color: #315ca8; }
+    .action-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .select-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .field { display: block; color: #516681; font-size: .72rem; font-weight: 800; }
+    .field select { display: block; width: 100%; margin-top: 6px; padding: 10px 11px; border: 1px solid #d0dbea; border-radius: 9px; background: #fff; color: #203552; font-weight: 700; }
+    .avatar { display: grid; flex: none; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: #e8eefe; color: #2c57b4; font-size: 1.05rem; font-weight: 900; }
+    .avatar.green { background: #e0f2e9; color: #167657; }
+    .avatar.gold { background: #fff0d9; color: #906218; }
+    .person-row { display: flex; align-items: center; gap: 12px; }
+    .person-row strong { display: block; font-size: .98rem; }
+    .person-row small { display: block; margin-top: 3px; color: #74839a; font-size: .72rem; }
+    .card-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 14px; padding-top: 11px; border-top: 1px solid #edf1f6; color: #657892; font-size: .72rem; }
+    .soft-card { padding: 16px; border: 1px dashed #cdd9e8; border-radius: 14px; background: #f7f9fc; color: #64758d; font-size: .78rem; line-height: 1.55; }
+    .hero-profile { display: flex; align-items: center; gap: 15px; }
+    .hero-profile .avatar { width: 61px; height: 61px; font-size: 1.3rem; }
+    .hero-profile h2 { font-size: 1.7rem; }
+    .hero-profile p { margin: 4px 0 0; color: #667892; font-size: .78rem; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .info-grid .card { min-height: 112px; }
+    .info-grid strong { display: block; margin-top: 9px; font-size: .84rem; }
+    .info-grid small { display: block; margin-top: 4px; color: #77869a; font-size: .7rem; }
+    .timeline { margin: 0 0 0 9px; padding-left: 22px; border-left: 2px solid #d7e2f4; }
+    .event { position: relative; padding: 0 0 20px; }
+    .event:last-child { padding-bottom: 0; }
+    .event::before { position: absolute; top: 2px; left: -29px; width: 10px; height: 10px; border: 2px solid #3a66be; border-radius: 50%; background: #fff; content: ""; }
+    .event time { color: #8291a5; font-size: .7rem; font-weight: 750; }
+    .event h3 { margin-top: 4px; font-size: .86rem; }
+    .event p { margin: 4px 0 8px; color: #687991; font-size: .76rem; line-height: 1.5; }
+    .proof { padding: 0; border: 0; background: none; color: #2b58ad; text-align: left; font-size: .72rem; font-weight: 850; text-decoration: underline; text-underline-offset: 3px; }
+    .split-note { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .split-note .card { margin: 0; }
+    .split-note strong { font-size: .78rem; }
+    .split-note p { font-size: .73rem; }
+    .candidate-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+    .candidate-grid .card { margin: 0; padding: 12px; }
+    .candidate-grid strong { display: block; margin-top: 8px; font-size: .78rem; }
+    .candidate-grid small { color: #78879c; font-size: .67rem; }
+    .compare-header, .compare-line { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 8px; align-items: start; }
+    .compare-header { padding: 11px 0; border-bottom: 2px solid #dce5f2; font-size: .76rem; font-weight: 900; }
+    .compare-line { padding: 13px 0; border-bottom: 1px solid #e9eef5; font-size: .76rem; line-height: 1.4; }
+    .compare-line span:first-child { color: #5c6e88; font-weight: 750; }
+    .compare-line small { display: block; margin-top: 3px; color: #8794a6; font-size: .67rem; }
+    details { margin-top: 13px; padding: 13px; border: 1px solid #dce6f4; border-radius: 11px; background: #f5f8fd; }
+    summary { color: #315aa0; font-size: .78rem; font-weight: 850; cursor: pointer; }
+    details p, details li { color: #61728d; font-size: .74rem; line-height: 1.5; }
+    details ol { margin-bottom: 0; padding-left: 19px; }
+    .progress-line { display: flex; align-items: center; gap: 5px; margin: 16px 0 7px; }
+    .progress-line span { flex: 1; height: 7px; border-radius: 8px; background: #dce6f3; }
+    .progress-line .done { background: #468c72; }
+    .progress-line .active { background: #d9a246; }
+    .status-note { color: #6d7c92; font-size: .7rem; }
+    .role-list { display: grid; gap: 9px; }
+    .role { display: flex; align-items: start; justify-content: space-between; gap: 12px; padding: 11px; border: 1px solid #e2e9f2; border-radius: 10px; background: #fff; }
+    .role strong { font-size: .78rem; }
+    .role small { display: block; margin-top: 3px; color: #78889d; font-size: .69rem; }
+    .source-steps { display: grid; gap: 8px; }
+    .step { display: flex; align-items: start; gap: 11px; padding: 12px; border: 1px solid #e2e9f2; border-radius: 11px; background: #fff; }
+    .step b { display: grid; flex: none; place-items: center; width: 24px; height: 24px; border-radius: 7px; background: #e9f0fd; color: #2f5bac; font-size: .7rem; }
+    .step strong { font-size: .78rem; }
+    .step p { margin: 4px 0 0; color: #708098; font-size: .72rem; line-height: 1.4; }
+    dialog { width: min(460px, calc(100vw - 30px)); padding: 0; border: 1px solid #d8e3f0; border-radius: 17px; box-shadow: 0 20px 70px #182b4a47; }
+    dialog::backdrop { background: #15264299; }
+    .dialog-inner { padding: 21px; }
+    .dialog-head { display: flex; align-items: start; justify-content: space-between; gap: 12px; }
+    .dialog-head h2 { font-size: 1.3rem; }
+    .dialog-head button { padding: 2px 8px; border: 0; border-radius: 7px; background: #eff2f7; color: #42536e; font-size: 1.2rem; }
+    .dialog-inner p { color: #60728d; font-size: .79rem; line-height: 1.55; }
+    .sample-receipt { margin-top: 16px; padding: 14px; border: 1px solid #e0e8f4; border-radius: 12px; background: #f6f9fd; }
+    .sample-receipt strong { display: block; margin: 8px 0; }
+    @media (max-width: 790px) {
+      .shell { display: block; padding: 0; }
+      .sidebar { position: sticky; z-index: 3; top: 0; display: block; padding: 10px 12px; border: 0; border-bottom: 1px solid #dfe6ef; border-radius: 0; box-shadow: none; }
+      .sidebar .brand, .sidebar h1, .sidebar p, .sidebar-foot, .nav-label { display: none; }
+      .nav { display: flex; gap: 3px; overflow-x: auto; scrollbar-width: none; }
+      .nav button { flex: none; width: auto; padding: 8px 10px; white-space: nowrap; }
+      .preview { min-height: calc(100vh - 59px); border: 0; border-radius: 0; box-shadow: none; }
+      .screen { padding: 22px 17px 42px; }
+    }
+    @media (max-width: 430px) {
+      .select-grid, .split-note { grid-template-columns: 1fr; }
+      .candidate-grid { gap: 6px; }
+      .candidate-grid .card { padding: 10px; }
+      .candidate-grid .avatar { width: 37px; height: 37px; }
     }
   </style>
 </head>
 <body>
-<div class="stage">
-  <aside class="intro">
-    <div class="brand"><span class="mark">✓</span> VOTE BETTER</div>
-    <h1>Start with your area.<br>Know your people.</h1>
-    <p>A citizen-first Jaipur concept. Find who represents your area, understand their record, and see when someone becomes a candidate.</p>
-    <div class="points"><span>People have lasting profiles</span><span>Offices and elections are dated records</span><span>Every published fact needs evidence</span></div>
-    <div class="intro-note"><strong>Design sample:</strong> People, roles, activity and comparison records shown in the phone are fictional. This is not a live directory.</div>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><span class="mark">✓</span> Vote Better</div>
+    <h1>Full journey mockup</h1>
+    <p>Explore the citizen flow and later concepts before changing the product code.</p>
+    <div class="nav-label">Core experience</div>
+    <nav class="nav" role="tablist" aria-label="Mockup screens">
+      <button id="tab-area" role="tab" type="button" aria-controls="area" aria-selected="true" tabindex="0"><span>⌖</span> My area</button>
+      <button id="tab-profile" role="tab" type="button" aria-controls="profile" aria-selected="false" tabindex="-1"><span>◉</span> Person profile</button>
+      <button id="tab-election" role="tab" type="button" aria-controls="election" aria-selected="false" tabindex="-1"><span>▣</span> Election</button>
+      <button id="tab-compare" role="tab" type="button" aria-controls="compare" aria-selected="false" tabindex="-1"><span>⚖</span> Compare</button>
+      <button id="tab-work" role="tab" type="button" aria-controls="work" aria-selected="false" tabindex="-1"><span>◷</span> Public work</button>
+      <button id="tab-office" role="tab" type="button" aria-controls="office" aria-selected="false" tabindex="-1"><span>▤</span> Departments later</button>
+      <button id="tab-contribute" role="tab" type="button" aria-controls="contribute" aria-selected="false" tabindex="-1"><span>✎</span> Contribute later</button>
+      <button id="tab-community" role="tab" type="button" aria-controls="community" aria-selected="false" tabindex="-1"><span>◎</span> Community later</button>
+      <button id="tab-evidence" role="tab" type="button" aria-controls="evidence" aria-selected="false" tabindex="-1"><span>✓</span> Evidence rules</button>
+    </nav>
+    <div class="sidebar-foot"><strong>Design sample.</strong> Every person, number, project and issue in this mockup is fictional. Jaipur is used only as the pilot area label.</div>
   </aside>
 
-  <div class="device" aria-label="Vote Better mobile design concept">
-    <header class="app-header">
-      <div class="topline"><div class="mini-brand"><span class="mark">✓</span> Vote Better</div><span class="preview">DESIGN SAMPLE</span></div>
-      <div class="location">⌖ <strong id="header-area">Jaipur Lok Sabha</strong> · Rajasthan</div>
-    </header>
-
-    <main class="viewport">
-      <section id="area" class="screen" role="tabpanel" aria-labelledby="nav-area">
-        <p class="eyebrow">Your area</p>
-        <h2>Who represents you?</h2>
-        <p class="sub">Start with your area. You do not need to know which election is next.</p>
-        <div class="area-card">
-          <label for="area-select">Choose an area for this demo</label>
-          <select id="area-select"><option value="jaipur">Jaipur Lok Sabha</option><option value="jaipur-rural">Jaipur Rural Lok Sabha</option></select>
-          <p>A real address lookup must confirm the correct parliamentary and assembly areas.</p>
+  <div class="preview">
+    <header class="topbar"><div class="brand"><span class="mark">✓</span> Vote Better</div><span class="tag gold">INTERACTIVE DESIGN SAMPLE</span></header>
+    <main>
+      <section id="area" class="screen" role="tabpanel" aria-labelledby="tab-area">
+        <p class="eyebrow">Start here</p>
+        <h2>Your area. Your representatives.</h2>
+        <p class="lead">You should not need to know which election is coming to find the people responsible for representing you.</p>
+        <div class="card">
+          <div class="select-grid">
+            <label class="field">State<select aria-label="State"><option>Rajasthan pilot</option><option disabled>Other states after verification</option></select></label>
+            <label class="field">Parliamentary area<select id="area-choice" aria-label="Parliamentary area"><option value="jaipur">Jaipur</option><option value="rural">Jaipur Rural</option></select></label>
+          </div>
+          <p>In the real product, location lookup must confirm constituency boundaries. A PIN code alone is not enough for every office.</p>
         </div>
-        <div class="notice">All people and records below are fictional examples for layout review.</div>
-        <div id="jaipur-content">
-          <p class="section-label">Current representative</p>
-          <button class="rep-card" id="open-profile" type="button">
-            <span class="rep-top"><span class="avatar">A</span><span><span class="rep-name">Representative A</span><span class="rep-role">Member of Parliament · example profile</span></span></span>
-            <span class="rep-foot"><span>Jaipur Lok Sabha</span><span>View profile →</span></span>
-          </button>
-          <div class="quiet-card"><strong>Assembly representative</strong><br>Choose an assembly area before showing an MLA. A city or PIN code can cover more than one area.</div>
-          <p class="section-label">What can I learn here?</p>
-          <div class="panel"><h3>Role and record</h3><p>Current office, past election history, documented activity, declared information and sources, tied to the right time period.</p></div>
-          <div class="panel"><h3>When an election begins</h3><p>New nominations attach to person profiles. Verified contesting status unlocks election comparison.</p></div>
+        <div class="notice">Design sample: the representative below is fictional. Jaipur Rural has no sample person in this mockup.</div>
+        <div id="jaipur-area">
+          <p class="section-title">Current representative</p>
+          <div class="card">
+            <div class="person-row"><span class="avatar">A</span><span><strong>Representative A</strong><small>Member of Parliament · Jaipur example</small></span></div>
+            <div class="card-foot"><span>Office status checked in source record</span><span class="tag green">Elected</span></div>
+            <div class="action-row"><button class="primary" type="button" data-go="profile">Open person profile →</button></div>
+          </div>
+          <p class="section-title">Other levels</p>
+          <div class="soft-card"><strong>MLA and local body</strong><br>The resident must choose a precise assembly or ward area before we show these representatives. Never guess from the city name.</div>
+          <p class="section-title">At a glance</p>
+          <div class="split-note"><div class="card"><strong>People first</strong><p>One person can hold different offices or contest different elections over time.</p></div><div class="card"><strong>Know the limit</strong><p>Unmapped offices are shown as missing, not assigned to the wrong area.</p></div></div>
         </div>
-        <div id="other-area" class="empty" hidden>No sample representative has been prepared for Jaipur Rural. The real product would show profiles only after the area and records are verified.</div>
+        <div id="rural-area" class="soft-card" hidden>No fictional profile is prepared for Jaipur Rural. This state shows how the product handles an area without verified records.</div>
       </section>
 
-      <section id="profile" class="screen" role="tabpanel" aria-labelledby="nav-profile" hidden>
-        <p class="eyebrow">Person profile · sample</p>
-        <div class="profile-head"><span class="avatar">A</span><span><h2>Representative A</h2><p>Public office holder in this fictional example</p></span></div>
-        <div class="badges"><span class="badge">Currently elected · example</span><span class="badge soft">No current contest shown</span></div>
-        <div class="notice">This person and every activity below are fictional. Real statuses and events would need dated source records.</div>
-        <div class="panel">
-          <h3>Where they serve</h3>
-          <div class="record"><span>Current office</span><strong>MP · Jaipur example</strong></div>
-          <div class="record"><span>Term</span><strong>2024 onward · sample</strong></div>
-          <div class="record"><span>Election status</span><strong>Not shown as contesting</strong></div>
-        </div>
-        <p class="section-label">What are they doing?</p>
-        <div class="panel">
-          <div class="activity"><strong>Asked a question in Parliament</strong><p>Show the question, government reply and original record.</p><small>Illustrative official activity · date and link required</small></div>
-          <div class="activity"><strong>Requested a local project update</strong><p>Separate the representative's role from work done by the department.</p><small>Illustrative local activity · attribution required</small></div>
-          <div class="activity"><strong>Published a public statement</strong><p>Show this as an attributed claim, not a verified outcome.</p><small>Illustrative person-authored update</small></div>
-        </div>
-        <p class="section-label">Background and links</p>
-        <div class="panel"><h3>Declared information</h3><p>Assets, liabilities, education and declared cases would come from a dated election affidavit. Missing fields stay missing.</p></div>
-        <div class="panel"><h3>Social profiles</h3><p>Show links only after ownership is checked. Posts remain the person's statements, with dates and original links.</p></div>
-        <details><summary>How would we verify this profile?</summary><p>Match the person across election and office records. Keep a source, date and correction history for each fact. Label person-authored content separately.</p></details>
+      <section id="profile" class="screen" role="tabpanel" aria-labelledby="tab-profile" hidden>
+        <p class="eyebrow">Lasting person profile</p>
+        <div class="hero-profile"><span class="avatar">A</span><span><h2>Representative A</h2><p>Jaipur example · fictional person</p></span></div>
+        <div class="badge-row"><span class="tag green">Currently elected</span><span class="tag">MP term: example</span><span class="tag gold">No active contest shown</span></div>
+        <div class="notice">Everything on this profile is fictional. In the real product, each fact needs a dated original record.</div>
+        <div class="info-grid"><div class="card"><span class="tag">Current office</span><strong>Member of Parliament</strong><small>Jaipur · sample term</small></div><div class="card"><span class="tag">Election history</span><strong>One example candidacy</strong><small>Office and candidacy remain separate records</small></div></div>
+        <p class="section-title">What have they done?</p>
+        <div class="card"><div class="timeline">
+          <div class="event"><time>Example date</time><h3>Raised a question in Parliament</h3><p>The source would show the exact question and reply. This is activity, not a delivered project.</p><button class="proof" type="button" data-proof="question">See evidence card ↗</button></div>
+          <div class="event"><time>Example date</time><h3>Requested a department update</h3><p>Show what the representative requested and what the department did separately.</p><button class="proof" type="button" data-proof="request">See evidence card ↗</button></div>
+        </div></div>
+        <p class="section-title">What changed for residents?</p>
+        <div class="soft-card">No independently checked outcome in this sample profile. We would not turn a speech, question or announcement into a completed-work claim.</div>
+        <p class="section-title">Other information</p>
+        <div class="card"><h3>Declarations and contact</h3><p>Show dated affidavit facts and verified public social links when checked. Candidate-authored posts get a clear “their statement” label. Unreviewed fields stay blank.</p><div class="action-row"><button class="secondary" type="button" data-go="evidence">How facts are checked</button><button class="secondary" type="button" id="share-profile">Preview share card</button></div></div>
       </section>
 
-      <section id="compare" class="screen" role="tabpanel" aria-labelledby="nav-compare" hidden>
-        <p class="eyebrow">Election context</p>
-        <h2>Compare when it matters</h2>
-        <p class="sub">Profiles remain useful between elections. Comparison appears when a verified contesting list is available.</p>
-        <div class="empty"><strong>No active contest in this design sample.</strong><br>The example below shows a past-election comparison. It is not a live ballot.</div>
-        <p class="section-label">Illustrative past-election view</p>
-        <div class="compare-people">
-          <div class="compare-person"><span class="avatar">A</span><strong>Person A</strong><small>Previously held office</small></div>
-          <div class="compare-person"><span class="avatar green">B</span><strong>Person B</strong><small>First-time candidate</small></div>
+      <section id="election" class="screen" role="tabpanel" aria-labelledby="tab-election" hidden>
+        <p class="eyebrow">Election layer</p>
+        <h2>When a vote approaches</h2>
+        <p class="lead">A new candidacy is attached to a person profile. The actual ballot list, not popularity, decides who appears in comparison.</p>
+        <div class="card"><span class="tag gold">EXAMPLE ELECTION ONLY</span><h3 style="margin-top:10px">Jaipur parliamentary election scenario</h3><p>No active election is asserted by this design. The fictional list below demonstrates the flow after final contesting status is checked.</p></div>
+        <p class="section-title">All final contestants in the example</p>
+        <div class="candidate-grid">
+          <div class="card"><span class="avatar">A</span><strong>Person A</strong><small>Example party 1</small></div>
+          <div class="card"><span class="avatar green">B</span><strong>Person B</strong><small>Example party 2</small></div>
+          <div class="card"><span class="avatar gold">C</span><strong>Person C</strong><small>Independent</small></div>
         </div>
-        <div class="compare-row"><strong>Final ballot status</strong><span>Contested<small>Example record</small></span><span>Contested<small>Example record</small></span></div>
-        <div class="compare-row"><strong>Declared information</strong><span>Affidavit available<small>Open original record</small></span><span>Affidavit available<small>Open original record</small></span></div>
-        <div class="compare-row"><strong>Record in elected office</strong><span>Term record available<small>Use the same time window</small></span><span>Not applicable<small>Never held this office</small></span></div>
-        <div class="compare-row"><strong>Public statements</strong><span>Attributed claims<small>Not verified outcomes</small></span><span>Attributed claims<small>Not verified outcomes</small></span></div>
-        <details><summary>Why is there no candidate ranking?</summary><p>A single number can hide missing records and value judgments. Ranking needs transparent criteria, source coverage and a fair comparison between new candidates and incumbents.</p></details>
+        <div class="action-row"><button class="primary" type="button" data-go="compare">Compare sample candidates →</button></div>
+        <details><summary>What changes while nominations are processed?</summary><p>Profiles can show applied, accepted, rejected, withdrawn and finally contesting status, each with an update date. Only the final contesting list is treated as the ballot choice.</p></details>
+      </section>
+
+      <section id="compare" class="screen" role="tabpanel" aria-labelledby="tab-compare" hidden>
+        <p class="eyebrow">Election-specific comparison</p>
+        <h2>Same facts. Side by side.</h2>
+        <p class="lead">The order starts with identity and ballot status, then declarations and comparable office records. Missing data never becomes zero.</p>
+        <div class="notice">All candidates and values below are fictional examples. No ranking or voting recommendation is published.</div>
+        <div class="card"><div class="compare-header"><span>Evidence</span><span>Person A</span><span>Person B</span></div>
+          <div class="compare-line"><span>Ballot status</span><span>Contesting<small>Election record</small></span><span>Contesting<small>Election record</small></span></div>
+          <div class="compare-line"><span>Declared cases</span><span>0 disclosed<small>Filing date needed</small></span><span>2 pending<small>No guilt implied</small></span></div>
+          <div class="compare-line"><span>Declared assets</span><span>₹1.2 crore<small>Self-declared</small></span><span>₹85 lakh<small>Self-declared</small></span></div>
+          <div class="compare-line"><span>Office record</span><span>Term record<small>Open dated activity</small></span><span>Not applicable<small>First-time candidate</small></span></div>
+          <div class="compare-line"><span>Local outcomes</span><span>Not reviewed<small>No score assigned</small></span><span>Not reviewed<small>No score assigned</small></span></div>
+        </div>
+        <div class="action-row"><button class="secondary" type="button" data-proof="comparison">How would sources appear?</button></div>
+        <details><summary>Could we rank people from data?</summary><p>Only after publishing the metrics, weights, source coverage and limits. Incumbents and first-time candidates need fair treatment. This mockup leaves the ranking hidden while those rules are unresolved.</p></details>
+        <div class="card" style="margin-top:14px"><h3>All-candidate view</h3><p>Side-by-side comparison can focus on two people at a time, but the election list must still include every final contestant, including independents.</p></div>
+      </section>
+
+      <section id="work" class="screen" role="tabpanel" aria-labelledby="tab-work" hidden>
+        <p class="eyebrow">Public work, after election</p>
+        <h2>Track actions and outcomes</h2>
+        <p class="lead">Show the responsible office, the representative's documented role and the evidence for each status change.</p>
+        <div class="notice">Every project below is fictional. An office report and an independently checked outcome are different things.</div>
+        <div class="card"><span class="tag gold">Office reports in progress</span><h3 style="margin-top:9px">Neighborhood road repair</h3><p>Responsible office: example municipal works division. Representative's role: requested an update. Completion has not been independently checked.</p><div class="progress-line"><span class="done"></span><span class="done"></span><span class="active"></span><span></span></div><div class="status-note">Announced → Sanctioned → Work reported → Outcome checked</div><div class="action-row"><button class="proof" type="button" data-proof="work">Open status evidence ↗</button><button class="quiet-button" type="button" data-go="office">View responsible office →</button></div></div>
+        <div class="card"><span class="tag green">Outcome checked</span><h3 style="margin-top:9px">Public water point</h3><p>An example inspection confirms service. The check date and method would be shown next to the office completion record.</p></div>
+        <div class="card"><span class="tag">Announced</span><h3 style="margin-top:9px">School crossing proposal</h3><p>A proposal exists. No sanction, construction or completed outcome is claimed.</p></div>
+        <details><summary>Why keep work separate from a person's profile?</summary><p>Departments deliver many services. Representatives may ask, fund or advocate. The product should record each role without giving one person credit for another office's work.</p></details>
+      </section>
+
+      <section id="office" class="screen" role="tabpanel" aria-labelledby="tab-office" hidden>
+        <p class="eyebrow">Later concept, outside the first release</p>
+        <h2>Know the responsible office</h2>
+        <p class="lead">Public work belongs to departments and offices. A person holding an official role can change, so office history and person history stay separate.</p>
+        <div class="notice">The division, projects and states below are fictional. No official has been assigned or contacted.</div>
+        <div class="card"><span class="tag">Example public office</span><h3 style="margin-top:9px">Municipal works division</h3><p>Service area: example Jaipur neighborhood. Responsibility: road maintenance in this design scenario. A real office page would need a verified jurisdiction and official contact route.</p></div>
+        <p class="section-title">Who is accountable for what?</p>
+        <div class="role-list"><div class="role"><span><strong>Department</strong><small>Owns service delivery and the work order</small></span><span class="tag">Office record</span></div><div class="role"><span><strong>Assigned official</strong><small>Name and posting appear only after an appointment record is checked</small></span><span class="tag gold">Unverified</span></div><div class="role"><span><strong>Elected representative</strong><small>May request, recommend or follow up, with the exact role recorded</small></span><span class="tag">Separate role</span></div></div>
+        <p class="section-title">Connected work</p>
+        <div class="card"><h3>Neighborhood road repair</h3><p>Office reports work in progress. The representative requested an update. No independent completion check is shown.</p><div class="action-row"><button class="secondary" type="button" data-go="work">View work timeline</button></div></div>
+      </section>
+
+      <section id="community" class="screen" role="tabpanel" aria-labelledby="tab-community" hidden>
+        <p class="eyebrow">Later concept, outside the first release</p>
+        <h2>A local civic space</h2>
+        <p class="lead">Residents could discuss shared issues and follow official responses. This page is a future design direction, not a working complaint service.</p>
+        <div class="notice">No account, complaint, message, routing or notification is created by this mockup.</div>
+        <div class="card"><span class="tag">Example area group</span><h3 style="margin-top:9px">Jaipur neighborhood space</h3><p>Residents can see public issues and the offices responsible. An official is never shown as present unless their account is verified.</p></div>
+        <p class="section-title">People and roles</p>
+        <div class="role-list"><div class="role"><span><strong>Residents</strong><small>Can report, add evidence and confirm whether a remedy worked</small></span><span class="tag">Future</span></div><div class="role"><span><strong>Public office</strong><small>Can respond only after role and account verification</small></span><span class="tag gold">Not joined</span></div><div class="role"><span><strong>Moderators</strong><small>Review privacy, duplicates and misleading claims</small></span><span class="tag">Future</span></div></div>
+        <p class="section-title">One issue, clear stages</p>
+        <div class="card"><h3>Example streetlight issue</h3><p>Resident report → official channel identified → resident authorizes submission → official reference received → response recorded → outcome checked.</p><p><strong>Private:</strong> resident identity, contact and exact home location. <strong>Public only with consent:</strong> approximate area and documented status.</p></div>
+        <details><summary>What if no official joins the group?</summary><p>The group still helps residents find the correct official channel. It must not pretend that a message was delivered or acknowledged. Automated forwarding would need verified addresses, consent, rate limits and proof of delivery.</p></details>
+      </section>
+
+      <section id="contribute" class="screen" role="tabpanel" aria-labelledby="tab-contribute" hidden>
+        <p class="eyebrow">Later concept, outside the first release</p>
+        <h2>People can add context</h2>
+        <p class="lead">Residents and public figures can contribute, while the product keeps official records and personal claims visibly separate.</p>
+        <div class="notice">This is a design sample. It does not create an account or submit information.</div>
+        <div class="card"><span class="tag">Resident path</span><h3 style="margin-top:9px">Suggest a correction</h3><p>Point to the exact fact, explain the concern, and attach a source. The published fact stays visible with a review state and correction history.</p><div class="progress-line"><span class="done"></span><span class="active"></span><span></span><span></span></div><div class="status-note">Submitted → Reviewing → Decision → Public correction log</div></div>
+        <div class="card"><span class="tag gold">Public figure path</span><h3 style="margin-top:9px">Claim a profile</h3><p>Verify identity and role first. Then publish priorities, responses and links in a clearly marked “From this person” section. Their statements do not replace official records.</p></div>
+        <div class="card"><span class="tag green">Reader path</span><h3 style="margin-top:9px">Follow updates</h3><p>Choose an area or person to follow. Notifications would distinguish a new official record, a person-authored post and a correction.</p></div>
+        <details><summary>What if a public figure disputes a record?</summary><p>Show the dispute and response alongside the original source. An editor checks the evidence and records the decision. Neither an accusation nor a denial becomes a verified fact by being posted.</p></details>
+      </section>
+
+      <section id="evidence" class="screen" role="tabpanel" aria-labelledby="tab-evidence" hidden>
+        <p class="eyebrow">Trust and data flow</p>
+        <h2>Show how each fact was made</h2>
+        <p class="lead">The design only works if a reader can inspect the original record and understand what it proves.</p>
+        <div class="source-steps">
+          <div class="step"><b>1</b><span><strong>Original record</strong><p>Election result, affidavit, parliamentary record or documented government update.</p></span></div>
+          <div class="step"><b>2</b><span><strong>Person and area match</strong><p>Check that the record belongs to the same person, office, term and constituency.</p></span></div>
+          <div class="step"><b>3</b><span><strong>Review the claim</strong><p>Record the exact claim, source URL, document date, review date and what cannot be inferred.</p></span></div>
+          <div class="step"><b>4</b><span><strong>Publish with history</strong><p>Show corrections and leave uncertain or unavailable fields empty.</p></span></div>
+        </div>
+        <p class="section-title">A sample evidence card</p>
+        <div class="card"><h3>Parliamentary question asked</h3><p><strong>Record type:</strong> official question. <strong>Supports:</strong> the question was asked on a date. <strong>Does not support:</strong> a project was completed.</p><div class="action-row"><button class="secondary" type="button" data-proof="question">Open evidence detail</button></div></div>
+        <p class="section-title">Design rules</p>
+        <div class="split-note"><div class="card"><strong>Facts vs statements</strong><p>Person-authored updates get a clear label. They are not presented as independently verified outcomes.</p></div><div class="card"><strong>Missing stays missing</strong><p>No zero, green badge or score is inferred from unavailable data.</p></div></div>
       </section>
     </main>
-
-    <nav class="nav" role="tablist" aria-label="Mockup sections">
-      <button id="nav-area" role="tab" aria-selected="true" aria-controls="area" type="button"><span class="icon">⌖</span>Your area</button>
-      <button id="nav-profile" role="tab" aria-selected="false" aria-controls="profile" type="button"><span class="icon">◉</span>Profile</button>
-      <button id="nav-compare" role="tab" aria-selected="false" aria-controls="compare" type="button"><span class="icon">⚖</span>Compare</button>
-    </nav>
   </div>
 </div>
+
+<dialog id="detail-dialog" aria-labelledby="dialog-title">
+  <div class="dialog-inner">
+    <div class="dialog-head"><h2 id="dialog-title">Evidence detail</h2><button id="close-dialog" type="button" aria-label="Close detail">×</button></div>
+    <div id="dialog-body"></div>
+  </div>
+</dialog>
+
 <script>
   const tabs = [...document.querySelectorAll('.nav [role="tab"]')];
-  const panels = [...document.querySelectorAll('.screen')];
+  const screens = [...document.querySelectorAll('.screen')];
+  const dialog = document.getElementById('detail-dialog');
+  const dialogTitle = document.getElementById('dialog-title');
+  const dialogBody = document.getElementById('dialog-body');
+  const proofCopy = {
+    question: ['Parliamentary question', 'A real evidence card would show the original question, answer, date, member name and source URL. It would confirm the question was asked, not that a project was delivered.'],
+    request: ['Representative request', 'Show the dated request and the department response as separate records. Do not turn a request into an outcome.'],
+    comparison: ['Comparison source', 'Each value would open its original affidavit or official record, filing date, definition, checked date and correction history. These sample values have no real source.'],
+    work: ['Project status', 'Show the sanction or work order, the office update, and a separate dated outcome check. The fictional project on this page has no real document.'],
+  };
 
   function showScreen(id) {
     for (const tab of tabs) {
-      tab.setAttribute('aria-selected', String(tab.getAttribute('aria-controls') === id));
+      const active = tab.getAttribute('aria-controls') === id;
+      tab.setAttribute('aria-selected', String(active));
+      tab.tabIndex = active ? 0 : -1;
     }
-    for (const panel of panels) {
-      panel.hidden = panel.id !== id;
-      panel.scrollTop = 0;
-    }
+    for (const screen of screens) screen.hidden = screen.id !== id;
+    window.scrollTo(0, 0);
   }
 
   for (const tab of tabs) {
     tab.addEventListener('click', () => showScreen(tab.getAttribute('aria-controls')));
+    tab.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      const offset = event.key === 'ArrowRight' ? 1 : -1;
+      const next = tabs[(tabs.indexOf(tab) + offset + tabs.length) % tabs.length];
+      showScreen(next.getAttribute('aria-controls'));
+      next.focus();
+    });
   }
-  document.getElementById('open-profile').addEventListener('click', () => showScreen('profile'));
-
-  document.getElementById('area-select').addEventListener('change', (event) => {
-    const isJaipur = event.target.value === 'jaipur';
-    document.getElementById('jaipur-content').hidden = !isJaipur;
-    document.getElementById('other-area').hidden = isJaipur;
-    document.getElementById('header-area').textContent = isJaipur ? 'Jaipur Lok Sabha' : 'Jaipur Rural Lok Sabha';
-    document.getElementById('nav-profile').disabled = !isJaipur;
+  for (const button of document.querySelectorAll('[data-go]')) {
+    button.addEventListener('click', () => showScreen(button.dataset.go));
+  }
+  for (const button of document.querySelectorAll('[data-proof]')) {
+    button.addEventListener('click', () => {
+      const [title, body] = proofCopy[button.dataset.proof];
+      dialogTitle.textContent = title;
+      dialogBody.replaceChildren();
+      const note = document.createElement('p');
+      note.textContent = body;
+      const label = document.createElement('span');
+      label.className = 'tag gold';
+      label.textContent = 'FICTIONAL DESIGN SAMPLE';
+      dialogBody.append(label, note);
+      dialog.showModal();
+    });
+  }
+  document.getElementById('share-profile').addEventListener('click', () => {
+    dialogTitle.textContent = 'Share card preview';
+    dialogBody.replaceChildren();
+    const card = document.createElement('div');
+    card.className = 'sample-receipt';
+    card.innerHTML = '<span class="tag gold">DESIGN SAMPLE</span><strong>Representative A · Jaipur example</strong><p>Current role: MP in this fictional scenario.</p><p>Real share cards would include a claim, original source, review date and a link back to the full profile.</p>';
+    dialogBody.append(card);
+    dialog.showModal();
+  });
+  document.getElementById('close-dialog').addEventListener('click', () => dialog.close());
+  document.getElementById('area-choice').addEventListener('change', (event) => {
+    const jaipur = event.target.value === 'jaipur';
+    document.getElementById('jaipur-area').hidden = !jaipur;
+    document.getElementById('rural-area').hidden = jaipur;
   });
 </script>
 </body>
