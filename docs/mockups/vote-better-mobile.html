@@ -93,6 +93,7 @@
     .select-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .field { display: block; color: #516681; font-size: .72rem; font-weight: 800; }
     .field select { display: block; width: 100%; margin-top: 6px; padding: 10px 11px; border: 1px solid #d0dbea; border-radius: 9px; background: #fff; color: #203552; font-weight: 700; }
+    .select-grid + .select-grid { margin-top: 10px; }
     .avatar { display: grid; flex: none; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: #e8eefe; color: #2c57b4; font-size: 1.05rem; font-weight: 900; }
     .avatar.green { background: #e0f2e9; color: #167657; }
     .avatar.gold { background: #fff0d9; color: #906218; }
@@ -208,18 +209,31 @@
             <label class="field">State<select aria-label="State"><option>Rajasthan pilot</option><option disabled>Other states after verification</option></select></label>
             <label class="field">Parliamentary area<select id="area-choice" aria-label="Parliamentary area"><option value="jaipur">Jaipur</option><option value="rural">Jaipur Rural</option></select></label>
           </div>
+          <div class="select-grid">
+            <label class="field">Assembly area<select id="assembly-choice" aria-label="Assembly area"><option value="unknown">Choose an assembly area</option><option value="sample">Example Assembly Area 1</option></select></label>
+            <label class="field">Ward<select id="ward-choice" aria-label="Ward"><option value="unknown">Choose a ward</option><option value="sample">Example Ward 1</option></select></label>
+          </div>
           <p>In the real product, location lookup must confirm constituency boundaries. A PIN code alone is not enough for every office.</p>
         </div>
-        <div class="notice">Design sample: the representative below is fictional. Jaipur Rural has no sample person in this mockup.</div>
+        <div class="notice">Design sample: all representatives and lower-level areas below are fictional. Jaipur Rural has no sample person in this mockup.</div>
         <div id="jaipur-area">
-          <p class="section-title">Current representative</p>
+          <p class="section-title">Representatives for this location</p>
           <div class="card">
             <div class="person-row"><span class="avatar">A</span><span><strong>Representative A</strong><small>Member of Parliament · Jaipur example</small></span></div>
-            <div class="card-foot"><span>Office status checked in source record</span><span class="tag green">Elected</span></div>
-            <div class="action-row"><button class="primary" type="button" data-go="profile">Open person profile →</button></div>
+            <div class="card-foot"><span>Office record required to publish</span><span class="tag green">Elected</span></div>
+            <div class="action-row"><button class="primary" type="button" data-profile="A">Open MP profile →</button></div>
           </div>
-          <p class="section-title">Other levels</p>
-          <div class="soft-card"><strong>MLA and local body</strong><br>The resident must choose a precise assembly or ward area before we show these representatives. Never guess from the city name.</div>
+          <div class="card" id="mla-card" hidden>
+            <div class="person-row"><span class="avatar green">B</span><span><strong>Representative B</strong><small>Member of Legislative Assembly · fictional area</small></span></div>
+            <div class="card-foot"><span>Shown after assembly area selection</span><span class="tag green">Elected</span></div>
+            <div class="action-row"><button class="secondary" type="button" data-profile="B">Open MLA profile →</button></div>
+          </div>
+          <div class="card" id="ward-card" hidden>
+            <div class="person-row"><span class="avatar gold">C</span><span><strong>Representative C</strong><small>Ward councillor · fictional ward</small></span></div>
+            <div class="card-foot"><span>Shown after ward selection</span><span class="tag green">Elected</span></div>
+            <div class="action-row"><button class="secondary" type="button" data-profile="C">Open councillor profile →</button></div>
+          </div>
+          <div class="soft-card" style="margin-top:11px"><strong>Why are some people hidden?</strong><br>An MP, MLA and councillor cover different boundaries. Choose the assembly area and ward to see those office holders. Never guess from the city name.</div>
           <p class="section-title">At a glance</p>
           <div class="split-note"><div class="card"><strong>People first</strong><p>One person can hold different offices or contest different elections over time.</p></div><div class="card"><strong>Know the limit</strong><p>Unmapped offices are shown as missing, not assigned to the wrong area.</p></div></div>
         </div>
@@ -228,19 +242,19 @@
 
       <section id="profile" class="screen" role="tabpanel" aria-labelledby="tab-profile" hidden>
         <p class="eyebrow">Lasting person profile</p>
-        <div class="hero-profile"><span class="avatar">A</span><span><h2>Representative A</h2><p>Jaipur example · fictional person</p></span></div>
-        <div class="badge-row"><span class="tag green">Currently elected</span><span class="tag">MP term: example</span><span class="tag gold">No active contest shown</span></div>
+        <div class="hero-profile"><span class="avatar" id="profile-avatar">A</span><span><h2 id="profile-name">Representative A</h2><p id="profile-area">Jaipur example · fictional person</p></span></div>
+        <div class="badge-row"><span class="tag green">Currently elected</span><span class="tag" id="profile-term">MP term: example</span><span class="tag gold">No active contest shown</span></div>
         <div class="notice">Everything on this profile is fictional. In the real product, each fact needs a dated original record.</div>
-        <div class="info-grid"><div class="card"><span class="tag">Current office</span><strong>Member of Parliament</strong><small>Jaipur · sample term</small></div><div class="card"><span class="tag">Election history</span><strong>One example candidacy</strong><small>Office and candidacy remain separate records</small></div></div>
+        <div class="info-grid"><div class="card"><span class="tag">Current office</span><strong id="profile-office">Member of Parliament</strong><small id="profile-office-area">Jaipur · sample term</small></div><div class="card"><span class="tag">Election history</span><strong>One example candidacy</strong><small>Office and candidacy remain separate records</small></div></div>
         <p class="section-title">What have they done?</p>
         <div class="card"><div class="timeline">
-          <div class="event"><time>Example date</time><h3>Raised a question in Parliament</h3><p>The source would show the exact question and reply. This is activity, not a delivered project.</p><button class="proof" type="button" data-proof="question">See evidence card ↗</button></div>
-          <div class="event"><time>Example date</time><h3>Requested a department update</h3><p>Show what the representative requested and what the department did separately.</p><button class="proof" type="button" data-proof="request">See evidence card ↗</button></div>
+          <div class="event"><time>Example date</time><h3 id="profile-action-one">Raised a question in Parliament</h3><p id="profile-action-one-detail">The source would show the exact question and reply. This is activity, not a delivered project.</p><button class="proof" id="profile-proof-one" type="button" data-proof="question">See evidence card ↗</button></div>
+          <div class="event"><time>Example date</time><h3 id="profile-action-two">Requested a department update</h3><p id="profile-action-two-detail">Show what the representative requested and what the department did separately.</p><button class="proof" id="profile-proof-two" type="button" data-proof="request">See evidence card ↗</button></div>
         </div></div>
         <p class="section-title">What changed for residents?</p>
         <div class="soft-card">No independently checked outcome in this sample profile. We would not turn a speech, question or announcement into a completed-work claim.</div>
         <p class="section-title">Other information</p>
-        <div class="card"><h3>Declarations and contact</h3><p>Show dated affidavit facts and verified public social links when checked. Candidate-authored posts get a clear “their statement” label. Unreviewed fields stay blank.</p><div class="action-row"><button class="secondary" type="button" data-go="evidence">How facts are checked</button><button class="secondary" type="button" id="share-profile">Preview share card</button></div></div>
+        <div class="card"><h3>Declarations and contact</h3><p>Show relevant dated declarations and verified public social links when checked. Person-authored posts get a clear “their statement” label. Unreviewed fields stay blank.</p><div class="action-row"><button class="secondary" type="button" data-go="evidence">How facts are checked</button><button class="secondary" type="button" id="share-profile">Preview share card</button></div></div>
       </section>
 
       <section id="election" class="screen" role="tabpanel" aria-labelledby="tab-election" hidden>
@@ -355,11 +369,35 @@
   const dialogTitle = document.getElementById('dialog-title');
   const dialogBody = document.getElementById('dialog-body');
   const proofCopy = {
-    question: ['Parliamentary question', 'A real evidence card would show the original question, answer, date, member name and source URL. It would confirm the question was asked, not that a project was delivered.'],
+    question: ['Legislative question', 'A real evidence card would show the original question, answer, date, member name and source URL. It would confirm the question was asked, not that a project was delivered.'],
     request: ['Representative request', 'Show the dated request and the department response as separate records. Do not turn a request into an outcome.'],
     comparison: ['Comparison source', 'Each value would open its original affidavit or official record, filing date, definition, checked date and correction history. These sample values have no real source.'],
     work: ['Project status', 'Show the sanction or work order, the office update, and a separate dated outcome check. The fictional project on this page has no real document.'],
   };
+  const profileSamples = {
+    A: {
+      name: 'Representative A', role: 'Member of Parliament', area: 'Jaipur parliamentary example', term: 'MP term: example',
+      actions: [
+        ['Raised a question in Parliament', 'The source would show the exact question and reply. This is activity, not a delivered project.', 'question'],
+        ['Requested a department update', 'Show what the representative requested and what the department did separately.', 'request'],
+      ],
+    },
+    B: {
+      name: 'Representative B', role: 'Member of Legislative Assembly', area: 'Example Assembly Area 1', term: 'MLA term: example',
+      actions: [
+        ['Raised a question in the Assembly', 'The source would show the exact Assembly question and answer. It does not prove an outcome.', 'question'],
+        ['Requested a state department update', 'The request and the department response would be separate dated records.', 'request'],
+      ],
+    },
+    C: {
+      name: 'Representative C', role: 'Ward councillor', area: 'Example Ward 1', term: 'Council term: example',
+      actions: [
+        ['Requested a streetlight inspection', 'The request would be linked to a dated municipal record. Repair would require separate evidence.', 'request'],
+        ['Reviewed a ward work update', 'The office report and a resident outcome check would appear as separate stages.', 'work'],
+      ],
+    },
+  };
+  let selectedProfile = 'A';
 
   function showScreen(id) {
     for (const tab of tabs) {
@@ -385,6 +423,26 @@
   for (const button of document.querySelectorAll('[data-go]')) {
     button.addEventListener('click', () => showScreen(button.dataset.go));
   }
+  for (const button of document.querySelectorAll('[data-profile]')) {
+    button.addEventListener('click', () => {
+      selectedProfile = button.dataset.profile;
+      const person = profileSamples[selectedProfile];
+      document.getElementById('profile-avatar').textContent = selectedProfile;
+      document.getElementById('profile-avatar').className = `avatar ${selectedProfile === 'B' ? 'green' : selectedProfile === 'C' ? 'gold' : ''}`;
+      document.getElementById('profile-name').textContent = person.name;
+      document.getElementById('profile-area').textContent = `${person.area} · fictional person`;
+      document.getElementById('profile-term').textContent = person.term;
+      document.getElementById('profile-office').textContent = person.role;
+      document.getElementById('profile-office-area').textContent = `${person.area} · sample term`;
+      for (const [index, suffix] of ['one', 'two'].entries()) {
+        const [title, detail, proof] = person.actions[index];
+        document.getElementById(`profile-action-${suffix}`).textContent = title;
+        document.getElementById(`profile-action-${suffix}-detail`).textContent = detail;
+        document.getElementById(`profile-proof-${suffix}`).dataset.proof = proof;
+      }
+      showScreen('profile');
+    });
+  }
   for (const button of document.querySelectorAll('[data-proof]')) {
     button.addEventListener('click', () => {
       const [title, body] = proofCopy[button.dataset.proof];
@@ -404,7 +462,16 @@
     dialogBody.replaceChildren();
     const card = document.createElement('div');
     card.className = 'sample-receipt';
-    card.innerHTML = '<span class="tag gold">DESIGN SAMPLE</span><strong>Representative A · Jaipur example</strong><p>Current role: MP in this fictional scenario.</p><p>Real share cards would include a claim, original source, review date and a link back to the full profile.</p>';
+    const label = document.createElement('span');
+    label.className = 'tag gold';
+    label.textContent = 'DESIGN SAMPLE';
+    const title = document.createElement('strong');
+    title.textContent = `${profileSamples[selectedProfile].name} · ${profileSamples[selectedProfile].area}`;
+    const role = document.createElement('p');
+    role.textContent = `Current role: ${profileSamples[selectedProfile].role} in this fictional scenario.`;
+    const source = document.createElement('p');
+    source.textContent = 'Real share cards would include a claim, original source, review date and a link back to the full profile.';
+    card.append(label, title, role, source);
     dialogBody.append(card);
     dialog.showModal();
   });
@@ -413,6 +480,21 @@
     const jaipur = event.target.value === 'jaipur';
     document.getElementById('jaipur-area').hidden = !jaipur;
     document.getElementById('rural-area').hidden = jaipur;
+    for (const id of ['assembly-choice', 'ward-choice']) {
+      const field = document.getElementById(id);
+      field.disabled = !jaipur;
+      if (!jaipur) field.value = 'unknown';
+    }
+    if (!jaipur) {
+      document.getElementById('mla-card').hidden = true;
+      document.getElementById('ward-card').hidden = true;
+    }
+  });
+  document.getElementById('assembly-choice').addEventListener('change', (event) => {
+    document.getElementById('mla-card').hidden = event.target.value !== 'sample';
+  });
+  document.getElementById('ward-choice').addEventListener('change', (event) => {
+    document.getElementById('ward-card').hidden = event.target.value !== 'sample';
   });
 </script>
 </body>
