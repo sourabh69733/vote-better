@@ -9,9 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Vote Better — Know Your Candidates",
+  title: "Vote Better - Jaipur pilot",
   description:
-    "Make every Indian voter understand their candidates in 30 seconds. Facts-based, neutral, open source.",
+    "A source-backed pilot profile for Jaipur's elected Lok Sabha representative.",
 };
 
 export default function RootLayout({
@@ -33,10 +33,10 @@ export default function RootLayout({
             </Link>
             <nav className="flex items-center gap-5 text-sm font-medium">
               <Link
-                href="/quiz"
+                href="/"
                 className="text-slate-500 hover:text-indigo-600 transition-colors"
               >
-                Quiz
+                Jaipur pilot
               </Link>
               <Link
                 href="/about"

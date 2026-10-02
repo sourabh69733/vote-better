@@ -1,142 +1,78 @@
-"use client";
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { jaipurProfile } from "@/lib/verified-profile";
 
 export default function Home() {
-  const [pincode, setPincode] = useState("");
-  const [error, setError] = useState("");
-  const router = useRouter();
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    if (!/^\d{6}$/.test(pincode)) {
-      setError("Please enter a valid 6-digit PIN code");
-      return;
-    }
-
-    router.push(`/area/${pincode}`);
-  };
+  const office = jaipurProfile.officeTerms[0];
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[82vh] px-4">
-      {/* Hero */}
-      <div className="text-center max-w-md mb-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-medium mb-5">
-          🇮🇳 Open Source · Facts Only · No Ads
-        </div>
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-800 leading-tight tracking-tight">
-          Know your candidates.
+    <div className="mx-auto max-w-4xl px-4 py-10 sm:py-16">
+      <div className="max-w-2xl">
+        <p className="text-sm font-bold uppercase tracking-widest text-indigo-600">
+          Jaipur pilot
+        </p>
+        <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
+          Know who represents your area.
         </h1>
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-indigo-500 mt-1 tracking-tight">
-          Vote with facts.
+        <p className="mt-5 text-lg leading-relaxed text-slate-600">
+          Start with a person, not an election calendar. Read their current role,
+          election record, and documented parliamentary activity with links to
+          the original sources.
+        </p>
+      </div>
+
+      <section className="mt-10 rounded-2xl border border-indigo-100 bg-indigo-50 p-5 sm:p-7">
+        <p className="text-xs font-bold uppercase tracking-widest text-indigo-700">
+          Area available now
+        </p>
+        <h2 className="mt-2 text-2xl font-bold text-slate-900">
+          Jaipur Lok Sabha constituency
         </h2>
-        <p className="text-base text-slate-500 mt-4 leading-relaxed">
-          Enter your PIN code to see your MP&apos;s attendance, wealth, criminal
-          cases, and development spending — all from official sources.
+        <p className="mt-2 text-sm leading-relaxed text-slate-600">
+          Jaipur and Jaipur Rural are different parliamentary constituencies.
+          This pilot covers Jaipur only. We cannot identify your MLA from a city
+          name or PIN code alone.
         </p>
-      </div>
+      </section>
 
-      {/* PIN Code Entry Card */}
-      <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-        <form onSubmit={handleSubmit}>
-          <label className="block text-sm font-medium text-slate-600 mb-2">
-            📍 Your PIN Code
-          </label>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              maxLength={6}
-              value={pincode}
-              onChange={(e) => {
-                const val = e.target.value.replace(/\D/g, "");
-                setPincode(val);
-                setError("");
-              }}
-              placeholder="e.g. 110001"
-              className="flex-1 h-12 px-4 text-base bg-slate-50 rounded-xl border border-slate-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 outline-none text-slate-800 placeholder:text-slate-400"
-              autoFocus
-            />
-            <button
-              type="submit"
-              className="h-12 px-5 bg-indigo-500 text-white font-semibold rounded-xl hover:bg-indigo-600 active:scale-95 shadow-sm"
-            >
-              Go →
-            </button>
-          </div>
-
-          {error && (
-            <p className="mt-2 text-sm text-red-500">{error}</p>
-          )}
-
-          <button
-            type="button"
-            onClick={() =>
-              setError(
-                "Location detection coming soon. Please enter your PIN code."
-              )
-            }
-            className="w-full mt-3 h-10 flex items-center justify-center gap-2 text-slate-500 bg-slate-50 rounded-xl hover:bg-slate-100 text-sm border border-slate-100"
-          >
-            📍 Detect My Location
-          </button>
-        </form>
-      </div>
-
-      {/* Sample PINs */}
-      <div className="mt-6 text-center">
-        <p className="text-xs text-slate-400 mb-2">Try a sample PIN:</p>
-        <div className="flex flex-wrap justify-center gap-2">
-          {[
-            { pin: "110001", city: "Delhi" },
-            { pin: "411001", city: "Pune" },
-            { pin: "600001", city: "Chennai" },
-            { pin: "700001", city: "Kolkata" },
-            { pin: "226001", city: "Lucknow" },
-          ].map(({ pin, city }) => (
-            <button
-              key={pin}
-              onClick={() => router.push(`/area/${pin}`)}
-              className="px-3 py-1.5 text-xs bg-white text-slate-600 rounded-lg border border-slate-100 hover:border-indigo-200 hover:text-indigo-600 shadow-sm"
-            >
-              {city}
-              <span className="text-slate-400 ml-1">{pin}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* What you'll see */}
-      <div className="mt-14 max-w-md w-full">
-        <p className="text-xs text-slate-400 text-center mb-4 uppercase tracking-wider font-medium">
-          What you&apos;ll see
-        </p>
-        <div className="grid grid-cols-4 gap-3">
-          {[
-            { icon: "🏛️", label: "Attendance", desc: "Did they show up?" },
-            { icon: "💰", label: "Wealth", desc: "How much they own" },
-            { icon: "⚖️", label: "Cases", desc: "Criminal record" },
-            { icon: "🏗️", label: "Fund Spent", desc: "Your area's money" },
-          ].map((item) => (
-            <div
-              key={item.label}
-              className="bg-white rounded-xl border border-slate-100 p-3 text-center shadow-sm"
-            >
-              <span className="text-2xl">{item.icon}</span>
-              <div className="text-xs font-semibold text-slate-700 mt-1.5">
-                {item.label}
-              </div>
-              <div className="text-[10px] text-slate-400 mt-0.5 leading-tight">
-                {item.desc}
-              </div>
+      <section className="mt-8" aria-labelledby="representative-heading">
+        <h2 id="representative-heading" className="text-xl font-bold text-slate-900">
+          Current representative
+        </h2>
+        <Link
+          href={`/people/${jaipurProfile.slug}`}
+          className="mt-4 block rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:border-indigo-300 hover:shadow-md"
+        >
+          <div className="flex items-start gap-4">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-indigo-100 text-xl font-bold text-indigo-700" aria-hidden="true">
+              MS
             </div>
-          ))}
-        </div>
-      </div>
+            <div className="min-w-0 flex-1">
+              <h3 className="text-xl font-bold text-slate-900">
+                {jaipurProfile.name}
+              </h3>
+              <p className="mt-1 text-sm text-slate-600">
+                {office.title} · {office.party}
+              </p>
+              <p className="mt-3 text-sm font-semibold text-indigo-700">
+                Read sourced profile →
+              </p>
+            </div>
+          </div>
+        </Link>
+        <p className="mt-3 text-xs text-slate-500">
+          Office status reviewed {jaipurProfile.reviewedOn}. This is an early,
+          incomplete profile and not an endorsement.
+        </p>
+      </section>
+
+      <section className="mt-10 rounded-2xl border border-slate-200 bg-white p-6">
+        <h2 className="text-lg font-bold text-slate-900">What comes next?</h2>
+        <p className="mt-2 text-sm leading-relaxed text-slate-600">
+          As an election approaches, verified nominations can attach to these
+          person profiles. Candidate comparison will show all final contesting
+          candidates, with missing information left blank.
+        </p>
+      </section>
     </div>
   );
 }
