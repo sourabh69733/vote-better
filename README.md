@@ -1,79 +1,33 @@
-# Vote Better 🗳️
+# Vote Better
 
-**Make every Indian voter understand their candidates in 30 seconds.**
+An open-source project to help people understand their elected representatives and, during elections, the people contesting their seat.
 
-An open-source, mobile-first voter intelligence platform that takes publicly available election data and presents it so simply that anyone can make an informed choice.
+## Current pilot
 
-## What This Does
+The website starts with Jaipur Lok Sabha and a sourced profile for its sitting MP. It shows the current office, the 2024 election return, and two dated parliamentary questions. Each displayed record links to the original public source. The profile is deliberately incomplete while other facts are reviewed.
 
-1. **Enter your PIN code** → instantly see your elected representatives (MP, MLA, Corporator)
-2. **Tap any candidate** → see their deep profile: assets, criminal cases, attendance, fund spending
-3. **Compare candidates** → side-by-side Head-to-Head Clash with trophy indicators
-4. **Take the Priority Quiz** → 5 questions to filter candidates by what matters to YOU
-5. **Share on WhatsApp** → one-tap report card image for viral civic awareness
+The former PIN lookup, candidate comparison, quiz, and generated demo profiles have been removed from the public website because their sample figures were not verified. The scripts and sample output under `data/` remain development material and must not be published as factual profiles.
 
-## What This Is NOT
+## Data rules
 
-- ❌ NOT a recommendation engine ("Vote for X")
-- ❌ NOT an opinion platform
-- ❌ NOT affiliated with any political party
-- ❌ Every data point links to its official government source
+- A person has a lasting profile. Office terms and election candidacies are dated records attached to that person.
+- A claim needs a source, a review date, and wording that matches what the source establishes.
+- A parliamentary question proves the question was asked. It does not prove that a local project was delivered.
+- Missing or unreviewed fields remain absent. No numerical candidate ranking is published.
+- Jaipur and Jaipur Rural are separate parliamentary constituencies. A PIN code alone is not enough to identify every representative.
 
-## Data Sources
-
-| Source | What We Use |
-|:---|:---|
-| [MyNeta / ADR](https://myneta.info) | Candidate assets, criminal records, education |
-| [TCPD / Lok Dhaba](https://lokdhaba.ashoka.edu.in) | Historical election results, turnout, margins |
-| [PRS Legislative Research](https://prsindia.org) | MP attendance, questions asked, bills |
-| [MPLADS Portal](https://mplads.gov.in) | Development fund utilization |
-| [DataMeet](https://github.com/datameet/maps) | Constituency boundary maps (GeoJSON) |
-
-## Tech Stack
-
-- **Frontend**: Next.js 14 + Tailwind CSS (Static Export, PWA)
-- **Data Processing**: Python scripts
-- **Hosting**: Vercel / Cloudflare Pages (free tier)
-- **Charts**: Recharts
-- **No backend required** — all data is pre-processed into static JSON
-
-## Getting Started
+## Run locally
 
 ```bash
-# Install frontend dependencies
-cd web && npm install
-
-# Run development server
+cd web
+npm install
 npm run dev
-
-# Process data (requires Python 3.10+)
-cd data && pip install -r requirements.txt
-python scripts/merge_profiles.py
 ```
 
-## Project Structure
+Then open `http://localhost:3000`. Use `npm run lint` and `npm run build` to check the site.
 
-```
-vote-better/
-├── data/                    # Data processing pipeline
-│   ├── raw/                 # Source datasets (gitignored)
-│   ├── scripts/             # Python processing scripts
-│   ├── mappings/            # Static reference data (IPC translations, party colors)
-│   └── output/              # Generated JSON files
-├── web/                     # Next.js frontend app
-│   ├── app/                 # Pages (App Router)
-│   ├── components/          # React components
-│   ├── lib/                 # Utilities
-│   └── public/data/         # Static JSON served to frontend
-└── docs/                    # Documentation
-```
+## Next validation
 
-## Contributing
+Use the [Jaipur comprehension check](docs/research/jaipur-voter-test.md) with residents. Review source status again before public release.
 
-This is an open-source civic project. Contributions welcome!
-
-See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for guidelines.
-
-## License
-
-MIT License — free to use, modify, and distribute.
+License: MIT.
