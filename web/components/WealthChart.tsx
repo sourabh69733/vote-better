@@ -38,16 +38,13 @@ export default function WealthChart({
   // Severity of wealth growth
   const ratio = wealthGrowthPct / Math.max(inflationPct, 1);
   let severityColor = "text-emerald-700 bg-emerald-50 border-emerald-200";
-  let severityLabel = "Proportional growth";
   let severityEmoji = "🟢";
 
   if (ratio > 5) {
     severityColor = "text-red-700 bg-red-50 border-red-200";
-    severityLabel = "Significant wealth increase";
     severityEmoji = "🔴";
   } else if (ratio > 2) {
     severityColor = "text-amber-700 bg-amber-50 border-amber-200";
-    severityLabel = "Notable growth";
     severityEmoji = "🟡";
   }
 

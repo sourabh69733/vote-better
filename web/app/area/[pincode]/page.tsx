@@ -60,11 +60,11 @@ export default async function AreaPage({ params }: PageProps) {
       {/* Civic Pyramid — 3 Levels */}
       <div className="space-y-4">
         {/* Level 1: National — Lok Sabha MP */}
-        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-          <div className="bg-indigo-600 text-white px-4 py-2 text-sm font-semibold flex items-center gap-2">
+        <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
+          <div className="bg-indigo-50 text-indigo-700 px-4 py-2.5 text-sm font-semibold flex items-center gap-2">
             <span>🏛️</span>
-            <span>LEVEL 1 — NATIONAL</span>
-            <span className="ml-auto text-indigo-200 text-xs">Lok Sabha MP</span>
+            <span>NATIONAL</span>
+            <span className="ml-auto text-indigo-400 text-xs font-normal">Lok Sabha MP</span>
           </div>
 
           {mpCandidate ? (
@@ -136,11 +136,11 @@ export default async function AreaPage({ params }: PageProps) {
         </div>
 
         {/* Level 2: State — MLA */}
-        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm opacity-60">
-          <div className="bg-emerald-600 text-white px-4 py-2 text-sm font-semibold flex items-center gap-2">
+        <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm opacity-50">
+          <div className="bg-emerald-50 text-emerald-700 px-4 py-2.5 text-sm font-semibold flex items-center gap-2">
             <span>🏢</span>
-            <span>LEVEL 2 — STATE</span>
-            <span className="ml-auto text-emerald-200 text-xs">
+            <span>STATE</span>
+            <span className="ml-auto text-emerald-400 text-xs font-normal">
               Vidhan Sabha MLA
             </span>
           </div>
@@ -156,11 +156,11 @@ export default async function AreaPage({ params }: PageProps) {
         </div>
 
         {/* Level 3: Local — Corporator */}
-        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm opacity-60">
-          <div className="bg-amber-600 text-white px-4 py-2 text-sm font-semibold flex items-center gap-2">
+        <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm opacity-50">
+          <div className="bg-amber-50 text-amber-700 px-4 py-2.5 text-sm font-semibold flex items-center gap-2">
             <span>🏘️</span>
-            <span>LEVEL 3 — LOCAL</span>
-            <span className="ml-auto text-amber-200 text-xs">
+            <span>LOCAL</span>
+            <span className="ml-auto text-amber-400 text-xs font-normal">
               Ward Corporator
             </span>
           </div>

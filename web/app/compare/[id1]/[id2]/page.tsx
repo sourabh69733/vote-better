@@ -60,26 +60,26 @@ export default async function ComparePage({ params }: PageProps) {
       <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
         <Link
           href={`/compare/${id2}/${id1}`}
-          className="inline-flex items-center justify-center gap-2 px-4 py-2 border border-slate-200 rounded-xl text-sm text-slate-600 hover:bg-slate-50 transition-colors"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2 border border-slate-100 rounded-xl text-sm text-slate-600 hover:bg-slate-50 transition-colors"
         >
           🔄 Swap Sides
         </Link>
         <Link
           href={`/candidate/${id1}`}
-          className="inline-flex items-center justify-center gap-2 px-4 py-2 border border-slate-200 rounded-xl text-sm text-slate-600 hover:bg-slate-50 transition-colors"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2 border border-slate-100 rounded-xl text-sm text-slate-600 hover:bg-slate-50 transition-colors"
         >
           📄 Full Profile: {candidateA.name}
         </Link>
         <Link
           href={`/candidate/${id2}`}
-          className="inline-flex items-center justify-center gap-2 px-4 py-2 border border-slate-200 rounded-xl text-sm text-slate-600 hover:bg-slate-50 transition-colors"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2 border border-slate-100 rounded-xl text-sm text-slate-600 hover:bg-slate-50 transition-colors"
         >
           📄 Full Profile: {candidateB.name}
         </Link>
       </div>
 
       {/* Compare with someone else */}
-      <div className="mt-8 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+      <div className="mt-8 bg-white rounded-2xl border border-slate-100 p-5 shadow-sm">
         <h2 className="text-sm font-semibold text-slate-700 mb-3">
           Compare with someone else
         </h2>

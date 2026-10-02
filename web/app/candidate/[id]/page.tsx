@@ -49,7 +49,7 @@ export default async function CandidateProfilePage({ params }: PageProps) {
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       {/* ── Section 1: Identity Header ── */}
-      <section className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+      <section className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
         <div className="flex items-start gap-4">
           {/* Photo */}
           <div
@@ -90,7 +90,7 @@ export default async function CandidateProfilePage({ params }: PageProps) {
       </section>
 
       {/* ── Section 2: Financial Transparency 💰 ── */}
-      <section className="mt-6 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+      <section className="mt-6 bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
         <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-4">
           💰 Financial Transparency
         </h2>
@@ -131,7 +131,7 @@ export default async function CandidateProfilePage({ params }: PageProps) {
       </section>
 
       {/* ── Section 3: Criminal Record ⚖️ ── */}
-      <section className="mt-6 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+      <section className="mt-6 bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
         <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-4">
           ⚖️ Criminal Record
         </h2>
@@ -192,7 +192,7 @@ export default async function CandidateProfilePage({ params }: PageProps) {
       </section>
 
       {/* ── Section 4: Legislative Performance 🏛️ ── */}
-      <section className="mt-6 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+      <section className="mt-6 bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
         <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-4">
           🏛️ Legislative Performance
         </h2>
@@ -234,7 +234,7 @@ export default async function CandidateProfilePage({ params }: PageProps) {
       </section>
 
       {/* ── Section 5: Development Fund 🏗️ ── */}
-      <section className="mt-6 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+      <section className="mt-6 bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
         <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-4">
           🏗️ Development Fund (MPLADS)
         </h2>
@@ -250,7 +250,7 @@ export default async function CandidateProfilePage({ params }: PageProps) {
       </section>
 
       {/* ── Section 6: Electoral History 📊 ── */}
-      <section className="mt-6 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+      <section className="mt-6 bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
         <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-4">
           📊 Electoral History
         </h2>
@@ -324,7 +324,7 @@ export default async function CandidateProfilePage({ params }: PageProps) {
       </section>
 
       {/* ── Section 7: Quick Summary 📋 ── */}
-      <section className="mt-6 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+      <section className="mt-6 bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
         <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-4">
           📋 Quick Summary
         </h2>

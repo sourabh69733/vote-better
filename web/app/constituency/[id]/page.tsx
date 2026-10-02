@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getConstituencyById, getCandidateById, getAllCandidates } from "@/lib/data";
+import { getConstituencyById, getCandidateById } from "@/lib/data";
 import { formatCurrency } from "@/lib/translations";
 import fs from "fs";
 import path from "path";
@@ -40,12 +40,6 @@ export default async function ConstituencyPage({ params }: PageProps) {
     .map((c: { id: string }) => getCandidateById(c.id))
     .filter(Boolean);
 
-  // Also load all candidates to allow cross-constituency comparison
-  const allCandidates = getAllCandidates().filter(
-    (c: { id: string }) =>
-      c?.id && !candidates.some((cc: { id: string }) => cc.id === c.id)
-  );
-
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       {/* Header */}
@@ -77,7 +71,7 @@ export default async function ConstituencyPage({ params }: PageProps) {
               <Link
                 key={c.id as string}
                 href={`/candidate/${c.id}`}
-                className="block bg-white rounded-2xl border border-slate-200 p-4 shadow-sm hover:border-indigo-200 hover:shadow-md transition-all"
+                className="block bg-white rounded-2xl border border-slate-100 p-4 shadow-sm hover:border-indigo-200 hover:shadow-md transition-all"
               >
                 <div className="flex items-start gap-3">
                   {/* Avatar */}
@@ -161,7 +155,7 @@ export default async function ConstituencyPage({ params }: PageProps) {
           })}
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center">
+        <div className="bg-white rounded-2xl border border-slate-100 p-8 text-center">
           <p className="text-slate-500">
             No candidate data available for this constituency yet.
           </p>

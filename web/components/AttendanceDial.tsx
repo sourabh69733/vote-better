@@ -10,7 +10,6 @@ export default function AttendanceDial({
   const radius = 60;
   const circumference = Math.PI * radius; // semicircle
   const offset = circumference - (percentage / 100) * circumference;
-  const avgOffset = circumference - (nationalAverage / 100) * circumference;
 
   let color = "#10B981"; // green
   let label = "Above Average";

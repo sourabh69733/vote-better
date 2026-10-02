@@ -57,7 +57,7 @@ export function searchCandidates(query: string) {
   const candidates = getAllCandidates();
   if (!query) return candidates;
   const q = query.toLowerCase();
-  return candidates.filter((c: any) => 
+  return candidates.filter((c: { name?: string; constituency?: { name?: string }; party?: string }) =>
     c.name?.toLowerCase().includes(q) ||
     c.constituency?.name?.toLowerCase().includes(q) ||
     c.party?.toLowerCase().includes(q)
