@@ -148,7 +148,7 @@ export default function HeadToHead({
       </div>
 
       {/* Comparison rows */}
-      <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+      <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden shadow-sm">
         {rows.map((row, i) => {
           const winner = getWinner(
             row.rawA,
@@ -215,7 +215,7 @@ function CandidateHeader({
   wins: number;
 }) {
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-3 text-center shadow-sm">
+    <div className="bg-white rounded-xl border border-slate-100 p-3 text-center shadow-sm">
       <div
         className="w-12 h-12 rounded-full mx-auto flex items-center justify-center text-lg font-bold"
         style={{

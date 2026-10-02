@@ -20,103 +20,122 @@ export default function Home() {
     router.push(`/area/${pincode}`);
   };
 
-  const handleDetectLocation = () => {
-    if (!navigator.geolocation) {
-      setError("Location detection not supported by your browser");
-      return;
-    }
-
-    // For MVP, redirect to a default PIN code
-    // In production, reverse-geocode coordinates to PIN
-    setError("Location detection coming soon. Please enter your PIN code.");
-  };
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh] px-4">
+    <div className="flex flex-col items-center justify-center min-h-[82vh] px-4">
       {/* Hero */}
-      <div className="text-center max-w-lg mb-10">
-        <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">
+      <div className="text-center max-w-md mb-10">
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-medium mb-5">
+          🇮🇳 Open Source · Facts Only · No Ads
+        </div>
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-800 leading-tight tracking-tight">
           Know your candidates.
-          <br />
-          <span className="text-indigo-600">Vote with facts.</span>
         </h1>
-        <p className="text-lg text-slate-600">
-          Enter your PIN code to instantly see your elected representatives —
-          their attendance, wealth, criminal cases, and development work.
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-indigo-500 mt-1 tracking-tight">
+          Vote with facts.
+        </h2>
+        <p className="text-base text-slate-500 mt-4 leading-relaxed">
+          Enter your PIN code to see your MP&apos;s attendance, wealth, criminal
+          cases, and development spending — all from official sources.
         </p>
       </div>
 
-      {/* PIN Code Entry */}
-      <form onSubmit={handleSubmit} className="w-full max-w-sm">
-        <div className="flex gap-2">
-          <input
-            type="text"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            maxLength={6}
-            value={pincode}
-            onChange={(e) => {
-              const val = e.target.value.replace(/\D/g, "");
-              setPincode(val);
-              setError("");
-            }}
-            placeholder="Enter 6-digit PIN code"
-            className="flex-1 h-14 px-4 text-lg rounded-xl border-2 border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-slate-900 placeholder:text-slate-400"
-            autoFocus
-          />
+      {/* PIN Code Entry Card */}
+      <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+        <form onSubmit={handleSubmit}>
+          <label className="block text-sm font-medium text-slate-600 mb-2">
+            📍 Your PIN Code
+          </label>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              maxLength={6}
+              value={pincode}
+              onChange={(e) => {
+                const val = e.target.value.replace(/\D/g, "");
+                setPincode(val);
+                setError("");
+              }}
+              placeholder="e.g. 110001"
+              className="flex-1 h-12 px-4 text-base bg-slate-50 rounded-xl border border-slate-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 outline-none text-slate-800 placeholder:text-slate-400"
+              autoFocus
+            />
+            <button
+              type="submit"
+              className="h-12 px-5 bg-indigo-500 text-white font-semibold rounded-xl hover:bg-indigo-600 active:scale-95 shadow-sm"
+            >
+              Go →
+            </button>
+          </div>
+
+          {error && (
+            <p className="mt-2 text-sm text-red-500">{error}</p>
+          )}
+
           <button
-            type="submit"
-            className="h-14 px-6 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 active:scale-95 transition-all"
+            type="button"
+            onClick={() =>
+              setError(
+                "Location detection coming soon. Please enter your PIN code."
+              )
+            }
+            className="w-full mt-3 h-10 flex items-center justify-center gap-2 text-slate-500 bg-slate-50 rounded-xl hover:bg-slate-100 text-sm border border-slate-100"
           >
-            Go
+            📍 Detect My Location
           </button>
-        </div>
+        </form>
+      </div>
 
-        {error && (
-          <p className="mt-2 text-sm text-red-600 text-center">{error}</p>
-        )}
-
-        <button
-          type="button"
-          onClick={handleDetectLocation}
-          className="w-full mt-3 h-11 flex items-center justify-center gap-2 text-slate-600 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors text-sm"
-        >
-          📍 Detect My Location
-        </button>
-      </form>
-
-      {/* Sample PIN codes for testing */}
-      <div className="mt-8 text-center">
-        <p className="text-xs text-slate-400 mb-2">Try a sample PIN code:</p>
+      {/* Sample PINs */}
+      <div className="mt-6 text-center">
+        <p className="text-xs text-slate-400 mb-2">Try a sample PIN:</p>
         <div className="flex flex-wrap justify-center gap-2">
-          {["110001", "411001", "226001", "600001", "700001"].map((pin) => (
+          {[
+            { pin: "110001", city: "Delhi" },
+            { pin: "411001", city: "Pune" },
+            { pin: "600001", city: "Chennai" },
+            { pin: "700001", city: "Kolkata" },
+            { pin: "226001", city: "Lucknow" },
+          ].map(({ pin, city }) => (
             <button
               key={pin}
-              onClick={() => {
-                setPincode(pin);
-                router.push(`/area/${pin}`);
-              }}
-              className="px-3 py-1 text-xs bg-slate-100 text-slate-600 rounded-full hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+              onClick={() => router.push(`/area/${pin}`)}
+              className="px-3 py-1.5 text-xs bg-white text-slate-600 rounded-lg border border-slate-100 hover:border-indigo-200 hover:text-indigo-600 shadow-sm"
             >
-              {pin}
+              {city}
+              <span className="text-slate-400 ml-1">{pin}</span>
             </button>
           ))}
         </div>
       </div>
 
       {/* What you'll see */}
-      <div className="mt-12 max-w-lg grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
-        {[
-          { icon: "🏛️", label: "Attendance" },
-          { icon: "💰", label: "Wealth" },
-          { icon: "⚖️", label: "Cases" },
-          { icon: "🏗️", label: "Fund Spent" },
-        ].map((item) => (
-          <div key={item.label} className="flex flex-col items-center gap-1">
-            <span className="text-2xl">{item.icon}</span>
-            <span className="text-xs text-slate-500">{item.label}</span>
-          </div>
-        ))}
+      <div className="mt-14 max-w-md w-full">
+        <p className="text-xs text-slate-400 text-center mb-4 uppercase tracking-wider font-medium">
+          What you&apos;ll see
+        </p>
+        <div className="grid grid-cols-4 gap-3">
+          {[
+            { icon: "🏛️", label: "Attendance", desc: "Did they show up?" },
+            { icon: "💰", label: "Wealth", desc: "How much they own" },
+            { icon: "⚖️", label: "Cases", desc: "Criminal record" },
+            { icon: "🏗️", label: "Fund Spent", desc: "Your area's money" },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className="bg-white rounded-xl border border-slate-100 p-3 text-center shadow-sm"
+            >
+              <span className="text-2xl">{item.icon}</span>
+              <div className="text-xs font-semibold text-slate-700 mt-1.5">
+                {item.label}
+              </div>
+              <div className="text-[10px] text-slate-400 mt-0.5 leading-tight">
+                {item.desc}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
