@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vote Better - v2 concept</title>
+  <style>
+    :root { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #18302e; background: #f5f7f3; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid #ef9c52; outline-offset: 3px; }
+    [hidden] { display: none !important; }
+    .shell { max-width: 1120px; margin: auto; padding: 0 28px 80px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 78px; border-bottom: 1px solid #dfe6df; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; color: #17312d; text-decoration: none; font-weight: 850; letter-spacing: -.04em; }
+    .brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; background: #186b5e; color: #fff; font-size: 20px; }
+    .topbar nav { display: flex; gap: 20px; }
+    .topbar nav a { color: #667974; text-decoration: none; font-size: 13px; font-weight: 700; }
+    .topbar nav a:hover { color: #185e54; }
+    .version { padding: 7px 10px; border: 1px solid #d5e2db; border-radius: 30px; background: #ecf5ef; color: #226b59; font-size: 11px; font-weight: 800; white-space: nowrap; }
+    .hero { display: grid; grid-template-columns: minmax(0, 1fr) 300px; align-items: end; gap: 35px; padding: 60px 0 38px; }
+    .eyebrow { margin: 0 0 13px; color: #328777; font-size: 11px; font-weight: 850; letter-spacing: .13em; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 700px; margin-bottom: 16px; font-size: clamp(42px, 6vw, 69px); line-height: 1.02; letter-spacing: -.065em; }
+    h1 em { color: #247a68; font-style: normal; }
+    .hero-copy { max-width: 660px; margin-bottom: 0; color: #5e706b; font-size: 17px; line-height: 1.55; }
+    .area-card, .panel, .person, .map-card { border: 1px solid #dce5dd; background: #fff; box-shadow: 0 10px 28px #1f4a3b09; }
+    .area-card { padding: 18px; border-radius: 18px; }
+    .area-card small, .eyebrow { display: block; }
+    .area-card small { margin-bottom: 9px; color: #789087; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .area-card strong { display: block; font-size: 17px; }
+    .area-card p { margin: 5px 0 12px; color: #70827b; font-size: 12px; line-height: 1.5; }
+    .text-button { padding: 0; border: 0; background: transparent; color: #146d5d; font-size: 12px; font-weight: 800; text-align: left; }
+    .sample-note { display: flex; gap: 9px; align-items: start; padding: 12px 15px; border: 1px solid #e9dcc4; border-radius: 12px; background: #fff9ed; color: #775c30; font-size: 12px; line-height: 1.5; }
+    .sample-note b { flex: none; }
+    section { scroll-margin-top: 20px; }
+    .ask-layout { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(270px, .65fr); gap: 18px; margin-top: 25px; }
+    .panel { padding: 27px; border-radius: 20px; }
+    .panel h2 { margin-bottom: 10px; font-size: 25px; letter-spacing: -.04em; }
+    .muted { color: #6b7e75; font-size: 13px; line-height: 1.55; }
+    .question-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+    .question-list button { padding: 10px 12px; border: 1px solid #d8e4dc; border-radius: 10px; background: #f9fcf9; color: #294d43; font-size: 12px; font-weight: 750; text-align: left; }
+    .question-list button:hover, .question-list button[aria-pressed="true"] { border-color: #247b66; background: #eaf7f0; }
+    .question-form { display: flex; gap: 8px; padding-top: 15px; border-top: 1px solid #edf1ec; }
+    .question-form input, .pin-form input { min-width: 0; flex: 1; padding: 12px 13px; border: 1px solid #d7e1d9; border-radius: 10px; background: #fff; color: #18302e; font-size: 13px; }
+    .primary { padding: 11px 16px; border: 1px solid #186a58; border-radius: 10px; background: #186a58; color: #fff; font-size: 13px; font-weight: 800; }
+    .primary:hover { background: #105446; }
+    .answer { border-color: #cbded2; background: #ecf7ef; }
+    .answer .answer-kicker { margin-bottom: 12px; color: #42836d; font-size: 10px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+    .answer h3 { margin-bottom: 10px; font-size: 21px; line-height: 1.2; letter-spacing: -.035em; }
+    .answer p { color: #44635a; font-size: 13px; line-height: 1.6; }
+    .answer .source-state { margin: 18px 0; padding-top: 14px; border-top: 1px solid #cfe5d7; color: #5e786d; font-size: 11px; line-height: 1.5; }
+    .answer .text-button { margin-top: 3px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 15px; margin: 63px 0 19px; }
+    .section-head h2 { margin: 0; font-size: 30px; letter-spacing: -.045em; }
+    .section-head p { max-width: 460px; margin: 0; color: #6e8077; font-size: 13px; line-height: 1.5; }
+    .group-label { margin: 22px 0 11px; color: #7b8c81; font-size: 11px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+    .people-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .person { display: flex; align-items: center; gap: 11px; min-width: 0; padding: 15px; border-radius: 14px; text-align: left; }
+    .person:hover { border-color: #7db6a0; box-shadow: 0 7px 18px #1f4a3b16; }
+    .avatar { display: grid; flex: none; place-items: center; width: 42px; height: 42px; border-radius: 12px; background: #e8f1eb; color: #2f735d; font-size: 14px; font-weight: 850; }
+    .avatar.official { background: #e9edf6; color: #4f658d; }
+    .person strong, .person small { display: block; }
+    .person strong { color: #1d3b34; font-size: 13px; }
+    .person small { margin-top: 3px; color: #77887c; font-size: 11px; line-height: 1.35; }
+    .map-card { overflow: hidden; border-radius: 20px; }
+    .map-top { display: flex; justify-content: space-between; gap: 16px; padding: 18px 22px; border-bottom: 1px solid #e5ebe5; }
+    .map-top strong { font-size: 14px; }
+    .map-top span { color: #73867a; font-size: 11px; }
+    .map-scroll { overflow-x: auto; background: radial-gradient(circle at 50% 40%, #f4faf4, #fff 70%); }
+    .map-canvas { position: relative; width: 800px; height: 506px; margin: auto; }
+    .map-canvas svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .edge { stroke: #b4cbc0; stroke-width: 1.6; }
+    .edge.related { stroke: #c2cbe1; stroke-dasharray: 5 4; }
+    .edge.active { stroke: #1b846a; stroke-width: 3; }
+    .node { position: absolute; z-index: 1; width: 152px; min-height: 67px; padding: 11px 12px; border: 1px solid #cee0d3; border-radius: 12px; background: #fff; box-shadow: 0 5px 14px #2b5e4510; color: #234139; text-align: left; }
+    .node.office { border-color: #d5dded; }
+    .node.place { border-color: #176e5b; background: #176e5b; color: #fff; }
+    .node.active { outline: 3px solid #e7a453; outline-offset: 2px; }
+    .node b, .node small { display: block; }
+    .node b { font-size: 12px; line-height: 1.2; }
+    .node small { margin-top: 5px; color: #799084; font-size: 10px; line-height: 1.3; }
+    .node.place small { color: #d8eee1; }
+    .node-mp { left: 44px; top: 42px; }
+    .node-mla { left: 324px; top: 42px; }
+    .node-ward { left: 604px; top: 42px; }
+    .node-place { left: 324px; top: 212px; }
+    .node-collector { left: 44px; top: 400px; }
+    .node-commissioner { left: 324px; top: 400px; }
+    .node-works { left: 604px; top: 400px; }
+    .map-bottom { display: grid; grid-template-columns: 1fr 1.2fr; gap: 22px; padding: 21px 23px; border-top: 1px solid #e5ebe5; }
+    .legend { display: flex; flex-wrap: wrap; align-content: start; gap: 12px 17px; color: #698177; font-size: 11px; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend i { display: block; width: 22px; border-top: 2px solid #b4cbc0; }
+    .legend i.dashed { border-color: #c2cbe1; border-top-style: dashed; }
+    .selection strong { font-size: 15px; }
+    .selection p { margin: 6px 0; color: #60796b; font-size: 12px; line-height: 1.5; }
+    .selection small { color: #8a9a8e; font-size: 11px; }
+    .footer { margin-top: 67px; padding-top: 20px; border-top: 1px solid #dfe6df; color: #809084; font-size: 11px; }
+    dialog { width: min(430px, calc(100vw - 28px)); padding: 23px; border: 1px solid #dce5dd; border-radius: 18px; box-shadow: 0 30px 90px #173e3050; }
+    dialog::backdrop { background: #112c2485; }
+    dialog h2 { font-size: 23px; letter-spacing: -.04em; }
+    dialog p, dialog label { color: #667970; font-size: 13px; line-height: 1.5; }
+    dialog label { display: block; margin-bottom: 7px; font-weight: 700; }
+    .pin-form { display: flex; gap: 8px; margin: 15px 0; }
+    .dialog-actions { display: flex; flex-wrap: wrap; gap: 11px; align-items: center; }
+    .form-error { color: #ab3d39; font-size: 12px; }
+    @media (max-width: 760px) {
+      .shell { padding: 0 17px 50px; }
+      .topbar { min-height: 64px; }
+      .topbar nav { display: none; }
+      .hero { display: block; padding: 39px 0 27px; }
+      .hero-copy { font-size: 15px; }
+      .area-card { margin-top: 25px; }
+      .ask-layout { grid-template-columns: 1fr; }
+      .panel { padding: 21px; }
+      .section-head { display: block; margin-top: 48px; }
+      .section-head p { margin-top: 8px; }
+      .people-grid { grid-template-columns: 1fr 1fr; }
+      .map-bottom { grid-template-columns: 1fr; gap: 15px; }
+    }
+    @media (max-width: 490px) {
+      .people-grid { grid-template-columns: 1fr; }
+      .question-form { flex-wrap: wrap; }
+      .question-form .primary { width: 100%; }
+      .pin-form { flex-wrap: wrap; }
+      .pin-form .primary { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">✓</span> Vote Better</a>
+      <nav aria-label="Page sections"><a href="#ask">Ask</a><a href="#people">People</a><a href="#connections">Connections</a></nav>
+      <span class="version">V2 CONCEPT</span>
+    </header>
+    <main id="top">
+      <div class="hero">
+        <div><p class="eyebrow">Start with your area</p><h1>Know who serves you. <em>Understand why.</em></h1><p class="hero-copy">Ask a question, find the right person or office, and follow the connection back to evidence.</p></div>
+        <div class="area-card"><small>Your area</small><strong>Example Jaipur locality</strong><p>Fictional area for this design preview</p><button class="text-button" id="change-area" type="button">Change area →</button></div>
+      </div>
+      <div class="sample-note"><b>Design sample</b><span>Every person, jurisdiction and answer below is fictional. There is no live agent, PIN lookup, location request or government data in this mockup.</span></div>
+
+      <section id="ask" class="ask-layout" aria-label="Ask about your area">
+        <div class="panel">
+          <p class="eyebrow">Ask Vote Better</p>
+          <h2>What do you want to understand?</h2>
+          <p class="muted">Questions should lead to clear answers, accountable roles and records you can inspect.</p>
+          <div class="question-list" aria-label="Example questions">
+            <button type="button" data-question="road" aria-pressed="true">Who handles a broken road?</button>
+            <button type="button" data-question="represent" aria-pressed="false">Who represents my area?</button>
+            <button type="button" data-question="credit" aria-pressed="false">Who completed the road work?</button>
+          </div>
+          <form class="question-form" id="question-form"><input id="question-input" aria-label="Ask a question" placeholder="Ask your own question" autocomplete="off"><button class="primary" type="submit">Ask</button></form>
+        </div>
+        <div class="panel answer" aria-live="polite"><div class="answer-kicker" id="answer-kicker">SAMPLE ANSWER</div><h3 id="answer-title">The municipal works division handles road maintenance.</h3><p id="answer-body">In this fictional locality, the councillor can follow up and the municipal commissioner oversees the office. Neither is automatically credited with a repair.</p><div class="source-state" id="answer-source">Evidence: fictional scenario only. A real answer needs an office responsibility record and current jurisdiction.</div><button class="text-button" id="show-connection" type="button">Show this connection →</button></div>
+      </section>
+
+      <section id="people">
+        <div class="section-head"><div><p class="eyebrow">The people</p><h2>Who serves this area</h2></div><p>Start with a short list. Open a person to see their role, office history and the facts behind each claim.</p></div>
+        <p class="group-label">Elected representatives</p>
+        <div class="people-grid">
+          <button class="person" type="button" data-select="mp"><span class="avatar">A</span><span><strong>Representative A</strong><small>Member of Parliament</small></span></button>
+          <button class="person" type="button" data-select="mla"><span class="avatar">B</span><span><strong>Representative B</strong><small>Member of Legislative Assembly</small></span></button>
+          <button class="person" type="button" data-select="ward"><span class="avatar">C</span><span><strong>Representative C</strong><small>Ward councillor</small></span></button>
+        </div>
+        <p class="group-label">Appointed officials and public offices</p>
+        <div class="people-grid">
+          <button class="person" type="button" data-select="collector"><span class="avatar official">D</span><span><strong>Official D</strong><small>District Collector</small></span></button>
+          <button class="person" type="button" data-select="commissioner"><span class="avatar official">E</span><span><strong>Official E</strong><small>Municipal Commissioner</small></span></button>
+          <button class="person" type="button" data-select="works"><span class="avatar official">▤</span><span><strong>Works division</strong><small>Public service office</small></span></button>
+        </div>
+      </section>
+
+      <section id="connections">
+        <div class="section-head"><div><p class="eyebrow">The connections</p><h2>How they relate</h2></div><p>Tap any node. Lines show a documented relationship type, not a universal chain of command.</p></div>
+        <div class="map-card">
+          <div class="map-top"><strong>Example Jaipur locality</strong><span>Explore the sample network</span></div>
+          <div class="map-scroll" aria-label="Scrollable relationship map"><div class="map-canvas" role="group" aria-label="Fictional locality connected to three elected representatives, two appointed officials and a works office">
+            <svg viewBox="0 0 800 506" aria-hidden="true" focusable="false">
+              <line class="edge" data-edge="mp" x1="400" y1="245" x2="120" y2="78"/>
+              <line class="edge" data-edge="mla" x1="400" y1="245" x2="400" y2="78"/>
+              <line class="edge" data-edge="ward" x1="400" y1="245" x2="680" y2="78"/>
+              <line class="edge related" data-edge="collector" x1="400" y1="245" x2="120" y2="435"/>
+              <line class="edge related" data-edge="commissioner" x1="400" y1="245" x2="400" y2="435"/>
+              <line class="edge related" data-edge="works" x1="400" y1="245" x2="680" y2="435"/>
+            </svg>
+            <button class="node node-mp" data-node="mp" type="button"><b>Representative A</b><small>Member of Parliament</small></button>
+            <button class="node node-mla" data-node="mla" type="button"><b>Representative B</b><small>MLA</small></button>
+            <button class="node node-ward" data-node="ward" type="button"><b>Representative C</b><small>Ward councillor</small></button>
+            <button class="node place node-place" data-node="place" type="button"><b>Your locality</b><small>Fictional Jaipur example</small></button>
+            <button class="node office node-collector" data-node="collector" type="button"><b>Official D</b><small>District Collector</small></button>
+            <button class="node office node-commissioner" data-node="commissioner" type="button"><b>Official E</b><small>Municipal Commissioner</small></button>
+            <button class="node office node-works" data-node="works" type="button"><b>Works division</b><small>Public service office</small></button>
+          </div></div>
+          <div class="map-bottom"><div class="legend"><span><i></i> Electoral representation</span><span><i class="dashed"></i> Public service jurisdiction</span></div><div class="selection" aria-live="polite"><strong id="selection-title">Your locality</strong><p id="selection-body">Select a person or office to see why it appears here.</p><small id="selection-proof">Sample relationships only. No source has been checked.</small></div></div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">Vote Better · V2 design exploration · Fictional content only</footer>
+  </div>
+
+  <dialog id="area-dialog" aria-labelledby="area-title"><h2 id="area-title">Find your area</h2><p>Enter a PIN or choose location in a future product. This mockup does not use either to identify a real place.</p><form id="pin-form" class="pin-form" novalidate><input id="pin-input" inputmode="numeric" maxlength="6" placeholder="6-digit PIN" aria-label="PIN code"><button class="primary" type="submit">Preview flow</button></form><p id="pin-error" class="form-error" role="alert" hidden>Enter a 6-digit PIN code.</p><div class="dialog-actions"><button class="text-button" type="button" id="location-choice">Use my location</button><button class="text-button" type="button" id="close-area">Close</button></div><p id="area-feedback" aria-live="polite" hidden></p></dialog>
+
+  <script>
+    const nodes = {
+      place: ['Your locality', 'This fictional locality is the context for the sample. A real area match must be checked against each office boundary.', 'No real location was resolved.'],
+      mp: ['Representative A · MP', 'Represents the example parliamentary area. This link means representation, not control of local service delivery.', 'A real link needs an election result and constituency boundary.'],
+      mla: ['Representative B · MLA', 'Represents the example Assembly area. This link means representation, not responsibility for every department action.', 'A real link needs an election result and constituency boundary.'],
+      ward: ['Representative C · councillor', 'Represents the example ward and may raise local service issues with the relevant municipal office.', 'A real link needs a council result and ward boundary.'],
+      collector: ['Official D · District Collector', 'Shown as an example appointed district official. A posting does not create an electoral relationship.', 'A real link needs a current appointment and jurisdiction record.'],
+      commissioner: ['Official E · Municipal Commissioner', 'Shown as an example appointed municipal official. Office responsibilities need a current official source.', 'A real link needs a current appointment and office jurisdiction record.'],
+      works: ['Municipal works division', 'Shown as the example office responsible for road maintenance. A work order would establish a specific project responsibility.', 'A real link needs verified office responsibility and contact records.'],
+    };
+    const answers = {
+      road: ['The municipal works division handles road maintenance.', 'In this fictional locality, the councillor can follow up and the municipal commissioner oversees the office. Neither is automatically credited with a repair.', 'Evidence: fictional scenario only. A real answer needs an office responsibility record and current jurisdiction.', 'works'],
+      represent: ['Three people represent this example locality.', 'The sample shows an MP, an MLA and a ward councillor. They represent different electoral areas and have different roles.', 'Evidence: fictional scenario only. A real answer needs election results and checked constituency boundaries.', 'place'],
+      credit: ['Completion cannot be established here.', 'A request, a work order, an office report and a checked outcome are different records. This sample has no verified completion evidence.', 'Evidence: none in this mockup. A real answer should name the delivering office and show the work and outcome records.', 'works'],
+      unknown: ['This mockup cannot answer that question yet.', 'The future agent should use checked records, explain what each source proves and say when evidence is missing. Try one of the example questions to explore the design.', 'No live agent or government data is connected.', 'place'],
+    };
+    let answerNode = 'works';
+    function selectNode(id, scroll = false) {
+      if (!nodes[id]) return;
+      document.querySelectorAll('[data-node]').forEach(node => node.classList.toggle('active', node.dataset.node === id));
+      document.querySelectorAll('[data-edge]').forEach(edge => edge.classList.toggle('active', edge.dataset.edge === id));
+      document.getElementById('selection-title').textContent = nodes[id][0];
+      document.getElementById('selection-body').textContent = nodes[id][1];
+      document.getElementById('selection-proof').textContent = nodes[id][2];
+      const node = document.querySelector(`[data-node="${id}"]`);
+      const map = document.querySelector('.map-scroll');
+      map.scrollTo({ left: node.offsetLeft + node.offsetWidth / 2 - map.clientWidth / 2, behavior: 'smooth' });
+      if (scroll) document.getElementById('connections').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function showAnswer(key) {
+      const answer = answers[key] || answers.unknown;
+      document.getElementById('answer-title').textContent = answer[0];
+      document.getElementById('answer-body').textContent = answer[1];
+      document.getElementById('answer-source').textContent = answer[2];
+      document.getElementById('answer-kicker').textContent = key === 'unknown' ? 'SAMPLE LIMIT' : 'SAMPLE ANSWER';
+      document.querySelectorAll('[data-question]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.question === key)));
+      answerNode = answer[3];
+    }
+    document.querySelectorAll('[data-question]').forEach(button => button.addEventListener('click', () => showAnswer(button.dataset.question)));
+    document.getElementById('question-form').addEventListener('submit', event => {
+      event.preventDefault();
+      const question = document.getElementById('question-input').value.trim().toLowerCase();
+      const sampleQuestions = { 'who handles a broken road?': 'road', 'who represents my area?': 'represent', 'who completed the road work?': 'credit' };
+      const key = sampleQuestions[question] || 'unknown';
+      showAnswer(key);
+    });
+    document.getElementById('show-connection').addEventListener('click', () => selectNode(answerNode, true));
+    document.querySelectorAll('[data-select]').forEach(button => button.addEventListener('click', () => selectNode(button.dataset.select, true)));
+    document.querySelectorAll('[data-node]').forEach(button => button.addEventListener('click', () => selectNode(button.dataset.node)));
+    const areaDialog = document.getElementById('area-dialog');
+    document.getElementById('change-area').addEventListener('click', () => areaDialog.showModal());
+    document.getElementById('close-area').addEventListener('click', () => areaDialog.close());
+    document.getElementById('pin-form').addEventListener('submit', event => {
+      event.preventDefault();
+      const valid = /^[0-9]{6}$/.test(document.getElementById('pin-input').value.trim());
+      document.getElementById('pin-error').hidden = valid;
+      const feedback = document.getElementById('area-feedback');
+      feedback.hidden = !valid;
+      if (valid) feedback.textContent = 'Sample only: a real lookup would confirm the locality before showing its people. The displayed Jaipur example is unrelated to the entered PIN.';
+    });
+    document.getElementById('location-choice').addEventListener('click', () => {
+      const feedback = document.getElementById('area-feedback');
+      feedback.hidden = false;
+      feedback.textContent = 'A real browser would ask for permission here. This mockup does not access your location.';
+    });
+  </script>
+</body>
+</html>
