@@ -12,9 +12,9 @@
     }
     * { box-sizing: border-box; }
     body { margin: 0; }
-    button, select { font: inherit; }
+    button, input { font: inherit; }
     button { cursor: pointer; }
-    button:focus-visible, select:focus-visible, summary:focus-visible {
+    button:focus-visible, input:focus-visible, summary:focus-visible {
       outline: 3px solid #dc8e35;
       outline-offset: 3px;
     }
@@ -90,10 +90,12 @@
     .secondary { border: 1px solid #cbd9ef; background: #fff; color: #2555aa; }
     .quiet-button { border: 0; background: transparent; color: #315ca8; }
     .action-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-    .select-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .field { display: block; color: #516681; font-size: .72rem; font-weight: 800; }
-    .field select { display: block; width: 100%; margin-top: 6px; padding: 10px 11px; border: 1px solid #d0dbea; border-radius: 9px; background: #fff; color: #203552; font-weight: 700; }
-    .select-grid + .select-grid { margin-top: 10px; }
+    .field { display: block; color: #516681; font-size: .76rem; font-weight: 800; }
+    .lookup { display: flex; gap: 9px; margin-top: 8px; }
+    .lookup input { flex: 1; min-width: 0; padding: 10px 12px; border: 1px solid #d0dbea; border-radius: 10px; background: #fff; color: #203552; }
+    .lookup .primary { flex: none; }
+    .help { margin: 9px 0 0; color: #708098; font-size: .73rem; line-height: 1.45; }
+    .error { color: #a33332 !important; }
     .avatar { display: grid; flex: none; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: #e8eefe; color: #2c57b4; font-size: 1.05rem; font-weight: 900; }
     .avatar.green { background: #e0f2e9; color: #167657; }
     .avatar.gold { background: #fff0d9; color: #906218; }
@@ -169,7 +171,9 @@
       .screen { padding: 22px 17px 42px; }
     }
     @media (max-width: 430px) {
-      .select-grid, .split-note { grid-template-columns: 1fr; }
+      .split-note { grid-template-columns: 1fr; }
+      .lookup { flex-wrap: wrap; }
+      .lookup .primary { width: 100%; }
       .candidate-grid { gap: 6px; }
       .candidate-grid .card { padding: 10px; }
       .candidate-grid .avatar { width: 37px; height: 37px; }
@@ -203,49 +207,57 @@
       <section id="area" class="screen" role="tabpanel" aria-labelledby="tab-area">
         <p class="eyebrow">Start here</p>
         <h2>Your area. Your representatives.</h2>
-        <p class="lead">You should not need to know which election is coming to find the people responsible for representing you.</p>
+        <p class="lead">Find the people and offices serving your area. Start with a PIN code or your location.</p>
         <div class="card">
-          <div class="select-grid">
-            <label class="field">State<select aria-label="State"><option>Rajasthan pilot</option><option disabled>Other states after verification</option></select></label>
-            <label class="field">Parliamentary area<select id="area-choice" aria-label="Parliamentary area"><option value="jaipur">Jaipur</option><option value="rural">Jaipur Rural</option></select></label>
-          </div>
-          <div class="select-grid">
-            <label class="field">Assembly area<select id="assembly-choice" aria-label="Assembly area"><option value="unknown">Choose an assembly area</option><option value="sample">Example Assembly Area 1</option></select></label>
-            <label class="field">Ward<select id="ward-choice" aria-label="Ward"><option value="unknown">Choose a ward</option><option value="sample">Example Ward 1</option></select></label>
-          </div>
-          <p>In the real product, location lookup must confirm constituency boundaries. A PIN code alone is not enough for every office.</p>
+          <label class="field" for="pin-input">Your 6-digit PIN code</label>
+          <form id="pin-form" class="lookup" novalidate>
+            <input id="pin-input" name="pin" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" autocomplete="postal-code" placeholder="6-digit PIN" aria-describedby="pin-help pin-error">
+            <button class="primary" type="submit">Find my area</button>
+          </form>
+          <p id="pin-error" class="help error" role="alert" hidden>Enter a 6-digit PIN code.</p>
+          <div class="action-row"><button class="secondary" id="use-location" type="button">Use my location instead</button></div>
+          <p id="pin-help" class="help">Location is optional. A real browser will ask permission only after you choose it.</p>
         </div>
-        <div class="notice">Design sample: all representatives and lower-level areas below are fictional. Jaipur Rural has no sample person in this mockup.</div>
-        <div id="jaipur-area">
-          <p class="section-title">Representatives for this location</p>
+        <div class="notice">Interactive design sample: no PIN lookup or device location is used. Every person and area below is fictional.</div>
+        <div id="match-panel" class="card" hidden>
+          <h3>Confirm your locality</h3>
+          <p>A PIN can leave the exact local boundary uncertain. The real product would show possible localities here. No lookup was done in this mockup, so the locality below is unrelated to your entered PIN.</p>
+          <div class="action-row"><button class="primary" id="confirm-locality" type="button">Use sample locality</button></div>
+        </div>
+        <div id="area-result" hidden>
+          <p class="section-title">Example Jaipur locality · fictional selection</p>
+          <p class="help">In the real product, each person and office appears only after its jurisdiction and current holder are verified.</p>
+          <p class="section-title">Elected representatives</p>
           <div class="card">
             <div class="person-row"><span class="avatar">A</span><span><strong>Representative A</strong><small>Member of Parliament · Jaipur example</small></span></div>
-            <div class="card-foot"><span>Office record required to publish</span><span class="tag green">Elected</span></div>
+            <div class="card-foot"><span>Fictional office record</span><span class="tag green">Elected</span></div>
             <div class="action-row"><button class="primary" type="button" data-profile="A">Open MP profile →</button></div>
           </div>
-          <div class="card" id="mla-card" hidden>
+          <div class="card">
             <div class="person-row"><span class="avatar green">B</span><span><strong>Representative B</strong><small>Member of Legislative Assembly · fictional area</small></span></div>
-            <div class="card-foot"><span>Shown after assembly area selection</span><span class="tag green">Elected</span></div>
+            <div class="card-foot"><span>Fictional office record</span><span class="tag green">Elected</span></div>
             <div class="action-row"><button class="secondary" type="button" data-profile="B">Open MLA profile →</button></div>
           </div>
-          <div class="card" id="ward-card" hidden>
+          <div class="card">
             <div class="person-row"><span class="avatar gold">C</span><span><strong>Representative C</strong><small>Ward councillor · fictional ward</small></span></div>
-            <div class="card-foot"><span>Shown after ward selection</span><span class="tag green">Elected</span></div>
+            <div class="card-foot"><span>Fictional office record</span><span class="tag green">Elected</span></div>
             <div class="action-row"><button class="secondary" type="button" data-profile="C">Open councillor profile →</button></div>
           </div>
-          <div class="soft-card" style="margin-top:11px"><strong>Why are some people hidden?</strong><br>An MP, MLA and councillor cover different boundaries. Choose the assembly area and ward to see those office holders. Never guess from the city name.</div>
-          <p class="section-title">At a glance</p>
-          <div class="split-note"><div class="card"><strong>People first</strong><p>One person can hold different offices or contest different elections over time.</p></div><div class="card"><strong>Know the limit</strong><p>Unmapped offices are shown as missing, not assigned to the wrong area.</p></div></div>
+          <p class="section-title">Appointed public officials</p>
+          <div class="card"><div class="person-row"><span class="avatar">D</span><span><strong>Official D</strong><small>District Collector · fictional posting</small></span></div><div class="card-foot"><span>Fictional appointment record</span><span class="tag">Appointed</span></div><div class="action-row"><button class="secondary" type="button" data-profile="D">Open official profile →</button></div></div>
+          <div class="card"><div class="person-row"><span class="avatar green">E</span><span><strong>Official E</strong><small>Municipal Commissioner · fictional posting</small></span></div><div class="card-foot"><span>Fictional appointment record</span><span class="tag">Appointed</span></div><div class="action-row"><button class="secondary" type="button" data-profile="E">Open official profile →</button></div></div>
+          <p class="section-title">Public service offices</p>
+          <div class="card"><h3>Municipal works division</h3><p>Example road maintenance office. Its jurisdiction and contact route would need verification.</p><div class="action-row"><button class="secondary" type="button" data-go="office">View office →</button></div></div>
+          <details><summary>Who appears here?</summary><p>Show the relevant verified office holders and public service offices for this locality. If a ward or posting cannot be confirmed, ask for one locality choice or leave that role unassigned.</p></details>
         </div>
-        <div id="rural-area" class="soft-card" hidden>No fictional profile is prepared for Jaipur Rural. This state shows how the product handles an area without verified records.</div>
       </section>
 
       <section id="profile" class="screen" role="tabpanel" aria-labelledby="tab-profile" hidden>
         <p class="eyebrow">Lasting person profile</p>
         <div class="hero-profile"><span class="avatar" id="profile-avatar">A</span><span><h2 id="profile-name">Representative A</h2><p id="profile-area">Jaipur example · fictional person</p></span></div>
-        <div class="badge-row"><span class="tag green">Currently elected</span><span class="tag" id="profile-term">MP term: example</span><span class="tag gold">No active contest shown</span></div>
+        <div class="badge-row"><span class="tag green" id="profile-status">Currently elected</span><span class="tag" id="profile-term">MP term: example</span><span class="tag gold" id="profile-election-status">No active contest shown</span></div>
         <div class="notice">Everything on this profile is fictional. In the real product, each fact needs a dated original record.</div>
-        <div class="info-grid"><div class="card"><span class="tag">Current office</span><strong id="profile-office">Member of Parliament</strong><small id="profile-office-area">Jaipur · sample term</small></div><div class="card"><span class="tag">Election history</span><strong>One example candidacy</strong><small>Office and candidacy remain separate records</small></div></div>
+        <div class="info-grid"><div class="card"><span class="tag">Current office</span><strong id="profile-office">Member of Parliament</strong><small id="profile-office-area">Jaipur · sample term</small></div><div class="card"><span class="tag" id="profile-history-label">Election history</span><strong id="profile-history">One example candidacy</strong><small id="profile-history-detail">Office and candidacy remain separate records</small></div></div>
         <p class="section-title">What have they done?</p>
         <div class="card"><div class="timeline">
           <div class="event"><time>Example date</time><h3 id="profile-action-one">Raised a question in Parliament</h3><p id="profile-action-one-detail">The source would show the exact question and reply. This is activity, not a delivered project.</p><button class="proof" id="profile-proof-one" type="button" data-proof="question">See evidence card ↗</button></div>
@@ -361,6 +373,13 @@
     <div id="dialog-body"></div>
   </div>
 </dialog>
+<dialog id="location-dialog" aria-labelledby="location-title">
+  <div class="dialog-inner">
+    <h2 id="location-title">Use your location?</h2>
+    <p>A real browser would ask permission after you continue. This mockup does not access your device location.</p>
+    <div class="action-row"><button class="primary" id="simulate-location" type="button">Continue in mockup</button><button class="secondary" id="cancel-location" type="button">Use PIN instead</button></div>
+  </div>
+</dialog>
 
 <script>
   const tabs = [...document.querySelectorAll('.nav [role="tab"]')];
@@ -377,6 +396,7 @@
   const profileSamples = {
     A: {
       name: 'Representative A', role: 'Member of Parliament', area: 'Jaipur parliamentary example', term: 'MP term: example',
+      status: 'Currently elected', electionStatus: 'No active contest shown', historyLabel: 'Election history', history: 'One example candidacy', historyDetail: 'Office and candidacy remain separate records',
       actions: [
         ['Raised a question in Parliament', 'The source would show the exact question and reply. This is activity, not a delivered project.', 'question'],
         ['Requested a department update', 'Show what the representative requested and what the department did separately.', 'request'],
@@ -384,6 +404,7 @@
     },
     B: {
       name: 'Representative B', role: 'Member of Legislative Assembly', area: 'Example Assembly Area 1', term: 'MLA term: example',
+      status: 'Currently elected', electionStatus: 'No active contest shown', historyLabel: 'Election history', history: 'One example candidacy', historyDetail: 'Office and candidacy remain separate records',
       actions: [
         ['Raised a question in the Assembly', 'The source would show the exact Assembly question and answer. It does not prove an outcome.', 'question'],
         ['Requested a state department update', 'The request and the department response would be separate dated records.', 'request'],
@@ -391,9 +412,26 @@
     },
     C: {
       name: 'Representative C', role: 'Ward councillor', area: 'Example Ward 1', term: 'Council term: example',
+      status: 'Currently elected', electionStatus: 'No active contest shown', historyLabel: 'Election history', history: 'One example candidacy', historyDetail: 'Office and candidacy remain separate records',
       actions: [
         ['Requested a streetlight inspection', 'The request would be linked to a dated municipal record. Repair would require separate evidence.', 'request'],
         ['Reviewed a ward work update', 'The office report and a resident outcome check would appear as separate stages.', 'work'],
+      ],
+    },
+    D: {
+      name: 'Official D', role: 'District Collector', area: 'Example Jaipur district', term: 'Posting: example',
+      status: 'Appointed official', electionStatus: 'No election role shown', historyLabel: 'Posting history', history: 'One example posting', historyDetail: 'Appointment and jurisdiction need official records',
+      actions: [
+        ['Issued a public service update', 'A dated office statement would document the update, not prove a result.', 'request'],
+        ['Reviewed a department report', 'The report and an independent outcome check would appear separately.', 'work'],
+      ],
+    },
+    E: {
+      name: 'Official E', role: 'Municipal Commissioner', area: 'Example Jaipur municipality', term: 'Posting: example',
+      status: 'Appointed official', electionStatus: 'No election role shown', historyLabel: 'Posting history', history: 'One example posting', historyDetail: 'Appointment and jurisdiction need official records',
+      actions: [
+        ['Published a works update', 'An office update would show the reported status and its date.', 'work'],
+        ['Requested a service review', 'A request would be separate from any completed work or resident outcome.', 'request'],
       ],
     },
   };
@@ -428,12 +466,17 @@
       selectedProfile = button.dataset.profile;
       const person = profileSamples[selectedProfile];
       document.getElementById('profile-avatar').textContent = selectedProfile;
-      document.getElementById('profile-avatar').className = `avatar ${selectedProfile === 'B' ? 'green' : selectedProfile === 'C' ? 'gold' : ''}`;
+      document.getElementById('profile-avatar').className = `avatar ${['B', 'E'].includes(selectedProfile) ? 'green' : selectedProfile === 'C' ? 'gold' : ''}`;
       document.getElementById('profile-name').textContent = person.name;
       document.getElementById('profile-area').textContent = `${person.area} · fictional person`;
       document.getElementById('profile-term').textContent = person.term;
+      document.getElementById('profile-status').textContent = person.status;
+      document.getElementById('profile-election-status').textContent = person.electionStatus;
       document.getElementById('profile-office').textContent = person.role;
-      document.getElementById('profile-office-area').textContent = `${person.area} · sample term`;
+      document.getElementById('profile-office-area').textContent = `${person.area} · sample ${selectedProfile === 'D' || selectedProfile === 'E' ? 'posting' : 'term'}`;
+      document.getElementById('profile-history-label').textContent = person.historyLabel;
+      document.getElementById('profile-history').textContent = person.history;
+      document.getElementById('profile-history-detail').textContent = person.historyDetail;
       for (const [index, suffix] of ['one', 'two'].entries()) {
         const [title, detail, proof] = person.actions[index];
         document.getElementById(`profile-action-${suffix}`).textContent = title;
@@ -476,25 +519,41 @@
     dialog.showModal();
   });
   document.getElementById('close-dialog').addEventListener('click', () => dialog.close());
-  document.getElementById('area-choice').addEventListener('change', (event) => {
-    const jaipur = event.target.value === 'jaipur';
-    document.getElementById('jaipur-area').hidden = !jaipur;
-    document.getElementById('rural-area').hidden = jaipur;
-    for (const id of ['assembly-choice', 'ward-choice']) {
-      const field = document.getElementById(id);
-      field.disabled = !jaipur;
-      if (!jaipur) field.value = 'unknown';
+  const pinInput = document.getElementById('pin-input');
+  const matchPanel = document.getElementById('match-panel');
+  const areaResult = document.getElementById('area-result');
+  const locationDialog = document.getElementById('location-dialog');
+
+  function showSampleMatch() {
+    document.getElementById('pin-error').hidden = true;
+    areaResult.hidden = true;
+    matchPanel.hidden = false;
+    matchPanel.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  }
+
+  document.getElementById('pin-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!/^[0-9]{6}$/.test(pinInput.value.trim())) {
+      document.getElementById('pin-error').hidden = false;
+      pinInput.focus();
+      return;
     }
-    if (!jaipur) {
-      document.getElementById('mla-card').hidden = true;
-      document.getElementById('ward-card').hidden = true;
-    }
+    showSampleMatch();
   });
-  document.getElementById('assembly-choice').addEventListener('change', (event) => {
-    document.getElementById('mla-card').hidden = event.target.value !== 'sample';
+  pinInput.addEventListener('input', () => { document.getElementById('pin-error').hidden = true; });
+  document.getElementById('confirm-locality').addEventListener('click', () => {
+    matchPanel.hidden = true;
+    areaResult.hidden = false;
+    areaResult.scrollIntoView({ block: 'start', behavior: 'smooth' });
   });
-  document.getElementById('ward-choice').addEventListener('change', (event) => {
-    document.getElementById('ward-card').hidden = event.target.value !== 'sample';
+  document.getElementById('use-location').addEventListener('click', () => locationDialog.showModal());
+  document.getElementById('simulate-location').addEventListener('click', () => {
+    locationDialog.close();
+    showSampleMatch();
+  });
+  document.getElementById('cancel-location').addEventListener('click', () => {
+    locationDialog.close();
+    pinInput.focus();
   });
 </script>
 </body>
