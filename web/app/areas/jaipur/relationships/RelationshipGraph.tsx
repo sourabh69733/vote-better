@@ -30,22 +30,24 @@ export default function RelationshipGraph({ graph }: { graph: CivicGraph }) {
 
   return <section className={styles.frame} aria-label="Jaipur civic relationship graph">
     <div className={styles.header}><div><strong>Area → office → person</strong><p>Select a line or use the relationship list.</p></div><button type="button" className={styles.mobileToggle} onClick={() => setMapOpen(!mapOpen)} aria-expanded={mapOpen}>{mapOpen ? "Hide map" : "Open map"}</button></div>
-    <div className={`${styles.map} ${mapOpen ? styles.mapOpen : ""}`}>
-      <ReactFlow nodes={nodes} edges={edges} fitView fitViewOptions={{ padding: 0.18 }} minZoom={0.4} maxZoom={1.4} nodesDraggable={false} nodesConnectable={false} edgesReconnectable={false} onEdgeClick={(_, edge) => setSelectedId(edge.id)} zoomOnScroll={false} panOnScroll={false}>
-        <Background color="#dce8de" gap={24} size={1} />
-        <Controls showInteractive={false} />
-      </ReactFlow>
-    </div>
-    <div className={styles.list}>
-      <h2>Connections</h2>
-      {graph.edges.map((edge) => {
-        const from = graph.nodes.find((node) => node.id === edge.from);
-        const to = graph.nodes.find((node) => node.id === edge.to);
-        return <button key={edge.id} type="button" className={`${styles.row} ${edge.id === selectedId ? styles.selectedRow : ""}`} onClick={() => setSelectedId(edge.id)} aria-pressed={edge.id === selectedId}>
-          <strong>{from?.label} <span>→ {edge.label} →</span> {to?.label}</strong>
-          <small>Reviewed {edge.reviewedOn}</small>
-        </button>;
-      })}
+    <div className={styles.body}>
+      <div className={`${styles.map} ${mapOpen ? styles.mapOpen : ""}`}>
+        <ReactFlow nodes={nodes} edges={edges} fitView fitViewOptions={{ padding: 0.18 }} minZoom={0.4} maxZoom={1.4} nodesDraggable={false} nodesConnectable={false} edgesReconnectable={false} onEdgeClick={(_, edge) => setSelectedId(edge.id)} zoomOnScroll={false} panOnScroll={false}>
+          <Background color="#dce8de" gap={24} size={1} />
+          <Controls showInteractive={false} />
+        </ReactFlow>
+      </div>
+      <div className={styles.list}>
+        <h2>Connections</h2>
+        {graph.edges.map((edge) => {
+          const from = graph.nodes.find((node) => node.id === edge.from);
+          const to = graph.nodes.find((node) => node.id === edge.to);
+          return <button key={edge.id} type="button" className={`${styles.row} ${edge.id === selectedId ? styles.selectedRow : ""}`} onClick={() => setSelectedId(edge.id)} aria-pressed={edge.id === selectedId}>
+            <strong>{from?.label} <span>→ {edge.label} →</span> {to?.label}</strong>
+            <small>Reviewed {edge.reviewedOn}</small>
+          </button>;
+        })}
+      </div>
     </div>
     {selected && <div className={styles.evidence} aria-live="polite">
       <h2>Evidence for “{selected.label}”</h2>

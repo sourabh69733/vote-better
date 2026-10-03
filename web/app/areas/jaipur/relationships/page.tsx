@@ -12,7 +12,7 @@ export default function JaipurRelationshipsPage() {
   const graph = getAreaGraph("jaipur-lok-sabha");
   if (!graph) throw new Error("Jaipur relationship graph is missing");
 
-  return <div className="mx-auto max-w-5xl px-4 py-8 sm:py-12">
+  return <div className="mx-auto w-full max-w-[1480px] px-4 py-8 sm:px-6 sm:py-12 lg:px-10">
     <Link href="/" className="text-sm font-semibold text-emerald-800 hover:underline">← Jaipur overview</Link>
     <header className="mt-7 max-w-3xl">
       <p className="text-xs font-bold uppercase tracking-widest text-emerald-700">Verified connections</p>

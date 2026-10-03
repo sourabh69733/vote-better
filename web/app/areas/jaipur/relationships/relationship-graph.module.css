@@ -3,7 +3,8 @@
 .header strong { color: #1d4334; font-size: 14px; }
 .header p { margin: 4px 0 0; color: #718678; font-size: 12px; }
 .mobileToggle { display: none; padding: 8px 12px; border: 1px solid #a3c9af; border-radius: 9px; background: #eff8f0; color: #206a4c; font-size: 12px; font-weight: 800; cursor: pointer; }
-.map { height: 340px; background: #fbfdfb; }
+.body { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(310px, .8fr); }
+.map { min-width: 0; height: 410px; background: #fbfdfb; }
 .node { width: 220px !important; min-height: 92px; padding: 0 !important; border: 1px solid #c7dfcf !important; border-radius: 12px !important; background: #fff !important; box-shadow: 0 7px 20px #244b3714 !important; text-align: left !important; }
 .nodeContent { padding: 15px; }
 .nodeContent small, .nodeContent strong, .nodeContent span { display: block; }
@@ -12,7 +13,7 @@
 .nodeContent span { margin-top: 5px; color: #7b8d7e; font-size: 11px; }
 .edge :global(.react-flow__edge-path) { stroke: #9db9a4; stroke-width: 2.5; }
 .activeEdge :global(.react-flow__edge-path) { stroke: #298c60; stroke-width: 3.5; }
-.list { border-top: 1px solid #e8eee8; }
+.list { border-left: 1px solid #e8eee8; }
 .list h2 { margin: 0; padding: 17px 22px 8px; color: #254535; font-size: 14px; }
 .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; padding: 15px 22px; border: 0; border-top: 1px solid #edf1ed; background: #fff; text-align: left; cursor: pointer; }
 .row:hover, .selectedRow { background: #f0f8f1; }
@@ -27,6 +28,10 @@
 .evidence li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 13px; }
 .evidence a { color: #1b6e4d; font-size: 12px; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
 .evidence span { color: #859489; font-size: 10px; }
+@media (max-width: 1000px) {
+  .body { display: block; }
+  .list { border-top: 1px solid #e8eee8; border-left: 0; }
+}
 @media (max-width: 680px) {
   .mobileToggle { display: inline-block; }
   .map { display: none; height: 330px; }
