@@ -1,0 +1,79 @@
+.page { max-width: 1180px; margin: 0 auto; padding: 0 26px 90px; color: #19302c; }
+.sampleBar { margin: 20px 0 0; padding: 10px 14px; border: 1px solid #e7dfc9; border-radius: 9px; background: #fff9eb; color: #775e32; font-size: 12px; }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) 255px; align-items: end; gap: 30px; margin-top: 20px; padding: 45px; border-radius: 24px; background: #173a34; color: #fff; }
+.kicker { color: #9fe0c0; font-size: 11px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+.hero h1 { max-width: 690px; margin: 12px 0 15px; font-size: clamp(36px, 5vw, 59px); line-height: 1.06; letter-spacing: -.06em; }
+.hero h1 em { color: #a8e9c8; font-style: normal; }
+.hero p { max-width: 570px; margin: 0; color: #bed6c9; font-size: 15px; line-height: 1.55; }
+.area { padding: 18px; border: 1px solid #ffffff39; border-radius: 15px; background: #ffffff12; }
+.area span, .area strong, .area small { display: block; }
+.area span { color: #acd8c5; font-size: 10px; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+.area strong { margin-top: 9px; font-size: 17px; }
+.area small { margin-top: 6px; color: #b8d0c2; font-size: 11px; }
+.sectionHeading { display: flex; justify-content: space-between; align-items: end; gap: 25px; margin: 46px 0 20px; }
+.sectionHeading span { color: #3d8167; font-size: 11px; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
+.sectionHeading h2 { margin: 6px 0 0; font-size: 29px; line-height: 1.2; letter-spacing: -.045em; }
+.sectionHeading p { max-width: 380px; margin: 0; color: #6d8275; font-size: 13px; line-height: 1.5; }
+.roleGroups { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.roleGroups h3 { margin: 0 0 10px; color: #6e8376; font-size: 11px; font-weight: 850; letter-spacing: .09em; text-transform: uppercase; }
+.roleList { display: grid; gap: 8px; }
+.roleButton { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 67px; padding: 11px 13px; border: 1px solid #dfe8df; border-radius: 12px; background: #fff; color: #213c31; text-align: left; cursor: pointer; }
+.roleButton:hover, .activeRole { border-color: #64a98a; background: #edf7ef; }
+.roleButton:focus-visible, .connectionRow:focus-visible, .mobileMapToggle:focus-visible { outline: 3px solid #df9d58; outline-offset: 2px; }
+.monogram { display: grid; flex: none; place-items: center; width: 40px; height: 40px; border-radius: 10px; background: #e4f1e8; color: #2f7d5d; font-size: 13px; font-weight: 900; }
+.officeMonogram { background: #e8edf5; color: #596d96; }
+.roleButton strong, .roleButton small { display: block; }
+.roleButton strong { font-size: 13px; }
+.roleButton small { margin-top: 2px; color: #718678; font-size: 11px; }
+.explorerFrame { overflow: hidden; border: 1px solid #dde8de; border-radius: 17px; background: #fff; box-shadow: 0 14px 36px #2549370b; }
+.mapHeader { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 22px; border-bottom: 1px solid #e9eee8; }
+.mapHeader strong, .mapHeader span { display: block; }
+.mapHeader strong { font-size: 14px; }
+.mapHeader span { margin-top: 3px; color: #7b8e80; font-size: 11px; }
+.mobileMapToggle { display: none; padding: 8px 10px; border: 1px solid #9ecbb0; border-radius: 8px; background: #edf7ef; color: #236e50; font-size: 12px; font-weight: 800; cursor: pointer; }
+.graphViewport { height: 430px; background: #fbfdfb; }
+.graphNode { width: 210px !important; min-height: 88px; padding: 0 !important; overflow: hidden; border: 1px solid #c9dfcd !important; border-radius: 12px !important; background: #fff !important; box-shadow: 0 7px 20px #264e3318 !important; text-align: left !important; cursor: pointer !important; }
+.selectedNode { border-color: #2a8b63 !important; box-shadow: 0 0 0 3px #d8f0df, 0 9px 23px #264e3322 !important; }
+.nodeInner { padding: 13px 15px; }
+.nodeRelation { display: block; margin-bottom: 6px; color: #418062; font-size: 10px; font-weight: 850; letter-spacing: .02em; }
+.nodeInner strong, .nodeInner small { display: block; }
+.nodeInner strong { color: #243c31; font-size: 13px; line-height: 1.2; }
+.nodeInner small { margin-top: 3px; color: #748678; font-size: 11px; }
+.representationEdge :global(.react-flow__edge-path) { stroke: #318967; stroke-width: 2.5; }
+.serviceEdge :global(.react-flow__edge-path) { stroke: #7b90b8; stroke-width: 2.5; stroke-dasharray: 6 5; }
+.legend { display: flex; flex-wrap: wrap; gap: 17px; padding: 11px 21px; border-top: 1px solid #e9eee8; color: #758779; font-size: 11px; }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.solidLine, .dashedLine { width: 20px; border-top: 2px solid #318967; }
+.dashedLine { border-color: #7b90b8; border-top-style: dashed; }
+.connections { border-top: 1px solid #e9eee8; }
+.connectionHeading { display: flex; justify-content: space-between; gap: 12px; padding: 17px 22px 11px; }
+.connectionHeading strong { font-size: 13px; }
+.connectionHeading small { color: #809083; font-size: 11px; }
+.connectionRow { display: flex; align-items: start; gap: 12px; width: 100%; padding: 15px 22px; border: 0; border-top: 1px solid #eef2ed; background: #fff; text-align: left; cursor: pointer; }
+.connectionRow:hover { background: #f5faf5; }
+.connectionRow strong, .connectionRow small, .connectionRow em { display: block; }
+.connectionRow strong { color: #254132; font-size: 13px; }
+.connectionRow small { margin-top: 4px; color: #607468; font-size: 12px; line-height: 1.4; }
+.connectionRow em { margin-top: 5px; color: #88988a; font-size: 11px; font-style: normal; }
+.representationMark, .serviceMark { flex: none; width: 8px; height: 8px; margin-top: 4px; border-radius: 50%; background: #318967; }
+.serviceMark { background: #7b90b8; }
+.arrow { margin-left: auto; color: #7e9781; font-size: 18px; }
+.footnote { margin: 13px 0 0; color: #87988b; font-size: 11px; line-height: 1.5; }
+@media (max-width: 760px) {
+  .page { padding: 0 16px 60px; }
+  .hero { display: block; padding: 32px 24px; }
+  .hero h1 { font-size: 40px; }
+  .area { max-width: 300px; margin-top: 28px; }
+  .sectionHeading { display: block; margin-top: 37px; }
+  .sectionHeading p { margin-top: 9px; }
+  .roleGroups { grid-template-columns: 1fr; }
+  .mobileMapToggle { display: inline-block; }
+  .graphViewport { display: none; height: 370px; }
+  .mapOpen { display: block; }
+}
+@media (max-width: 470px) {
+  .hero h1 { font-size: 34px; }
+  .mapHeader { padding: 15px; }
+  .connectionHeading, .connectionRow { padding-left: 15px; padding-right: 15px; }
+  .connectionHeading small { display: none; }
+}
