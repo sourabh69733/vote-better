@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto w-full max-w-[1480px] px-4 py-10 sm:px-6 lg:px-10">
+    <div className="mx-auto w-full max-w-[1320px] px-4 py-10 sm:px-6 lg:px-8">
       <h1 className="text-3xl font-bold text-slate-900">About Vote Better</h1>
       <p className="mt-4 max-w-3xl leading-relaxed text-slate-700">
         Vote Better aims to help people understand who represents them and who

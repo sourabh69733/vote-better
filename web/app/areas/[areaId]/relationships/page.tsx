@@ -25,7 +25,7 @@ export default async function RelationshipsPage({ params }: PageProps) {
   const graph = getAreaGraph(areaId);
   if (!overview || !graph) notFound();
 
-  return <div className="mx-auto w-full max-w-[1480px] px-4 py-8 sm:px-6 sm:py-12 lg:px-10">
+  return <div className="mx-auto w-full max-w-[1320px] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
     <Link href={`/areas/${areaId}`} className="text-sm font-semibold text-emerald-800 hover:underline">← {overview.area.name} overview</Link>
     <header className="mt-7 max-w-3xl">
       <p className="text-xs font-bold uppercase tracking-widest text-emerald-700">Verified connections</p>

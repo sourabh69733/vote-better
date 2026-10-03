@@ -39,7 +39,7 @@ export default async function PersonPage({ params }: PageProps) {
     : [];
 
   return (
-    <div className="mx-auto w-full max-w-[1480px] px-4 py-8 sm:px-6 sm:py-12 lg:px-10">
+    <div className="mx-auto w-full max-w-[1320px] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
       <Link href={area ? `/areas/${area.id}` : "/"} className="text-sm font-semibold text-emerald-800 hover:underline">
         ← {area ? area.label : "Verified areas"}
       </Link>

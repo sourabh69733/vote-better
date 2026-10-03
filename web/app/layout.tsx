@@ -21,26 +21,26 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable}`}>
-      <body className="min-h-screen flex flex-col bg-[#f7f8f5] text-slate-900 font-sans">
+      <body className="min-h-screen flex flex-col bg-[#f5f7f2] text-slate-900 font-sans">
         {/* Header */}
-        <header className="bg-white/90 backdrop-blur-md border-b border-emerald-950/10 sticky top-0 z-50">
-          <div className="mx-auto flex h-16 w-full max-w-[1480px] items-center justify-between px-4 sm:px-6 lg:px-10">
+        <header className="sticky top-0 z-50 border-b border-[#e1e9e0] bg-[#f5f7f2]/95 backdrop-blur-md">
+          <div className="mx-auto flex h-[72px] w-full max-w-[1320px] items-center justify-between px-4 sm:px-6 lg:px-8">
             <Link href="/" className="flex items-center gap-2 group">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-emerald-800 text-xl font-bold text-white" aria-hidden="true">✓</span>
-              <span className="text-lg font-extrabold tracking-tight text-emerald-950 group-hover:text-emerald-700 transition-colors">
+              <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#1e6b4d] text-xl font-bold text-white" aria-hidden="true">✓</span>
+              <span className="text-lg font-extrabold tracking-[-0.05em] text-[#18372a] transition-colors group-hover:text-[#1e6b4d]">
                 Vote Better
               </span>
             </Link>
-            <nav className="flex items-center gap-5 text-sm font-medium">
+            <nav className="flex items-center gap-7 text-sm font-semibold">
               <Link
                 href="/"
-                className="text-slate-600 hover:text-emerald-800 transition-colors"
+                className="text-[#526a59] transition-colors hover:text-[#1e6b4d]"
               >
                 Areas
               </Link>
               <Link
                 href="/about"
-                className="text-slate-600 hover:text-emerald-800 transition-colors"
+                className="text-[#526a59] transition-colors hover:text-[#1e6b4d]"
               >
                 About
               </Link>
@@ -52,8 +52,8 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
 
         {/* Footer */}
-        <footer className="mt-12 border-t border-emerald-950/10 py-8">
-          <div className="mx-auto w-full max-w-[1480px] px-4 text-sm text-slate-500 sm:px-6 lg:px-10">
+        <footer className="mt-10 border-t border-[#dce5db] py-7">
+          <div className="mx-auto w-full max-w-[1320px] px-4 text-xs text-[#738477] sm:px-6 lg:px-8">
             <p>
               Open source · Not affiliated with any political party ·{" "}
               <Link
