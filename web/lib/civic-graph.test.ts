@@ -34,3 +34,12 @@ test("unknown area has no graph", async () => {
 
   assert.equal(civicGraph.getAreaGraph("unknown-area"), null);
 });
+
+test("Jaipur Rural graph does not inherit Jaipur's office holder", async () => {
+  const { getAreaGraph } = await import("./civic-graph");
+  const graph = getAreaGraph("jaipur-rural-lok-sabha");
+  assert.ok(graph);
+  assert.deepEqual(graph.nodes.map((node) => node.label), ["Jaipur Rural Lok Sabha constituency", "Member of Parliament", "Rao Rajendra Singh"]);
+  assert.equal(graph.nodes.some((node) => node.label === "Manju Sharma"), false);
+  assert.ok(graph.edges.every((edge) => edge.sources.length > 0));
+});
