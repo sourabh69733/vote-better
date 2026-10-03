@@ -31,3 +31,10 @@ test("unknown area does not inherit Jaipur's representative", async () => {
 
   assert.equal(civicArea.getAreaOverview("unknown-area"), null);
 });
+
+test("area directory lists only registered areas", async () => {
+  const { listAreaOverviews } = await import("./civic-area");
+  const areas = listAreaOverviews();
+  assert.deepEqual(areas.map((overview) => overview.area.id), ["jaipur-lok-sabha"]);
+  assert.equal(areas[0].links.length, 1);
+});

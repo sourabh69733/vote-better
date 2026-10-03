@@ -1,17 +1,18 @@
-import { getProfileSource, jaipurProfile, type PersonProfile, type SourceRecord } from "./verified-profile";
+import { areas, offices, areaLinks } from "@/records/registry";
+import { getPersonProfile, getProfileSource, type SourceRecord } from "./verified-profile";
 
 export interface CivicArea {
   id: string;
   name: string;
   state: string;
-  kind: "parliamentary_constituency";
+  kind: "parliamentary_constituency" | "assembly_constituency" | "ward";
   label: string;
 }
 
 export interface CivicOffice {
   id: string;
   title: string;
-  level: "national";
+  level: "national" | "state" | "local";
 }
 
 export interface AreaOfficeLink {
@@ -40,36 +41,6 @@ export interface AreaOverview {
   links: ResolvedAreaLink[];
 }
 
-const jaipurArea: CivicArea = {
-  id: "jaipur-lok-sabha",
-  name: "Jaipur",
-  state: "Rajasthan",
-  kind: "parliamentary_constituency",
-  label: "Jaipur Lok Sabha constituency",
-};
-
-const lokSabhaOffice: CivicOffice = {
-  id: "lok-sabha-member",
-  title: "Member of Parliament",
-  level: "national",
-};
-
-const areas: Record<string, CivicArea> = { [jaipurArea.id]: jaipurArea };
-const offices: Record<string, CivicOffice> = { [lokSabhaOffice.id]: lokSabhaOffice };
-const people: Record<string, PersonProfile> = { [jaipurProfile.slug]: jaipurProfile };
-
-const areaLinks: AreaOfficeLink[] = [{
-  id: "jaipur-mp-2024",
-  areaId: jaipurArea.id,
-  officeId: lokSabhaOffice.id,
-  personSlug: jaipurProfile.slug,
-  relation: "represents",
-  startedOn: "2024-06-04",
-  reviewedOn: jaipurProfile.reviewedOn,
-  areaSourceIds: ["election-2024"],
-  holderSourceIds: ["election-2024", "current-members"],
-}];
-
 export function getAreaOverview(areaId: string): AreaOverview | null {
   const area = areas[areaId];
   if (!area) return null;
@@ -78,7 +49,7 @@ export function getAreaOverview(areaId: string): AreaOverview | null {
     area,
     links: areaLinks.filter((link) => link.areaId === areaId && !link.endedOn).map((link) => {
       const office = offices[link.officeId];
-      const profile = people[link.personSlug];
+      const profile = getPersonProfile(link.personSlug);
       if (!office || !profile) throw new Error(`Unresolved civic link ${link.id}`);
       return {
         ...link,
@@ -90,4 +61,13 @@ export function getAreaOverview(areaId: string): AreaOverview | null {
       };
     }),
   };
+}
+
+export function listAreaOverviews(): AreaOverview[] {
+  return Object.keys(areas).map((id) => getAreaOverview(id)!);
+}
+
+export function getAreaForPerson(slug: string): CivicArea | null {
+  const link = areaLinks.find((item) => item.personSlug === slug && !item.endedOn);
+  return link ? areas[link.areaId] ?? null : null;
 }
