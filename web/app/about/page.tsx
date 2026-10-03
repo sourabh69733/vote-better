@@ -7,8 +7,8 @@ export default function AboutPage() {
       <p className="mt-4 max-w-3xl leading-relaxed text-slate-700">
         Vote Better aims to help people understand who represents them and who
         contests their elections. Each area, office and person is added with
-        checked public records. Jaipur Lok Sabha is the first area in this
-        growing directory.
+        checked public records. Jaipur and Jaipur Rural Lok Sabha constituencies
+        are the first areas in this growing directory.
       </p>
 
       <div className="mt-8 grid items-start gap-5 lg:grid-cols-2">
@@ -26,11 +26,10 @@ export default function AboutPage() {
         <section className="rounded-2xl border border-slate-200 bg-white p-6">
           <h2 className="text-xl font-bold text-slate-900">Current scope</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-700">
-            Current verified coverage includes the Jaipur parliamentary constituency.
-            Jaipur Rural is a separate constituency. We have not verified assembly-area
-            mapping, other representatives, candidate social accounts, or a
-            complete record of constituency work. The profile says when each
-            source was checked.
+            Current verified coverage includes Jaipur and Jaipur Rural parliamentary
+            constituencies. We have not verified assembly-area mapping, other
+            representatives, candidate social accounts, or a complete record
+            of constituency work. Each profile shows when its sources were checked.
           </p>
         </section>
       </div>

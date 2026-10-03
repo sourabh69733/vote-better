@@ -4,7 +4,7 @@ An open-source project to help people understand their elected representatives a
 
 ## Current coverage
 
-The home page lists verified areas. Each area has its own overview and relationship graph, and each person has a lasting profile. Jaipur Lok Sabha is the first data entry, with a sourced profile for its sitting MP. It shows the current office, the 2024 election return, and two dated parliamentary questions. Each displayed record links to the original public source. The profile is deliberately incomplete while other facts are reviewed.
+The home page lists verified areas. Each area has its own overview and relationship graph, and each person has a lasting profile. Jaipur and Jaipur Rural Lok Sabha are the first two data entries. Their sitting MPs have sourced profiles with the current office and 2024 election return. Jaipur's profile also shows two dated parliamentary questions. Each displayed record links to the original public source. Profiles remain incomplete while other facts are reviewed.
 
 The former PIN lookup, candidate comparison, quiz, and generated demo profiles have been removed from the public website because their sample figures were not verified. The scripts and sample output under `data/` remain development material and must not be published as factual profiles.
 
@@ -13,7 +13,7 @@ The former PIN lookup, candidate comparison, quiz, and generated demo profiles h
 - `/` lists verified areas from `web/records/registry.ts`.
 - `/areas/[areaId]` and `/areas/[areaId]/relationships` render any registered area from the same records.
 - `/people/[slug]` renders a registered person's sourced profile.
-- `web/records/jaipur.ts` contains the first curated area, office, person and relationship. Add future verified records in separate files and register them in `web/records/registry.ts`. The shared pages do not need city-specific copies.
+- `web/records/jaipur.ts` and `web/records/jaipur-rural.ts` contain the first curated area, person and relationship records. Shared offices live in `web/records/offices.ts`. Add future verified records in separate files and register them in `web/records/registry.ts`. The shared pages do not need city-specific copies.
 
 ## Data rules
 
