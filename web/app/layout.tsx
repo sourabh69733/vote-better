@@ -9,9 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Vote Better - Jaipur pilot",
+  title: "Vote Better",
   description:
-    "A source-backed pilot profile for Jaipur's elected Lok Sabha representative.",
+    "Explore verified public records about elected representatives and candidates in India.",
 };
 
 export default function RootLayout({
@@ -36,7 +36,7 @@ export default function RootLayout({
                 href="/"
                 className="text-slate-600 hover:text-emerald-800 transition-colors"
               >
-                Jaipur pilot
+                Areas
               </Link>
               <Link
                 href="/about"
