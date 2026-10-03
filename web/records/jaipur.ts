@@ -1,5 +1,6 @@
-import type { CivicArea, CivicOffice, AreaOfficeLink } from "@/lib/civic-area";
+import type { CivicArea, AreaOfficeLink } from "@/lib/civic-area";
 import type { PersonProfile } from "@/lib/verified-profile";
+import { lokSabhaOffice } from "./offices";
 
 // Curated pilot record. Each displayed fact points to an original public record.
 // Review current office and party again before a public launch.
@@ -83,12 +84,6 @@ export const jaipurArea: CivicArea = {
   state: "Rajasthan",
   kind: "parliamentary_constituency",
   label: "Jaipur Lok Sabha constituency",
-};
-
-export const lokSabhaOffice: CivicOffice = {
-  id: "lok-sabha-member",
-  title: "Member of Parliament",
-  level: "national",
 };
 
 export const jaipurLink: AreaOfficeLink = {
