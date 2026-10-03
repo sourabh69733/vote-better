@@ -5,6 +5,8 @@
 .mobileToggle { display: none; padding: 8px 12px; border: 1px solid #a3c9af; border-radius: 9px; background: #eff8f0; color: #206a4c; font-size: 12px; font-weight: 800; cursor: pointer; }
 .body { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(310px, .8fr); }
 .map { min-width: 0; height: 410px; background: #fbfdfb; }
+.desktopFlow { height: 100%; }
+.mobilePath { display: none; }
 .node { width: 220px !important; min-height: 92px; padding: 0 !important; border: 1px solid #c7dfcf !important; border-radius: 12px !important; background: #fff !important; box-shadow: 0 7px 20px #244b3714 !important; text-align: left !important; }
 .nodeContent { padding: 15px; }
 .nodeContent small, .nodeContent strong, .nodeContent span { display: block; }
@@ -34,8 +36,17 @@
 }
 @media (max-width: 680px) {
   .mobileToggle { display: inline-block; }
-  .map { display: none; height: 330px; }
+  .map { display: none; height: auto; }
   .mapOpen { display: block; }
+  .desktopFlow { display: none; }
+  .mobilePath { display: grid; padding: 20px; }
+  .mobilePathGroup + .mobilePathGroup { margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0eae1; }
+  .mobilePathItem { position: relative; display: grid; gap: 4px; border: 1px solid #cfe0d2; border-radius: 12px; background: #fff; padding: 14px 16px; }
+  .mobilePathItem + .mobilePathItem { margin-top: 22px; }
+  .mobilePathItem + .mobilePathItem::before { position: absolute; top: -23px; left: 28px; height: 22px; border-left: 2px solid #a8c9af; content: ""; }
+  .mobilePathItem small { color: #468363; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+  .mobilePathItem strong { color: #213b2e; font-size: 14px; }
+  .mobilePathItem span { color: #718375; font-size: 11px; }
   .row { display: block; }
   .row small { display: block; margin-top: 4px; }
 }
