@@ -28,7 +28,7 @@ export default function RelationshipGraph({ graph }: { graph: CivicGraph }) {
     className: edge.id === selectedId ? styles.activeEdge : styles.edge,
   }));
 
-  return <section className={styles.frame} aria-label="Jaipur civic relationship graph">
+  return <section className={styles.frame} aria-label="Civic relationship graph">
     <div className={styles.header}><div><strong>Area → office → person</strong><p>Select a line or use the relationship list.</p></div><button type="button" className={styles.mobileToggle} onClick={() => setMapOpen(!mapOpen)} aria-expanded={mapOpen}>{mapOpen ? "Hide map" : "Open map"}</button></div>
     <div className={styles.body}>
       <div className={`${styles.map} ${mapOpen ? styles.mapOpen : ""}`}>
