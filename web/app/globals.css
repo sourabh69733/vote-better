@@ -2,12 +2,12 @@
 
 @theme inline {
   --font-sans: var(--font-inter);
-  --color-background: #f8fafc;
+  --color-background: #f7f8f5;
   --color-foreground: #0f172a;
 }
 
 body {
-  background-color: #f8fafc;
+  background-color: #f7f8f5;
   color: #0f172a;
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
