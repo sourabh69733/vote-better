@@ -1,7 +1,6 @@
 # Vote Better web
 
-The production pilot currently publishes one source-backed relationship:
-Jaipur Lok Sabha constituency → Member of Parliament → Manju Sharma.
+The pilot publishes source-backed records for the Jaipur and Jaipur Rural Lok Sabha constituencies. Records are curated manually. The site does not fetch election data at request time or update itself automatically.
 
 ## Run
 
@@ -14,11 +13,11 @@ Open `http://localhost:3000`. Run `npm test`, `npm run lint`, and `npm run build
 
 ## Data and evidence
 
-- `lib/verified-profile.ts` holds the curated person profile and original source URLs.
-- `lib/civic-area.ts` holds areas, offices, and dated area-to-office-holder links. Each link separates evidence for the area/office connection from evidence for the current holder.
-- `lib/civic-graph.ts` derives the read-only relationship graph from the same area links used by the home page.
-- `app/areas/jaipur/relationships` displays that graph and the source for each edge.
+- `lib/civic-records.ts` defines areas, offices, people, terms, candidacies, activities, and sources. It validates IDs and required evidence references.
+- `records/registry.ts` assembles the reviewed records and rejects broken references before pages are generated.
+- `lib/civic-area.ts` and `lib/verified-profile.ts` derive area and person views from the same records.
+- `lib/civic-graph.ts` derives the relationship map from current terms.
 
-Only add a link after checking its area identity, office, current holder, dates, and original records. Location-based matching also needs checked boundaries. Leave an unverified role out of the registry. A PIN code or browser position is not a confirmed constituency or ward match.
+To add a record, check the original source, add its URL and checked date, then connect each published fact to its source ID. A current term needs separate evidence for the area seat and its holder. `reviewedOn` describes the manual review date, not live status. Leave unverified facts out. A PIN code or browser position alone is not a confirmed constituency or ward match.
 
-`/mockups/graph` remains a fictional design preview and is separate from the sourced production view.
+See [the data model](../docs/architecture/data-model.md) for the review flow and remaining limits. `/mockups/graph` is a fictional design preview, separate from published records.
