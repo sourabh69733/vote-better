@@ -1,4 +1,4 @@
-import type { CivicOffice } from "@/lib/civic-area";
+import type { CivicOffice } from "@/lib/civic-records";
 
 export const lokSabhaOffice: CivicOffice = {
   id: "lok-sabha-member",

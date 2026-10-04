@@ -17,7 +17,7 @@ test("Jaipur overview shows only the verified MP relationship with evidence", as
   assert.equal(overview.links[0].person.name, "Manju Sharma");
   assert.equal(overview.links[0].office.title, "Member of Parliament");
   assert.equal(overview.links[0].relation, "represents");
-  assert.deepEqual(overview.links[0].sources.map((source) => source.id).sort(), ["current-members", "election-2024"]);
+  assert.deepEqual(overview.links[0].sources.map((source) => source.id).sort(), ["jaipur-election-2024", "manju-current-members"]);
   assert.ok(overview.links[0].sources.every((source) => source.url.startsWith("https://") && source.checkedOn));
 });
 

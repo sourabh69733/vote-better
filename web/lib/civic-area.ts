@@ -1,21 +1,9 @@
-import { areas, offices, areaLinks } from "@/records/registry";
-import { getPersonProfile, getProfileSource, type SourceRecord } from "./verified-profile";
+import { dataset } from "@/records/registry";
+import type { CivicArea, CivicOffice, SourceRecord, TermRecord } from "./civic-records";
 
-export interface CivicArea {
-  id: string;
-  name: string;
-  state: string;
-  kind: "parliamentary_constituency" | "assembly_constituency" | "ward";
-  label: string;
-}
+export type { CivicArea, CivicOffice } from "./civic-records";
 
-export interface CivicOffice {
-  id: string;
-  title: string;
-  level: "national" | "state" | "local";
-}
-
-export interface AreaOfficeLink {
+export interface ResolvedAreaLink {
   id: string;
   areaId: string;
   officeId: string;
@@ -26,9 +14,6 @@ export interface AreaOfficeLink {
   reviewedOn: string;
   areaSourceIds: string[];
   holderSourceIds: string[];
-}
-
-export interface ResolvedAreaLink extends AreaOfficeLink {
   office: CivicOffice;
   person: { name: string; slug: string };
   sources: SourceRecord[];
@@ -41,33 +26,47 @@ export interface AreaOverview {
   links: ResolvedAreaLink[];
 }
 
-export function getAreaOverview(areaId: string): AreaOverview | null {
-  const area = areas[areaId];
-  if (!area) return null;
+function source(id: string): SourceRecord {
+  return dataset.sources.find((item) => item.id === id)!;
+}
 
+function resolveTerm(term: TermRecord): ResolvedAreaLink {
+  const office = dataset.offices.find((item) => item.id === term.officeId)!;
+  const person = dataset.people.find((item) => item.id === term.personId)!;
+  const sourceIds = new Set([...term.areaSourceIds, ...term.holderSourceIds]);
+  return {
+    id: term.id,
+    areaId: term.areaId,
+    officeId: term.officeId,
+    personSlug: term.personId,
+    relation: "represents",
+    startedOn: term.startedOn,
+    endedOn: term.endedOn,
+    reviewedOn: term.reviewedOn,
+    areaSourceIds: term.areaSourceIds,
+    holderSourceIds: term.holderSourceIds,
+    office,
+    person: { name: person.name, slug: person.id },
+    sources: [...sourceIds].map(source),
+    areaSources: term.areaSourceIds.map(source),
+    holderSources: term.holderSourceIds.map(source),
+  };
+}
+
+export function getAreaOverview(areaId: string): AreaOverview | null {
+  const area = dataset.areas.find((item) => item.id === areaId);
+  if (!area) return null;
   return {
     area,
-    links: areaLinks.filter((link) => link.areaId === areaId && !link.endedOn).map((link) => {
-      const office = offices[link.officeId];
-      const profile = getPersonProfile(link.personSlug);
-      if (!office || !profile) throw new Error(`Unresolved civic link ${link.id}`);
-      return {
-        ...link,
-        office,
-        person: { name: profile.name, slug: profile.slug },
-        sources: [...new Set([...link.areaSourceIds, ...link.holderSourceIds])].map((id) => getProfileSource(profile, id)),
-        areaSources: link.areaSourceIds.map((id) => getProfileSource(profile, id)),
-        holderSources: link.holderSourceIds.map((id) => getProfileSource(profile, id)),
-      };
-    }),
+    links: dataset.terms.filter((term) => term.areaId === areaId && !term.endedOn).map(resolveTerm),
   };
 }
 
 export function listAreaOverviews(): AreaOverview[] {
-  return Object.keys(areas).map((id) => getAreaOverview(id)!);
+  return dataset.areas.map((area) => getAreaOverview(area.id)!);
 }
 
 export function getAreaForPerson(slug: string): CivicArea | null {
-  const link = areaLinks.find((item) => item.personSlug === slug && !item.endedOn);
-  return link ? areas[link.areaId] ?? null : null;
+  const term = dataset.terms.find((item) => item.personId === slug && !item.endedOn);
+  return term ? dataset.areas.find((area) => area.id === term.areaId) ?? null : null;
 }

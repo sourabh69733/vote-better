@@ -19,8 +19,8 @@ test("Jaipur graph contains only the sourced area-office-person path", async () 
   ]);
   assert.ok(graph.edges.every((edge) => edge.sources.length > 0));
   assert.deepEqual(graph.edges.map((edge) => edge.sources.map((source) => source.id)), [
-    ["election-2024"],
-    ["election-2024", "current-members"],
+    ["jaipur-election-2024"],
+    ["jaipur-election-2024", "manju-current-members"],
   ]);
 });
 
