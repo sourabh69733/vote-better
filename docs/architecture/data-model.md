@@ -28,6 +28,12 @@ The term is the single source for both the area page and the person's current ro
 
 Validation catches structural mistakes. It cannot determine whether a source is accurate, whether a person has changed office since review, or whether a page correctly interprets a document. Human source review remains required.
 
+## Transparency target
+
+For each published fact, a citizen should be able to open its source, see the exact location in that source when available, understand how it was matched to a person or area, and inspect the review date and correction history. Publish coverage and freshness by area so missing records are visible. The current pilot exposes source links and manual review dates; it does not yet have a public decision log or automated provenance trail.
+
+Future public work records should connect a project or service to its area, responsible department, dated milestones and separate outcome evidence. An announcement, an official progress claim and a verified result are different records. Private citizen issue details and precise location must not be exposed by the public audit view. The [interactive architecture](vote-better-data-architecture.html) shows the proposed trace paths.
+
 ## Next phase
 
 Build a staged import process for one official data source: collect a snapshot, parse it, compare with reviewed records, and present differences for human approval. Publish only approved records. Do not describe the current records as live data.

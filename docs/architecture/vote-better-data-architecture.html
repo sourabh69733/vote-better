@@ -108,9 +108,24 @@
     .decision .tag { font-size:11px; color:#6e9676; font-weight:850; letter-spacing:.12em; text-transform:uppercase; }
     .decision h3 { font-size:18px; margin:9px 0 8px; }
     .decision p { font-size:13px; line-height:1.55; color:var(--muted); margin:0; }
+    .trace-switch { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; }
+    .trace-choice { border:1px solid var(--line); background:#fff; color:#506b59; padding:10px 15px; border-radius:999px; font-weight:750; font-size:13px; }
+    .trace-choice[aria-pressed="true"] { background:var(--green); border-color:var(--green); color:#fff; }
+    .trace-case[hidden] { display:none; }
+    .trace-path { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; margin:0 0 24px; }
+    .trace-node { position:relative; border:1px solid #cbded0; border-radius:16px; background:#fff; padding:17px; min-height:132px; }
+    .trace-node:not(:last-child)::after { content:"→"; position:absolute; right:-16px; top:48px; z-index:2; color:#4b9564; background:var(--paper); padding:1px 3px; font-weight:800; }
+    .trace-node span { display:block; color:#699577; font-size:11px; font-weight:850; text-transform:uppercase; letter-spacing:.09em; margin-bottom:11px; }
+    .trace-node b { display:block; font-size:15px; line-height:1.3; }
+    .trace-node small { display:block; margin-top:7px; color:var(--muted); font-size:12px; line-height:1.45; }
+    .trace-note { color:var(--muted); font-size:13px; line-height:1.6; margin:0 0 24px; }
+    .transparency-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    .transparency-grid .card { padding:22px; }
+    .transparency-grid h3 { font-size:18px; }
+    .transparency-grid p { margin-bottom:0; font-size:13px; }
     .footer { border-top:1px solid var(--line); padding:25px 0 38px; display:flex; justify-content:space-between; gap:20px; color:var(--muted); font-size:12px; }
     @media(max-width:1000px) { .hero { grid-template-columns:1fr; gap:22px; } .hero-note { max-width:620px; } .model-layout { grid-template-columns:1fr; } .storage { grid-template-columns:repeat(2,1fr); } }
-    @media(max-width:700px) { .shell { padding:0 18px; } .topbar-inner { min-height:64px; } .brand { font-size:17px; } .brand small,.top-meta .date { display:none; } .hero { padding:42px 0 34px; } h1 { font-size:51px; } .hero p { font-size:16px; } .principles { grid-template-columns:1fr; } .principle { padding:15px 18px; } .tabs { overflow-x:auto; flex-wrap:nowrap; white-space:nowrap; padding-top:22px; } .tab { padding:13px; } .panel { padding:31px 0 55px; } .section-head { display:block; } .section-head p { margin-top:13px; } .detail { grid-template-columns:1fr; gap:12px; padding:20px; } .two-col,.decision-grid { grid-template-columns:1fr; } .model-grid { grid-template-columns:repeat(2,1fr); } .storage,.scaling { grid-template-columns:1fr; } .footer { display:block; } .footer span { display:block; margin-bottom:6px; } }
+    @media(max-width:700px) { .shell { padding:0 18px; } .topbar-inner { min-height:64px; } .brand { font-size:17px; } .brand small,.top-meta .date { display:none; } .hero { padding:42px 0 34px; } h1 { font-size:51px; } .hero p { font-size:16px; } .principles { grid-template-columns:1fr; } .principle { padding:15px 18px; } .tabs { overflow-x:auto; flex-wrap:nowrap; white-space:nowrap; padding-top:22px; } .tab { padding:13px; } .panel { padding:31px 0 55px; } .section-head { display:block; } .section-head p { margin-top:13px; } .detail { grid-template-columns:1fr; gap:12px; padding:20px; } .two-col,.decision-grid { grid-template-columns:1fr; } .model-grid { grid-template-columns:repeat(2,1fr); } .storage,.scaling,.transparency-grid { grid-template-columns:1fr; } .trace-path { grid-template-columns:1fr; } .trace-node { min-height:0; } .trace-node:not(:last-child)::after { content:"↓"; right:auto; left:18px; top:auto; bottom:-18px; } .footer { display:block; } .footer span { display:block; margin-bottom:6px; } }
     @media(max-width:420px) { h1 { font-size:43px; } .model-grid { grid-template-columns:1fr; } .stage { min-height:148px; } }
     @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .stage { transition:none; } }
   </style>
@@ -119,7 +134,7 @@
   <header class="topbar">
     <div class="shell topbar-inner">
       <div class="brand"><span class="brand-mark" aria-hidden="true">V</span>Vote Better <small>/ Data architecture</small></div>
-      <div class="top-meta"><span class="date">4 October 2026</span><span class="pill">Design proposal</span></div>
+      <div class="top-meta"><span class="date">5 October 2026</span><span class="pill">Design proposal</span></div>
     </div>
   </header>
 
@@ -139,14 +154,15 @@
     <div class="principles" aria-label="Architecture principles">
       <div class="principle"><b>Source before claim</b><span>Keep the original record, extraction, and public wording linked.</span></div>
       <div class="principle"><b>Time is part of truth</b><span>Record when something applied and when we learned or reviewed it.</span></div>
-      <div class="principle"><b>Read simply, audit deeply</b><span>Show citizens the answer first, then evidence and history.</span></div>
+      <div class="principle"><b>Read simply, audit deeply</b><span>Show citizens the answer first, then make every link and decision traceable.</span></div>
     </div>
 
     <div class="tabs" role="tablist" aria-label="Architecture sections">
       <button class="tab" id="tab-flow" type="button" role="tab" aria-controls="panel-flow" aria-selected="true">01 · System flow</button>
       <button class="tab" id="tab-model" type="button" role="tab" aria-controls="panel-model" aria-selected="false">02 · Data model</button>
       <button class="tab" id="tab-ops" type="button" role="tab" aria-controls="panel-ops" aria-selected="false">03 · Storage & updates</button>
-      <button class="tab" id="tab-decisions" type="button" role="tab" aria-controls="panel-decisions" aria-selected="false">04 · Decisions</button>
+      <button class="tab" id="tab-transparency" type="button" role="tab" aria-controls="panel-transparency" aria-selected="false">04 · Transparency</button>
+      <button class="tab" id="tab-decisions" type="button" role="tab" aria-controls="panel-decisions" aria-selected="false">05 · Decisions</button>
     </div>
 
     <section class="panel" id="panel-flow" role="tabpanel" aria-labelledby="tab-flow">
@@ -198,7 +214,9 @@
           <div class="entity core"><span>Public office</span><b>Office & term</b><p>Seat or post, holder, dates, area and authority.</p></div>
           <div class="entity core"><span>Evidence</span><b>Source & observation</b><p>What a source says, where, and when checked.</p></div>
           <div class="entity core"><span>Evidence</span><b>Decision & revision</b><p>Approval, correction, actor, reason and time.</p></div>
-          <div class="entity future"><span>Accountability</span><b>Activity & outcome</b><p>Question, action, project or measured result.</p></div>
+          <div class="entity future"><span>Accountability</span><b>Activity</b><p>Question, vote, announcement or documented action.</p></div>
+          <div class="entity future"><span>Accountability</span><b>Public work</b><p>Project, area, responsible body and milestones.</p></div>
+          <div class="entity future"><span>Accountability</span><b>Outcome</b><p>Measured result with its own evidence and date.</p></div>
           <div class="entity future"><span>Public service</span><b>Appointment</b><p>Public servant, department, post and tenure.</p></div>
           <div class="entity future"><span>Citizen action</span><b>Issue & escalation</b><p>Separate case workflow with private data controls.</p></div>
         </div>
@@ -254,6 +272,40 @@
       </div>
     </section>
 
+    <section class="panel" id="panel-transparency" role="tabpanel" aria-labelledby="tab-transparency" hidden>
+      <div class="section-head"><div><div class="eyebrow">Publicly inspectable by design</div><h2>Let anyone follow how a claim became visible.</h2></div><p>Transparency is a product feature and an architecture rule. A reader should be able to move from a simple answer to its evidence, relationships, review decision and correction history.</p></div>
+      <div class="trace-switch" role="group" aria-label="Transparency examples">
+        <button class="trace-choice" type="button" data-trace="candidate" aria-pressed="true">Candidate fact</button>
+        <button class="trace-choice" type="button" data-trace="work" aria-pressed="false">Government work</button>
+      </div>
+      <div class="trace-case" id="trace-candidate">
+        <div class="trace-path" aria-label="Illustrative candidate fact trace">
+          <div class="trace-node"><span>Public claim</span><b>Candidate result</b><small>One dated fact on a profile or comparison.</small></div>
+          <div class="trace-node"><span>Linked identity</span><b>Person + contest</b><small>Why this record belongs to this person and seat.</small></div>
+          <div class="trace-node"><span>Decision</span><b>Approved revision</b><small>Review date, reviewer role and reason.</small></div>
+          <div class="trace-node"><span>Extraction</span><b>Source observation</b><small>Original wording, normalizer version and locator.</small></div>
+          <div class="trace-node"><span>Evidence</span><b>Official source</b><small>Source URL, publication date, capture time and hash.</small></div>
+        </div>
+        <p class="trace-note">Illustrative path, not a live candidate record. The public trace must also show superseded values, conflicts, missing evidence and a way to request a correction.</p>
+      </div>
+      <div class="trace-case" id="trace-work" hidden>
+        <div class="trace-path" aria-label="Illustrative public work trace">
+          <div class="trace-node"><span>Public work</span><b>Project or service</b><small>Name, area, scope and responsible department.</small></div>
+          <div class="trace-node"><span>Responsibility</span><b>Office + people</b><small>Who had authority during each period, with evidence.</small></div>
+          <div class="trace-node"><span>Progress</span><b>Milestones</b><small>Planned, sanctioned, started, completed or paused.</small></div>
+          <div class="trace-node"><span>Outcome</span><b>Measured result</b><small>Separate from announcements and completion claims.</small></div>
+          <div class="trace-node"><span>Evidence</span><b>Source records</b><small>Orders, budgets, updates, inspections or public records.</small></div>
+        </div>
+        <p class="trace-note">Illustrative path, not a live project. Show what an authority reports, what has independent evidence, and what remains unknown. A representative's association with an area does not by itself prove responsibility for a project.</p>
+      </div>
+      <div class="transparency-grid">
+        <article class="card"><div class="eyebrow">For each fact</div><h3>Evidence trail</h3><p>Expose a stable fact ID, source and exact locator, captured and reviewed dates, transformation version, identity decision, publication revision and correction history.</p></article>
+        <article class="card"><div class="eyebrow">For each area</div><h3>Coverage and freshness</h3><p>Publish which elections, offices and activity sources are covered, when they were last checked, and which records are missing or disputed.</p></article>
+        <article class="card"><div class="eyebrow">For the platform</div><h3>Open operations</h3><p>Publish source catalog, schema, normalizer code, data releases, change log, review policy, corrections and source failures where safe to disclose.</p></article>
+      </div>
+      <div class="callout"><b>Privacy boundary:</b> public evidence and decisions can be inspectable without exposing private complaint details, precise citizen locations, protected personal data, credentials or abuse controls. When information is withheld, explain the category and reason.</div>
+    </section>
+
     <section class="panel" id="panel-decisions" role="tabpanel" aria-labelledby="tab-decisions" hidden>
       <div class="section-head"><div><div class="eyebrow">Decide before implementation</div><h2>The questions that shape the system.</h2></div><p>Recommended defaults are design proposals. Research and source audits should settle them before we build the national pipeline.</p></div>
       <div class="decision-grid">
@@ -265,12 +317,13 @@
         <div class="decision"><span class="tag">Governance</span><h3>Who may approve a fact?</h3><p>Set reviewer roles, double review for sensitive changes, dispute handling, and an audit trail before accepting broad community contributions.</p></div>
         <div class="decision"><span class="tag">Reuse</span><h3>Can we keep and republish source files?</h3><p>Check each source's terms and reuse rules. Always preserve metadata and a link; retain file copies only where allowed.</p></div>
         <div class="decision"><span class="tag">Ranking</span><h3>How should comparisons work?</h3><p>Keep scores as later, transparent derived views. Define meaning, coverage and bias tests before assigning any “good candidate” number.</p></div>
+        <div class="decision"><span class="tag">Transparency</span><h3>How far should public audit access go?</h3><p>Define public claim traces, review decision fields, source copies, open exports and justified redactions before building review tools.</p></div>
       </div>
       <div class="callout">Recommended first build: one official candidate/result source adapter → immutable snapshot → normalizer → observation review → approved candidacy and result records → existing profile and area pages. This tests the whole architecture without claiming national coverage.</div>
     </section>
   </main>
 
-  <footer class="footer shell"><span>Vote Better · Data architecture proposal · 4 October 2026</span><span>Current production data remains manually reviewed. This document is a design, not a claim of implemented capability.</span></footer>
+  <footer class="footer shell"><span>Vote Better · Data architecture proposal · 5 October 2026</span><span>Current production data remains manually reviewed. This document is a design, not a claim of implemented capability.</span></footer>
   <script>
     const tabs = [...document.querySelectorAll('[role="tab"]')];
     function showTab(tab, moveFocus = false) {
@@ -311,6 +364,12 @@
       document.getElementById('stage-label').textContent = label;
       document.getElementById('stage-title').textContent = title;
       document.getElementById('stage-copy').textContent = copy;
+    }));
+    const traceChoices = [...document.querySelectorAll('[data-trace]')];
+    traceChoices.forEach((button) => button.addEventListener('click', () => {
+      traceChoices.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+      document.getElementById('trace-candidate').hidden = button.dataset.trace !== 'candidate';
+      document.getElementById('trace-work').hidden = button.dataset.trace !== 'work';
     }));
   </script>
 </body>
