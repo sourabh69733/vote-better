@@ -2,6 +2,7 @@ import pg from "pg";
 
 import { migrate } from "./migrate.js";
 import { CivicReview } from "./review.js";
+import { resolvePublicationConflict } from "./publish.js";
 
 const usage = `Usage:
   npm run review -- queue [limit] [source-url]
@@ -9,6 +10,7 @@ const usage = `Usage:
   npm run review -- people
   npm run review -- person <stable-key> <display-name>
   npm run review -- link <observation-id> <person-id> <reviewer-id> <reason>
+  npm run review -- resolve <observation-id> <previous-fact-id> <reviewer-id> <reason>
   npm run review -- approve|reject|needs-changes <observation-id> <reviewer-id> <reason>`;
 
 async function main(args: string[]): Promise<void> {
@@ -49,6 +51,9 @@ async function main(args: string[]): Promise<void> {
     } else if (command === "link" && rest.length === 4) {
       await review.confirmIdentity(rest[0], rest[1], rest[2], rest[3]);
       process.stdout.write("Identity link recorded.\n");
+    } else if (command === "resolve" && rest.length === 4) {
+      await resolvePublicationConflict(pool, rest[0], rest[1], rest[2], rest[3]);
+      process.stdout.write("Conflict resolution recorded. Review the case again before approval.\n");
     } else if (["approve", "reject", "needs-changes"].includes(command) && rest.length === 3) {
       const decision = command === "reject" ? "rejected" : command === "needs-changes" ? "needs-changes" : "approved";
       const result = await review.decide(rest[0], decision, rest[1], rest[2]);
