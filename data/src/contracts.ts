@@ -146,6 +146,7 @@ export function assertSnapshot(value: Snapshot): void {
   requireText(value.sourceId, "sourceId");
   requireText(value.url, "url");
   requireText(value.contentHash, "contentHash");
+  if (!/^sha256:[0-9a-f]{64}$/.test(value.contentHash)) throw new Error("contentHash must be SHA-256");
   requireInstant(value.capturedAt, "capturedAt");
 }
 

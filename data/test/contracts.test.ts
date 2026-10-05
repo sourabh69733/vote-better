@@ -44,7 +44,7 @@ test("source, snapshot, match and review records each require a UTC recordedAt",
   };
   const snapshot = {
     id: "snapshot-1", recordedAt: observed.recordedAt, sourceId: source.id,
-    url: source.url, contentHash: "sha256:example", capturedAt: observed.recordedAt,
+    url: source.url, contentHash: `sha256:${"a".repeat(64)}`, capturedAt: observed.recordedAt,
   };
   const match = {
     id: "match-1", recordedAt: observed.recordedAt, observationId: observed.id,
