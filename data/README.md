@@ -1,6 +1,6 @@
 # Civic data worker
 
-This package stores draft evidence and review history. It does not publish facts to the website. The site continues to use its reviewed records until a later publication step is approved.
+This package stores evidence, review history, and publication revisions. The Jaipur exporter writes reviewed facts to a generated website file; the site reads that file at build time.
 
 ## Local setup
 
@@ -26,6 +26,8 @@ The Rajasthan source currently needs legacy TLS renegotiation. Only this exact U
 
 The default local database URL is `postgres://vote_better:local_dev_only@127.0.0.1:55432/vote_better`. Set `DATABASE_URL` to use a different database. The Compose password is only for local development. Stop the container with `docker compose -f data/compose.yaml down`; omitting `-v` retains the database volume.
 
+Tests use a separate `vote_better_test` database, created automatically on the same local server. `DATABASE_URL` does not redirect tests. Set `TEST_DATABASE_URL` only to a database whose name ends in `_test`. Existing test rows written to the application database before this isolation change remain there; use the exact source URL filter in the review command to see the Jaipur queue.
+
 Migrations are numbered SQL files in `migrations/`. The runner applies each once, records its SHA-256 hash, and rejects edits to a migration that has already run. Add a new migration for schema changes.
 
 `LocalBlobStore` can keep source copies under a private directory such as `data/raw/`. It verifies SHA-256 on read and returns an opaque reference. Do not serve that directory publicly. The Rajasthan PDF's redistribution permission has not been established; the first collector should link to the official source and save a private copy only when the team's reuse policy allows it.
@@ -34,10 +36,12 @@ The database assigns `recorded_at` when a row is inserted. Source dates and real
 
 ## Local review
 
-Run `npm --prefix data run review -- queue` to see unreviewed observations with source URL, locator, hash, captured time and any earlier published value. Pass a limit and exact source URL to filter a source. Coverage is shown as not assessed until the coverage phase. `show <observation-id>` includes decision history. Candidate facts need a confirmed person link before approval. The PDF contains names, not unique person IDs, so the reviewer must check the identity against independent evidence before using `person <stable-key> <display-name>` and `link <observation-id> <person-id> <reviewer-id> <reason>`. Creating a person is only an internal identity record, not a public claim. Use `approve`, `reject`, or `needs-changes` with an observation ID, reviewer ID and reason. A changed published value requires an explicit conflict resolution before approval. The review command never publishes data.
+Run `npm --prefix data run review -- queue` to see unreviewed observations with source URL, locator, hash, captured time and any earlier published value. Pass a limit and exact source URL to filter a source. `show <observation-id>` includes decision history. Candidate facts need a confirmed person link before approval. The PDF contains names, not unique person IDs, so the reviewer must check the identity against independent evidence before using `person <stable-key> <display-name>` and `link <observation-id> <person-id> <reviewer-id> <reason>`. Creating a person is only an internal identity record, not a public claim. Use `approve`, `reject`, or `needs-changes` with an observation ID, reviewer ID and reason. A changed published value requires an explicit conflict resolution before approval. The review command never publishes data.
 
 ## Local publication
 
 `npm --prefix data run export:jaipur` rebuilds `web/records/generated/jaipur.json` from the existing database revision. Passing observation IDs publishes only those already approved and linked to a person, then rebuilds the file. The command rejects unapproved values, repeated publication and unresolved changes to a previously published value. To correct a published value, check the new source, run `npm --prefix data run review -- resolve <observation-id> <previous-fact-id> <reviewer-id> <reason>`, then approve and export the new observation. Every old fact remains accessible by its fact URL and timestamps. The website reads the generated file at build time; it does not query the database for each page view.
 
 The first local revision includes only Manju Sharma's name, party and vote total from Jaipur Form 21E page 1 row 2. An agent visually checked the official PDF against its imported SHA-256 snapshot before recording the decisions. Other Jaipur rows and contest totals remain unreviewed. The current office term and parliamentary activities still come from the separately curated website records.
+
+The exporter also derives candidate-result coverage from the latest snapshot, collection attempts, review decisions and published facts. It reports the number of complete candidate rows published from this return, not the coverage of all election data. A successful check of unchanged bytes updates the last check time without changing the original snapshot capture time.

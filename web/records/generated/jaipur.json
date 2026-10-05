@@ -93,5 +93,20 @@
       }
     ]
   },
-  "coverage": "not-assessed"
+  "coverage": {
+    "areaId": "jaipur-lok-sabha",
+    "factType": "election-result-candidates",
+    "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+    "state": "partial",
+    "reason": "Some candidate result rows from this source are still awaiting review or publication.",
+    "observedCandidateRows": 13,
+    "publishedCandidateRows": 1,
+    "lastAttemptOutcome": "succeeded",
+    "lastAttemptedAt": "2026-10-05T18:25:40.338Z",
+    "lastCapturedAt": "2026-10-05T18:22:30.983Z",
+    "sourceContentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+    "lastReviewedAt": "2026-10-05T18:53:33.472Z",
+    "lastPublishedAt": "2026-10-05T18:53:43.293Z",
+    "computedAt": "2026-10-05T20:10:33.536Z"
+  }
 }

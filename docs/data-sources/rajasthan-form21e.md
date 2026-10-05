@@ -26,3 +26,10 @@ The return can support **2024 Jaipur contest results and the declaration** after
 ## First adapter scope
 
 The first adapter may emit observations for the named contest, each page 1 candidate row, the five totals, the elected-person declaration and the document date. Each observation needs a snapshot ID, page/row locator, original text, normalized value and normalizer version. The date is stored as `2024-06-04` with `day` precision and original text `04/06/2024`, never as an invented midnight instant. A separate candidate-list source is needed before claiming full nomination coverage.
+
+## Recheck and review procedure
+
+- Recheck the official URL before a new publication and when a source change is reported. Compare its SHA-256 with the latest saved snapshot. A failed check is recorded and does not erase the last published facts.
+- If the hash changes, inspect the new PDF and create a new page-linked transcription. Review each changed candidate row against the image before approving it. Conflicting values need an explicit resolution linked to the previous published fact.
+- The local coverage report counts complete candidate result rows in the latest saved return. It is partial while only some rows are published. A failed latest check with prior published rows is marked stale; an unresolved changed result is marked disputed. These states describe this source's review and collection process, not whether the election itself is valid.
+- The first revision published one of 13 result rows: Manju Sharma's name, party and votes. The other rows and totals still need review. The Hindi page has not been independently checked row by row.
