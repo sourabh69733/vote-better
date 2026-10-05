@@ -2,20 +2,16 @@ import assert from "node:assert/strict";
 import { createHash, randomUUID } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import test, { after, before } from "node:test";
-import pg from "pg";
-
-import { migrate } from "../src/migrate.js";
+import { createTestPool, prepareTestDatabase } from "./db.js";
 import { importJaipurForm21E } from "../src/import-jaipur.js";
 import { CivicStore } from "../src/store.js";
 
 const file = new URL("../extractions/jaipur-form21e-2024.json", import.meta.url);
 
-const pool = new pg.Pool({
-  connectionString: process.env.DATABASE_URL ?? "postgres://vote_better:local_dev_only@127.0.0.1:55432/vote_better",
-});
+const pool = createTestPool();
 const store = new CivicStore(pool);
 
-before(async () => { await migrate(pool); });
+before(async () => { await prepareTestDatabase(pool); });
 after(async () => { await pool.end(); });
 
 async function transcription() {

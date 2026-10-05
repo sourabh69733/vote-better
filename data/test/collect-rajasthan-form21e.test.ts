@@ -1,18 +1,14 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import test, { after, before } from "node:test";
-import pg from "pg";
-
-import { migrate } from "../src/migrate.js";
+import { createTestPool, prepareTestDatabase } from "./db.js";
 import { collectJaipurForm21E } from "../src/sources/rajasthan-form21e.js";
 import { CivicStore } from "../src/store.js";
 
-const pool = new pg.Pool({
-  connectionString: process.env.DATABASE_URL ?? "postgres://vote_better:local_dev_only@127.0.0.1:55432/vote_better",
-});
+const pool = createTestPool();
 const store = new CivicStore(pool);
 
-before(async () => { await migrate(pool); });
+before(async () => { await prepareTestDatabase(pool); });
 after(async () => { await pool.end(); });
 
 test("collector stores one snapshot for repeated PDF content and logs each check", async () => {
