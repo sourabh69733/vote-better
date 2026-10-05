@@ -1,0 +1,97 @@
+{
+  "revisionId": "95032aa0-0386-473d-a3be-905181930690",
+  "previousRevisionId": null,
+  "publishedAt": "2026-10-05T18:53:43.293Z",
+  "facts": [
+    {
+      "id": "7917666c-464a-4a05-b6b1-255a086be190",
+      "subjectId": "manju-sharma",
+      "predicate": "candidate.votesPolled",
+      "value": 886850,
+      "revisionId": "95032aa0-0386-473d-a3be-905181930690",
+      "publishedAt": "2026-10-05T18:53:43.293Z",
+      "reviewedAt": "2026-10-05T18:53:33.472Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 2, votes",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.003Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "ae88b51d-d514-4ad4-8952-cada8b7de45b",
+      "subjectId": "manju-sharma",
+      "predicate": "candidate.party",
+      "value": "Bharatiya Janata Party",
+      "revisionId": "95032aa0-0386-473d-a3be-905181930690",
+      "publishedAt": "2026-10-05T18:53:43.293Z",
+      "reviewedAt": "2026-10-05T18:53:30.158Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 2, party",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.001Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "9bd1e863-db83-4b5d-88e0-461d4d4e479f",
+      "subjectId": "manju-sharma",
+      "predicate": "candidate.name",
+      "value": "MANJU SHARMA",
+      "revisionId": "95032aa0-0386-473d-a3be-905181930690",
+      "publishedAt": "2026-10-05T18:53:43.293Z",
+      "reviewedAt": "2026-10-05T18:53:26.844Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 2, name",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.000Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    }
+  ],
+  "dataset": {
+    "candidacies": [
+      {
+        "personId": "manju-sharma",
+        "name": "MANJU SHARMA",
+        "party": "Bharatiya Janata Party",
+        "votes": 886850,
+        "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "resultDate": "2024-06-04",
+        "factIds": [
+          "9bd1e863-db83-4b5d-88e0-461d4d4e479f",
+          "ae88b51d-d514-4ad4-8952-cada8b7de45b",
+          "7917666c-464a-4a05-b6b1-255a086be190"
+        ]
+      }
+    ]
+  },
+  "coverage": "not-assessed"
+}
