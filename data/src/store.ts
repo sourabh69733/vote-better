@@ -216,6 +216,17 @@ export class CivicStore {
         WHERE ro.observation_id = o.id
         ORDER BY r.sequence DESC LIMIT 1
       ) latest ON latest.decision = 'approved'
+      LEFT JOIN LATERAL (
+        SELECT entity_id, status FROM entity_match
+        WHERE observation_id = o.id ORDER BY sequence DESC LIMIT 1
+      ) em ON true
+      LEFT JOIN LATERAL (
+        SELECT value FROM approved_fact
+        WHERE entity_id = em.entity_id AND predicate = o.predicate
+        ORDER BY published_at DESC, recorded_at DESC, id DESC LIMIT 1
+      ) prior ON true
+      WHERE em.status = 'confirmed' AND em.entity_id IS NOT NULL
+        AND (prior.value IS NULL OR prior.value = o.normalized_value)
       ORDER BY o.recorded_at, o.id
     `);
     return result.rows.map(observationFromRow);

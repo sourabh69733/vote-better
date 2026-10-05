@@ -97,6 +97,9 @@ test("repeat imports accept equivalent JSON objects with different key order", a
 test("review decisions are immutable and only the latest approved observation is a candidate", async () => {
   const { snapshot } = await sourceAndSnapshot();
   const [observation] = await store.saveObservations(snapshot.id, [draft("page 1 row 2", 886850)]);
+  const person = await pool.query("INSERT INTO person (stable_key, display_name) VALUES ($1, $2) RETURNING id", [`test-${randomUUID()}`, "Test person"]);
+  await pool.query("INSERT INTO entity_match (observation_id, entity_id, status, reason, reviewer_id) VALUES ($1, $2, 'confirmed', $3, $4)",
+    [observation.id, person.rows[0].id, "Test identity", "reviewer-1"]);
   const approved = await store.recordDecision([observation.id], "approved", "reviewer-1", "Checked page 1");
   assert.match(approved.reviewedAt, /Z$/);
   assert.match(approved.recordedAt, /Z$/);
