@@ -1,17 +1,13 @@
 import assert from "node:assert/strict";
 import test, { before, after } from "node:test";
 import { createHash, randomUUID } from "node:crypto";
-import pg from "pg";
-
-import { migrate } from "../src/migrate.js";
+import { createTestPool, prepareTestDatabase } from "./db.js";
 import { CivicStore, type ObservationDraft } from "../src/store.js";
 
-const pool = new pg.Pool({
-  connectionString: process.env.DATABASE_URL ?? "postgres://vote_better:local_dev_only@127.0.0.1:55432/vote_better",
-});
+const pool = createTestPool();
 const store = new CivicStore(pool);
 
-before(async () => { await migrate(pool); });
+before(async () => { await prepareTestDatabase(pool); });
 after(async () => { await pool.end(); });
 
 function draft(locator: string, value: number): ObservationDraft {
