@@ -74,3 +74,15 @@ test("a generated vote total must equal its cited fact", () => {
   assert.ok(validatePublication(publication).some((error) => error.includes("value")));
   assert.deepEqual(mergeJaipurCandidacies(jaipurCandidacies, jaipurSources, publication), jaipurCandidacies);
 });
+
+test("coverage cannot claim more published rows than captured rows", () => {
+  const publication: WebPublication = {
+    ...empty,
+    coverage: {
+      areaId: "jaipur-lok-sabha", factType: "election-result-candidates",
+      sourceUrl: "https://example.org/return.pdf", state: "covered", reason: "invalid",
+      observedCandidateRows: 1, publishedCandidateRows: 2, computedAt: "2026-10-06T10:00:00.000Z",
+    },
+  };
+  assert.ok(validatePublication(publication).some((error) => error.includes("Coverage")));
+});

@@ -45,10 +45,32 @@ export interface WebPublication {
     sourceUrl: string;
     factIds: string[];
   }[] };
-  coverage: "not-assessed";
+  coverage: "not-assessed" | SourceCoverage;
+}
+
+export interface SourceCoverage {
+  areaId: string;
+  factType: string;
+  sourceUrl: string;
+  state: "covered" | "partial" | "missing" | "stale" | "disputed" | "not-covered";
+  reason: string;
+  observedCandidateRows: number | null;
+  publishedCandidateRows: number;
+  lastAttemptOutcome?: "succeeded" | "unavailable" | "invalid" | "error";
+  lastAttemptedAt?: string;
+  lastCapturedAt?: string;
+  lastReviewedAt?: string;
+  lastPublishedAt?: string;
+  sourceContentHash?: string;
+  computedAt: string;
 }
 
 export const jaipurPublication = generatedJaipur as WebPublication;
+
+export function getAreaCoverage(areaId: string): SourceCoverage | null {
+  const coverage = jaipurPublication.coverage;
+  return coverage !== "not-assessed" && coverage.areaId === areaId ? coverage : null;
+}
 
 export function getFactTrace(publication: WebPublication, factId: string): WebFact | undefined {
   return publication.facts.find((fact) => fact.id === factId);
@@ -56,6 +78,17 @@ export function getFactTrace(publication: WebPublication, factId: string): WebFa
 
 export function validatePublication(publication: WebPublication): string[] {
   const errors: string[] = [];
+  const coverage = publication.coverage;
+  if (coverage !== "not-assessed") {
+    if (!coverage.areaId || !coverage.factType || !coverage.sourceUrl.startsWith("https://") ||
+      !Number.isInteger(coverage.publishedCandidateRows) || coverage.publishedCandidateRows < 0 ||
+      (coverage.observedCandidateRows !== null && (!Number.isInteger(coverage.observedCandidateRows) ||
+        coverage.observedCandidateRows < coverage.publishedCandidateRows)) ||
+      (coverage.observedCandidateRows === null && coverage.publishedCandidateRows !== 0) ||
+      !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(coverage.computedAt)) {
+      errors.push("Coverage has invalid source, counts, or timestamp");
+    }
+  }
   if (publication.facts.length && (!publication.revisionId || !publication.publishedAt)) {
     errors.push("Published facts need a revision and publication time");
   }
