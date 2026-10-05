@@ -18,6 +18,14 @@ Show citizens concise information about the people representing an area, with a 
 
 The term is the single source for both the area page and the person's current role. Ended terms remain records but do not appear as current holders. Source IDs are unique across the dataset.
 
+## Time for every data point
+
+Every stored observation, identity decision, review event, approved fact, relationship and publication revision needs a system-generated `recordedAt` instant in UTC. The pipeline also records `capturedAt`, `normalizedAt`, `reviewedAt` and `publishedAt` at the stage where each event occurs. A failed source check has an attempted-at timestamp too.
+
+The time a real-world fact applied is separate from the time we learned it. Store `validFrom` and `validTo` for roles and other time-bound relationships; retain the source's stated event date or time for an election result, activity or work milestone. If a source gives only a year, month or day, preserve that precision and original wording. Do not turn an unknown time into midnight or invent a timezone. `sourcePublishedAt` may be absent when the source does not provide it.
+
+Corrections create new versions. Preserve the prior value and its timestamps so the system can answer both “what applied on this date?” and “what did Vote Better know on this date?” The current pilot has date-only `checkedOn` and `reviewedOn` values, so historical clock times cannot be reconstructed from it.
+
 ## Publication flow
 
 1. Find an original public record and check what it actually proves.

@@ -20,7 +20,9 @@ The existing `web/records/*.ts` data remains the public source until the generat
 
 - Every public claim and relationship has a source URL, checked date, source locator when available, review decision and publication revision.
 - Keep raw source observations, identity matches and approved facts separate. A new fetch cannot silently replace a published value.
-- Preserve effective time, source publication time when known, capture time and review time separately.
+- Give every persisted data point and change a system-generated `recordedAt` UTC instant. Keep source publication time when known, capture, normalization, review and publication instants separately from the real-world time a fact applied.
+- Preserve the precision and original wording of source dates. A day-only result is a day, not an invented midnight timestamp. Unknown event time stays unknown.
+- Never overwrite a timestamped revision. Keep prior values and recorded times so both effective-time and known-at-time history can be queried.
 - Unknown, missing, disputed and not-covered are distinct states. Do not infer a person or area from a matching name or PIN code alone.
 - Public trace and change history must omit private citizen details, precise location, credentials and abuse controls.
 - Start with one worker process and one relational database. Add queues, search indexes and geographic services only when a measured need or the next source requires them.
@@ -34,15 +36,16 @@ The existing `web/records/*.ts` data remains the public source until the generat
 3. Two people share a name: identity resolution remains ambiguous and cannot auto-publish. Task 4 test.
 4. A source is unavailable or cannot be parsed: log the attempt, preserve current published data and show stale coverage. Task 3 and Task 6 tests.
 5. A published fact is corrected: old value, evidence, reason and review decision remain in public history without leaking reviewer private data. Task 5 and Task 6 tests.
+6. A source says only “June 2024”: preserve month precision; do not store a fabricated instant or timezone. Task 1 and Task 3 tests.
 
 ## Task 1: Audit one source and lock the contract
 
 **Files:** `docs/data-sources/rajasthan-form21e.md`, `data/src/contracts.ts`, `data/test/contracts.test.ts`, `data/package.json`, `data/tsconfig.json`.
 
-**Interfaces:** Define `Source`, `Snapshot`, `Observation`, `EntityMatch`, `ReviewDecision`, `PublishedFact` and `CoverageStatus`. Give each an opaque ID. `Observation` contains `snapshotId`, `locator`, `predicate`, `rawValue`, `normalizedValue`, `effectiveOn?`, `extractedAt` and `normalizerVersion`. `PublishedFact` refers to approved observation IDs and a publication revision.
+**Interfaces:** Define `Source`, `Snapshot`, `Observation`, `EntityMatch`, `ReviewDecision`, `PublishedFact` and `CoverageStatus`. Give each an opaque ID and a system-generated `recordedAt` UTC instant. Define `SourceTime` as `{ value, precision: "instant" | "day" | "month" | "year", originalText, sourceTimezone? }`. `Observation` contains `snapshotId`, `locator`, `predicate`, `rawValue`, `normalizedValue`, `validFrom?`, `validTo?`, `sourcePublishedAt?`, `normalizedAt`, and `normalizerVersion`. `Snapshot` has `capturedAt`; `ReviewDecision` has `reviewedAt`; `PublishedFact` refers to approved observation IDs and a publication revision with `publishedAt`.
 
 - [ ] Inspect the Jaipur official return and document URL, issuing authority, exact fields it proves, file format, update behavior and reuse constraints. Record what remains unknown. Do not equate the return with a complete candidate list.
-- [ ] Write failing tests for required provenance fields, valid date order, explicit coverage state and rejection of a publication with no approved observation.
+- [ ] Write failing tests for required provenance and `recordedAt`, UTC instant validation, source date precision, valid interval order, explicit coverage state and rejection of a publication with no approved observation.
 - [ ] Implement the smallest runtime validators and types in `contracts.ts`; run `npm --prefix data test` and `npm --prefix data run typecheck`.
 - [ ] Commit the source audit and contract together: `docs/data: define first source contract`.
 
@@ -52,10 +55,10 @@ The existing `web/records/*.ts` data remains the public source until the generat
 
 **Files:** `data/migrations/001_core.sql`, `data/src/store.ts`, `data/src/blob-store.ts`, `data/test/store.test.ts`, `data/compose.yaml`, `data/README.md`.
 
-**Interfaces:** `saveSnapshot(sourceId, url, contentHash, capturedAt, blobRef?) -> snapshotId`; `saveObservations(snapshotId, observations) -> ids`; `recordDecision(observationIds, decision, reviewerId, reason) -> decisionId`; `listPublicationCandidates() -> approved observations`. Use a unique source-and-hash key for idempotence. Store immutable review events and publication revisions.
+**Interfaces:** `saveSnapshot(sourceId, url, contentHash, capturedAt, blobRef?) -> snapshotId`; `saveObservations(snapshotId, observations) -> ids`; `recordDecision(observationIds, decision, reviewerId, reason) -> decisionId`; `listPublicationCandidates() -> approved observations`. The store assigns `recordedAt` using the database clock; callers supply source-derived times separately. Use a unique source-and-hash key for idempotence. Store immutable review events and publication revisions.
 
-- [ ] Write integration tests for duplicate snapshots, missing source references, immutable decisions and a failed write that leaves no partial observation set.
-- [ ] Add tables for source, snapshot, observation, person, area, election, contest, review event, approved fact and publication revision. Add a storage adapter. Use a local file blob store in development and a replaceable object-store interface for deployment. Do not assume copies of source files may be publicly redistributed.
+- [ ] Write integration tests for duplicate snapshots, missing source references, server-assigned UTC `recordedAt`, immutable decisions and a failed write that leaves no partial observation set.
+- [ ] Add tables for source, snapshot, observation, person, area, election, contest, review event, approved fact and publication revision. Use `timestamptz` for exact instants and explicit precision fields for source dates. Add a storage adapter. Use a local file blob store in development and a replaceable object-store interface for deployment. Do not assume copies of source files may be publicly redistributed.
 - [ ] Start the local database with `docker compose -f data/compose.yaml up -d`, run `npm --prefix data run db:migrate`, then `npm --prefix data test`; verify migration replay and recovery from a failed transaction.
 - [ ] Commit: `data: persist evidence and review history`.
 
@@ -65,9 +68,9 @@ The existing `web/records/*.ts` data remains the public source until the generat
 
 **Files:** `data/src/sources/rajasthan-form21e.ts`, `data/src/normalize/rajasthan-form21e.ts`, `data/test/rajasthan-form21e.test.ts`, `data/test/fixtures/`.
 
-**Interfaces:** `collect(source: Source) -> Snapshot`; `normalize(snapshot: Snapshot) -> Observation[]`. The connector records fetch outcome, URL, capture time and content hash. The normalizer emits only fields confirmed in Task 1, each with a document locator and normalizer version.
+**Interfaces:** `collect(source: Source) -> Snapshot`; `normalize(snapshot: Snapshot) -> Observation[]`. The connector records every attempt time and outcome, plus URL, capture time and content hash on success. The normalizer emits only fields confirmed in Task 1, each with source time precision, document locator, normalization time and normalizer version.
 
-- [ ] Freeze a minimal permitted test fixture or an extracted text fixture with its source locator. Write a failing test for the Jaipur facts already manually curated in `web/records/jaipur.ts`, plus malformed and changed documents.
+- [ ] Freeze a minimal permitted test fixture or an extracted text fixture with its source locator. Write a failing test for the Jaipur facts already manually curated in `web/records/jaipur.ts`, plus malformed and changed documents and date-only precision.
 - [ ] Implement fetch with bounded retry and polite rate limits. Return a recorded failure on unavailable sources; do not publish or overwrite data.
 - [ ] Implement and test the source-specific normalizer. If reliable automated extraction is not possible, use a reviewed extraction input tied to the snapshot and locator; keep the same observation contract and record the manual step.
 - [ ] Verify a second fetch of identical content produces no new observations with `npm --prefix data test`. Commit: `data: collect and normalize Jaipur return`.
@@ -78,7 +81,7 @@ The existing `web/records/*.ts` data remains the public source until the generat
 
 **Files:** `data/src/match.ts`, `data/src/review.ts`, `data/src/cli.ts`, `data/test/review.test.ts`.
 
-**Interfaces:** `proposeMatches(observation, knownEntities) -> EntityMatch[]`; `queueForReview(observationIds) -> ReviewCase`; `approve(caseId, reviewerId, reason) -> ReviewDecision`. A trusted local CLI is enough for the first reviewer; no public review action until authentication and roles are designed.
+**Interfaces:** `proposeMatches(observation, knownEntities) -> EntityMatch[]`; `queueForReview(observationIds) -> ReviewCase`; `approve(caseId, reviewerId, reason) -> ReviewDecision`. Decisions receive a server-assigned `reviewedAt` and retain the previous decision when corrected. A trusted local CLI is enough for the first reviewer; no public review action until authentication and roles are designed.
 
 - [ ] Write failing tests for the two-name collision, a conflicting result, an exact existing entity link and a rejected draft.
 - [ ] Implement conservative matching using official IDs and election/contest context. Name-only matches stay ambiguous. Show before/after values, evidence and coverage in the review command.
@@ -90,9 +93,9 @@ The existing `web/records/*.ts` data remains the public source until the generat
 
 **Files:** `data/src/publish.ts`, `data/test/publish.test.ts`, `web/records/generated/jaipur.json`, `web/records/registry.ts`, `web/app/facts/[factId]/page.tsx`, focused web tests.
 
-**Interfaces:** `buildPublication(approvedFacts) -> { revision, dataset, traces, coverage }`. Write the approved output to `web/records/generated/jaipur.json`, including its revision; the web build reads this file. Each public fact has a stable ID and a trace to source, locator, normalizer version, review date and revision; expose only public-safe decision fields.
+**Interfaces:** `buildPublication(approvedFacts) -> { revision, publishedAt, dataset, traces, coverage }`. Write the approved output to `web/records/generated/jaipur.json`, including its revision and UTC `publishedAt`; the web build reads this file. Each public fact has a stable ID and a trace to source, locator, normalizer version, source-time precision, capture time, review time, publication time and prior revision; expose only public-safe decision fields.
 
-- [ ] Write failing tests that an unapproved observation cannot export, a correction preserves history, and generated Jaipur data matches the current sourced profile and area pages.
+- [ ] Write failing tests that an unapproved observation cannot export, a correction preserves both old and new timestamps, and generated Jaipur data matches the current sourced profile and area pages.
 - [ ] Build the exporter and public trace page. Make `registry.ts` consume generated Jaipur data while retaining the manually reviewed Jaipur Rural record. Validate the merged dataset before build.
 - [ ] Run `npm --prefix data test`, then `npm test`, `npm run lint` and `npm run build -- --webpack` in `web/`; inspect profile, area, graph and trace pages. Commit the exporter and site adapter as separate focused commits if their review boundaries differ.
 
@@ -102,7 +105,7 @@ The existing `web/records/*.ts` data remains the public source until the generat
 
 **Files:** `data/src/coverage.ts`, `data/test/coverage.test.ts`, `web/app/areas/[areaId]/page.tsx`, focused web tests, `docs/data-sources/rajasthan-form21e.md`.
 
-**Interfaces:** `getCoverage(areaId, factType) -> { state, lastCheckedOn?, lastPublishedOn?, reason? }`, where state is `covered | partial | missing | stale | disputed`.
+**Interfaces:** `getCoverage(areaId, factType) -> { state, lastAttemptedAt?, lastCapturedAt?, lastReviewedAt?, lastPublishedAt?, reason? }`, where state is `covered | partial | missing | stale | disputed` and all available instants are UTC.
 
 - [ ] Write failing tests for source failure, partial candidate coverage, conflicting facts and a successful refresh with unchanged content.
 - [ ] Export coverage with the public data and display it on the area page. A missing source is never shown as zero activity or zero candidates.

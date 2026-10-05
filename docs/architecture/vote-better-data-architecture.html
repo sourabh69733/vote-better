@@ -153,7 +153,7 @@
 
     <div class="principles" aria-label="Architecture principles">
       <div class="principle"><b>Source before claim</b><span>Keep the original record, extraction, and public wording linked.</span></div>
-      <div class="principle"><b>Time is part of truth</b><span>Record when something applied and when we learned or reviewed it.</span></div>
+      <div class="principle"><b>Time is part of truth</b><span>Timestamp every stored point and preserve the source's time precision.</span></div>
       <div class="principle"><b>Read simply, audit deeply</b><span>Show citizens the answer first, then make every link and decision traceable.</span></div>
     </div>
 
@@ -235,10 +235,11 @@
   "subject_hint": { "name": "Example Candidate", "contest_id": "example-contest" },
   "predicate": "contest_result",
   "value": "elected",
-  "effective_on": "YYYY-MM-DD",
+  "valid_from": { "value": "2024-06", "precision": "month", "original_text": "June 2024" },
   "source_snapshot_id": "snapshot-id",
   "locator": "Form 21E, page 1, candidate row",
-  "extracted_at": "timestamp",
+  "normalized_at": "YYYY-MM-DDThh:mm:ssZ",
+  "recorded_at": "YYYY-MM-DDThh:mm:ssZ",
   "state": "pending_review"
 }</pre></div>
       <div class="callout"><b>Identity matching:</b> prefer official identifiers and election context. Names are only hints. Ambiguous matches go to review, not automatic merge. Keep source-specific IDs as aliases of an internal ID.</div>
@@ -254,8 +255,17 @@
       </div>
       <div class="two-col" style="margin-bottom:28px">
         <article class="card"><h3>Location without a fragile PIN rule</h3><p>With permission, use the browser position for a boundary lookup and return all relevant offices. Do not store precise coordinates by default. If a boundary is missing or a point is ambiguous, ask the citizen to choose an area. A PIN code can help search, but it is not proof of constituency membership.</p><p>Spatial point-to-polygon queries are a standard capability of <a href="https://postgis.net/docs/using_postgis_query.html" target="_blank" rel="noopener noreferrer">PostGIS</a>. We still need authoritative boundary data and a review process for each boundary version.</p></article>
-        <article class="card"><h3>Different clocks for different facts</h3><p>Keep <b>effective time</b> (when a fact applied), <b>source time</b> (when an authority published it), <b>observed time</b> (when we fetched it), and <b>review time</b> (when we approved it). Public pages should show the relevant review date and avoid saying “live” unless the source supports that claim.</p><div class="note">Election-night trends, final results, nominations, office holders, parliamentary activity and citizen issues have different update speeds and certainty levels.</div></article>
+        <article class="card"><h3>Different clocks for different facts</h3><p>Keep <b>effective time</b> (when a fact applied), <b>source time</b> (when an authority published it), <b>capture time</b> (when we fetched it), <b>review time</b> (when we approved it) and <b>publication time</b> (when citizens could see it). Public pages should avoid saying “live” unless the source supports that claim.</p><div class="note">Every stored data point and change also gets a system-generated UTC <code>recordedAt</code>. A source date with only day or month precision stays that precise; we never invent midnight.</div></article>
       </div>
+      <div class="section-head"><div><div class="eyebrow">Temporal contract</div><h2>Different times, different meanings.</h2></div><p>Exact system instants use UTC. Source-provided times retain their original text, timezone when known, and precision.</p></div>
+      <div class="table-wrap" style="margin-bottom:35px"><table><thead><tr><th>Time field</th><th>What it answers</th><th>Rule</th></tr></thead><tbody>
+        <tr><td>Valid from / to</td><td>When did the real-world role, result or work status apply?</td><td>Source-derived; retain date precision. Unknown is allowed.</td></tr>
+        <tr><td>Source published at</td><td>When did the authority release its record?</td><td>Optional if the source does not state it; never inferred from fetch time.</td></tr>
+        <tr><td>Attempted / captured / normalized at</td><td>When did our pipeline try, retrieve and interpret it?</td><td>Separate UTC instants. A failed check has attemptedAt, but no capturedAt.</td></tr>
+        <tr><td>Reviewed / published at</td><td>When was it approved, and when did citizens first see it?</td><td>Separate immutable events with UTC instants.</td></tr>
+        <tr><td>Recorded at</td><td>When did this stored point or revision enter our system?</td><td>Required for every persisted point and change; assigned by the store.</td></tr>
+      </tbody></table></div>
+      <div class="note" style="margin-bottom:36px">Current pilot records contain manually entered dates such as <code>checkedOn</code> and <code>reviewedOn</code>. Their historical clock times are unknown and cannot be backfilled honestly.</div>
       <div class="section-head"><div><div class="eyebrow">Freshness policy</div><h2>Update by source and fact type.</h2></div><p>These are proposed behaviors, not claims that every government source offers an API or a reliable update signal.</p></div>
       <div class="table-wrap"><table><thead><tr><th>Data</th><th>Collection</th><th>Publication rule</th><th>Public label</th></tr></thead><tbody>
         <tr><td>Candidate lists & affidavits</td><td>Watch during election cycle; capture revisions</td><td>Review identity and document meaning</td><td>Source and checked date</td></tr>
@@ -299,7 +309,7 @@
         <p class="trace-note">Illustrative path, not a live project. Show what an authority reports, what has independent evidence, and what remains unknown. A representative's association with an area does not by itself prove responsibility for a project.</p>
       </div>
       <div class="transparency-grid">
-        <article class="card"><div class="eyebrow">For each fact</div><h3>Evidence trail</h3><p>Expose a stable fact ID, source and exact locator, captured and reviewed dates, transformation version, identity decision, publication revision and correction history.</p></article>
+        <article class="card"><div class="eyebrow">For each fact</div><h3>Evidence trail</h3><p>Expose a stable fact ID, source and exact locator, event-time precision, captured, reviewed and published instants, transformation version, identity decision and correction history.</p></article>
         <article class="card"><div class="eyebrow">For each area</div><h3>Coverage and freshness</h3><p>Publish which elections, offices and activity sources are covered, when they were last checked, and which records are missing or disputed.</p></article>
         <article class="card"><div class="eyebrow">For the platform</div><h3>Open operations</h3><p>Publish source catalog, schema, normalizer code, data releases, change log, review policy, corrections and source failures where safe to disclose.</p></article>
       </div>
