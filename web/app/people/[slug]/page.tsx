@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAreaForPerson } from "@/lib/civic-area";
 import { getPersonProfile, getProfileSource, listPersonSlugs, type SourceRecord } from "@/lib/verified-profile";
+import { getJaipurVoteTraceId } from "@/lib/publication";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -34,6 +35,7 @@ export default async function PersonPage({ params }: PageProps) {
   const area = getAreaForPerson(slug);
   const office = profile.officeTerms.find((term) => !term.endedOn);
   const election = profile.candidacies[0];
+  const voteTraceId = getJaipurVoteTraceId(profile.slug);
   const officeSources = office
     ? [office.statusSourceId, office.biographySourceId].map((id) => getProfileSource(profile, id))
     : [];
@@ -100,6 +102,7 @@ export default async function PersonPage({ params }: PageProps) {
                 {election.votes !== undefined && ` The return records ${election.votes.toLocaleString("en-IN")} votes.`}
               </p>
               <div className="mt-3"><EvidenceLink source={getProfileSource(profile, election.sourceId)} /></div>
+              {voteTraceId && <Link href={`/facts/${voteTraceId}`} className="mt-3 inline-block text-sm font-semibold text-emerald-800 underline underline-offset-4">See how the vote total was checked</Link>}
             </div>
           </section>}
         </div>

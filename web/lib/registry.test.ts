@@ -9,6 +9,16 @@ test("published records have one sourced term per current area holder", async ()
   assert.ok(dataset.terms.every((term) => term.areaSourceIds.length && term.holderSourceIds.length));
 });
 
+test("generated Jaipur result matches the visible profile and has three source trails", async () => {
+  const { dataset } = await import("@/records/registry");
+  const { jaipurPublication, getJaipurVoteTraceId } = await import("./publication");
+  const candidacy = dataset.candidacies.find((item) => item.id === "manju-jaipur-2024");
+  assert.equal(jaipurPublication.dataset.candidacies.length, 1);
+  assert.equal(jaipurPublication.facts.length, 3);
+  assert.equal(candidacy?.votes, jaipurPublication.dataset.candidacies[0].votes);
+  assert.ok(getJaipurVoteTraceId("manju-sharma"));
+});
+
 test("a broken source reference blocks publication", async () => {
   const { dataset, validateCivicDataset } = await import("@/records/registry");
   const broken = {
