@@ -47,4 +47,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 public/data
-data
+/data/*
+!/data/package.json
+!/data/tsconfig.json
+!/data/src/
+!/data/test/
