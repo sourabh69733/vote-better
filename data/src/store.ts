@@ -5,6 +5,7 @@ import {
   assertObservation,
   assertSnapshot,
   assertSource,
+  isUtcInstant,
   type Observation,
   type ReviewDecision,
   type Snapshot,
@@ -13,6 +14,19 @@ import {
 } from "./contracts.js";
 
 export type ObservationDraft = Omit<Observation, "id" | "recordedAt" | "snapshotId">;
+
+export type CollectionOutcome = "succeeded" | "unavailable" | "invalid" | "error";
+
+export interface CollectionAttempt {
+  id: string;
+  sourceId: string;
+  snapshotId?: string;
+  attemptedAt: string;
+  outcome: CollectionOutcome;
+  httpStatus?: number;
+  detail?: string;
+  recordedAt: string;
+}
 
 function instant(value: Date): string {
   return value.toISOString();
@@ -95,6 +109,25 @@ export class CivicStore {
       "SELECT * FROM snapshot WHERE source_id = $1 AND content_hash = $2", [sourceId, contentHash],
     )).rows[0];
     return snapshotFromRow(row);
+  }
+
+  async recordCollectionAttempt(input: Omit<CollectionAttempt, "id" | "recordedAt">): Promise<CollectionAttempt> {
+    if (!input.sourceId || !isUtcInstant(input.attemptedAt)) throw new Error("collection attempt needs source and UTC attemptedAt");
+    if (!["succeeded", "unavailable", "invalid", "error"].includes(input.outcome)) throw new Error("invalid collection outcome");
+    if (input.outcome === "succeeded" && !input.snapshotId) throw new Error("successful collection needs a snapshot");
+    const result = await this.pool.query(
+      `INSERT INTO collection_attempt (source_id, snapshot_id, attempted_at, outcome, http_status, detail)
+       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+      [input.sourceId, input.snapshotId ?? null, input.attemptedAt, input.outcome,
+        input.httpStatus ?? null, input.detail ?? null],
+    );
+    const row = result.rows[0];
+    return {
+      id: row.id, sourceId: row.source_id, snapshotId: row.snapshot_id ?? undefined,
+      attemptedAt: instant(row.attempted_at), outcome: row.outcome,
+      httpStatus: row.http_status ?? undefined, detail: row.detail ?? undefined,
+      recordedAt: instant(row.recorded_at),
+    };
   }
 
   async saveObservations(snapshotId: string, drafts: readonly ObservationDraft[]): Promise<Observation[]> {

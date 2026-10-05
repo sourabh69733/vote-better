@@ -52,6 +52,19 @@ test("a duplicate source and identical content keep one snapshot with database t
   await assert.rejects(() => store.saveSnapshot(source.id, url, "not-a-hash", capturedAt));
 });
 
+test("collection attempts require an exact UTC attempt time", async () => {
+  const source = await store.saveSource({
+    authority: "Rajasthan CEO", url: `https://example.org/${randomUUID()}.pdf`, documentType: "Form 21E",
+  });
+  await assert.rejects(() => store.recordCollectionAttempt({
+    sourceId: source.id, attemptedAt: "2026-10-05", outcome: "unavailable",
+  }));
+  const attempt = await store.recordCollectionAttempt({
+    sourceId: source.id, attemptedAt: new Date().toISOString(), outcome: "unavailable",
+  });
+  assert.match(attempt.recordedAt, /Z$/);
+});
+
 test("observation batches are atomic and repeated rows do not create drafts", async () => {
   const { snapshot } = await sourceAndSnapshot();
   const first = await store.saveObservations(snapshot.id, [draft("page 1 row 1", 100)]);
