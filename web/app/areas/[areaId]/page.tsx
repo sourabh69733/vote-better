@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAreaOverview, listAreaOverviews } from "@/lib/civic-area";
+import { ResultCoverage } from "@/components/ResultCoverage";
 
 interface PageProps {
   params: Promise<{ areaId: string }>;
@@ -36,9 +37,12 @@ export default async function AreaPage({ params }: PageProps) {
           <h1 className="mt-3 text-[clamp(3.2rem,5.5vw,5.6rem)] font-semibold leading-none tracking-[-0.075em] text-[#19372d]">{overview.area.name}</h1>
           <p className="mt-4 text-base text-[#617466]">{overview.area.label}</p>
         </div>
-        <div className="rounded-2xl border border-[#cddfcf] bg-[#eaf3e9] px-5 py-4">
-          <strong className="text-3xl font-semibold tracking-[-0.05em] text-[#1d5f43]">{overview.links.length}</strong>
-          <p className="mt-1 text-sm leading-5 text-[#4f6e58]">verified {overview.links.length === 1 ? "office holder" : "office holders"} in this area</p>
+        <div className="grid gap-3">
+          <div className="rounded-2xl border border-[#cddfcf] bg-[#eaf3e9] px-5 py-4">
+            <strong className="text-3xl font-semibold tracking-[-0.05em] text-[#1d5f43]">{overview.links.length}</strong>
+            <p className="mt-1 text-sm leading-5 text-[#4f6e58]">verified {overview.links.length === 1 ? "office holder" : "office holders"} in this area</p>
+          </div>
+          <ResultCoverage areaId={overview.area.id} />
         </div>
       </header>
 

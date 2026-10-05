@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getAreaForPerson } from "@/lib/civic-area";
 import { getPersonProfile, getProfileSource, listPersonSlugs, type SourceRecord } from "@/lib/verified-profile";
 import { getJaipurVoteTraceId } from "@/lib/publication";
+import { ResultCoverage } from "@/components/ResultCoverage";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -108,12 +109,7 @@ export default async function PersonPage({ params }: PageProps) {
         </div>
 
         <aside className="grid gap-5 xl:sticky xl:top-24">
-          <section className="rounded-2xl border border-slate-200 bg-slate-50 p-6" aria-labelledby="coverage-heading">
-            <h2 id="coverage-heading" className="text-lg font-bold text-slate-900">Coverage</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              Only checked records are shown. Missing fields are left out rather than filled with estimates.
-            </p>
-          </section>
+          {area && <ResultCoverage areaId={area.id} />}
           <section className="rounded-2xl border border-slate-200 bg-white p-6" aria-labelledby="sources-heading">
             <h2 id="sources-heading" className="text-lg font-bold text-slate-900">Source register</h2>
             <ul className="mt-4 grid gap-4">
