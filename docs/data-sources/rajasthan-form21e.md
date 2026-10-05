@@ -21,6 +21,7 @@ The return can support **2024 Jaipur contest results and the declaration** after
 - Automated access limits or machine-readable endpoint: not established by this audit. The source is a scanned PDF, so extraction may need a reviewed transcription tied to page and row.
 - Copyright or bulk republication permission for this PDF: not established by this audit. Link to the official PDF. Do not redistribute a source copy publicly until its terms are confirmed.
 - Any discrepancy between the English and Hindi pages must enter review; neither page silently overrides the other.
+- The first import uses the page 1 manual transcription in `data/extractions/jaipur-form21e-2024.json`. It is draft evidence only. The Hindi page has not been independently reviewed for each row.
 
 ## First adapter scope
 

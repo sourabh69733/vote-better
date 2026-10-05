@@ -54,5 +54,6 @@ public/data
 !/data/compose.yaml
 !/data/README.md
 !/data/migrations/
+!/data/extractions/
 !/data/src/
 !/data/test/

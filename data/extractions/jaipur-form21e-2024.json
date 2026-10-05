@@ -1,0 +1,31 @@
+{
+  "status": "unreviewed-transcription",
+  "method": "manual-page-1",
+  "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+  "snapshotSha256": "b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+  "constituency": { "raw": "7-Jaipur Parliamentary constituency", "number": 7, "name": "Jaipur" },
+  "documentDate": { "raw": "04/06/2024", "value": "2024-06-04" },
+  "candidates": [
+    { "row": 1, "name": "PRATAP SINGH KHACHARIYAWAS", "party": "Indian National Congress", "votes": 555083 },
+    { "row": 2, "name": "MANJU SHARMA", "party": "Bharatiya Janata Party", "votes": 886850 },
+    { "row": 3, "name": "RAJESH TANWAR", "party": "Bahujan Samaj Party", "votes": 3461 },
+    { "row": 4, "name": "KULDEEP SINGH", "party": "Socialist Unity Centre of India (Communist)", "votes": 615 },
+    { "row": 5, "name": "TRILOK TIWARI", "party": "Rashtriya Samta Vikas Party", "votes": 351 },
+    { "row": 6, "name": "NARENDER SHARMA", "party": "Rashtriya Sanatan Party", "votes": 669 },
+    { "row": 7, "name": "PRADEEP VERMA", "party": "Indian Peoples Green Party", "votes": 448 },
+    { "row": 8, "name": "SHASHANK SINGH ARYA", "party": "Right to Recall Party", "votes": 393 },
+    { "row": 9, "name": "ADVOCATE HARI KISHAN TIWARI", "party": "Bheem Tribal Congress", "votes": 400 },
+    { "row": 10, "name": "DR. ASEEM VERMA", "party": "Independent", "votes": 572 },
+    { "row": 11, "name": "YOGESH SHARMA", "party": "Independent", "votes": 816 },
+    { "row": 12, "name": "RAJEEV ROLIWAL", "party": "Independent", "votes": 970 },
+    { "row": 13, "name": "HARI NARAYAN MEENA", "party": "Independent", "votes": 2202 }
+  ],
+  "totals": {
+    "electors": 2288793,
+    "validVotes": 1452830,
+    "notaVotes": 10428,
+    "rejectedVotes": 1235,
+    "tenderedVotes": 29
+  },
+  "electedCandidateName": "MANJU SHARMA"
+}
