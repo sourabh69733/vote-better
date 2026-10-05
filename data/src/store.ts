@@ -221,12 +221,21 @@ export class CivicStore {
         WHERE observation_id = o.id ORDER BY sequence DESC LIMIT 1
       ) em ON true
       LEFT JOIN LATERAL (
-        SELECT value FROM approved_fact
-        WHERE entity_id = em.entity_id AND predicate = o.predicate
-        ORDER BY published_at DESC, recorded_at DESC, id DESC LIMIT 1
+        SELECT af.id, af.value FROM approved_fact af
+        JOIN fact_observation fo ON fo.fact_id = af.id
+        JOIN observation prior_o ON prior_o.id = fo.observation_id
+        JOIN snapshot prior_s ON prior_s.id = prior_o.snapshot_id
+        JOIN snapshot current_s ON current_s.id = o.snapshot_id
+        WHERE af.entity_id = em.entity_id AND af.predicate = o.predicate
+          AND prior_s.url = current_s.url
+        ORDER BY af.published_at DESC, af.recorded_at DESC, af.id DESC LIMIT 1
       ) prior ON true
+      LEFT JOIN LATERAL (
+        SELECT id FROM publication_conflict_resolution
+        WHERE observation_id = o.id AND prior_fact_id = prior.id LIMIT 1
+      ) resolution ON true
       WHERE em.status = 'confirmed' AND em.entity_id IS NOT NULL
-        AND (prior.value IS NULL OR prior.value = o.normalized_value)
+        AND (prior.value IS NULL OR prior.value = o.normalized_value OR resolution.id IS NOT NULL)
       ORDER BY o.recorded_at, o.id
     `);
     return result.rows.map(observationFromRow);

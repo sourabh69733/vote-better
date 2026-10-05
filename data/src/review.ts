@@ -17,6 +17,7 @@ export interface ReviewCase {
   coverage: "not-assessed";
   state: "ready" | "identity-unresolved" | "conflict";
   entityId?: string;
+  previousFactId?: string;
   previousValue?: JsonValue;
 }
 
@@ -37,7 +38,9 @@ export class CivicReview {
     }
     const result = await this.pool.query(`
       SELECT o.*, s.url AS source_url, s.content_hash, s.captured_at,
-        em.entity_id, em.status AS match_status, af.value AS previous_value
+        em.entity_id, em.status AS match_status, af.id AS previous_fact_id,
+        af.value AS previous_value,
+        cr.id AS resolution_id
       FROM observation o
       JOIN snapshot s ON s.id = o.snapshot_id
       LEFT JOIN LATERAL (
@@ -45,10 +48,17 @@ export class CivicReview {
         WHERE observation_id = o.id ORDER BY sequence DESC LIMIT 1
       ) em ON true
       LEFT JOIN LATERAL (
-        SELECT value FROM approved_fact
-        WHERE entity_id = em.entity_id AND predicate = o.predicate
-        ORDER BY published_at DESC, recorded_at DESC, id DESC LIMIT 1
+        SELECT af.id, af.value FROM approved_fact af
+        JOIN fact_observation fo ON fo.fact_id = af.id
+        JOIN observation prior_o ON prior_o.id = fo.observation_id
+        JOIN snapshot prior_s ON prior_s.id = prior_o.snapshot_id
+        WHERE af.entity_id = em.entity_id AND af.predicate = o.predicate AND prior_s.url = s.url
+        ORDER BY af.published_at DESC, af.recorded_at DESC, af.id DESC LIMIT 1
       ) af ON true
+      LEFT JOIN LATERAL (
+        SELECT id FROM publication_conflict_resolution
+        WHERE observation_id = o.id AND prior_fact_id = af.id LIMIT 1
+      ) cr ON true
       WHERE o.id = ANY($1::uuid[])
     `, [observationIds]);
     if (result.rows.length !== observationIds.length) throw new Error("observation not found");
@@ -63,8 +73,9 @@ export class CivicReview {
         contentHash: row.content_hash, recordedAt: (row.recorded_at as Date).toISOString(),
         capturedAt: (row.captured_at as Date).toISOString(),
         coverage: "not-assessed",
-        state: identityNeeded && !matched ? "identity-unresolved" : conflict ? "conflict" : "ready",
+        state: identityNeeded && !matched ? "identity-unresolved" : conflict && !row.resolution_id ? "conflict" : "ready",
         ...(matched ? { entityId: row.entity_id } : {}),
+        ...(row.previous_fact_id !== null ? { previousFactId: row.previous_fact_id } : {}),
         ...(row.previous_value !== null ? { previousValue: row.previous_value } : {}),
       });
     }

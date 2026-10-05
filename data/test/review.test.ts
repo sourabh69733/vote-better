@@ -46,9 +46,15 @@ test("confirmed identity permits approval but a changed published value is block
   assert.equal(approved.decision, "approved");
   assert.ok((await store.listPublicationCandidates()).some((row) => row.id === item.id));
 
+  const [older] = await store.saveObservations(item.snapshotId, [{
+    locator: "page 1, earlier return, votes", predicate: item.predicate,
+    rawValue: "100", normalizedValue: 100,
+    normalizedAt: new Date().toISOString(), normalizerVersion: "test-v0",
+  }]);
   const revision = await pool.query("INSERT INTO publication_revision DEFAULT VALUES RETURNING id, published_at");
-  await pool.query("INSERT INTO approved_fact (entity_id, predicate, value, revision_id, published_at) VALUES ($1, $2, $3, $4, $5)",
+  const prior = await pool.query("INSERT INTO approved_fact (entity_id, predicate, value, revision_id, published_at) VALUES ($1, $2, $3, $4, $5) RETURNING id",
     [entityId, item.predicate, JSON.stringify(100), revision.rows[0].id, revision.rows[0].published_at]);
+  await pool.query("INSERT INTO fact_observation (fact_id, observation_id) VALUES ($1, $2)", [prior.rows[0].id, older.id]);
   const [conflict] = await review.queueForReview([item.id]);
   assert.equal(conflict.state, "conflict");
   assert.deepEqual(conflict.previousValue, 100);
