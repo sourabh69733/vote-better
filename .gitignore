@@ -49,6 +49,10 @@ next-env.d.ts
 public/data
 /data/*
 !/data/package.json
+!/data/package-lock.json
 !/data/tsconfig.json
+!/data/compose.yaml
+!/data/README.md
+!/data/migrations/
 !/data/src/
 !/data/test/

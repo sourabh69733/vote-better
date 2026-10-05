@@ -7,11 +7,16 @@
   },
   "scripts": {
     "test": "node --import tsx --test test/*.test.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "db:migrate": "node --import tsx src/migrate.ts"
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/pg": "^8.23.1",
     "tsx": "^4.23.15",
     "typescript": "^5"
+  },
+  "dependencies": {
+    "pg": "^8.23.1"
   }
 }
