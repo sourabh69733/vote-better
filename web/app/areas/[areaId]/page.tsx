@@ -46,12 +46,7 @@ export default async function AreaPage({ params }: PageProps) {
         </div>
       </header>
 
-      <div className={`mt-9 grid items-start gap-6 ${hasElectionResult ? "lg:grid-cols-[minmax(0,1fr)_340px]" : ""}`}>
-        <ElectionResult areaId={overview.area.id} />
-        <ResultCoverage areaId={overview.area.id} />
-      </div>
-
-      <div className="mt-10 grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_340px]">
+      <div className="mt-9 grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_340px]">
         <section aria-labelledby="holders-heading">
           <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#528166]">People</p>
           <h2 id="holders-heading" className="mt-2 text-3xl font-semibold tracking-[-0.05em] text-[#19372d]">Who holds office here</h2>
@@ -99,6 +94,11 @@ export default async function AreaPage({ params }: PageProps) {
             Open relationship map <span aria-hidden="true">↗</span>
           </Link>
         </aside>
+      </div>
+
+      <div className={`mt-10 grid items-start gap-6 ${hasElectionResult ? "lg:grid-cols-[minmax(0,1fr)_340px]" : ""}`}>
+        <ElectionResult areaId={overview.area.id} />
+        <ResultCoverage areaId={overview.area.id} />
       </div>
 
       <p className="mt-8 text-xs leading-5 text-[#7b8a7c]">Only verified relationships appear. Missing offices and location matches are not inferred.</p>

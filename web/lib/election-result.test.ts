@@ -21,16 +21,16 @@ test("an area without a reviewed result does not inherit Jaipur candidates", () 
   assert.equal(getAreaElectionResult("jaipur-rural-lok-sabha"), null);
 });
 
-test("constituency result starts with two rows and a clear expansion button", () => {
+test("constituency result starts with the elected candidate and keeps other profiles one tap away", () => {
   const html = renderToStaticMarkup(ElectionResult({ areaId: "jaipur-lok-sabha" }));
   assert.match(html, /2024 election result/);
   assert.match(html, /MANJU SHARMA/);
-  assert.match(html, /PRATAP SINGH KHACHARIYAWAS/);
+  assert.doesNotMatch(html, /PRATAP SINGH KHACHARIYAWAS/);
   assert.doesNotMatch(html, /HARI NARAYAN MEENA/);
-  assert.match(html, /Show all 13 candidates/);
+  assert.match(html, /View 12 other candidates/);
   assert.match(html, /aria-expanded="false"/);
   assert.match(html, /href="\/people\/manju-sharma"/);
-  assert.match(html, /href="\/people\/jaipur-lok-sabha-2024-candidate-row-01"/);
-  assert.equal((html.match(/href="\/facts\//g) ?? []).length, 2);
+  assert.doesNotMatch(html, /href="\/people\/jaipur-lok-sabha-2024-candidate-row-01"/);
+  assert.equal((html.match(/href="\/facts\//g) ?? []).length, 1);
   assert.equal(renderToStaticMarkup(ElectionResult({ areaId: "jaipur-rural-lok-sabha" })), "");
 });

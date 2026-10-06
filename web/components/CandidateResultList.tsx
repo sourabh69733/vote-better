@@ -10,7 +10,7 @@ type Candidate = WebPublication["dataset"]["candidacies"][number];
 export function CandidateResultList({ candidates }: { candidates: Candidate[] }) {
   const [expanded, setExpanded] = useState(false);
   const listId = useId();
-  const visible = expanded ? candidates : candidates.slice(0, 2);
+  const visible = expanded ? candidates : candidates.slice(0, 1);
 
   return (
     <>
@@ -38,7 +38,7 @@ export function CandidateResultList({ candidates }: { candidates: Candidate[] })
           className="mt-4 flex min-h-11 w-full items-center justify-center gap-2 border-t border-[#e4ebe4] pt-4 text-sm font-bold text-[#216b4b] hover:text-[#154b36]"
         >
           <span aria-hidden="true">{expanded ? "▲" : "▼"}</span>
-          {expanded ? "Show fewer candidates" : `Show all ${candidates.length} candidates`}
+          {expanded ? "Hide other candidates" : `View ${candidates.length - 1} other candidates`}
         </button>
       )}
     </>
