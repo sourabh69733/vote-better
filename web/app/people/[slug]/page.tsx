@@ -55,11 +55,20 @@ export default async function PersonPage({ params }: PageProps) {
             <p className="mt-4 text-base text-slate-700">{office.title} · {office.constituency}, {office.state}</p>
             <p className="mt-1 text-sm text-slate-600">{office.party}</p>
           </>}
-          {!office && election && <p className="mt-4 text-base text-slate-700">{election.election} · {election.status}</p>}
+          {!office && election && <>
+            <p className="mt-4 text-base text-slate-700">{election.election} · {election.status === "elected" ? "Elected in 2024" : "Not elected in 2024"}</p>
+            {election.party && <p className="mt-1 text-sm text-slate-600">{election.party}</p>}
+          </>}
         </div>
         {officeSources.length > 0 && <div className="rounded-2xl bg-[#eaf4ec] p-5">
           <p className="text-xs font-bold uppercase tracking-wider text-emerald-800">Current role evidence</p>
           <div className="mt-3 grid gap-2">{officeSources.map((source) => <EvidenceLink key={source.id} source={source} />)}</div>
+        </div>}
+        {!office && election && <div className="rounded-2xl bg-[#eaf4ec] p-5">
+          <p className="text-xs font-bold uppercase tracking-wider text-emerald-800">2024 result</p>
+          {election.votes !== undefined && <p className="mt-2 text-3xl font-bold tabular-nums text-slate-900">{election.votes.toLocaleString("en-IN")} <span className="text-sm font-medium text-slate-600">votes</span></p>}
+          {election.resultDate && <p className="mt-1 text-xs text-slate-600">Declared {election.resultDate}</p>}
+          <div className="mt-3"><EvidenceLink source={getProfileSource(profile, election.sourceId)} /></div>
         </div>}
       </header>
 
@@ -97,15 +106,31 @@ export default async function PersonPage({ params }: PageProps) {
             <h2 id="election-heading" className="text-xl font-bold text-slate-900">Election record</h2>
             <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-6">
               <p className="font-semibold text-slate-900">{election.election}</p>
+              {election.party && <p className="mt-1 text-sm text-slate-600">{election.party}</p>}
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                {election.status === "elected" ? "Elected" : election.status}
-                {election.resultDate ? ` on ${election.resultDate}` : ""}.
+                {election.status === "elected" ? "Elected" : "Not elected"}.
+                {election.resultDate ? ` Result dated ${election.resultDate}.` : ""}
                 {election.votes !== undefined && ` The return records ${election.votes.toLocaleString("en-IN")} votes.`}
               </p>
               <div className="mt-3"><EvidenceLink source={getProfileSource(profile, election.sourceId)} /></div>
               {voteTraceId && <Link href={`/facts/${voteTraceId}`} className="mt-3 inline-block text-sm font-semibold text-emerald-800 underline underline-offset-4">See how the vote total was checked</Link>}
             </div>
           </section>}
+
+          {profile.disclosures.map((disclosure) => <section key={disclosure.sourceId} className="mt-8" aria-labelledby={`disclosure-${disclosure.sourceId}`}>
+            <h2 id={`disclosure-${disclosure.sourceId}`} className="text-xl font-bold text-slate-900">Affidavit summary</h2>
+            <p className="mt-2 text-sm text-slate-600">2024 self-declared affidavit or ECI filing. These are filing-time disclosures, not current values. Each item is shown only where the linked record supports it.</p>
+            <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-6">
+              <dl className="grid gap-x-5 gap-y-4 sm:grid-cols-2">
+                {disclosure.ageAtFiling !== undefined && <div><dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">Age at filing</dt><dd className="mt-1 font-semibold text-slate-900">{disclosure.ageAtFiling}</dd></div>}
+                {disclosure.education && <div><dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">Education declared</dt><dd className="mt-1 font-semibold text-slate-900">{disclosure.education}</dd></div>}
+                {disclosure.declaredCases !== undefined && <div><dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">Criminal cases declared</dt><dd className="mt-1 font-semibold text-slate-900">{disclosure.declaredCases}</dd></div>}
+                {disclosure.declaredAssetsRupees !== undefined && <div><dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">Assets declared</dt><dd className="mt-1 font-semibold tabular-nums text-slate-900">₹{disclosure.declaredAssetsRupees.toLocaleString("en-IN")}</dd></div>}
+                {disclosure.declaredLiabilitiesRupees !== undefined && <div><dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">Liabilities declared</dt><dd className="mt-1 font-semibold tabular-nums text-slate-900">₹{disclosure.declaredLiabilitiesRupees.toLocaleString("en-IN")}</dd></div>}
+              </dl>
+              <div className="mt-5 border-t border-slate-100 pt-4"><EvidenceLink source={getProfileSource(profile, disclosure.sourceId)} /></div>
+            </div>
+          </section>)}
         </div>
 
         <aside className="grid gap-5 xl:sticky xl:top-24">
