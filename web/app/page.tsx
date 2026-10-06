@@ -20,6 +20,9 @@ export default function Home() {
           <a href="#verified-areas" className="mt-6 inline-flex min-h-11 items-center gap-3 rounded-full bg-[#1c6047] px-5 text-sm font-bold text-white transition-colors hover:bg-[#154c38]">
             Explore verified areas <span aria-hidden="true">↗</span>
           </a>
+          {process.env.NODE_ENV === "development" && <Link href="/research/pin" className="ml-4 inline-flex min-h-11 items-center text-sm font-semibold text-[#286b4e] underline underline-offset-4">
+            Try PIN research preview
+          </Link>}
         </div>
       </header>
 
