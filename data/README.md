@@ -42,6 +42,27 @@ Migrations are numbered SQL files in `migrations/`. The runner applies each once
 
 The database assigns `recorded_at` when a row is inserted. Source dates and real-world validity dates are separate fields with their original precision. Snapshots, observations, review decisions and publication revisions are append-only. A new fetch does not change published facts.
 
+## PIN to constituency research map
+
+`src/geo/build_pin_lookup.py` intersects postal PIN polygons with parliamentary constituency polygons. It returns every constituency touched by a PIN, including ambiguous matches. It never claims that a PIN identifies a voter's exact constituency. It rejects missing provenance, changed input hashes and unusable geometries. Self-intersections repaired by Shapely are listed for review. Output is always marked `unreviewed` and must not be served by the website as a verified match.
+
+The Department of Posts [published PIN boundary GeoJSON](https://www.data.gov.in/catalog/all-india-pincode-boundary-geo-json). The public Bharat Maps [parliamentary layer](https://mapservice.gov.in/gismapservice/rest/services/BharatMapService/AC_PC/MapServer/1) currently requires a token. A public research mirror was used for a local draft run. Its constituency geometry and reuse terms need independent review before publication. The raw files, source manifest and draft output are kept in ignored `data/raw/maps/`; they are not committed.
+
+To rebuild from locally obtained GeoJSON or GeoJSONL inputs:
+
+```sh
+python3 -m venv data/.venv
+data/.venv/bin/pip install -r data/requirements-geo.txt
+data/.venv/bin/python data/src/geo/build_pin_lookup.py \
+  --pins data/raw/maps/Datagov_Pincode_Boundaries.geojsonl \
+  --areas data/raw/maps/LGD_Parliament_Constituencies.geojsonl \
+  --sources data/raw/maps/sources.json \
+  --output data/raw/maps/pin_candidates_draft.json \
+  --pin-field Pincode --area-field pc_id
+```
+
+The source manifest needs `pins` and `areas` objects with HTTPS `url`, ISO `checkedAt`, and optional `inputSha256` for the extracted local file. The local research run on 2026-10-06 mapped 19,312 PINs against 543 parliamentary polygons: 8,994 had one possible constituency, 10,314 crossed more than one, and four had no overlap. Three constituency geometries needed repair. These are mapping drafts, not verified voter assignments. The source `pc_id` values also need a reviewed crosswalk to Vote Better area IDs before the website can use them. Browser location needs a separate point-in-boundary lookup using reviewed polygons.
+
 ## Local review
 
 Run `npm --prefix data run review -- queue` to see unreviewed observations with source URL, locator, hash, captured time and any earlier published value. Pass a limit and exact source URL to filter a source. `show <observation-id>` includes decision history. Candidate facts need a confirmed person link before approval. The PDF contains names, not unique person IDs, so the reviewer must check the identity against independent evidence before using `person <stable-key> <display-name>` and `link <observation-id> <person-id> <reviewer-id> <reason>`. Creating a person is only an internal identity record, not a public claim. Use `approve`, `reject`, or `needs-changes` with an observation ID, reviewer ID and reason. A changed published value requires an explicit conflict resolution before approval. The review command never publishes data.
