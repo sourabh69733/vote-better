@@ -47,3 +47,25 @@ test("office status keeps its own review date, separate from later profile sourc
   assert.equal(manju.officeTerms[0].reviewedOn, "2026-10-02");
   assert.equal(manju.reviewedOn, "2026-10-06");
 });
+
+test("public life timeline identifies the party at each sourced event without inferring a switch", () => {
+  const manju = getPersonProfile("manju-sharma");
+  assert.ok(manju);
+  assert.deepEqual(manju.timeline.map(({ kind, date, party }) => ({ kind, date, party })), [
+    { kind: "office", date: "2024-06-04", party: "Bharatiya Janata Party" },
+    { kind: "election", date: "2024-06-04", party: "Bharatiya Janata Party" },
+  ]);
+  assert.equal(manju.timeline[0].sourceId, "manju-current-members");
+  assert.equal(manju.timeline[1].sourceId, "jaipur-election-2024");
+  const pratap = getPersonProfile("jaipur-lok-sabha-2024-candidate-row-01");
+  assert.deepEqual(pratap?.timeline.map(({ kind, party }) => ({ kind, party })), [
+    { kind: "election", party: "Indian National Congress" },
+  ]);
+});
+
+test("official public profile is shown only when attached to a verified office", () => {
+  const manju = getPersonProfile("manju-sharma");
+  assert.deepEqual(manju?.publicProfiles, [{ sourceId: "manju-member", label: "Official profile" }]);
+  const pratap = getPersonProfile("jaipur-lok-sabha-2024-candidate-row-01");
+  assert.deepEqual(pratap?.publicProfiles, []);
+});

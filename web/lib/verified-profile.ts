@@ -31,6 +31,19 @@ export interface ElectionCandidacy {
   party?: string;
 }
 
+export interface PublicLifeEvent {
+  kind: "office" | "election";
+  date: string;
+  title: string;
+  party?: string;
+  sourceId: string;
+}
+
+export interface PublicProfileLink {
+  sourceId: string;
+  label: string;
+}
+
 export interface PersonProfile {
   slug: string;
   name: string;
@@ -40,6 +53,8 @@ export interface PersonProfile {
   sources: SourceRecord[];
   activities: SourcedActivity[];
   disclosures: Omit<CandidateDisclosureRecord, "id" | "personId">[];
+  timeline: PublicLifeEvent[];
+  publicProfiles: PublicProfileLink[];
 }
 
 function toOfficeTerm(term: TermRecord): OfficeTerm {
@@ -69,6 +84,10 @@ export function getPersonProfile(slug: string): PersonProfile | null {
   const candidacies = dataset.candidacies.filter((item) => item.personId === slug);
   const activities = dataset.activities.filter((item) => item.personId === slug);
   const disclosures = dataset.disclosures.filter((item) => item.personId === slug);
+  const timeline: PublicLifeEvent[] = [
+    ...terms.map((term) => ({ kind: "office" as const, date: term.startedOn, title: term.title, party: term.party, sourceId: term.statusSourceId })),
+    ...candidacies.filter((item) => item.resultDate).map((item) => ({ kind: "election" as const, date: item.resultDate!, title: item.election, party: item.party, sourceId: item.sourceId })),
+  ].sort((a, b) => b.date.localeCompare(a.date) || (a.kind === b.kind ? 0 : a.kind === "office" ? -1 : 1));
   const sourceIds = new Set([
     ...terms.flatMap((term) => [...term.areaSourceIds, ...term.holderSourceIds, term.statusSourceId, term.biographySourceId]),
     ...candidacies.map((item) => item.sourceId),
@@ -93,6 +112,8 @@ export function getPersonProfile(slug: string): PersonProfile | null {
       declaredLiabilitiesRupees: item.declaredLiabilitiesRupees,
       sourceId: item.sourceId,
     })),
+    timeline,
+    publicProfiles: [...new Set(terms.map((term) => term.biographySourceId))].map((sourceId) => ({ sourceId, label: "Official profile" })),
   };
 }
 
