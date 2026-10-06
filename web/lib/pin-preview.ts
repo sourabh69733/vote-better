@@ -1,10 +1,20 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import { getAreaOverview } from "./civic-area";
+
+const publishedAreaIds: Record<string, string> = {
+  "806": "jaipur-rural-lok-sabha",
+  "807": "jaipur-lok-sabha",
+};
 
 interface ResearchArea {
   id: string;
   label: string;
   state: string;
+  published?: {
+    areaId: string;
+    holders: { name: string; slug: string; office: string; reviewedOn: string }[];
+  };
 }
 
 export type ResearchPinLookup =
@@ -14,6 +24,21 @@ export type ResearchPinLookup =
 function record(value: unknown): Record<string, unknown> | null {
   return value !== null && typeof value === "object" && !Array.isArray(value)
     ? value as Record<string, unknown> : null;
+}
+
+function publishedArea(id: string, label: string, state: string): ResearchArea["published"] {
+  const areaId = publishedAreaIds[id];
+  if (!areaId) return undefined;
+  const overview = getAreaOverview(areaId);
+  if (!overview || overview.area.kind !== "parliamentary_constituency" ||
+      overview.area.name.toUpperCase() !== label.toUpperCase() ||
+      overview.area.state.toUpperCase() !== state.toUpperCase()) return undefined;
+  return {
+    areaId,
+    holders: overview.links.filter((link) => link.officeId === "lok-sabha-member").map((link) => ({
+      name: link.person.name, slug: link.person.slug, office: link.office.title, reviewedOn: link.reviewedOn,
+    })),
+  };
 }
 
 export async function lookupResearchPin(
@@ -42,7 +67,8 @@ export async function lookupResearchPin(
     if (typeof id !== "string") return { status: "unavailable" };
     const detail = record(areas[id]);
     if (!detail || typeof detail.label !== "string" || typeof detail.state !== "string") return { status: "unavailable" };
-    possible.push({ id, label: detail.label, state: detail.state });
+    possible.push({ id, label: detail.label, state: detail.state,
+      published: publishedArea(id, detail.label, detail.state) });
   }
   return { status: "possible", areas: possible, reviewStatus: "unreviewed", generatedAt: document.generatedAt };
 }
