@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "db:migrate": "node --import tsx src/migrate.ts",
     "import:jaipur": "node --import tsx src/import-jaipur.ts",
+    "import:sansad-members": "node --import tsx src/import-sansad-members.ts",
     "review": "node --import tsx src/cli.ts",
     "export:jaipur": "node --import tsx src/export-jaipur.ts"
   },

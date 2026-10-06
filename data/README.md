@@ -20,6 +20,14 @@ To fetch the audited Jaipur Form 21E and save draft observations:
 npm --prefix data run import:jaipur
 ```
 
+To collect the current 18th Lok Sabha member list from Digital Sansad and save profile drafts:
+
+```sh
+npm --prefix data run import:sansad-members
+```
+
+This importer pages through the Parliament JSON feed and records each page URL, hash, capture time and collection attempt. It checks page counts and unique Parliament member IDs before saving any draft claims. Drafts include the current member name, party, constituency, state, membership status, reported education level and profession when present. They do not establish complete education or work history. Dates absent from the source remain absent. Person matching, review and publication remain separate. A live run on 2026-10-06 saved 5,311 unreviewed claims for 540 members across six pages. Parliament's reuse policy needs review before publishing content from this feed; this command stores factual claims privately and does not copy contact details or publish profiles.
+
 The import refuses a changed PDF until its page-linked transcription in `extractions/jaipur-form21e-2024.json` is checked and updated. The transcription is explicitly unreviewed. The command never publishes to the website. It saves source URL, PDF hash and check attempts, but does not retain PDF bytes. A private blob storage adapter exists for sources whose reuse policy permits retaining a copy.
 
 The Rajasthan source currently needs legacy TLS renegotiation. Only this exact URL uses a source-specific adapter; normal certificate verification stays enabled. Other source adapters should use the standard fetch path.
