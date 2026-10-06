@@ -38,6 +38,7 @@ export default async function PersonPage({ params }: PageProps) {
   const electionStatus = election ? election.status[0].toUpperCase() + election.status.slice(1) : "";
   const electionYear = election?.resultDate?.slice(0, 4);
   const voteTraceId = getJaipurVoteTraceId(profile.slug);
+  const backgroundCoveredInTimeline = profile.career.some((event) => event.kind === "education") && profile.career.some((event) => event.kind === "work");
 
   return (
     <div className="mx-auto w-full max-w-[1320px] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
@@ -71,7 +72,18 @@ export default async function PersonPage({ params }: PageProps) {
             </article>)}</div>
           </section>}
 
-          {profile.background && <section className="mt-9" aria-labelledby="background-heading">
+          {profile.career.length > 0 && <section className="mt-9" aria-labelledby="timeline-heading">
+            <h2 id="timeline-heading" className="text-xl font-bold text-slate-900">Life and public work</h2>
+            <p className="mt-1 text-sm text-slate-600">Selected dated records, not a continuous employment history. Sources show which roles come from the candidate&apos;s own account.</p>
+            <ol className="mt-4 border-l-2 border-emerald-200 pl-5">{profile.timeline.toReversed().map((event) => <li key={`${event.kind}-${event.date}-${event.title}`} className="relative border-b border-slate-200 py-4 last:border-b-0 before:absolute before:-left-[27px] before:top-[23px] before:h-3 before:w-3 before:rounded-full before:bg-emerald-600">
+              <p className="text-xs font-bold uppercase tracking-wide text-emerald-700">{event.date} · {{ career: "Public role", education: "Education", party: "Party role", work: "Work declaration", election: "Election" }[event.kind]}{event.selfReported ? " · Candidate account" : ""}</p>
+              <h3 className="mt-1 font-semibold text-slate-900">{event.title}</h3>
+              {event.party && <p className="mt-1 text-sm text-slate-600">{event.kind === "election" ? "Party at election" : "Party in this record"}: {event.party}</p>}
+              <div className="mt-2"><EvidenceLink source={getProfileSource(profile, event.sourceId)} /></div>
+            </li>)}</ol>
+          </section>}
+
+          {profile.background && !backgroundCoveredInTimeline && <section className="mt-9" aria-labelledby="background-heading">
             <h2 id="background-heading" className="text-xl font-bold text-slate-900">Education and work</h2>
             <p className="mt-1 text-sm text-slate-600">{profile.background.context}. This is a recorded snapshot, not a complete work history.</p>
             <dl className="mt-4 divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white px-5">
@@ -79,17 +91,6 @@ export default async function PersonPage({ params }: PageProps) {
               {profile.background.workDescription && <div className="py-4 sm:grid sm:grid-cols-[145px_1fr] sm:gap-5"><dt className="text-sm font-semibold text-slate-500">Work / income stated</dt><dd className="mt-1 text-sm font-medium text-slate-900 sm:mt-0">{profile.background.workDescription}</dd></div>}
             </dl>
             <div className="mt-2"><EvidenceLink source={getProfileSource(profile, profile.background.sourceId)} /></div>
-          </section>}
-
-          {profile.career.length > 0 && <section className="mt-9" aria-labelledby="timeline-heading">
-            <h2 id="timeline-heading" className="text-xl font-bold text-slate-900">Career timeline</h2>
-            <p className="mt-1 text-sm text-slate-600">Documented public roles and elections. Earlier work may not be recorded.</p>
-            <ol className="mt-4 border-l-2 border-emerald-200 pl-5">{profile.timeline.toReversed().map((event) => <li key={`${event.kind}-${event.date}-${event.title}`} className="relative border-b border-slate-200 py-4 last:border-b-0 before:absolute before:-left-[27px] before:top-[23px] before:h-3 before:w-3 before:rounded-full before:bg-emerald-600">
-              <p className="text-xs font-bold uppercase tracking-wide text-emerald-700">{event.date} · {event.kind === "career" ? "Public role" : "Election"}</p>
-              <h3 className="mt-1 font-semibold text-slate-900">{event.title}</h3>
-              {event.party && <p className="mt-1 text-sm text-slate-600">{event.kind === "career" ? "Party in this record" : "Party at election"}: {event.party}</p>}
-              <div className="mt-2"><EvidenceLink source={getProfileSource(profile, event.sourceId)} /></div>
-            </li>)}</ol>
           </section>}
 
           {profile.activities.length > 0 && <section className="mt-9" aria-labelledby="activity-heading">

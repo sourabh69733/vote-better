@@ -37,17 +37,16 @@ test("a candidate with only an official filing age leaves other disclosure field
   assert.doesNotMatch(html, /Assets declared/);
 });
 
-test("elected profile moves from current office to background, work and deeper records", async () => {
+test("elected profile moves from current office to life history, work and deeper records", async () => {
   const page = await PersonPage({ params: Promise.resolve({ slug: "manju-sharma" }) });
   const html = renderToStaticMarkup(page);
-  for (const heading of ["Person profile", "Offices held", "Education and work", "Work in office", "Official presence", "Election and filing records", "Sources and review dates"]) {
+  for (const heading of ["Person profile", "Offices held", "Life and public work", "Work in office", "Official presence", "Election and filing records", "Sources and review dates"]) {
     assert.match(html, new RegExp(heading));
   }
   assert.ok(html.indexOf("Person profile") < html.indexOf("Offices held"));
-  assert.ok(html.indexOf("Offices held") < html.indexOf("Education and work"));
-  assert.ok(html.indexOf("Education and work") < html.indexOf("Work in office"));
+  assert.ok(html.indexOf("Offices held") < html.indexOf("Life and public work"));
+  assert.ok(html.indexOf("Life and public work") < html.indexOf("Work in office"));
   assert.ok(html.indexOf("Work in office") < html.indexOf("Election and filing records"));
-  assert.doesNotMatch(html, /Career timeline/);
   assert.equal((html.match(/Current office/g) ?? []).length, 1);
   assert.match(html, /Official profile/);
   assert.match(html, /2024-06-04 to present/);
@@ -58,7 +57,7 @@ test("former candidate profile shows past roles but does not invent current offi
   const page = await PersonPage({ params: Promise.resolve({ slug: "jaipur-lok-sabha-2024-candidate-row-01" }) });
   const html = renderToStaticMarkup(page);
   assert.match(html, /Person profile/);
-  assert.match(html, /Career timeline/);
+  assert.match(html, /Life and public work/);
   assert.match(html, /Party at election/);
   assert.doesNotMatch(html, /Not elected in 2024/);
   assert.doesNotMatch(html, /Work in office/);
@@ -69,11 +68,17 @@ test("former candidate profile shows past roles but does not invent current offi
 test("elected profile leads with present party, background and office work", async () => {
   const html = renderToStaticMarkup(await PersonPage({ params: Promise.resolve({ slug: "manju-sharma" }) }));
   assert.match(html, /Current party · checked 2026-10-02/);
-  assert.match(html, /Education and work/);
-  assert.match(html, /M\.A\., Rajasthan University, 1983/);
-  assert.match(html, /Jewellery business/);
+  assert.match(html, /1983 · Education/);
+  assert.match(html, /M\.A\., Rajasthan University/);
+  assert.match(html, /jewellery business/);
+  assert.match(html, /Life and public work/);
+  assert.match(html, /LL\.B\. \(academic\)/);
+  assert.match(html, /Hawa Mahal Assembly election/);
+  assert.match(html, /Candidate-published account/);
+  assert.match(html, /Candidate account/);
+  assert.match(html, /not a continuous employment history/);
   assert.match(html, /Work in office/);
-  assert.ok(html.indexOf("Education and work") < html.indexOf("Work in office"));
+  assert.ok(html.indexOf("Life and public work") < html.indexOf("Work in office"));
 });
 
 test("former candidate shows election-time party and sourced earlier roles", async () => {
