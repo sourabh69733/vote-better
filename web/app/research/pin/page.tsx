@@ -54,7 +54,17 @@ export default async function PinResearchPage({ searchParams }: PageProps) {
                     </div>
                     <Link href={`/people/${holder.slug}`} className="text-sm font-semibold text-[#24694b] underline underline-offset-4">View profile ↗</Link>
                   </div>)}
-                </div> : <p className="mt-3 text-xs text-[#688071]">No reviewed MP profile linked to this draft area yet.</p>}
+                </div> : area.draftMember ? <div className="mt-4 border-t border-[#dce8dc] pt-4">
+                  <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#91692d]">Provisional Sansad record</p>
+                  <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                      <p className="font-semibold text-[#1f4532]">{area.draftMember.name}</p>
+                      <p className="text-xs text-[#688071]">{area.draftMember.party} · Source captured {area.draftMember.capturedAt.slice(0, 10)}</p>
+                    </div>
+                    <Link href={`/research/people/${area.draftMember.id}`} className="text-sm font-semibold text-[#24694b] underline underline-offset-4">View draft profile ↗</Link>
+                  </div>
+                  <p className="mt-2 text-xs text-[#8b754d]">Area link is unreviewed{area.draftMember.matchKind === "suggested" ? " and uses a name suggestion" : ""}.</p>
+                </div> : <p className="mt-3 text-xs text-[#688071]">No MP profile linked to this draft area yet.</p>}
               </div>)}
             </div>
             <p className="mt-5 text-sm leading-6 text-[#617367]">A PIN is a postal area. Confirm your voting constituency before using it to identify a representative.</p>
@@ -66,7 +76,7 @@ export default async function PinResearchPage({ searchParams }: PageProps) {
           </p>}
         </div>}
       </div>
-      <p className="mt-5 text-xs leading-5 text-[#788a7c]">This preview runs only in local development. <Link href="/" className="font-semibold text-[#28684d] underline">Browse verified areas</Link>.</p>
+      <p className="mt-5 text-xs leading-5 text-[#788a7c]">This preview runs only in local development. <Link href="/research/people" className="font-semibold text-[#28684d] underline">Search all draft MP records</Link> or <Link href="/" className="font-semibold text-[#28684d] underline">browse verified areas</Link>.</p>
     </div>
   );
 }
