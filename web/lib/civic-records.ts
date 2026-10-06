@@ -74,6 +74,25 @@ export interface CandidateDisclosureRecord {
   sourceId: string;
 }
 
+export interface PersonBackgroundRecord {
+  id: string;
+  personId: string;
+  educationDetail?: string;
+  workDescription?: string;
+  context: string;
+  sourceId: string;
+}
+
+export interface CareerEventRecord {
+  id: string;
+  personId: string;
+  title: string;
+  period: string;
+  sortOn: string;
+  partyAtEvent?: string;
+  sourceId: string;
+}
+
 export interface CivicDataset {
   areas: CivicArea[];
   offices: CivicOffice[];
@@ -82,12 +101,14 @@ export interface CivicDataset {
   candidacies: CandidacyRecord[];
   activities: ActivityRecord[];
   disclosures: CandidateDisclosureRecord[];
+  backgrounds: PersonBackgroundRecord[];
+  careerEvents: CareerEventRecord[];
   sources: SourceRecord[];
 }
 
 export function validateCivicDataset(data: CivicDataset): string[] {
   const errors: string[] = [];
-  const collections = [data.areas, data.offices, data.people, data.terms, data.candidacies, data.activities, data.disclosures, data.sources];
+  const collections = [data.areas, data.offices, data.people, data.terms, data.candidacies, data.activities, data.disclosures, data.backgrounds, data.careerEvents, data.sources];
   for (const collection of collections) {
     const seen = new Set<string>();
     for (const record of collection) {
@@ -140,6 +161,15 @@ export function validateCivicDataset(data: CivicDataset): string[] {
     for (const value of [disclosure.ageAtFiling, disclosure.declaredCases, disclosure.declaredAssetsRupees, disclosure.declaredLiabilitiesRupees]) {
       if (value !== undefined && (!Number.isSafeInteger(value) || value < 0)) errors.push(`Disclosure ${disclosure.id} has an invalid number`);
     }
+  }
+  for (const background of data.backgrounds) {
+    requireId("person", background.personId, background.id, personIds);
+    requireSource(background.sourceId, background.id);
+  }
+  for (const event of data.careerEvents) {
+    requireId("person", event.personId, event.id, personIds);
+    requireSource(event.sourceId, event.id);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(event.sortOn)) errors.push(`Career event ${event.id} needs a sortable date`);
   }
   return errors;
 }

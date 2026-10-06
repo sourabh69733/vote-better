@@ -1,5 +1,5 @@
 import { dataset } from "@/records/registry";
-import type { CandidateDisclosureRecord, SourceRecord, TermRecord } from "./civic-records";
+import type { CandidateDisclosureRecord, CareerEventRecord, PersonBackgroundRecord, SourceRecord, TermRecord } from "./civic-records";
 
 export type { SourceRecord } from "./civic-records";
 
@@ -32,8 +32,9 @@ export interface ElectionCandidacy {
 }
 
 export interface PublicLifeEvent {
-  kind: "office" | "election";
+  kind: "election" | "career";
   date: string;
+  sortOn: string;
   title: string;
   party?: string;
   sourceId: string;
@@ -55,6 +56,8 @@ export interface PersonProfile {
   disclosures: Omit<CandidateDisclosureRecord, "id" | "personId">[];
   timeline: PublicLifeEvent[];
   publicProfiles: PublicProfileLink[];
+  background: Omit<PersonBackgroundRecord, "id" | "personId"> | null;
+  career: Omit<CareerEventRecord, "id" | "personId">[];
 }
 
 function toOfficeTerm(term: TermRecord): OfficeTerm {
@@ -84,15 +87,19 @@ export function getPersonProfile(slug: string): PersonProfile | null {
   const candidacies = dataset.candidacies.filter((item) => item.personId === slug);
   const activities = dataset.activities.filter((item) => item.personId === slug);
   const disclosures = dataset.disclosures.filter((item) => item.personId === slug);
+  const background = dataset.backgrounds.find((item) => item.personId === slug);
+  const career = dataset.careerEvents.filter((item) => item.personId === slug);
   const timeline: PublicLifeEvent[] = [
-    ...terms.map((term) => ({ kind: "office" as const, date: term.startedOn, title: term.title, party: term.party, sourceId: term.statusSourceId })),
-    ...candidacies.filter((item) => item.resultDate).map((item) => ({ kind: "election" as const, date: item.resultDate!, title: item.election, party: item.party, sourceId: item.sourceId })),
-  ].sort((a, b) => b.date.localeCompare(a.date) || (a.kind === b.kind ? 0 : a.kind === "office" ? -1 : 1));
+    ...candidacies.filter((item) => item.resultDate).map((item) => ({ kind: "election" as const, date: item.resultDate!, sortOn: item.resultDate!, title: item.election, party: item.party, sourceId: item.sourceId })),
+    ...career.map((event) => ({ kind: "career" as const, date: event.period, sortOn: event.sortOn, title: event.title, party: event.partyAtEvent, sourceId: event.sourceId })),
+  ].sort((a, b) => b.sortOn.localeCompare(a.sortOn));
   const sourceIds = new Set([
     ...terms.flatMap((term) => [...term.areaSourceIds, ...term.holderSourceIds, term.statusSourceId, term.biographySourceId]),
     ...candidacies.map((item) => item.sourceId),
     ...activities.map((item) => item.sourceId),
     ...disclosures.map((item) => item.sourceId),
+    ...(background ? [background.sourceId] : []),
+    ...career.map((item) => item.sourceId),
   ]);
 
   return {
@@ -114,6 +121,13 @@ export function getPersonProfile(slug: string): PersonProfile | null {
     })),
     timeline,
     publicProfiles: [...new Set(terms.map((term) => term.biographySourceId))].map((sourceId) => ({ sourceId, label: "Official profile" })),
+    background: background ? {
+      educationDetail: background.educationDetail,
+      workDescription: background.workDescription,
+      context: background.context,
+      sourceId: background.sourceId,
+    } : null,
+    career: career.map(({ title, period, sortOn, partyAtEvent, sourceId }) => ({ title, period, sortOn, partyAtEvent, sourceId })),
   };
 }
 

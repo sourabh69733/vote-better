@@ -52,14 +52,14 @@ test("public life timeline identifies the party at each sourced event without in
   const manju = getPersonProfile("manju-sharma");
   assert.ok(manju);
   assert.deepEqual(manju.timeline.map(({ kind, date, party }) => ({ kind, date, party })), [
-    { kind: "office", date: "2024-06-04", party: "Bharatiya Janata Party" },
     { kind: "election", date: "2024-06-04", party: "Bharatiya Janata Party" },
   ]);
-  assert.equal(manju.timeline[0].sourceId, "manju-current-members");
-  assert.equal(manju.timeline[1].sourceId, "jaipur-election-2024");
+  assert.equal(manju.timeline[0].sourceId, "jaipur-election-2024");
   const pratap = getPersonProfile("jaipur-lok-sabha-2024-candidate-row-01");
   assert.deepEqual(pratap?.timeline.map(({ kind, party }) => ({ kind, party })), [
     { kind: "election", party: "Indian National Congress" },
+    { kind: "career", party: undefined },
+    { kind: "career", party: "Indian National Congress" },
   ]);
 });
 
@@ -68,4 +68,25 @@ test("official public profile is shown only when attached to a verified office",
   assert.deepEqual(manju?.publicProfiles, [{ sourceId: "manju-member", label: "Official profile" }]);
   const pratap = getPersonProfile("jaipur-lok-sabha-2024-candidate-row-01");
   assert.deepEqual(pratap?.publicProfiles, []);
+});
+
+test("education and occupation retain the source and filing context", () => {
+  const manju = getPersonProfile("manju-sharma");
+  assert.equal(manju?.background?.educationDetail, "M.A., Rajasthan University, 1983");
+  assert.equal(manju?.background?.workDescription, "Jewellery business");
+  assert.equal(manju?.background?.context, "2024 election affidavit");
+  assert.equal(manju?.background?.sourceId, "adr-jaipur-2024-417");
+  const rao = getPersonProfile("rao-rajendra-singh");
+  assert.equal(rao?.background?.educationDetail, "Honours in Public Administration, Rajasthan University");
+  assert.equal(rao?.background?.workDescription, "Agriculturist");
+  assert.equal(rao?.background?.sourceId, "rao-member");
+  assert.equal(getPersonProfile("jaipur-lok-sabha-2024-candidate-row-07")?.background, null);
+});
+
+test("reviewed career milestones can show earlier public roles without claiming party changes", () => {
+  const rao = getPersonProfile("rao-rajendra-singh");
+  assert.ok(rao?.career.some((event) => event.title === "Member, Rajasthan Legislative Assembly" && event.period === "2003-2018"));
+  const pratap = getPersonProfile("jaipur-lok-sabha-2024-candidate-row-01");
+  assert.ok(pratap?.career.some((event) => event.title === "Elected MLA, Civil Lines" && event.period === "2018"));
+  assert.ok(pratap?.career.every((event) => pratap.sources.some((source) => source.id === event.sourceId)));
 });

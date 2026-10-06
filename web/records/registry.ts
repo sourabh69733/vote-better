@@ -2,6 +2,8 @@ import { validateCivicDataset, type CivicDataset } from "@/lib/civic-records";
 import { jaipurActivities, jaipurArea, jaipurCandidacies, jaipurPerson, jaipurSources, jaipurTerm } from "./jaipur";
 import { candidateProfilesFromPublication } from "./jaipur-candidates";
 import { jaipurDisclosureSources, jaipurDisclosures } from "./jaipur-disclosures";
+import { jaipurBackgrounds } from "./jaipur-background";
+import { jaipurCareerEvents, jaipurCareerSources, otherBackgrounds } from "./jaipur-career";
 import { jaipurRuralArea, jaipurRuralCandidacies, jaipurRuralPerson, jaipurRuralSources, jaipurRuralTerm } from "./jaipur-rural";
 import { lokSabhaOffice } from "./offices";
 import { jaipurPublication, mergeJaipurCandidacies, validatePublication } from "@/lib/publication";
@@ -18,7 +20,9 @@ export const dataset: CivicDataset = {
   candidacies: [...mergeJaipurCandidacies(jaipurCandidacies, jaipurSources, jaipurPublication), ...jaipurCandidates.candidacies, ...jaipurRuralCandidacies],
   activities: jaipurActivities,
   disclosures: jaipurDisclosures,
-  sources: [...jaipurSources, ...jaipurRuralSources, ...jaipurDisclosureSources],
+  backgrounds: [...jaipurBackgrounds, ...otherBackgrounds],
+  careerEvents: jaipurCareerEvents,
+  sources: [...jaipurSources, ...jaipurRuralSources, ...jaipurDisclosureSources, ...jaipurCareerSources],
 };
 
 const errors = validateCivicDataset(dataset);
