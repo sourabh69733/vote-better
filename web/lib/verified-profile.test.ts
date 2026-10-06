@@ -51,8 +51,9 @@ test("office status keeps its own review date, separate from later profile sourc
 test("public life timeline identifies the party at each sourced event without inferring a switch", () => {
   const manju = getPersonProfile("manju-sharma");
   assert.ok(manju);
-  assert.deepEqual(manju.timeline.map(({ kind, date, party }) => ({ kind, date, party })), [
-    { kind: "election", date: "2024-06-04", party: "Bharatiya Janata Party" },
+  assert.deepEqual(manju.timeline.filter((event) => event.kind === "election").map(({ date, party }) => ({ date, party })), [
+    { date: "2024-06-04", party: "Bharatiya Janata Party" },
+    { date: "2008", party: "Bharatiya Janata Party" },
   ]);
   assert.equal(manju.timeline[0].sourceId, "jaipur-election-2024");
   const pratap = getPersonProfile("jaipur-lok-sabha-2024-candidate-row-01");
@@ -89,4 +90,23 @@ test("reviewed career milestones can show earlier public roles without claiming 
   const pratap = getPersonProfile("jaipur-lok-sabha-2024-candidate-row-01");
   assert.ok(pratap?.career.some((event) => event.title === "Elected MLA, Civil Lines" && event.period === "2018"));
   assert.ok(pratap?.career.every((event) => pratap.sources.some((source) => source.id === event.sourceId)));
+});
+
+test("Manju's dated life record distinguishes education, party claims, election and work", () => {
+  const profile = getPersonProfile("manju-sharma");
+  assert.ok(profile);
+  assert.deepEqual(profile.timeline.toReversed().map(({ date, kind }) => ({ date, kind })), [
+    { date: "1983", kind: "education" },
+    { date: "1985-1987", kind: "party" },
+    { date: "1987-1992", kind: "party" },
+    { date: "1995-1997", kind: "party" },
+    { date: "2004", kind: "education" },
+    { date: "2004-2006", kind: "party" },
+    { date: "2008", kind: "election" },
+    { date: "2018", kind: "party" },
+    { date: "By March 2024", kind: "party" },
+    { date: "2024", kind: "work" },
+    { date: "2024-06-04", kind: "election" },
+  ]);
+  assert.ok(profile.timeline.every((event) => profile.sources.some((source) => source.id === event.sourceId)));
 });
