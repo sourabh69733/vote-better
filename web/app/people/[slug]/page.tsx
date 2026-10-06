@@ -36,6 +36,7 @@ export default async function PersonPage({ params }: PageProps) {
   const office = profile.officeTerms.find((term) => !term.endedOn);
   const election = profile.candidacies[0];
   const electionStatus = election ? election.status[0].toUpperCase() + election.status.slice(1) : "";
+  const electionYear = election?.resultDate?.slice(0, 4);
   const voteTraceId = getJaipurVoteTraceId(profile.slug);
 
   return (
@@ -44,72 +45,63 @@ export default async function PersonPage({ params }: PageProps) {
         ← {area ? area.label : "Verified areas"}
       </Link>
 
-      <header className={`mt-6 grid gap-8 rounded-[26px] border border-emerald-950/10 bg-white p-6 shadow-sm sm:p-8 lg:items-end lg:p-10 ${office ? "" : "lg:grid-cols-[minmax(0,1fr)_300px]"}`}>
+      <header className="mt-5 rounded-[26px] border border-emerald-950/10 bg-white p-5 shadow-sm sm:p-7">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-emerald-700">At a glance · reviewed {profile.reviewedOn}</p>
-          <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">{profile.name}</h1>
-          {office && <>
-            <p className="mt-4 text-base text-slate-700">{office.title} · {office.constituency}, {office.state}</p>
-            <p className="mt-1 text-sm text-slate-600">{office.party}</p>
-            <p className="mt-2 text-sm text-slate-600">Current term: {office.startedOn} to present · Status reviewed {office.reviewedOn}</p>
-          </>}
-          {!office && election && <>
-            <p className="mt-4 text-base text-slate-700">{election.election} · {electionStatus}</p>
-            {election.party && <p className="mt-1 text-sm text-slate-600">{election.party}</p>}
-          </>}
+          <p className="text-xs font-bold uppercase tracking-widest text-emerald-700">Person profile · reviewed {profile.reviewedOn}</p>
+          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">{profile.name}</h1>
+          <p className="mt-2 text-base text-slate-700">{office ? `${office.title} · ${office.constituency}, ${office.state}` : election ? `${election.election} · ${electionStatus}` : "Sourced public profile"}</p>
         </div>
-        {!office && election && <div className="rounded-2xl bg-[#eaf4ec] p-5">
-          <p className="text-xs font-bold uppercase tracking-wider text-emerald-800">Election result</p>
-          {election.votes !== undefined && <p className="mt-2 text-3xl font-bold tabular-nums text-slate-900">{election.votes.toLocaleString("en-IN")} <span className="text-sm font-medium text-slate-600">votes</span></p>}
-          {election.resultDate && <p className="mt-1 text-xs text-slate-600">Declared {election.resultDate}</p>}
-          <div className="mt-3"><EvidenceLink source={getProfileSource(profile, election.sourceId)} /></div>
+        {(office || election) && <div className="mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-t border-slate-100 pt-4">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wide text-slate-500">{office ? `Current party · checked ${office.reviewedOn}` : `Party at ${electionYear ?? "recorded"} election`}</p>
+            <p className="mt-1 font-semibold text-slate-900">{office?.party ?? election?.party}</p>
+          </div>
         </div>}
       </header>
 
-      <div className="mt-7 grid items-start gap-7 xl:grid-cols-[minmax(0,1.7fr)_minmax(300px,.8fr)]">
+      <div className="mt-6 grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_300px]">
         <div>
           {profile.officeTerms.length > 0 && <section aria-labelledby="office-heading">
             <h2 id="office-heading" className="text-xl font-bold text-slate-900">Offices held</h2>
-            <div className="mt-3 grid gap-3">{profile.officeTerms.map((term) => <article key={`${term.title}-${term.startedOn}`} className="rounded-2xl border border-emerald-200 bg-[#f5faf5] p-6">
-              <p className="text-xs font-bold uppercase tracking-wide text-emerald-800">{term.endedOn ? "Past office" : "Current office · verified"}</p>
-              <h3 className="mt-2 text-lg font-bold text-slate-900">{term.title}</h3>
-              <p className="mt-1 text-sm text-slate-700">{term.constituency}, {term.state} · {term.party}</p>
-              <p className="mt-2 text-sm leading-6 text-slate-600">{term.startedOn} to {term.endedOn ?? "present"} · Status reviewed {term.reviewedOn}</p>
-              <div className="mt-4 flex flex-wrap gap-3">{[term.statusSourceId, term.biographySourceId].map((id) => <EvidenceLink key={id} source={getProfileSource(profile, id)} />)}</div>
+            <div className="mt-3 grid gap-3">{profile.officeTerms.map((term) => <article key={`${term.title}-${term.startedOn}`} className="rounded-2xl border border-emerald-200 bg-[#f5faf5] px-5 py-4">
+              <p className="text-xs font-bold uppercase tracking-wide text-emerald-800">{term.endedOn ? "Past office" : "Current office"} · {term.startedOn} to {term.endedOn ?? "present"}</p>
+              <h3 className="mt-1 text-base font-bold text-slate-900">{term.title}</h3>
+              <p className="mt-1 text-sm text-slate-600">{term.constituency}, {term.state} · {term.party}</p>
+              <div className="mt-2"><EvidenceLink source={getProfileSource(profile, term.statusSourceId)} /></div>
             </article>)}</div>
           </section>}
 
-          {profile.activities.length > 0 && <section className="mt-8" aria-labelledby="activity-heading">
-            <h2 id="activity-heading" className="text-xl font-bold text-slate-900">Work and outcomes</h2>
-            <p className="mt-2 text-sm text-slate-600">Dated actions with source documents. A question or request does not by itself prove a result.</p>
-            <div className="mt-3 grid gap-3">
+          {profile.background && <section className="mt-9" aria-labelledby="background-heading">
+            <h2 id="background-heading" className="text-xl font-bold text-slate-900">Education and work</h2>
+            <p className="mt-1 text-sm text-slate-600">{profile.background.context}. This is a recorded snapshot, not a complete work history.</p>
+            <dl className="mt-4 divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white px-5">
+              {profile.background.educationDetail && <div className="py-4 sm:grid sm:grid-cols-[145px_1fr] sm:gap-5"><dt className="text-sm font-semibold text-slate-500">Education</dt><dd className="mt-1 text-sm font-medium text-slate-900 sm:mt-0">{profile.background.educationDetail}</dd></div>}
+              {profile.background.workDescription && <div className="py-4 sm:grid sm:grid-cols-[145px_1fr] sm:gap-5"><dt className="text-sm font-semibold text-slate-500">Work / income stated</dt><dd className="mt-1 text-sm font-medium text-slate-900 sm:mt-0">{profile.background.workDescription}</dd></div>}
+            </dl>
+            <div className="mt-2"><EvidenceLink source={getProfileSource(profile, profile.background.sourceId)} /></div>
+          </section>}
+
+          {profile.career.length > 0 && <section className="mt-9" aria-labelledby="timeline-heading">
+            <h2 id="timeline-heading" className="text-xl font-bold text-slate-900">Career timeline</h2>
+            <p className="mt-1 text-sm text-slate-600">Documented public roles and elections. Earlier work may not be recorded.</p>
+            <ol className="mt-4 border-l-2 border-emerald-200 pl-5">{profile.timeline.toReversed().map((event) => <li key={`${event.kind}-${event.date}-${event.title}`} className="relative border-b border-slate-200 py-4 last:border-b-0 before:absolute before:-left-[27px] before:top-[23px] before:h-3 before:w-3 before:rounded-full before:bg-emerald-600">
+              <p className="text-xs font-bold uppercase tracking-wide text-emerald-700">{event.date} · {event.kind === "career" ? "Public role" : "Election"}</p>
+              <h3 className="mt-1 font-semibold text-slate-900">{event.title}</h3>
+              {event.party && <p className="mt-1 text-sm text-slate-600">{event.kind === "career" ? "Party in this record" : "Party at election"}: {event.party}</p>}
+              <div className="mt-2"><EvidenceLink source={getProfileSource(profile, event.sourceId)} /></div>
+            </li>)}</ol>
+          </section>}
+
+          {profile.activities.length > 0 && <section className="mt-9" aria-labelledby="activity-heading">
+            <h2 id="activity-heading" className="text-xl font-bold text-slate-900">Work in office</h2>
+            <p className="mt-1 text-sm text-slate-600">Documented actions. Asking a question is not proof that a project was completed.</p>
+            <div className="mt-4 grid gap-3">
               {profile.activities.map((activity) => <article key={activity.sourceId} className="rounded-2xl border border-slate-200 bg-white p-5">
                 <p className="text-xs font-bold uppercase tracking-wide text-slate-500">{activity.date}</p>
                 <h3 className="mt-2 font-bold text-slate-900">{activity.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-600">{activity.description}</p>
                 <div className="mt-3"><EvidenceLink source={getProfileSource(profile, activity.sourceId)} /></div>
               </article>)}
-            </div>
-          </section>}
-
-          {profile.timeline.length > 0 && <section className="mt-8" aria-labelledby="timeline-heading">
-            <h2 id="timeline-heading" className="text-xl font-bold text-slate-900">Public life</h2>
-            <p className="mt-2 text-sm text-slate-600">Offices and elections with the party recorded for each event. This does not establish when a party change happened.</p>
-            <ol className="mt-4 grid gap-3">{profile.timeline.map((event) => <li key={`${event.kind}-${event.date}-${event.title}`} className="rounded-2xl border border-slate-200 bg-white p-5">
-              <p className="text-xs font-bold uppercase tracking-wide text-emerald-700">{event.date} · {event.kind === "office" ? "Office" : "Election"}</p>
-              <h3 className="mt-2 font-semibold text-slate-900">{event.title}</h3>
-              {event.party && <p className="mt-1 text-sm text-slate-600">{event.kind === "office" ? "Party recorded for office" : "Party at election"}: {event.party}</p>}
-              <div className="mt-3"><EvidenceLink source={getProfileSource(profile, event.sourceId)} /></div>
-            </li>)}</ol>
-          </section>}
-
-          {profile.publicProfiles.length > 0 && <section className="mt-8" aria-labelledby="presence-heading">
-            <h2 id="presence-heading" className="text-xl font-bold text-slate-900">Official presence</h2>
-            <div className="mt-3 flex flex-wrap gap-3 rounded-2xl border border-slate-200 bg-white p-5">
-              {profile.publicProfiles.map((link) => <div key={link.sourceId}>
-                <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">{link.label}</p>
-                <EvidenceLink source={getProfileSource(profile, link.sourceId)} />
-              </div>)}
             </div>
           </section>}
 
@@ -149,7 +141,14 @@ export default async function PersonPage({ params }: PageProps) {
           </details>}
         </div>
 
-        <aside>
+        <aside className="grid gap-4">
+          {profile.publicProfiles.length > 0 && <section className="rounded-2xl border border-slate-200 bg-white p-5" aria-labelledby="presence-heading">
+            <h2 id="presence-heading" className="text-base font-bold text-slate-900">Official presence</h2>
+            <div className="mt-3 grid gap-3">{profile.publicProfiles.map((link) => <div key={link.sourceId}>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{link.label}</p>
+              <EvidenceLink source={getProfileSource(profile, link.sourceId)} />
+            </div>)}</div>
+          </section>}
           <details className="rounded-2xl border border-slate-200 bg-white p-6">
             <summary className="cursor-pointer text-lg font-bold text-slate-900">Sources and review dates</summary>
             <p className="mt-3 text-sm text-slate-600">This is a selected record, not a complete account of this person or a judgment about performance.</p>
