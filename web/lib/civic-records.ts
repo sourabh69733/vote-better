@@ -49,6 +49,8 @@ export interface CandidacyRecord {
   resultDate?: string;
   votes?: number;
   sourceId: string;
+  areaId?: string;
+  party?: string;
 }
 
 export interface ActivityRecord {
@@ -60,6 +62,18 @@ export interface ActivityRecord {
   sourceId: string;
 }
 
+export interface CandidateDisclosureRecord {
+  id: string;
+  personId: string;
+  election: string;
+  ageAtFiling?: number;
+  education?: string;
+  declaredCases?: number;
+  declaredAssetsRupees?: number;
+  declaredLiabilitiesRupees?: number;
+  sourceId: string;
+}
+
 export interface CivicDataset {
   areas: CivicArea[];
   offices: CivicOffice[];
@@ -67,12 +81,13 @@ export interface CivicDataset {
   terms: TermRecord[];
   candidacies: CandidacyRecord[];
   activities: ActivityRecord[];
+  disclosures: CandidateDisclosureRecord[];
   sources: SourceRecord[];
 }
 
 export function validateCivicDataset(data: CivicDataset): string[] {
   const errors: string[] = [];
-  const collections = [data.areas, data.offices, data.people, data.terms, data.candidacies, data.activities, data.sources];
+  const collections = [data.areas, data.offices, data.people, data.terms, data.candidacies, data.activities, data.disclosures, data.sources];
   for (const collection of collections) {
     const seen = new Set<string>();
     for (const record of collection) {
@@ -113,10 +128,18 @@ export function validateCivicDataset(data: CivicDataset): string[] {
   for (const candidacy of data.candidacies) {
     requireId("person", candidacy.personId, candidacy.id, personIds);
     requireSource(candidacy.sourceId, candidacy.id);
+    if (candidacy.areaId) requireId("area", candidacy.areaId, candidacy.id, areaIds);
   }
   for (const activity of data.activities) {
     requireId("person", activity.personId, activity.id, personIds);
     requireSource(activity.sourceId, activity.id);
+  }
+  for (const disclosure of data.disclosures) {
+    requireId("person", disclosure.personId, disclosure.id, personIds);
+    requireSource(disclosure.sourceId, disclosure.id);
+    for (const value of [disclosure.ageAtFiling, disclosure.declaredCases, disclosure.declaredAssetsRupees, disclosure.declaredLiabilitiesRupees]) {
+      if (value !== undefined && (!Number.isSafeInteger(value) || value < 0)) errors.push(`Disclosure ${disclosure.id} has an invalid number`);
+    }
   }
   return errors;
 }

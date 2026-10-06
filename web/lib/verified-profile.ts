@@ -1,5 +1,5 @@
 import { dataset } from "@/records/registry";
-import type { SourceRecord, TermRecord } from "./civic-records";
+import type { CandidateDisclosureRecord, SourceRecord, TermRecord } from "./civic-records";
 
 export type { SourceRecord } from "./civic-records";
 
@@ -27,6 +27,7 @@ export interface ElectionCandidacy {
   resultDate?: string;
   votes?: number;
   sourceId: string;
+  party?: string;
 }
 
 export interface PersonProfile {
@@ -37,6 +38,7 @@ export interface PersonProfile {
   candidacies: ElectionCandidacy[];
   sources: SourceRecord[];
   activities: SourcedActivity[];
+  disclosures: Omit<CandidateDisclosureRecord, "id" | "personId">[];
 }
 
 function toOfficeTerm(term: TermRecord): OfficeTerm {
@@ -64,20 +66,31 @@ export function getPersonProfile(slug: string): PersonProfile | null {
   const terms = dataset.terms.filter((term) => term.personId === slug);
   const candidacies = dataset.candidacies.filter((item) => item.personId === slug);
   const activities = dataset.activities.filter((item) => item.personId === slug);
+  const disclosures = dataset.disclosures.filter((item) => item.personId === slug);
   const sourceIds = new Set([
     ...terms.flatMap((term) => [...term.areaSourceIds, ...term.holderSourceIds, term.statusSourceId, term.biographySourceId]),
     ...candidacies.map((item) => item.sourceId),
     ...activities.map((item) => item.sourceId),
+    ...disclosures.map((item) => item.sourceId),
   ]);
 
   return {
     slug: person.id,
     name: person.name,
-    reviewedOn: person.reviewedOn,
+    reviewedOn: [person.reviewedOn, ...dataset.sources.filter((source) => sourceIds.has(source.id)).map((source) => source.checkedOn)].sort().at(-1)!,
     officeTerms: terms.map(toOfficeTerm),
-    candidacies: candidacies.map(({ election, status, resultDate, votes, sourceId }) => ({ election, status, resultDate, votes, sourceId })),
+    candidacies: candidacies.map(({ election, status, resultDate, votes, sourceId, party }) => ({ election, status, resultDate, votes, sourceId, party })),
     sources: dataset.sources.filter((source) => sourceIds.has(source.id)),
     activities: activities.map(({ date, title, description, sourceId }) => ({ date, title, description, sourceId })),
+    disclosures: disclosures.map((item) => ({
+      election: item.election,
+      ageAtFiling: item.ageAtFiling,
+      education: item.education,
+      declaredCases: item.declaredCases,
+      declaredAssetsRupees: item.declaredAssetsRupees,
+      declaredLiabilitiesRupees: item.declaredLiabilitiesRupees,
+      sourceId: item.sourceId,
+    })),
   };
 }
 

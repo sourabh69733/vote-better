@@ -3,7 +3,7 @@ import test from "node:test";
 import { validateCivicDataset, type CivicDataset } from "./civic-records";
 
 const empty: CivicDataset = {
-  areas: [], offices: [], people: [], terms: [], candidacies: [], activities: [], sources: [],
+  areas: [], offices: [], people: [], terms: [], candidacies: [], activities: [], disclosures: [], sources: [],
 };
 
 test("an empty dataset has no broken references", () => {
