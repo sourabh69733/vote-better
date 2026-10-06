@@ -92,21 +92,17 @@ test("reviewed career milestones can show earlier public roles without claiming 
   assert.ok(pratap?.career.every((event) => pratap.sources.some((source) => source.id === event.sourceId)));
 });
 
-test("Manju's dated life record distinguishes education, party claims, election and work", () => {
+test("Manju's dated life record excludes uncorroborated party claims", () => {
   const profile = getPersonProfile("manju-sharma");
   assert.ok(profile);
   assert.deepEqual(profile.timeline.toReversed().map(({ date, kind }) => ({ date, kind })), [
     { date: "1983", kind: "education" },
-    { date: "1985-1987", kind: "party" },
-    { date: "1987-1992", kind: "party" },
-    { date: "1995-1997", kind: "party" },
     { date: "2004", kind: "education" },
-    { date: "2004-2006", kind: "party" },
     { date: "2008", kind: "election" },
-    { date: "2018", kind: "party" },
     { date: "By March 2024", kind: "party" },
     { date: "2024", kind: "work" },
     { date: "2024-06-04", kind: "election" },
   ]);
   assert.ok(profile.timeline.every((event) => profile.sources.some((source) => source.id === event.sourceId)));
+  assert.ok(!profile.sources.some((source) => source.url === "https://manjusharma.in/about-us/"));
 });

@@ -87,7 +87,6 @@ export interface CareerEventRecord {
   id: string;
   personId: string;
   kind?: "career" | "education" | "party" | "work" | "election";
-  selfReported?: boolean;
   title: string;
   period: string;
   sortOn: string;

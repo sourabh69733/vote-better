@@ -38,7 +38,6 @@ export interface PublicLifeEvent {
   title: string;
   party?: string;
   sourceId: string;
-  selfReported?: boolean;
 }
 
 export interface PublicProfileLink {
@@ -92,7 +91,7 @@ export function getPersonProfile(slug: string): PersonProfile | null {
   const career = dataset.careerEvents.filter((item) => item.personId === slug);
   const timeline: PublicLifeEvent[] = [
     ...candidacies.filter((item) => item.resultDate).map((item) => ({ kind: "election" as const, date: item.resultDate!, sortOn: item.resultDate!, title: item.election, party: item.party, sourceId: item.sourceId })),
-    ...career.map((event) => ({ kind: event.kind ?? "career", date: event.period, sortOn: event.sortOn, title: event.title, party: event.partyAtEvent, sourceId: event.sourceId, selfReported: event.selfReported })),
+    ...career.map((event) => ({ kind: event.kind ?? "career", date: event.period, sortOn: event.sortOn, title: event.title, party: event.partyAtEvent, sourceId: event.sourceId })),
   ].sort((a, b) => b.sortOn.localeCompare(a.sortOn));
   const sourceIds = new Set([
     ...terms.flatMap((term) => [...term.areaSourceIds, ...term.holderSourceIds, term.statusSourceId, term.biographySourceId]),
@@ -128,7 +127,7 @@ export function getPersonProfile(slug: string): PersonProfile | null {
       context: background.context,
       sourceId: background.sourceId,
     } : null,
-    career: career.map(({ kind, title, period, sortOn, partyAtEvent, selfReported, sourceId }) => ({ kind, title, period, sortOn, partyAtEvent, selfReported, sourceId })),
+    career: career.map(({ kind, title, period, sortOn, partyAtEvent, sourceId }) => ({ kind, title, period, sortOn, partyAtEvent, sourceId })),
   };
 }
 
