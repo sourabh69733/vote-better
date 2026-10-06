@@ -40,3 +40,10 @@ test("affidavit summaries keep filing-time details and their individual sources"
   assert.equal(pradeep?.disclosures[0]?.education, undefined);
   assert.match(pradeep?.sources.find((item) => item.id === pradeep.disclosures[0].sourceId)?.url ?? "", /^https:\/\/affidavit\.eci\.gov\.in\/show-profile\//);
 });
+
+test("office status keeps its own review date, separate from later profile sources", () => {
+  const manju = getPersonProfile("manju-sharma");
+  assert.ok(manju);
+  assert.equal(manju.officeTerms[0].reviewedOn, "2026-10-02");
+  assert.equal(manju.reviewedOn, "2026-10-06");
+});

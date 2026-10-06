@@ -37,9 +37,6 @@ export default async function PersonPage({ params }: PageProps) {
   const office = profile.officeTerms.find((term) => !term.endedOn);
   const election = profile.candidacies[0];
   const voteTraceId = getJaipurVoteTraceId(profile.slug);
-  const officeSources = office
-    ? [office.statusSourceId, office.biographySourceId].map((id) => getProfileSource(profile, id))
-    : [];
 
   return (
     <div className="mx-auto w-full max-w-[1320px] px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
@@ -47,7 +44,7 @@ export default async function PersonPage({ params }: PageProps) {
         ← {area ? area.label : "Verified areas"}
       </Link>
 
-      <header className="mt-6 grid gap-8 rounded-[26px] border border-emerald-950/10 bg-white p-6 shadow-sm sm:p-8 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-end lg:p-10">
+      <header className={`mt-6 grid gap-8 rounded-[26px] border border-emerald-950/10 bg-white p-6 shadow-sm sm:p-8 lg:items-end lg:p-10 ${office ? "" : "lg:grid-cols-[minmax(0,1fr)_300px]"}`}>
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-emerald-700">Person profile · reviewed {profile.reviewedOn}</p>
           <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">{profile.name}</h1>
@@ -60,10 +57,6 @@ export default async function PersonPage({ params }: PageProps) {
             {election.party && <p className="mt-1 text-sm text-slate-600">{election.party}</p>}
           </>}
         </div>
-        {officeSources.length > 0 && <div className="rounded-2xl bg-[#eaf4ec] p-5">
-          <p className="text-xs font-bold uppercase tracking-wider text-emerald-800">Current role evidence</p>
-          <div className="mt-3 grid gap-2">{officeSources.map((source) => <EvidenceLink key={source.id} source={source} />)}</div>
-        </div>}
         {!office && election && <div className="rounded-2xl bg-[#eaf4ec] p-5">
           <p className="text-xs font-bold uppercase tracking-wider text-emerald-800">2024 result</p>
           {election.votes !== undefined && <p className="mt-2 text-3xl font-bold tabular-nums text-slate-900">{election.votes.toLocaleString("en-IN")} <span className="text-sm font-medium text-slate-600">votes</span></p>}
@@ -74,20 +67,20 @@ export default async function PersonPage({ params }: PageProps) {
 
       <div className="mt-7 grid items-start gap-7 xl:grid-cols-[minmax(0,1.7fr)_minmax(300px,.8fr)]">
         <div>
-          <p className="rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-relaxed text-amber-900">
+          {profile.officeTerms.length > 0 && <section aria-labelledby="office-heading">
+            <h2 id="office-heading" className="text-xl font-bold text-slate-900">Offices held</h2>
+            <div className="mt-3 grid gap-3">{profile.officeTerms.map((term) => <article key={`${term.title}-${term.startedOn}`} className="rounded-2xl border border-emerald-200 bg-[#f5faf5] p-6">
+              <p className="text-xs font-bold uppercase tracking-wide text-emerald-800">{term.endedOn ? "Past office" : "Current office · verified"}</p>
+              <h3 className="mt-2 text-lg font-bold text-slate-900">{term.title}</h3>
+              <p className="mt-1 text-sm text-slate-700">{term.constituency}, {term.state} · {term.party}</p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{term.startedOn} to {term.endedOn ?? "present"} · Status reviewed {term.reviewedOn}</p>
+              <div className="mt-4 flex flex-wrap gap-3">{[term.statusSourceId, term.biographySourceId].map((id) => <EvidenceLink key={id} source={getProfileSource(profile, id)} />)}</div>
+            </article>)}</div>
+          </section>}
+
+          <p className="mt-7 rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-relaxed text-amber-900">
             This profile shows selected sourced records. It is not a complete account of this person or a judgment about performance.
           </p>
-
-          {office && <section className="mt-8" aria-labelledby="office-heading">
-            <h2 id="office-heading" className="text-xl font-bold text-slate-900">Current role</h2>
-            <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-6">
-              <p className="font-semibold text-slate-900">{office.title}</p>
-              <p className="mt-1 text-sm leading-6 text-slate-600">
-                In office from {office.startedOn}. Current status was reviewed on {profile.reviewedOn}.
-              </p>
-              <div className="mt-4 flex flex-wrap gap-3">{officeSources.map((source) => <EvidenceLink key={source.id} source={source} />)}</div>
-            </div>
-          </section>}
 
           {profile.activities.length > 0 && <section className="mt-8" aria-labelledby="activity-heading">
             <h2 id="activity-heading" className="text-xl font-bold text-slate-900">Documented activity</h2>

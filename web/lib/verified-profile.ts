@@ -17,6 +17,7 @@ export interface OfficeTerm {
   party: string;
   startedOn: string;
   endedOn?: string;
+  reviewedOn: string;
   statusSourceId: string;
   biographySourceId: string;
 }
@@ -50,6 +51,7 @@ function toOfficeTerm(term: TermRecord): OfficeTerm {
     party: term.party,
     startedOn: term.startedOn,
     endedOn: term.endedOn,
+    reviewedOn: term.reviewedOn,
     statusSourceId: term.statusSourceId,
     biographySourceId: term.biographySourceId,
   };
