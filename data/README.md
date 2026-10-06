@@ -58,7 +58,8 @@ data/.venv/bin/python data/src/geo/build_pin_lookup.py \
   --areas data/raw/maps/LGD_Parliament_Constituencies.geojsonl \
   --sources data/raw/maps/sources.json \
   --output data/raw/maps/pin_candidates_draft.json \
-  --pin-field Pincode --area-field pc_id
+  --pin-field Pincode --area-field pc_id \
+  --area-label-field pc_name --area-state-field st_name
 ```
 
 The source manifest needs `pins` and `areas` objects with HTTPS `url`, ISO `checkedAt`, and optional `inputSha256` for the extracted local file. The local research run on 2026-10-06 mapped 19,312 PINs against 543 parliamentary polygons: 8,994 had one possible constituency, 10,314 crossed more than one, and four had no overlap. Three constituency geometries needed repair. These are mapping drafts, not verified voter assignments. The source `pc_id` values also need a reviewed crosswalk to Vote Better area IDs before the website can use them. Browser location needs a separate point-in-boundary lookup using reviewed polygons.

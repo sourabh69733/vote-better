@@ -115,6 +115,17 @@ class PinLookupTests(unittest.TestCase):
             self.run_build()
         self.assertFalse(self.output.exists())
 
+    def test_area_labels_are_carried_from_the_boundary_source(self):
+        self.pins.write_text(json.dumps(collection([
+            feature("pin_code", "302009", polygon(0, 0, 1, 1))
+        ])))
+        area = feature("pc_id", 807, polygon(0, 0, 2, 2))
+        area["properties"].update({"pc_name": "JAIPUR", "st_name": "RAJASTHAN"})
+        self.areas.write_text(json.dumps(collection([area])))
+        result = build_pin_lookup(self.pins, self.areas, self.output, self.sources,
+                                  area_field="pc_id", area_label_field="pc_name", area_state_field="st_name")
+        self.assertEqual(result["areas"], {"807": {"label": "JAIPUR", "state": "RAJASTHAN"}})
+
 
 if __name__ == "__main__":
     unittest.main()

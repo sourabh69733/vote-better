@@ -43,7 +43,7 @@ def _geojsonl_features(path: Path):
                 yield json.loads(line)
 
 
-def _polygons(path: Path, field: str, kind: str) -> dict:
+def _polygons(path: Path, field: str, kind: str, label_field=None, state_field=None) -> dict:
     if path.suffix == ".geojsonl":
         features = _geojsonl_features(path)
     else:
@@ -56,6 +56,7 @@ def _polygons(path: Path, field: str, kind: str) -> dict:
         features = document["features"]
     groups = defaultdict(list)
     repaired = set()
+    labels = {}
     for index, feature in enumerate(features):
         if not isinstance(feature, dict) or feature.get("type") != "Feature":
             raise ValueError(f"invalid {kind} feature {index}")
@@ -68,6 +69,15 @@ def _polygons(path: Path, field: str, kind: str) -> dict:
             key = str(key)
         elif not isinstance(key, str) or not key.strip():
             raise ValueError(f"missing area ID at feature {index}")
+        if kind == "areas" and label_field and state_field:
+            label = properties.get(label_field)
+            state = properties.get(state_field)
+            if not isinstance(label, str) or not label.strip() or not isinstance(state, str) or not state.strip():
+                raise ValueError(f"missing area label or state at feature {index}")
+            detail = {"label": label.strip(), "state": state.strip()}
+            if key in labels and labels[key] != detail:
+                raise ValueError(f"conflicting area labels for {key}")
+            labels[key] = detail
         geometry = shape(feature.get("geometry"))
         if geometry.geom_type not in ("Polygon", "MultiPolygon") or geometry.is_empty:
             raise ValueError(f"invalid {kind} polygon at feature {index}")
@@ -89,11 +99,14 @@ def _polygons(path: Path, field: str, kind: str) -> dict:
     combined = {key: unary_union(parts) for key, parts in groups.items()}
     if any(not geometry.is_valid for geometry in combined.values()):
         raise ValueError(f"{kind} contains an invalid combined polygon")
-    return combined, repaired
+    return combined, repaired, labels
 
 
-def build_pin_lookup(pin_geojson, pc_geojson, output_file, sources, pin_field="pin_code", area_field="area_id"):
+def build_pin_lookup(pin_geojson, pc_geojson, output_file, sources, pin_field="pin_code", area_field="area_id",
+                     area_label_field=None, area_state_field=None):
     """Return candidate constituency IDs for each PIN; never claim a voter match."""
+    if bool(area_label_field) != bool(area_state_field):
+        raise ValueError("area label and state fields must be provided together")
     pin_path, pc_path, output_path = map(Path, (pin_geojson, pc_geojson, output_file))
     if not isinstance(sources, dict) or "pins" not in sources or "areas" not in sources:
         raise ValueError("both source records are required")
@@ -101,8 +114,8 @@ def build_pin_lookup(pin_geojson, pc_geojson, output_file, sources, pin_field="p
         "pins": _source_record(pin_path, sources["pins"]),
         "areas": _source_record(pc_path, sources["areas"]),
     }
-    pins, repaired_pins = _polygons(pin_path, pin_field, "pins")
-    areas, repaired_areas = _polygons(pc_path, area_field, "areas")
+    pins, repaired_pins, _ = _polygons(pin_path, pin_field, "pins")
+    areas, repaired_areas, labels = _polygons(pc_path, area_field, "areas", area_label_field, area_state_field)
     area_ids = sorted(areas)
     area_shapes = [areas[area_id] for area_id in area_ids]
     tree = STRtree(area_shapes)
@@ -123,6 +136,7 @@ def build_pin_lookup(pin_geojson, pc_geojson, output_file, sources, pin_field="p
         "sources": provenance,
         "pinCount": len(pins),
         "areaCount": len(areas),
+        "areas": labels,
         "repairedPinCodes": sorted(repaired_pins),
         "repairedAreaIds": sorted(repaired_areas),
         "pins": matches,
@@ -142,9 +156,12 @@ def main():
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--pin-field", default="pin_code")
     parser.add_argument("--area-field", default="area_id")
+    parser.add_argument("--area-label-field")
+    parser.add_argument("--area-state-field")
     args = parser.parse_args()
     sources = json.loads(args.sources.read_text(encoding="utf-8"))
-    result = build_pin_lookup(args.pins, args.areas, args.output, sources, args.pin_field, args.area_field)
+    result = build_pin_lookup(args.pins, args.areas, args.output, sources, args.pin_field, args.area_field,
+                              args.area_label_field, args.area_state_field)
     counts = {status: sum(value["status"] == status for value in result["pins"].values())
               for status in ("single-possible", "multiple-possible", "no-match")}
     print(json.dumps({"pinCount": result["pinCount"], "areaCount": result["areaCount"], **counts}))
