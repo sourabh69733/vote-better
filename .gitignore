@@ -53,6 +53,7 @@ public/data
 !/data/tsconfig.json
 !/data/compose.yaml
 !/data/README.md
+!/data/requirements-geo.txt
 !/data/migrations/
 !/data/extractions/
 !/data/src/
