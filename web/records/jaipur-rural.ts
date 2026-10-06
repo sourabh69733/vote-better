@@ -39,6 +39,8 @@ export const jaipurRuralCandidacies: CandidacyRecord[] = [{
   resultDate: "2024-06-04",
   votes: 617877,
   sourceId: "jaipur-rural-election-2024",
+  areaId: jaipurRuralArea.id,
+  party: "Bharatiya Janata Party",
 }];
 
 export const jaipurRuralSources: SourceRecord[] = [

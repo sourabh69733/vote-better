@@ -68,5 +68,6 @@ export function listAreaOverviews(): AreaOverview[] {
 
 export function getAreaForPerson(slug: string): CivicArea | null {
   const term = dataset.terms.find((item) => item.personId === slug && !item.endedOn);
-  return term ? dataset.areas.find((area) => area.id === term.areaId) ?? null : null;
+  const areaId = term?.areaId ?? dataset.candidacies.find((item) => item.personId === slug)?.areaId;
+  return dataset.areas.find((area) => area.id === areaId) ?? null;
 }

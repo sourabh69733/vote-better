@@ -19,7 +19,7 @@ export function CandidateResultList({ candidates }: { candidates: Candidate[] })
           <li key={candidate.personId} className="grid gap-3 border-b border-[#e4ebe4] py-4 last:border-b-0 sm:grid-cols-[2rem_minmax(0,1fr)_auto] sm:items-center">
             <span className="text-xs font-bold text-[#839185]">{String(index + 1).padStart(2, "0")}</span>
             <div className="min-w-0">
-              <p className="font-semibold text-[#19372d]">{candidate.name}</p>
+              <Link href={`/people/${candidate.personId}`} className="font-semibold text-[#19372d] underline decoration-[#b8cfc1] underline-offset-4 hover:text-[#216b4b]">{candidate.name}</Link>
               <p className="mt-1 text-sm text-[#66786a]">{candidate.party}</p>
             </div>
             <div className="flex items-center gap-4 sm:justify-end">

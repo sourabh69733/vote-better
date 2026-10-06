@@ -29,6 +29,8 @@ test("constituency result starts with two rows and a clear expansion button", ()
   assert.doesNotMatch(html, /HARI NARAYAN MEENA/);
   assert.match(html, /Show all 13 candidates/);
   assert.match(html, /aria-expanded="false"/);
+  assert.match(html, /href="\/people\/manju-sharma"/);
+  assert.match(html, /href="\/people\/jaipur-lok-sabha-2024-candidate-row-01"/);
   assert.equal((html.match(/href="\/facts\//g) ?? []).length, 2);
   assert.equal(renderToStaticMarkup(ElectionResult({ areaId: "jaipur-rural-lok-sabha" })), "");
 });

@@ -39,6 +39,8 @@ export const jaipurCandidacies: CandidacyRecord[] = [{
   resultDate: "2024-06-04",
   votes: 886850,
   sourceId: "jaipur-election-2024",
+  areaId: jaipurArea.id,
+  party: "Bharatiya Janata Party",
 }];
 
 export const jaipurSources: SourceRecord[] = [
@@ -58,7 +60,7 @@ export const jaipurSources: SourceRecord[] = [
     id: "jaipur-election-2024",
     title: "Rajasthan CEO, Jaipur 2024 return of election (Form 21E)",
     url: "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
-    checkedOn: "2026-10-02",
+    checkedOn: "2026-10-06",
   },
   {
     id: "manju-renewable-question",
