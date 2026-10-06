@@ -74,8 +74,8 @@ test("elected profile leads with present party, background and office work", asy
   assert.match(html, /Life and public work/);
   assert.match(html, /LL\.B\. \(academic\)/);
   assert.match(html, /Hawa Mahal Assembly election/);
-  assert.match(html, /Candidate-published account/);
-  assert.match(html, /Candidate account/);
+  assert.doesNotMatch(html, /Candidate-published account/);
+  assert.doesNotMatch(html, /Navsari district/);
   assert.match(html, /not a continuous employment history/);
   assert.match(html, /Work in office/);
   assert.ok(html.indexOf("Life and public work") < html.indexOf("Work in office"));

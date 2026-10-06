@@ -74,9 +74,9 @@ export default async function PersonPage({ params }: PageProps) {
 
           {profile.career.length > 0 && <section className="mt-9" aria-labelledby="timeline-heading">
             <h2 id="timeline-heading" className="text-xl font-bold text-slate-900">Life and public work</h2>
-            <p className="mt-1 text-sm text-slate-600">Selected dated records, not a continuous employment history. Sources show which roles come from the candidate&apos;s own account.</p>
+            <p className="mt-1 text-sm text-slate-600">Selected dated records, not a continuous employment history. Each entry links to its source; gaps mean no dated evidence was found.</p>
             <ol className="mt-4 border-l-2 border-emerald-200 pl-5">{profile.timeline.toReversed().map((event) => <li key={`${event.kind}-${event.date}-${event.title}`} className="relative border-b border-slate-200 py-4 last:border-b-0 before:absolute before:-left-[27px] before:top-[23px] before:h-3 before:w-3 before:rounded-full before:bg-emerald-600">
-              <p className="text-xs font-bold uppercase tracking-wide text-emerald-700">{event.date} · {{ career: "Public role", education: "Education", party: "Party role", work: "Work declaration", election: "Election" }[event.kind]}{event.selfReported ? " · Candidate account" : ""}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-emerald-700">{event.date} · {{ career: "Public role", education: "Education", party: "Party role", work: "Work declaration", election: "Election" }[event.kind]}</p>
               <h3 className="mt-1 font-semibold text-slate-900">{event.title}</h3>
               {event.party && <p className="mt-1 text-sm text-slate-600">{event.kind === "election" ? "Party at election" : "Party in this record"}: {event.party}</p>}
               <div className="mt-2"><EvidenceLink source={getProfileSource(profile, event.sourceId)} /></div>
