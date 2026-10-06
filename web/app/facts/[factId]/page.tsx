@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { getFactTrace, jaipurPublication } from "@/lib/publication";
+import { getPersonProfile } from "@/lib/verified-profile";
 
 interface PageProps {
   params: Promise<{ factId: string }>;
@@ -36,10 +37,15 @@ export default async function FactPage({ params }: PageProps) {
   const { factId } = await params;
   const fact = getFactTrace(jaipurPublication, factId);
   if (!fact) notFound();
+  const hasProfile = getPersonProfile(fact.subjectId) !== null;
+  const returnPath = hasProfile ? `/people/${fact.subjectId}` :
+    jaipurPublication.coverage !== "not-assessed" ? `/areas/${jaipurPublication.coverage.areaId}` : "/";
 
   return (
     <main className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
-      <Link href={`/people/${fact.subjectId}`} className="text-sm font-semibold text-emerald-800 hover:underline">← Person profile</Link>
+      <Link href={returnPath} className="text-sm font-semibold text-emerald-800 hover:underline">
+        ← {hasProfile ? "Person profile" : "Election result"}
+      </Link>
       <header className="mt-7 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
         <p className="text-xs font-bold uppercase tracking-widest text-emerald-700">Source trail</p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900">{label(fact.predicate)}</h1>

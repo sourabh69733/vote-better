@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAreaOverview, listAreaOverviews } from "@/lib/civic-area";
 import { ResultCoverage } from "@/components/ResultCoverage";
+import { ElectionResult } from "@/components/ElectionResult";
+import { getAreaElectionResult } from "@/lib/publication";
 
 interface PageProps {
   params: Promise<{ areaId: string }>;
@@ -22,6 +24,7 @@ export default async function AreaPage({ params }: PageProps) {
   const { areaId } = await params;
   const overview = getAreaOverview(areaId);
   if (!overview) notFound();
+  const hasElectionResult = getAreaElectionResult(overview.area.id) !== null;
 
   return (
     <div className="mx-auto w-full max-w-[1320px] px-4 pb-14 pt-8 sm:px-6 sm:pt-12 lg:px-8">
@@ -37,18 +40,20 @@ export default async function AreaPage({ params }: PageProps) {
           <h1 className="mt-3 text-[clamp(3.2rem,5.5vw,5.6rem)] font-semibold leading-none tracking-[-0.075em] text-[#19372d]">{overview.area.name}</h1>
           <p className="mt-4 text-base text-[#617466]">{overview.area.label}</p>
         </div>
-        <div className="grid gap-3">
-          <div className="rounded-2xl border border-[#cddfcf] bg-[#eaf3e9] px-5 py-4">
-            <strong className="text-3xl font-semibold tracking-[-0.05em] text-[#1d5f43]">{overview.links.length}</strong>
-            <p className="mt-1 text-sm leading-5 text-[#4f6e58]">verified {overview.links.length === 1 ? "office holder" : "office holders"} in this area</p>
-          </div>
-          <ResultCoverage areaId={overview.area.id} />
+        <div className="rounded-2xl border border-[#cddfcf] bg-[#eaf3e9] px-5 py-4">
+          <strong className="text-3xl font-semibold tracking-[-0.05em] text-[#1d5f43]">{overview.links.length}</strong>
+          <p className="mt-1 text-sm leading-5 text-[#4f6e58]">verified {overview.links.length === 1 ? "office holder" : "office holders"} in this area</p>
         </div>
       </header>
 
+      <div className={`mt-9 grid items-start gap-6 ${hasElectionResult ? "lg:grid-cols-[minmax(0,1fr)_340px]" : ""}`}>
+        <ElectionResult areaId={overview.area.id} />
+        <ResultCoverage areaId={overview.area.id} />
+      </div>
+
       <div className="mt-10 grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_340px]">
         <section aria-labelledby="holders-heading">
-          <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#528166]">01 / People</p>
+          <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#528166]">People</p>
           <h2 id="holders-heading" className="mt-2 text-3xl font-semibold tracking-[-0.05em] text-[#19372d]">Who holds office here</h2>
           <div className="mt-5 grid gap-4">
             {overview.links.map((link) => (
@@ -80,7 +85,7 @@ export default async function AreaPage({ params }: PageProps) {
         </section>
 
         <aside className="rounded-[22px] bg-[#173a34] p-7 text-white lg:mt-12" aria-labelledby="map-heading">
-          <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#9bd3ae]">02 / Relationships</p>
+          <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#9bd3ae]">Relationships</p>
           <h2 id="map-heading" className="mt-2 text-2xl font-semibold tracking-[-0.04em]">Follow the connection</h2>
           <p className="mt-3 text-sm leading-6 text-[#bbd6c4]">See how this area connects to its public office and current holder. Select a line to see its source.</p>
           <div className="mt-6 grid gap-5 text-sm">
