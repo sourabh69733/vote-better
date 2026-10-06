@@ -72,6 +72,17 @@ export function getAreaCoverage(areaId: string): SourceCoverage | null {
   return coverage !== "not-assessed" && coverage.areaId === areaId ? coverage : null;
 }
 
+export function getAreaElectionResult(
+  areaId: string, publication: WebPublication = jaipurPublication,
+): WebPublication["dataset"]["candidacies"] | null {
+  const coverage = publication.coverage;
+  if (coverage === "not-assessed" || coverage.areaId !== areaId || validatePublication(publication).length) return null;
+  const candidates = publication.dataset.candidacies.filter((item) => item.sourceUrl === coverage.sourceUrl);
+  return candidates.length
+    ? [...candidates].sort((a, b) => b.votes - a.votes || a.name.localeCompare(b.name))
+    : null;
+}
+
 export function getFactTrace(publication: WebPublication, factId: string): WebFact | undefined {
   return publication.facts.find((fact) => fact.id === factId);
 }
