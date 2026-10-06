@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { getAreaForPerson } from "@/lib/civic-area";
 import { getPersonProfile, getProfileSource, listPersonSlugs, type SourceRecord } from "@/lib/verified-profile";
 import { getJaipurVoteTraceId } from "@/lib/publication";
-import { ResultCoverage } from "@/components/ResultCoverage";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -36,6 +35,7 @@ export default async function PersonPage({ params }: PageProps) {
   const area = getAreaForPerson(slug);
   const office = profile.officeTerms.find((term) => !term.endedOn);
   const election = profile.candidacies[0];
+  const electionStatus = election ? election.status[0].toUpperCase() + election.status.slice(1) : "";
   const voteTraceId = getJaipurVoteTraceId(profile.slug);
 
   return (
@@ -46,19 +46,20 @@ export default async function PersonPage({ params }: PageProps) {
 
       <header className={`mt-6 grid gap-8 rounded-[26px] border border-emerald-950/10 bg-white p-6 shadow-sm sm:p-8 lg:items-end lg:p-10 ${office ? "" : "lg:grid-cols-[minmax(0,1fr)_300px]"}`}>
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-emerald-700">Person profile · reviewed {profile.reviewedOn}</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-emerald-700">At a glance · reviewed {profile.reviewedOn}</p>
           <h1 className="mt-3 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">{profile.name}</h1>
           {office && <>
             <p className="mt-4 text-base text-slate-700">{office.title} · {office.constituency}, {office.state}</p>
             <p className="mt-1 text-sm text-slate-600">{office.party}</p>
+            <p className="mt-2 text-sm text-slate-600">Current term: {office.startedOn} to present · Status reviewed {office.reviewedOn}</p>
           </>}
           {!office && election && <>
-            <p className="mt-4 text-base text-slate-700">{election.election} · {election.status === "elected" ? "Elected in 2024" : "Not elected in 2024"}</p>
+            <p className="mt-4 text-base text-slate-700">{election.election} · {electionStatus}</p>
             {election.party && <p className="mt-1 text-sm text-slate-600">{election.party}</p>}
           </>}
         </div>
         {!office && election && <div className="rounded-2xl bg-[#eaf4ec] p-5">
-          <p className="text-xs font-bold uppercase tracking-wider text-emerald-800">2024 result</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-emerald-800">Election result</p>
           {election.votes !== undefined && <p className="mt-2 text-3xl font-bold tabular-nums text-slate-900">{election.votes.toLocaleString("en-IN")} <span className="text-sm font-medium text-slate-600">votes</span></p>}
           {election.resultDate && <p className="mt-1 text-xs text-slate-600">Declared {election.resultDate}</p>}
           <div className="mt-3"><EvidenceLink source={getProfileSource(profile, election.sourceId)} /></div>
@@ -78,13 +79,9 @@ export default async function PersonPage({ params }: PageProps) {
             </article>)}</div>
           </section>}
 
-          <p className="mt-7 rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm leading-relaxed text-amber-900">
-            This profile shows selected sourced records. It is not a complete account of this person or a judgment about performance.
-          </p>
-
           {profile.activities.length > 0 && <section className="mt-8" aria-labelledby="activity-heading">
-            <h2 id="activity-heading" className="text-xl font-bold text-slate-900">Documented activity</h2>
-            <p className="mt-2 text-sm text-slate-600">Selected dated records. An action does not by itself prove an outcome.</p>
+            <h2 id="activity-heading" className="text-xl font-bold text-slate-900">Work and outcomes</h2>
+            <p className="mt-2 text-sm text-slate-600">Dated actions with source documents. A question or request does not by itself prove a result.</p>
             <div className="mt-3 grid gap-3">
               {profile.activities.map((activity) => <article key={activity.sourceId} className="rounded-2xl border border-slate-200 bg-white p-5">
                 <p className="text-xs font-bold uppercase tracking-wide text-slate-500">{activity.date}</p>
@@ -95,13 +92,38 @@ export default async function PersonPage({ params }: PageProps) {
             </div>
           </section>}
 
+          {profile.timeline.length > 0 && <section className="mt-8" aria-labelledby="timeline-heading">
+            <h2 id="timeline-heading" className="text-xl font-bold text-slate-900">Public life</h2>
+            <p className="mt-2 text-sm text-slate-600">Offices and elections with the party recorded for each event. This does not establish when a party change happened.</p>
+            <ol className="mt-4 grid gap-3">{profile.timeline.map((event) => <li key={`${event.kind}-${event.date}-${event.title}`} className="rounded-2xl border border-slate-200 bg-white p-5">
+              <p className="text-xs font-bold uppercase tracking-wide text-emerald-700">{event.date} · {event.kind === "office" ? "Office" : "Election"}</p>
+              <h3 className="mt-2 font-semibold text-slate-900">{event.title}</h3>
+              {event.party && <p className="mt-1 text-sm text-slate-600">{event.kind === "office" ? "Party recorded for office" : "Party at election"}: {event.party}</p>}
+              <div className="mt-3"><EvidenceLink source={getProfileSource(profile, event.sourceId)} /></div>
+            </li>)}</ol>
+          </section>}
+
+          {profile.publicProfiles.length > 0 && <section className="mt-8" aria-labelledby="presence-heading">
+            <h2 id="presence-heading" className="text-xl font-bold text-slate-900">Official presence</h2>
+            <div className="mt-3 flex flex-wrap gap-3 rounded-2xl border border-slate-200 bg-white p-5">
+              {profile.publicProfiles.map((link) => <div key={link.sourceId}>
+                <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">{link.label}</p>
+                <EvidenceLink source={getProfileSource(profile, link.sourceId)} />
+              </div>)}
+            </div>
+          </section>}
+
+          {(election || profile.disclosures.length > 0) && <details className="mt-8 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
+            <summary className="cursor-pointer text-xl font-bold text-slate-900">Election and filing records</summary>
+            <p className="mt-3 text-sm text-slate-600">Election results and information declared at filing time. Open a source to check each claim.</p>
+
           {election && <section className="mt-8" aria-labelledby="election-heading">
             <h2 id="election-heading" className="text-xl font-bold text-slate-900">Election record</h2>
             <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-6">
               <p className="font-semibold text-slate-900">{election.election}</p>
               {election.party && <p className="mt-1 text-sm text-slate-600">{election.party}</p>}
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                {election.status === "elected" ? "Elected" : "Not elected"}.
+                {electionStatus}.
                 {election.resultDate ? ` Result dated ${election.resultDate}.` : ""}
                 {election.votes !== undefined && ` The return records ${election.votes.toLocaleString("en-IN")} votes.`}
               </p>
@@ -124,19 +146,20 @@ export default async function PersonPage({ params }: PageProps) {
               <div className="mt-5 border-t border-slate-100 pt-4"><EvidenceLink source={getProfileSource(profile, disclosure.sourceId)} /></div>
             </div>
           </section>)}
+          </details>}
         </div>
 
-        <aside className="grid gap-5 xl:sticky xl:top-24">
-          {area && <ResultCoverage areaId={area.id} />}
-          <section className="rounded-2xl border border-slate-200 bg-white p-6" aria-labelledby="sources-heading">
-            <h2 id="sources-heading" className="text-lg font-bold text-slate-900">Source register</h2>
+        <aside>
+          <details className="rounded-2xl border border-slate-200 bg-white p-6">
+            <summary className="cursor-pointer text-lg font-bold text-slate-900">Sources and review dates</summary>
+            <p className="mt-3 text-sm text-slate-600">This is a selected record, not a complete account of this person or a judgment about performance.</p>
             <ul className="mt-4 grid gap-4">
               {profile.sources.map((source) => <li key={source.id} className="border-b border-slate-100 pb-4 last:border-b-0 last:pb-0">
                 <EvidenceLink source={source} />
                 <p className="mt-1 text-xs text-slate-500">Checked {source.checkedOn}</p>
               </li>)}
             </ul>
-          </section>
+          </details>
         </aside>
       </div>
     </div>
