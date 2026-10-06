@@ -1,8 +1,872 @@
 {
-  "revisionId": "95032aa0-0386-473d-a3be-905181930690",
-  "previousRevisionId": null,
-  "publishedAt": "2026-10-05T18:53:43.293Z",
+  "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+  "previousRevisionId": "95032aa0-0386-473d-a3be-905181930690",
+  "publishedAt": "2026-10-06T07:18:43.634Z",
   "facts": [
+    {
+      "id": "983b9e13-8c52-4bfb-9fbb-8e8d5fbf4f10",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-13",
+      "predicate": "candidate.votesPolled",
+      "value": 2202,
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.630Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 13, votes",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.030Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "2a314695-ae2d-4f20-9826-712b08fb3d55",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-13",
+      "predicate": "candidate.party",
+      "value": "Independent",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.627Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 13, party",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.029Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "f8fd86be-15f2-4ce8-b7f3-71cf4e730a86",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-13",
+      "predicate": "candidate.name",
+      "value": "HARI NARAYAN MEENA",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.625Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 13, name",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.029Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "06f5986b-ccc9-4ddb-ba20-fc4570bb8144",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-12",
+      "predicate": "candidate.votesPolled",
+      "value": 970,
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.622Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 12, votes",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.028Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "031f6eb8-6514-42d0-a5e5-6f8f2544d9c1",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-12",
+      "predicate": "candidate.party",
+      "value": "Independent",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.619Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 12, party",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.028Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "966d6839-96ce-4265-a1fd-bcdfd398502c",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-12",
+      "predicate": "candidate.name",
+      "value": "RAJEEV ROLIWAL",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.617Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 12, name",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.027Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "37308933-18e5-4e2f-8c2f-694abb398563",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-11",
+      "predicate": "candidate.votesPolled",
+      "value": 816,
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.614Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 11, votes",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.026Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "b7bbd162-d6b1-45a4-81f8-eb35660ff119",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-11",
+      "predicate": "candidate.party",
+      "value": "Independent",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.611Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 11, party",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.026Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "ebab5141-3c25-4074-9370-896ed3a8e367",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-11",
+      "predicate": "candidate.name",
+      "value": "YOGESH SHARMA",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.609Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 11, name",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.025Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "4e086b89-a42a-4a7f-a560-3674ed27f329",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-10",
+      "predicate": "candidate.votesPolled",
+      "value": 572,
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.606Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 10, votes",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.024Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "529291d5-1860-4897-b6a6-f3add3f052b5",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-10",
+      "predicate": "candidate.party",
+      "value": "Independent",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.603Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 10, party",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.023Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "9af9814e-ce98-4103-ae23-d1c354cababd",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-10",
+      "predicate": "candidate.name",
+      "value": "DR. ASEEM VERMA",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.600Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 10, name",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.023Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "9a10497f-767b-49a3-82e0-20530ff76fb0",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-09",
+      "predicate": "candidate.votesPolled",
+      "value": 400,
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.597Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 9, votes",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.022Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "b057f4a1-b9c8-49c5-a4ab-9c78ecbdfe91",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-09",
+      "predicate": "candidate.party",
+      "value": "Bheem Tribal Congress",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.595Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 9, party",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.021Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "1924ccad-a87a-436a-a30f-3fb9fdf3fdac",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-09",
+      "predicate": "candidate.name",
+      "value": "ADVOCATE HARI KISHAN TIWARI",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.592Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 9, name",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.020Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "651b4014-8adb-42ac-a3d2-29cd87621c3b",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-08",
+      "predicate": "candidate.votesPolled",
+      "value": 393,
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.589Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 8, votes",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.020Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "116d35ec-6038-41ab-8156-0d59365c0353",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-08",
+      "predicate": "candidate.party",
+      "value": "Right to Recall Party",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.586Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 8, party",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.019Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "2bccaadb-f0a9-4cab-80ac-ee0a98e6203e",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-08",
+      "predicate": "candidate.name",
+      "value": "SHASHANK SINGH ARYA",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.584Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 8, name",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.018Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "57e327e2-e015-4167-9d68-492a9bf93506",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-07",
+      "predicate": "candidate.votesPolled",
+      "value": 448,
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.581Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 7, votes",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.017Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "bf142dad-acdc-4a0b-b8dc-ca6e06e4772a",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-07",
+      "predicate": "candidate.party",
+      "value": "Indian Peoples Green Party",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.578Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 7, party",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.017Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "4ea1019f-ffc3-45d3-bc26-fc5db0dbec11",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-07",
+      "predicate": "candidate.name",
+      "value": "PRADEEP VERMA",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.575Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 7, name",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.016Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "6d521d59-e37d-4e00-ad05-201b22088f26",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-06",
+      "predicate": "candidate.votesPolled",
+      "value": 669,
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.573Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 6, votes",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.015Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "ffbbbee2-647b-41d9-9ddb-a5a4e83be716",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-06",
+      "predicate": "candidate.party",
+      "value": "Rashtriya Sanatan Party",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.570Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 6, party",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.014Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "9626dc13-667c-4af1-b9bc-1034a4042130",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-06",
+      "predicate": "candidate.name",
+      "value": "NARENDER SHARMA",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.567Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 6, name",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.013Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "14e9ef56-d19a-4a8a-baa4-75895d8ac89d",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-05",
+      "predicate": "candidate.votesPolled",
+      "value": 351,
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.564Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 5, votes",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.012Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "3447587e-9015-41ba-90d8-02e078ba7dc3",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-05",
+      "predicate": "candidate.party",
+      "value": "Rashtriya Samta Vikas Party",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.562Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 5, party",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.011Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "73c63ff3-a672-484b-a6b9-190a83549fe2",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-05",
+      "predicate": "candidate.name",
+      "value": "TRILOK TIWARI",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.559Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 5, name",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.010Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "4c3b8726-1e30-49ab-9a27-408631b9f1a2",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-04",
+      "predicate": "candidate.votesPolled",
+      "value": 615,
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.556Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 4, votes",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.009Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "c835844e-26d5-40a9-9e4a-709f05c0a82c",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-04",
+      "predicate": "candidate.party",
+      "value": "Socialist Unity Centre of India (Communist)",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.553Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 4, party",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.008Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "2e39d57e-a8d0-4795-918c-ede7b7149e1b",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-04",
+      "predicate": "candidate.name",
+      "value": "KULDEEP SINGH",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.550Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 4, name",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.007Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "4a751145-851b-4626-80e8-0e648ac65221",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-03",
+      "predicate": "candidate.votesPolled",
+      "value": 3461,
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.547Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 3, votes",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.006Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "28556406-a5fa-4dc2-a172-712ffb0318e5",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-03",
+      "predicate": "candidate.party",
+      "value": "Bahujan Samaj Party",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.544Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 3, party",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.005Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "f7046f29-4ef0-4029-bd9b-4e2890a00f44",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-03",
+      "predicate": "candidate.name",
+      "value": "RAJESH TANWAR",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.541Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 3, name",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:31.004Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "984416c2-7ac8-4913-bcc2-cdc628270273",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-01",
+      "predicate": "candidate.votesPolled",
+      "value": 555083,
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.537Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 1, votes",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:30.999Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "38d857f7-24cb-429a-a537-515aa1bddfbe",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-01",
+      "predicate": "candidate.party",
+      "value": "Indian National Congress",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.535Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 1, party",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:30.998Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
+    {
+      "id": "b53e797b-7c81-4ab2-9263-270991642f7b",
+      "subjectId": "jaipur-lok-sabha-2024-candidate-row-01",
+      "predicate": "candidate.name",
+      "value": "PRATAP SINGH KHACHARIYAWAS",
+      "revisionId": "c164ad5b-e9a2-47b4-902e-297b5d0f98a7",
+      "publishedAt": "2026-10-06T07:18:43.634Z",
+      "reviewedAt": "2026-10-06T07:18:43.531Z",
+      "reviewMethod": "agent-visual-check",
+      "source": {
+        "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "contentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
+        "capturedAt": "2026-10-05T18:22:30.983Z",
+        "locator": "page 1, candidate row 1, name",
+        "normalizerVersion": "rajasthan-form21e-manual-v1",
+        "normalizedAt": "2026-10-05T18:22:30.992Z",
+        "recordedAt": "2026-10-05T18:22:30.996Z",
+        "validFrom": {
+          "value": "2024-06-04",
+          "precision": "day",
+          "originalText": "04/06/2024"
+        }
+      }
+    },
     {
       "id": "7917666c-464a-4a05-b6b1-255a086be190",
       "subjectId": "manju-sharma",
@@ -79,6 +943,162 @@
   "dataset": {
     "candidacies": [
       {
+        "personId": "jaipur-lok-sabha-2024-candidate-row-13",
+        "name": "HARI NARAYAN MEENA",
+        "party": "Independent",
+        "votes": 2202,
+        "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "resultDate": "2024-06-04",
+        "factIds": [
+          "f8fd86be-15f2-4ce8-b7f3-71cf4e730a86",
+          "2a314695-ae2d-4f20-9826-712b08fb3d55",
+          "983b9e13-8c52-4bfb-9fbb-8e8d5fbf4f10"
+        ]
+      },
+      {
+        "personId": "jaipur-lok-sabha-2024-candidate-row-12",
+        "name": "RAJEEV ROLIWAL",
+        "party": "Independent",
+        "votes": 970,
+        "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "resultDate": "2024-06-04",
+        "factIds": [
+          "966d6839-96ce-4265-a1fd-bcdfd398502c",
+          "031f6eb8-6514-42d0-a5e5-6f8f2544d9c1",
+          "06f5986b-ccc9-4ddb-ba20-fc4570bb8144"
+        ]
+      },
+      {
+        "personId": "jaipur-lok-sabha-2024-candidate-row-11",
+        "name": "YOGESH SHARMA",
+        "party": "Independent",
+        "votes": 816,
+        "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "resultDate": "2024-06-04",
+        "factIds": [
+          "ebab5141-3c25-4074-9370-896ed3a8e367",
+          "b7bbd162-d6b1-45a4-81f8-eb35660ff119",
+          "37308933-18e5-4e2f-8c2f-694abb398563"
+        ]
+      },
+      {
+        "personId": "jaipur-lok-sabha-2024-candidate-row-10",
+        "name": "DR. ASEEM VERMA",
+        "party": "Independent",
+        "votes": 572,
+        "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "resultDate": "2024-06-04",
+        "factIds": [
+          "9af9814e-ce98-4103-ae23-d1c354cababd",
+          "529291d5-1860-4897-b6a6-f3add3f052b5",
+          "4e086b89-a42a-4a7f-a560-3674ed27f329"
+        ]
+      },
+      {
+        "personId": "jaipur-lok-sabha-2024-candidate-row-09",
+        "name": "ADVOCATE HARI KISHAN TIWARI",
+        "party": "Bheem Tribal Congress",
+        "votes": 400,
+        "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "resultDate": "2024-06-04",
+        "factIds": [
+          "1924ccad-a87a-436a-a30f-3fb9fdf3fdac",
+          "b057f4a1-b9c8-49c5-a4ab-9c78ecbdfe91",
+          "9a10497f-767b-49a3-82e0-20530ff76fb0"
+        ]
+      },
+      {
+        "personId": "jaipur-lok-sabha-2024-candidate-row-08",
+        "name": "SHASHANK SINGH ARYA",
+        "party": "Right to Recall Party",
+        "votes": 393,
+        "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "resultDate": "2024-06-04",
+        "factIds": [
+          "2bccaadb-f0a9-4cab-80ac-ee0a98e6203e",
+          "116d35ec-6038-41ab-8156-0d59365c0353",
+          "651b4014-8adb-42ac-a3d2-29cd87621c3b"
+        ]
+      },
+      {
+        "personId": "jaipur-lok-sabha-2024-candidate-row-07",
+        "name": "PRADEEP VERMA",
+        "party": "Indian Peoples Green Party",
+        "votes": 448,
+        "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "resultDate": "2024-06-04",
+        "factIds": [
+          "4ea1019f-ffc3-45d3-bc26-fc5db0dbec11",
+          "bf142dad-acdc-4a0b-b8dc-ca6e06e4772a",
+          "57e327e2-e015-4167-9d68-492a9bf93506"
+        ]
+      },
+      {
+        "personId": "jaipur-lok-sabha-2024-candidate-row-06",
+        "name": "NARENDER SHARMA",
+        "party": "Rashtriya Sanatan Party",
+        "votes": 669,
+        "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "resultDate": "2024-06-04",
+        "factIds": [
+          "9626dc13-667c-4af1-b9bc-1034a4042130",
+          "ffbbbee2-647b-41d9-9ddb-a5a4e83be716",
+          "6d521d59-e37d-4e00-ad05-201b22088f26"
+        ]
+      },
+      {
+        "personId": "jaipur-lok-sabha-2024-candidate-row-05",
+        "name": "TRILOK TIWARI",
+        "party": "Rashtriya Samta Vikas Party",
+        "votes": 351,
+        "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "resultDate": "2024-06-04",
+        "factIds": [
+          "73c63ff3-a672-484b-a6b9-190a83549fe2",
+          "3447587e-9015-41ba-90d8-02e078ba7dc3",
+          "14e9ef56-d19a-4a8a-baa4-75895d8ac89d"
+        ]
+      },
+      {
+        "personId": "jaipur-lok-sabha-2024-candidate-row-04",
+        "name": "KULDEEP SINGH",
+        "party": "Socialist Unity Centre of India (Communist)",
+        "votes": 615,
+        "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "resultDate": "2024-06-04",
+        "factIds": [
+          "2e39d57e-a8d0-4795-918c-ede7b7149e1b",
+          "c835844e-26d5-40a9-9e4a-709f05c0a82c",
+          "4c3b8726-1e30-49ab-9a27-408631b9f1a2"
+        ]
+      },
+      {
+        "personId": "jaipur-lok-sabha-2024-candidate-row-03",
+        "name": "RAJESH TANWAR",
+        "party": "Bahujan Samaj Party",
+        "votes": 3461,
+        "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "resultDate": "2024-06-04",
+        "factIds": [
+          "f7046f29-4ef0-4029-bd9b-4e2890a00f44",
+          "28556406-a5fa-4dc2-a172-712ffb0318e5",
+          "4a751145-851b-4626-80e8-0e648ac65221"
+        ]
+      },
+      {
+        "personId": "jaipur-lok-sabha-2024-candidate-row-01",
+        "name": "PRATAP SINGH KHACHARIYAWAS",
+        "party": "Indian National Congress",
+        "votes": 555083,
+        "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+        "resultDate": "2024-06-04",
+        "factIds": [
+          "b53e797b-7c81-4ab2-9263-270991642f7b",
+          "38d857f7-24cb-429a-a537-515aa1bddfbe",
+          "984416c2-7ac8-4913-bcc2-cdc628270273"
+        ]
+      },
+      {
         "personId": "manju-sharma",
         "name": "MANJU SHARMA",
         "party": "Bharatiya Janata Party",
@@ -97,16 +1117,16 @@
     "areaId": "jaipur-lok-sabha",
     "factType": "election-result-candidates",
     "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
-    "state": "partial",
-    "reason": "Some candidate result rows from this source are still awaiting review or publication.",
+    "state": "covered",
+    "reason": "Every candidate result row captured from this source has been published.",
     "observedCandidateRows": 13,
-    "publishedCandidateRows": 1,
+    "publishedCandidateRows": 13,
     "lastAttemptOutcome": "succeeded",
-    "lastAttemptedAt": "2026-10-05T18:25:40.338Z",
+    "lastAttemptedAt": "2026-10-06T07:16:38.388Z",
     "lastCapturedAt": "2026-10-05T18:22:30.983Z",
     "sourceContentHash": "sha256:b366199167e1759a15d1ae85ac8bfbb1233b746f10fed3a47a429d54fba17dd2",
-    "lastReviewedAt": "2026-10-05T18:53:33.472Z",
-    "lastPublishedAt": "2026-10-05T18:53:43.293Z",
-    "computedAt": "2026-10-05T20:10:33.536Z"
+    "lastReviewedAt": "2026-10-06T07:18:43.630Z",
+    "lastPublishedAt": "2026-10-06T07:18:43.634Z",
+    "computedAt": "2026-10-06T07:18:54.035Z"
   }
 }
