@@ -11,6 +11,7 @@
     "db:migrate": "node --import tsx src/migrate.ts",
     "import:jaipur": "node --import tsx src/import-jaipur.ts",
     "import:sansad-members": "node --import tsx src/import-sansad-members.ts",
+    "report:mp-crosswalk": "node --import tsx src/report-mp-crosswalk.ts",
     "review": "node --import tsx src/cli.ts",
     "export:jaipur": "node --import tsx src/export-jaipur.ts"
   },
