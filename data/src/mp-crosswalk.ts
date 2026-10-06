@@ -15,14 +15,25 @@ export interface SansadMember {
 
 export interface MpCrosswalk {
   proposed: { areaId: string; memberId: number }[];
+  suggested: { areaId: string; memberId: number; reason: "seat-suffix" | "state-alias" | "seat-suffix-and-state-alias" }[];
   ambiguousAreas: { areaId: string; memberIds: number[] }[];
   ambiguousMembers: { memberId: number; areaIds: string[] }[];
   unmatchedAreaIds: string[];
   unmatchedMemberIds: number[];
 }
 
+function normalized(value: string): string {
+  return value.normalize("NFKC").trim().replace(/\s+/g, " ").toUpperCase();
+}
+
 function key(state: string, constituency: string): string {
-  return `${state.normalize("NFKC").trim().replace(/\s+/g, " ").toUpperCase()}\u0000${constituency.normalize("NFKC").trim().replace(/\s+/g, " ").toUpperCase()}`;
+  return `${normalized(state)}\u0000${normalized(constituency)}`;
+}
+
+function suggestionKey(state: string, constituency: string): string {
+  const stateName = normalized(state);
+  const canonicalState = stateName === "ORISSA" ? "ODISHA" : stateName === "NCT OF DELHI" ? "DELHI" : stateName;
+  return `${canonicalState}\u0000${normalized(constituency).replace(/\s*\((SC|ST)\)$/, "")}`;
 }
 
 export function buildMpCrosswalk(areas: Record<string, BoundaryArea>, members: readonly SansadMember[]): MpCrosswalk {
@@ -47,7 +58,7 @@ export function buildMpCrosswalk(areas: Record<string, BoundaryArea>, members: r
   }
 
   const report: MpCrosswalk = {
-    proposed: [], ambiguousAreas: [], ambiguousMembers: [], unmatchedAreaIds: [], unmatchedMemberIds: [],
+    proposed: [], suggested: [], ambiguousAreas: [], ambiguousMembers: [], unmatchedAreaIds: [], unmatchedMemberIds: [],
   };
   for (const [areaId, area] of Object.entries(areas).sort(([a], [b]) => a.localeCompare(b))) {
     const group = key(area.state, area.label);
@@ -65,5 +76,35 @@ export function buildMpCrosswalk(areas: Record<string, BoundaryArea>, members: r
       report.ambiguousMembers.push({ memberId: member.id, areaIds });
     }
   }
+  const unmatchedAreaGroups = new Map<string, string[]>();
+  const unmatchedMemberGroups = new Map<string, number[]>();
+  for (const areaId of report.unmatchedAreaIds) {
+    const area = areas[areaId];
+    const group = suggestionKey(area.state, area.label);
+    unmatchedAreaGroups.set(group, [...(unmatchedAreaGroups.get(group) ?? []), areaId]);
+  }
+  const byMemberId = new Map(members.map((member) => [member.id, member]));
+  for (const memberId of report.unmatchedMemberIds) {
+    const member = byMemberId.get(memberId)!;
+    if (member.status.trim().toLowerCase() !== "sitting") continue;
+    const group = suggestionKey(member.state, member.constituency);
+    unmatchedMemberGroups.set(group, [...(unmatchedMemberGroups.get(group) ?? []), memberId]);
+  }
+  for (const areaId of report.unmatchedAreaIds) {
+    const area = areas[areaId];
+    const group = suggestionKey(area.state, area.label);
+    const areaIds = unmatchedAreaGroups.get(group) ?? [];
+    const memberIds = unmatchedMemberGroups.get(group) ?? [];
+    if (areaIds.length !== 1 || memberIds.length !== 1) continue;
+    const member = byMemberId.get(memberIds[0])!;
+    const seatSuffix = normalized(area.label) !== normalized(member.constituency);
+    const stateAlias = normalized(area.state) !== normalized(member.state);
+    report.suggested.push({ areaId, memberId: member.id,
+      reason: seatSuffix && stateAlias ? "seat-suffix-and-state-alias" : seatSuffix ? "seat-suffix" : "state-alias" });
+  }
+  const suggestedAreas = new Set(report.suggested.map((item) => item.areaId));
+  const suggestedMembers = new Set(report.suggested.map((item) => item.memberId));
+  report.unmatchedAreaIds = report.unmatchedAreaIds.filter((id) => !suggestedAreas.has(id));
+  report.unmatchedMemberIds = report.unmatchedMemberIds.filter((id) => !suggestedMembers.has(id));
   return report;
 }

@@ -42,3 +42,17 @@ test("similar names and non-sitting members are not silently matched", () => {
   assert.deepEqual(result.unmatchedMemberIds, [1, 2]);
   assert.deepEqual(result.unmatchedAreaIds, ["806", "807", "900"]);
 });
+
+test("reservation suffix and known state labels create suggestions, not exact matches", () => {
+  const result = buildMpCrosswalk({
+    "918": { label: "AGRA (SC)", state: "UTTAR PRADESH" },
+    "2114": { label: "CUTTACK", state: "ORISSA" },
+  }, [member(1, "Agra", "Uttar Pradesh"), member(2, "Cuttack", "Odisha")]);
+  assert.deepEqual(result.proposed, []);
+  assert.deepEqual(result.suggested, [
+    { areaId: "2114", memberId: 2, reason: "state-alias" },
+    { areaId: "918", memberId: 1, reason: "seat-suffix" },
+  ]);
+  assert.deepEqual(result.unmatchedAreaIds, []);
+  assert.deepEqual(result.unmatchedMemberIds, []);
+});

@@ -52,7 +52,8 @@ async function main(): Promise<void> {
       rosterSnapshots: roster.snapshots,
       counts: {
         areas: Object.keys(areas).length, members: roster.members.length,
-        proposed: crosswalk.proposed.length, ambiguousAreas: crosswalk.ambiguousAreas.length,
+        proposed: crosswalk.proposed.length, suggested: crosswalk.suggested.length,
+        ambiguousAreas: crosswalk.ambiguousAreas.length,
         ambiguousMembers: crosswalk.ambiguousMembers.length,
         unmatchedAreas: crosswalk.unmatchedAreaIds.length, unmatchedMembers: crosswalk.unmatchedMemberIds.length,
       },
