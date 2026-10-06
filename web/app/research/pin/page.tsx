@@ -45,6 +45,16 @@ export default async function PinResearchPage({ searchParams }: PageProps) {
               {result.areas.map((area) => <div key={area.id} className="rounded-2xl border border-[#e0e8dd] bg-[#f7faf5] px-5 py-4">
                 <p className="font-semibold text-[#1f4532]">{area.label}</p>
                 <p className="mt-1 text-xs text-[#688071]">{area.state} · Source area ID {area.id}</p>
+                {area.published?.holders.length ? <div className="mt-4 border-t border-[#dce8dc] pt-4">
+                  <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#688071]">MP recorded for this area</p>
+                  {area.published.holders.map((holder) => <div key={holder.slug} className="mt-2 flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                      <p className="font-semibold text-[#1f4532]">{holder.name}</p>
+                      <p className="text-xs text-[#688071]">{holder.office} · Reviewed {holder.reviewedOn}</p>
+                    </div>
+                    <Link href={`/people/${holder.slug}`} className="text-sm font-semibold text-[#24694b] underline underline-offset-4">View profile ↗</Link>
+                  </div>)}
+                </div> : <p className="mt-3 text-xs text-[#688071]">No reviewed MP profile linked to this draft area yet.</p>}
               </div>)}
             </div>
             <p className="mt-5 text-sm leading-6 text-[#617367]">A PIN is a postal area. Confirm your voting constituency before using it to identify a representative.</p>
