@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { getAreaOverview } from "./civic-area";
+import { loadResearchRoster, researchMemberForArea } from "./research-roster";
 
 const publishedAreaIds: Record<string, string> = {
   "806": "jaipur-rural-lok-sabha",
@@ -15,6 +16,7 @@ interface ResearchArea {
     areaId: string;
     holders: { name: string; slug: string; office: string; reviewedOn: string }[];
   };
+  draftMember?: ReturnType<typeof researchMemberForArea>;
 }
 
 export type ResearchPinLookup =
@@ -44,6 +46,7 @@ function publishedArea(id: string, label: string, state: string): ResearchArea["
 export async function lookupResearchPin(
   pin: string,
   path = resolve(process.cwd(), "../data/raw/maps/pin_candidates_draft.json"),
+  rosterPath = resolve(process.cwd(), "../data/raw/maps/mp_crosswalk_draft.json"),
 ): Promise<ResearchPinLookup> {
   if (!/^[0-9]{6}$/.test(pin)) return { status: "invalid" };
   let document: Record<string, unknown> | null;
@@ -57,6 +60,8 @@ export async function lookupResearchPin(
   }
   const pins = record(document.pins);
   const areas = record(document.areas);
+  const boundaryHash = record(record(document.sources)?.areas)?.inputSha256;
+  const roster = typeof boundaryHash === "string" ? await loadResearchRoster(rosterPath) : null;
   if (!pins || !areas) return { status: "unavailable" };
   const match = record(pins[pin]);
   if (!match) return { status: "not-covered" };
@@ -67,8 +72,10 @@ export async function lookupResearchPin(
     if (typeof id !== "string") return { status: "unavailable" };
     const detail = record(areas[id]);
     if (!detail || typeof detail.label !== "string" || typeof detail.state !== "string") return { status: "unavailable" };
-    possible.push({ id, label: detail.label, state: detail.state,
-      published: publishedArea(id, detail.label, detail.state) });
+    const published = publishedArea(id, detail.label, detail.state);
+    possible.push({ id, label: detail.label, state: detail.state, published,
+      draftMember: !published && roster && typeof boundaryHash === "string"
+        ? researchMemberForArea(roster, id, boundaryHash) : undefined });
   }
   return { status: "possible", areas: possible, reviewStatus: "unreviewed", generatedAt: document.generatedAt };
 }
