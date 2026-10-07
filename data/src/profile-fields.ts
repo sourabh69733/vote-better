@@ -18,12 +18,14 @@ export interface ProfileField {
 // This is a collection contract, not a list of facts we already have.
 // Add a source kind only after its collector can point to the exact supporting record.
 export const profileFields = {
-  "person.sansadMemberId": { subject: "person", time: "stable", sources: ["sansad-member-list"] },
+  "person.sansadMemberId": { subject: "person", time: "stable", sources: ["sansad-member-list", "official-biography"] },
   "person.name": { subject: "person", time: "changing", sources: ["sansad-member-list", "official-biography", "eci-nomination"] },
   "person.birthDate": { subject: "person", time: "stable", sources: ["sansad-member-list", "official-biography", "eci-affidavit"] },
   "person.educationLevel": { subject: "person", time: "changing", sources: ["sansad-member-list", "official-biography", "eci-affidavit"] },
   "person.educationInstitution": { subject: "person", time: "dated-event", sources: ["official-biography", "eci-affidavit"] },
+  "person.educationStatement": { subject: "person", time: "changing", sources: ["official-biography"] },
   "person.profession": { subject: "person", time: "changing", sources: ["sansad-member-list", "official-biography", "eci-affidavit"] },
+  "person.photoUrl": { subject: "person", time: "changing", sources: ["official-biography"] },
   "person.officialWebsite": { subject: "person", time: "changing", sources: ["official-biography"] },
   "person.socialProfile": { subject: "person", time: "changing", sources: ["official-biography"] },
   "career.role": { subject: "career-event", time: "dated-event", sources: ["official-biography"] },
@@ -32,6 +34,7 @@ export const profileFields = {
   "office.constituency": { subject: "office-term", time: "changing", sources: ["sansad-member-list", "official-office-record", "eci-result"] },
   "office.membershipStatus": { subject: "office-term", time: "changing", sources: ["sansad-member-list", "official-office-record"] },
   "office.lokSabhaTerms": { subject: "office-term", time: "changing", sources: ["sansad-member-list", "official-biography"] },
+  "office.positionHeld": { subject: "office-term", time: "dated-event", sources: ["official-biography"] },
   "office.startedAt": { subject: "office-term", time: "dated-event", sources: ["official-office-record"] },
   "office.endedAt": { subject: "office-term", time: "dated-event", sources: ["official-office-record"] },
   "party.membership": { subject: "party-term", time: "dated-event", sources: ["official-biography", "official-office-record"] },
