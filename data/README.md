@@ -34,7 +34,7 @@ To collect one member's individual official biography and positions held:
 npm --prefix data run import:sansad-biography -- 5619
 ```
 
-The member ID comes from the Sansad roster. This fetches two official JSON endpoints, retains private source snapshots under ignored `data/raw/sansad-biography/`, and creates review drafts for name, birth date, stated education, profession, official photo and valid social links, plus positions with source-stated period precision. It does not normalize or publish family details, personal addresses or phone numbers. The source snapshot still contains the original response and must remain private. A repeat check records new collection attempts without duplicating unchanged observations. A 2026-10-07 pilot for member 5619 saved nine unreviewed observations from two snapshots. This command does not link, approve, or publish them. [The profile collection framework](../docs/architecture/profile-collection-framework.md) describes how later adapters and scheduled checks fit together.
+The member ID comes from the Sansad roster. This fetches two official JSON endpoints, retains private source snapshots under ignored `data/raw/sansad-biography/`, and creates review drafts for name, birth date, stated education, profession, official photo and valid social links, plus a positions-held set with each source-stated period and date precision. It does not normalize or publish family details, personal addresses or phone numbers. The source snapshot still contains the original response and must remain private. A repeat check records new collection attempts without duplicating unchanged observations. This command does not link, approve, or publish them. [The profile collection framework](../docs/architecture/profile-collection-framework.md) describes how later adapters and scheduled checks fit together.
 
 For a paced batch of existing roster IDs, use `npm --prefix data run import:sansad-biographies -- --limit 50`. The result includes `lastMemberId` and `remaining`; continue with `--after <lastMemberId>` until none remain. A failed member ID is reported in `failedMemberIds` and can be retried with the one-member command. This batch stores drafts only. A three-member live run after ID 5619 saved 36 drafts without errors on 2026-10-07. It does not perform identity review or make those profiles public.
 
@@ -81,6 +81,17 @@ The development-only PIN preview has provisional links for source area IDs 806 (
 The same local preview reads the national crosswalk draft for other areas and links to source-labeled draft MP profiles. The draft directory includes all imported members, including those without an area match. These routes are hidden in production until source permissions, identity, area matching, and publication review are complete.
 
 ## Local review
+
+For an individual Sansad profile, use the source-specific review flow:
+
+```sh
+npm --prefix data run profile:review -- report 5619
+npm --prefix data run profile:review -- link 5619 manju-sharma <report-token> <reviewer-id> "Official ID and name checked"
+npm --prefix data run profile:review -- approve 5619 <new-report-token> person.name,person.birthDate,person.educationStatement,person.profession,office.positionsHeld <reviewer-id> "Checked against official response"
+npm --prefix data run profile:preview -- 5619
+```
+
+The report gives source URLs, hashes, capture times, exact field locators, roster and biography identity evidence, and a token tied to the current snapshots. Inspect it before linking. `link` requires an existing person key and checks official member ID and name; create a new internal person only after checking identity with `npm --prefix data run review -- person <stable-key> <display-name>`. `approve` selects specific fields and rejects stale tokens, missing links and publication conflicts. Run `report` again after linking to get the current token. The preview writes an ignored, local-only file under `data/raw/profile-previews/`; the development website can show it at `/research/people/<member-id>`. Approval and preview do not publish to the public website. Official content reuse permission must be resolved before public redistribution.
 
 Run `npm --prefix data run review -- queue` to see unreviewed observations with source URL, locator, hash, captured time and any earlier published value. Pass a limit and exact source URL to filter a source. `show <observation-id>` includes decision history. Candidate facts need a confirmed person link before approval. The PDF contains names, not unique person IDs, so the reviewer must check the identity against independent evidence before using `person <stable-key> <display-name>` and `link <observation-id> <person-id> <reviewer-id> <reason>`. Creating a person is only an internal identity record, not a public claim. Use `approve`, `reject`, or `needs-changes` with an observation ID, reviewer ID and reason. A changed published value requires an explicit conflict resolution before approval. The review command never publishes data.
 
