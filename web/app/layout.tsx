@@ -11,7 +11,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Vote Better",
   description:
-    "Explore verified public records about elected representatives and candidates in India.",
+    "Explore sourced public records about elected representatives and candidates in India.",
 };
 
 export default function RootLayout({
@@ -38,6 +38,7 @@ export default function RootLayout({
               >
                 Areas
               </Link>
+              {process.env.NODE_ENV === "development" && <Link href="/mps" className="text-[#526a59] transition-colors hover:text-[#1e6b4d]">MPs</Link>}
               <Link
                 href="/about"
                 className="text-[#526a59] transition-colors hover:text-[#1e6b4d]"
