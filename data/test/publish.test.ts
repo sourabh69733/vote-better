@@ -102,3 +102,20 @@ test("a different election source can record a new result for the same person", 
   assert.equal(published.facts[0].value, 200);
   assert.equal(published.facts[0].priorFactId, undefined);
 });
+
+test("an approved positions set publishes with its source trail", async () => {
+  const { url, observation, stableKey } = await fixture(1);
+  const source = await store.saveSource({ authority: "Test authority", url: `${url}?positions`, documentType: "positions" });
+  const snapshot = await store.saveSnapshot(source.id, source.url,
+    `sha256:${createHash("sha256").update(randomUUID()).digest("hex")}`, new Date().toISOString());
+  const [positions] = await store.saveObservations(snapshot.id, [{ locator: "member[mpsno=1].positions",
+    predicate: "office.positionsHeld", rawValue: "[]", normalizedValue: [{ title: "Committee member", period: "2024" }],
+    normalizedAt: new Date().toISOString(), normalizerVersion: "test-v1" }]);
+  const linked = await pool.query("SELECT entity_id FROM entity_match WHERE observation_id = $1", [observation.id]);
+  await pool.query("INSERT INTO entity_match (observation_id, entity_id, status, reason, reviewer_id) VALUES ($1, $2, 'confirmed', $3, $4)",
+    [positions.id, linked.rows[0].entity_id, "Same official member", "reviewer-test"]);
+  await store.recordDecision([positions.id], "approved", "reviewer-test", "Checked positions list");
+  const output = await publishApproved(pool, source.url, [positions.id]);
+  assert.equal(output.facts[0].subjectId, stableKey);
+  assert.equal(output.facts[0].predicate, "office.positionsHeld");
+});

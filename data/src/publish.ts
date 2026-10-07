@@ -208,7 +208,8 @@ export async function publishApproved(pool: pg.Pool, sourceUrl: string, observat
     `, [observationIds, sourceUrl]);
     if (selected.rows.length !== observationIds.length) throw new Error("observation not found for source");
     for (const row of selected.rows) {
-      if (!row.predicate.startsWith("candidate.") && !row.predicate.startsWith("person.")) throw new Error("entity mapping is not supported for this predicate");
+      if (!row.predicate.startsWith("candidate.") && !row.predicate.startsWith("person.") &&
+        row.predicate !== "office.positionsHeld") throw new Error("entity mapping is not supported for this predicate");
       if (row.existing_fact_id) throw new Error("observation already published");
       if (row.decision !== "approved") throw new Error("observation is not approved");
       if (!row.entity_id || !row.stable_key) throw new Error("confirmed person identity is required");

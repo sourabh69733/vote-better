@@ -64,7 +64,8 @@ export class CivicReview {
     if (result.rows.length !== observationIds.length) throw new Error("observation not found");
     const byId = new Map<string, ReviewCase>();
     for (const row of result.rows) {
-      const identityNeeded = row.predicate.startsWith("candidate.") || row.predicate.startsWith("person.");
+      const identityNeeded = row.predicate.startsWith("candidate.") || row.predicate.startsWith("person.") ||
+        row.predicate === "office.positionsHeld";
       const matched = row.match_status === "confirmed" && row.entity_id !== null;
       const conflict = row.previous_value !== null && !isDeepStrictEqual(row.previous_value, row.normalized_value);
       byId.set(row.id, {
@@ -87,7 +88,8 @@ export class CivicReview {
     const person = await this.pool.query("SELECT 1 FROM person WHERE id = $1", [entityId]);
     if (!person.rowCount) throw new Error("known person not found");
     const obs = await this.pool.query("SELECT predicate FROM observation WHERE id = $1", [observationId]);
-    if (!obs.rowCount || !/^(candidate|person)\./.test(obs.rows[0].predicate)) throw new Error("person observation not found");
+    if (!obs.rowCount || !(/^(candidate|person)\./.test(obs.rows[0].predicate) ||
+      obs.rows[0].predicate === "office.positionsHeld")) throw new Error("person observation not found");
     await this.pool.query(
       `INSERT INTO entity_match (observation_id, entity_id, status, reason, reviewer_id)
        VALUES ($1, $2, 'confirmed', $3, $4)`,

@@ -59,3 +59,14 @@ test("confirmed identity permits approval but a changed published value is block
   await assert.rejects(() => review.approve(conflict.id, "reviewer-1", "Checked again"), /conflict/i);
   assert.ok(!(await store.listPublicationCandidates()).some((row) => row.id === item.id));
 });
+
+test("positions held require a confirmed person before review approval", async () => {
+  const item = await saved("office.positionsHeld", "Recorded positions");
+  const person = await pool.query("INSERT INTO person (stable_key, display_name) VALUES ($1, $2) RETURNING id",
+    [`test-${randomUUID()}`, "Member"]);
+  const [queued] = await review.queueForReview([item.id]);
+  assert.equal(queued.state, "identity-unresolved");
+  await review.confirmIdentity(item.id, person.rows[0].id, "reviewer-1", "Checked official member ID");
+  const [linked] = await review.queueForReview([item.id]);
+  assert.equal(linked.state, "ready");
+});
