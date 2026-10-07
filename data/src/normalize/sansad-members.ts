@@ -1,4 +1,5 @@
 import { isUtcInstant, type Snapshot } from "../contracts.js";
+import { assertProfileDrafts, type ProfilePredicate } from "../profile-fields.js";
 import type { ObservationDraft } from "../store.js";
 
 export const SANSAD_MEMBERS_NORMALIZER_VERSION = "sansad-ls-members-v1";
@@ -48,7 +49,7 @@ export function parseSansadMembersPage(snapshot: Snapshot, input: unknown, norma
     if (memberIds.has(id)) throw new Error(`duplicate member ID ${id}`);
     memberIds.add(id);
     const base = `membersDtoList[mpsno=${id}]`;
-    const add = (field: string, predicate: string, value: unknown, normalized?: ObservationDraft["normalizedValue"]): void => {
+    const add = (field: string, predicate: ProfilePredicate, value: unknown, normalized?: ObservationDraft["normalizedValue"]): void => {
       if (value === null || value === undefined || (typeof value === "string" && !value.trim())) return;
       const rawValue = required(value, `${field} for member ${id}`);
       drafts.push({ locator: `${base}.${field}`, predicate, rawValue,
@@ -76,6 +77,7 @@ export function parseSansadMembersPage(snapshot: Snapshot, input: unknown, norma
       required(member[field], `${field} for member ${id}`);
     }
   }
+  assertProfileDrafts("sansad-member-list", drafts);
   return { page, totalPages, totalElements, memberIds: [...memberIds], drafts };
 }
 
