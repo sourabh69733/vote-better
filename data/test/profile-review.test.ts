@@ -162,6 +162,14 @@ test("draft profile includes every current sourced field before review", async (
   assert.ok(draft.facts.every((fact) => fact.source.contentHash.startsWith("sha256:")));
   assert.ok(draft.facts.every((fact) => fact.source.capturedAt.endsWith("Z")));
   assert.ok((await listCollectedBiographyIds(pool)).includes(memberId));
+  const report = await loadProfileReview(pool, memberId);
+  const checked = await loadDraftProfile(pool, memberId, {
+    memberId, token: report.token, status: "checked", checkedAt: "2026-10-07T10:00:00.000Z",
+  });
+  assert.equal(checked.sourceCheck?.method, "sansad-snapshot-replay-v1");
+  assert.equal((await loadDraftProfile(pool, memberId, {
+    memberId, token: "stale", status: "checked", checkedAt: "2026-10-07T10:00:00.000Z",
+  })).sourceCheck, undefined);
 });
 
 test("rejected profile fields disappear from the next draft export", async () => {

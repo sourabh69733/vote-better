@@ -20,6 +20,9 @@ test("local draft accepts sourced biography fields without review", async () => 
   await writeFile(path, JSON.stringify(value));
   assert.equal((await loadDraftProfilePreview(5620, path))?.facts[0].value, "BA");
   assert.deepEqual((await loadDraftProfilePreview(5620, path))?.facts[1].value, [{ title: "Committee member" }]);
+  await writeFile(path, JSON.stringify({ ...value, sourceCheck: {
+    method: "sansad-snapshot-replay-v1", checkedAt: "2026-10-07T10:00:00.000Z" } }));
+  assert.equal((await loadDraftProfilePreview(5620, path))?.sourceCheck?.method, "sansad-snapshot-replay-v1");
   assert.equal(await loadDraftProfilePreview(5619, path), null);
   await writeFile(path, JSON.stringify({ ...value, facts: [{ ...value.facts[0], source: {
     ...source, url: "https://example.org/education" } }] }));

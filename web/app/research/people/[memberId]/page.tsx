@@ -29,6 +29,8 @@ export default async function ResearchMemberPage({ params }: PageProps) {
   const facts = draft?.facts ?? reviewed?.facts ?? [];
   const factReviewed = (fact: DraftFact) => draft
     ? isReviewedDraftFact(fact, reviewed?.facts ?? []) : true;
+  const factStatus = (fact: DraftFact) => factReviewed(fact) ? "Reviewed"
+    : draft?.sourceCheck ? "Source checked" : "Unverified";
   const profession = facts.find((item) => item.predicate === "person.profession");
   const education = facts.find((item) => item.predicate === "person.educationStatement");
   const birthDate = facts.find((item) => item.predicate === "person.birthDate");
@@ -44,7 +46,7 @@ export default async function ResearchMemberPage({ params }: PageProps) {
   return <div className="mx-auto w-full max-w-3xl px-4 pb-16 pt-10 sm:px-6 sm:pt-16">
     <Link href="/research/pin" className="text-sm font-semibold text-[#276b4e] hover:underline">← PIN research</Link>
     <article className="mt-8 rounded-[28px] border border-[#dce6dc] bg-white p-6 shadow-[0_16px_44px_rgba(28,64,40,.06)] sm:p-10">
-      <p className="text-xs font-extrabold uppercase tracking-[0.17em] text-[#91692d]">Unreviewed Sansad record</p>
+      <p className="text-xs font-extrabold uppercase tracking-[0.17em] text-[#91692d]">{draft?.sourceCheck ? "Source checked Sansad record" : "Unreviewed Sansad record"}</p>
       <h1 className="mt-3 text-4xl font-semibold tracking-[-0.06em] text-[#19372d] sm:text-5xl">{member.name}</h1>
       <p className="mt-4 text-sm leading-6 text-[#607568]">Digital Sansad listed this person as a sitting Lok Sabha member when this source was captured on {source.capturedAt.slice(0, 10)}. The record has not completed Vote Better review.</p>
       <dl className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -57,11 +59,13 @@ export default async function ResearchMemberPage({ params }: PageProps) {
       {facts.length > 0 && <section className="mt-8 rounded-2xl border border-[#dce6dc] bg-[#f5faf5] p-5 sm:p-6" aria-labelledby="profile-details-heading">
         <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#91692d]">Local profile draft</p>
         <h2 id="profile-details-heading" className="mt-2 text-xl font-semibold text-[#19372d]">About this person</h2>
-        <p className="mt-2 text-sm leading-6 text-[#607568]">All currently collected biography fields appear here. Each field shows whether Vote Better has reviewed it. Missing history stays missing.</p>
+        <p className="mt-2 text-sm leading-6 text-[#607568]">All currently collected biography fields appear here. {draft?.sourceCheck
+          ? `Saved source bytes and extracted fields were checked on ${draft.sourceCheck.checkedAt.slice(0, 10)}. This is an automated source check, not a human review or independent confirmation of the claims.`
+          : "Each field shows whether Vote Better has reviewed it."} Missing history stays missing.</p>
         <dl className="mt-5 grid gap-4 sm:grid-cols-2">
           {summaryFacts.map(({ label, fact, value }) => <div key={fact.predicate} className="rounded-xl bg-white p-4">
             <dt className="flex items-center justify-between gap-3 text-xs font-bold uppercase tracking-[0.1em] text-[#688071]">{label}
-              <span className={factReviewed(fact) ? "text-emerald-800" : "text-amber-700"}>{factReviewed(fact) ? "Reviewed" : "Unverified"}</span>
+              <span className={factReviewed(fact) || draft?.sourceCheck ? "text-emerald-800" : "text-amber-700"}>{factStatus(fact)}</span>
             </dt>
             <dd className="mt-2 text-sm font-semibold text-[#1f4532]">{value}</dd>
             <a href={officialProfileUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-xs font-semibold text-[#24694b] underline underline-offset-4">Check on Digital Sansad ↗</a>
@@ -71,12 +75,12 @@ export default async function ResearchMemberPage({ params }: PageProps) {
         {(photo || social.length > 0) && <div className="mt-5 rounded-xl bg-white p-4">
           <h3 className="text-sm font-semibold text-[#1f4532]">Public presence</h3>
           <div className="mt-3 flex flex-wrap gap-3 text-sm">
-            {photo && typeof photo.value === "string" && <a href={photo.value} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#24694b] underline underline-offset-4">Official photo · {factReviewed(photo) ? "reviewed" : "unverified"} ↗</a>}
-            {social.map((link) => <a key={link.source.locator} href={link.value as string} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#24694b] underline underline-offset-4">{new URL(link.value as string).hostname} · {factReviewed(link) ? "reviewed" : "unverified"} ↗</a>)}
+            {photo && typeof photo.value === "string" && <a href={photo.value} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#24694b] underline underline-offset-4">Official photo · {factStatus(photo).toLowerCase()} ↗</a>}
+            {social.map((link) => <a key={link.source.locator} href={link.value as string} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#24694b] underline underline-offset-4">{new URL(link.value as string).hostname} · {factStatus(link).toLowerCase()} ↗</a>)}
           </div>
         </div>}
         {positions && Array.isArray(positions.value) && positions.value.length > 0 && <details className="mt-5 rounded-xl bg-white p-4">
-          <summary className="cursor-pointer text-sm font-semibold text-[#1f4532]">Positions held ({positions.value.length}) · {factReviewed(positions) ? "reviewed" : "unverified"}</summary>
+          <summary className="cursor-pointer text-sm font-semibold text-[#1f4532]">Positions held ({positions.value.length}) · {factStatus(positions).toLowerCase()}</summary>
           <ol className="mt-4 space-y-4">{positions.value.map((position, index) => <li key={`${position.title}-${index}`} className="border-t border-[#e2eae2] pt-3 text-sm">
             <p className="font-semibold text-[#1f4532]">{position.title}</p>
             <p className="mt-1 text-[#607568]">{position.period ?? "Date not stated in source"}</p>

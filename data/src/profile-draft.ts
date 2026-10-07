@@ -1,4 +1,4 @@
-import { mkdir, rename, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
@@ -13,6 +13,7 @@ export interface DraftProfile {
   memberId: number;
   personName: string;
   generatedAt: string;
+  sourceCheck?: { method: "sansad-snapshot-replay-v1"; checkedAt: string };
   facts: {
     predicate: string;
     value: unknown;
@@ -35,7 +36,8 @@ export async function listCollectedBiographyIds(db: Queryable): Promise<number[]
   return ids.sort((a, b) => a - b);
 }
 
-export async function loadDraftProfile(db: Queryable, memberId: number): Promise<DraftProfile> {
+export async function loadDraftProfile(db: Queryable, memberId: number,
+  sourceCheck?: { memberId: number; token?: string; status: string; checkedAt?: string }): Promise<DraftProfile> {
   const report = await loadProfileReview(db, memberId);
   const decisions = await db.query(`
     SELECT o.id, latest.decision FROM observation o
@@ -56,7 +58,11 @@ export async function loadDraftProfile(db: Queryable, memberId: number): Promise
         capturedAt: snapshot.capturedAt, locator: observation.locator } };
   });
   return { schemaVersion: 1, access: "local-unverified-profile", memberId,
-    personName: report.name, generatedAt: new Date().toISOString(), facts };
+    personName: report.name, generatedAt: new Date().toISOString(),
+    ...(sourceCheck?.memberId === memberId && sourceCheck.status === "checked" &&
+      sourceCheck.token === report.token && sourceCheck.checkedAt
+      ? { sourceCheck: { method: "sansad-snapshot-replay-v1" as const, checkedAt: sourceCheck.checkedAt } } : {}),
+    facts };
 }
 
 async function writeJson(target: string, value: unknown): Promise<void> {
@@ -71,8 +77,16 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1
   try {
     if (process.argv.length !== 2) throw new Error("Usage: npm run profile:drafts");
     const ids = await listCollectedBiographyIds(pool);
+    let sourceChecks: { schemaVersion?: number; method?: string;
+      entries?: { memberId: number; token?: string; status: string; checkedAt?: string }[] } = {};
+    try {
+      sourceChecks = JSON.parse(await readFile(fileURLToPath(new URL("../raw/profile-source-checks/index.json", import.meta.url)), "utf8"));
+    } catch { /* An absent local check report leaves drafts unverified. */ }
+    const checkedEntries = sourceChecks.schemaVersion === 1 && sourceChecks.method === "sansad-snapshot-replay-v1" &&
+      Array.isArray(sourceChecks.entries) ? sourceChecks.entries : [];
     const drafts: DraftProfile[] = [];
-    for (const id of ids) drafts.push(await loadDraftProfile(pool, id));
+    for (const id of ids) drafts.push(await loadDraftProfile(pool, id,
+      checkedEntries.find((entry) => entry.memberId === id)));
     const directory = fileURLToPath(new URL("../raw/profile-drafts/", import.meta.url));
     await mkdir(directory, { recursive: true, mode: 0o700 });
     for (const draft of drafts) await writeJson(resolve(directory, `${draft.memberId}.json`), draft);

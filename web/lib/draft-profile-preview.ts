@@ -12,6 +12,7 @@ export interface DraftProfilePreview {
   memberId: number;
   personName: string;
   generatedAt: string;
+  sourceCheck?: { method: "sansad-snapshot-replay-v1"; checkedAt: string };
   facts: DraftFact[];
 }
 
@@ -49,6 +50,9 @@ export async function loadDraftProfilePreview(memberId: number, path?: string): 
   if (!preview || preview.schemaVersion !== 1 || preview.access !== "local-unverified-profile" ||
       preview.memberId !== memberId || typeof preview.personName !== "string" ||
       typeof preview.generatedAt !== "string" || !Array.isArray(preview.facts)) return null;
+  const sourceCheck = object(preview.sourceCheck);
+  if (preview.sourceCheck !== undefined && (!sourceCheck || sourceCheck.method !== "sansad-snapshot-replay-v1" ||
+      typeof sourceCheck.checkedAt !== "string" || Number.isNaN(Date.parse(sourceCheck.checkedAt)))) return null;
   const facts: DraftFact[] = [];
   for (const raw of preview.facts) {
     const fact = object(raw);
@@ -78,7 +82,8 @@ export async function loadDraftProfilePreview(memberId: number, path?: string): 
     }
     facts.push(fact as unknown as DraftFact);
   }
-  return { memberId, personName: preview.personName, generatedAt: preview.generatedAt, facts };
+  return { memberId, personName: preview.personName, generatedAt: preview.generatedAt,
+    ...(sourceCheck ? { sourceCheck: { method: "sansad-snapshot-replay-v1", checkedAt: sourceCheck.checkedAt as string } as const } : {}), facts };
 }
 
 export function isReviewedDraftFact(draft: DraftFact, reviewed: readonly ReviewedFact[]): boolean {
