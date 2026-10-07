@@ -2,8 +2,8 @@ import { isUtcInstant, type Snapshot, type SourceTime } from "../contracts.js";
 import { assertProfileDrafts, type ProfilePredicate } from "../profile-fields.js";
 import type { ObservationDraft } from "../store.js";
 
-export const SANSAD_BIOGRAPHY_NORMALIZER_VERSION = "sansad-ls-biography-v1";
-export const SANSAD_POSITIONS_NORMALIZER_VERSION = "sansad-ls-positions-v2";
+export const SANSAD_BIOGRAPHY_NORMALIZER_VERSION = "sansad-ls-biography-v2";
+export const SANSAD_POSITIONS_NORMALIZER_VERSION = "sansad-ls-positions-v4";
 
 const months: Record<string, number> = {
   Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6,
@@ -35,9 +35,12 @@ function memberUrl(snapshot: Snapshot, memberId: number, kind: "biography" | "po
 }
 
 function sourceDay(value: string): SourceTime | undefined {
-  const match = /^(\d{1,2})-([A-Z][a-z]{2})-(\d{4})$/.exec(value);
-  if (!match || !months[match[2]]) return undefined;
-  const date = `${match[3]}-${String(months[match[2]]).padStart(2, "0")}-${match[1].padStart(2, "0")}`;
+  const match = /^(\d{1,2})-([A-Za-z]+)-(\d{4})$/.exec(value);
+  if (!match) return undefined;
+  const monthName = match[2][0].toUpperCase() + match[2].slice(1).toLowerCase();
+  const month = months[monthName] ?? fullMonths[monthName];
+  if (!month) return undefined;
+  const date = `${match[3]}-${String(month).padStart(2, "0")}-${match[1].padStart(2, "0")}`;
   const parsed = new Date(`${date}T00:00:00.000Z`);
   if (Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== date) return undefined;
   return { value: date, precision: "day", originalText: value };
@@ -90,8 +93,7 @@ export function normalizeSansadBiography(
   const birth = text(record.dateOfBirth);
   if (birth) {
     const parsed = sourceDay(birth);
-    if (!parsed) throw new Error("invalid birth date");
-    add("dateOfBirth", "person.birthDate", birth, parsed.value);
+    if (parsed) add("dateOfBirth", "person.birthDate", birth, parsed.value);
   }
   add("mainProfessionName", "person.profession", record.mainProfessionName);
   const education = text(record.education);
@@ -118,16 +120,17 @@ export function normalizeSansadPositions(
   memberUrl(snapshot, memberId, "positions");
   if (!isUtcInstant(normalizedAt)) throw new Error("normalizedAt must be UTC");
   if (!Array.isArray(input) || input.length > 200) throw new Error("positions must be an array of at most 200 rows");
-  const positions = input.map((entry, index) => {
+  const positions = input.flatMap((entry, index) => {
     const row = object(entry, `position ${index}`);
-    const title = text(row.positionHeld);
+    const rawTitle = text(row.positionHeld);
+    const title = rawTitle ? plainText(rawTitle) : undefined;
     const period = text(row.period);
-    if (!title || !period) throw new Error(`positionHeld and period required at row ${index}`);
-    const validFrom = periodStart(period);
-    return { title, period, ...(validFrom ? { validFrom: {
+    if (!title) return [];
+    const validFrom = period ? periodStart(period) : undefined;
+    return [{ title, ...(period ? { period } : {}), ...(validFrom ? { validFrom: {
       value: validFrom.value, precision: validFrom.precision, originalText: validFrom.originalText,
       ...(validFrom.sourceTimezone ? { sourceTimezone: validFrom.sourceTimezone } : {}),
-    } } : {}) };
+    } } : {}) }];
   });
   const drafts: ObservationDraft[] = [{ locator: `member[mpsno=${memberId}].positions`, predicate: "office.positionsHeld",
     rawValue: JSON.stringify(input), normalizedValue: positions,

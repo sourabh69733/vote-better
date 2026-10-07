@@ -6,6 +6,7 @@ import { createTestPool, prepareTestDatabase } from "./db.js";
 import { CivicStore } from "../src/store.js";
 import { approveProfileFields, linkProfileIdentity, loadProfileReview } from "../src/profile-review.js";
 import { loadProfilePreview } from "../src/profile-preview.js";
+import { loadDraftProfile, listCollectedBiographyIds } from "../src/profile-draft.js";
 
 const pool = createTestPool();
 const store = new CivicStore(pool);
@@ -64,10 +65,34 @@ test("profile report contains exact source hashes and a stable review token", as
   assert.equal(first.rosterName, "Smt. Manju Sharma");
 });
 
+test("profile report prefers the current positions normalizer for one snapshot", async () => {
+  const memberId = randomInt(100_000, 10_000_000);
+  await fixture(memberId);
+  const snapshot = await pool.query("SELECT id FROM snapshot WHERE url = $1 ORDER BY captured_at DESC LIMIT 1",
+    [`https://sansad.in/api_ls/member/positionHeld?mpCode=${memberId}&locale=en`]);
+  await store.saveObservations(snapshot.rows[0].id, [{
+    locator: `member[mpsno=${memberId}].positions`, predicate: "office.positionsHeld",
+    rawValue: "[{title:role}]", normalizedValue: [{ title: "Member, Committee", period: "2024" }],
+    normalizedAt: new Date().toISOString(), normalizerVersion: "sansad-ls-positions-v3",
+  }]);
+  const report = await loadProfileReview(pool, memberId);
+  assert.equal(report.observations.filter((item) => item.predicate === "office.positionsHeld").length, 1);
+  assert.deepEqual(report.observations.find((item) => item.predicate === "office.positionsHeld")?.value,
+    [{ title: "Member, Committee", period: "2024" }]);
+});
+
 test("a biography name that conflicts with the official roster cannot be linked", async () => {
   const memberId = randomInt(100_000, 10_000_000);
   await fixture(memberId, "Manju Sharma", "Different Person");
   await assert.rejects(() => loadProfileReview(pool, memberId), /roster/);
+});
+
+test("official professional titles do not create a false name conflict", async () => {
+  const memberId = randomInt(100_000, 10_000_000);
+  await fixture(memberId, "Prof. S P Singh Baghel", "S P Singh Baghel");
+  const report = await loadProfileReview(pool, memberId);
+  assert.equal(report.name, "Smt. Prof. S P Singh Baghel");
+  assert.equal(report.rosterName, "Smt. S P Singh Baghel");
 });
 
 test("explicit identity review links all fields for one official ID", async () => {
@@ -123,4 +148,30 @@ test("private preview exports only current approved and linked observations", as
   assert.match(preview.facts[0].source.contentHash, /^sha256:/);
   assert.match(preview.facts[0].reviewedAt, /Z$/);
   assert.equal(preview.reviewStatus, "partial");
+});
+
+test("draft profile includes every current sourced field before review", async () => {
+  const memberId = randomInt(100_000, 10_000_000);
+  await fixture(memberId);
+  const draft = await loadDraftProfile(pool, memberId);
+  assert.equal(draft.access, "local-unverified-profile");
+  assert.equal(draft.personName, "Smt. Manju Sharma");
+  assert.deepEqual(draft.facts.map((fact) => fact.predicate), [
+    "person.name", "person.profession", "person.sansadMemberId", "office.positionsHeld",
+  ]);
+  assert.ok(draft.facts.every((fact) => fact.source.contentHash.startsWith("sha256:")));
+  assert.ok(draft.facts.every((fact) => fact.source.capturedAt.endsWith("Z")));
+  assert.ok((await listCollectedBiographyIds(pool)).includes(memberId));
+});
+
+test("rejected profile fields disappear from the next draft export", async () => {
+  const memberId = randomInt(100_000, 10_000_000);
+  await fixture(memberId);
+  const report = await loadProfileReview(pool, memberId);
+  const profession = report.observations.find((item) => item.predicate === "person.profession");
+  assert.ok(profession);
+  await store.recordDecision([profession.id], "rejected", "reviewer-test", "Source field does not identify this person");
+  const draft = await loadDraftProfile(pool, memberId);
+  assert.equal(draft.facts.some((fact) => fact.predicate === "person.profession"), false);
+  assert.equal(draft.facts.some((fact) => fact.predicate === "office.positionsHeld"), true);
 });

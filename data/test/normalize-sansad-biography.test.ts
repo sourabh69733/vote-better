@@ -26,10 +26,20 @@ test("biography extracts sourced public profile fields without exposing contact 
   assert.ok(source.url.includes("5619"));
 });
 
-test("biography rejects mismatched member identity and malformed dates", () => {
+test("biography rejects mismatched member identity and omits an unusable birth date", () => {
   const source = snapshot("https://sansad.in/api_ls/member/5619?locale=en");
   assert.throws(() => normalizeSansadBiography(source, { mpsno: 5620 }, 5619, capturedAt), /member ID/);
-  assert.throws(() => normalizeSansadBiography(source, { mpsno: 5619, dateOfBirth: "31-Feb-1960" }, 5619, capturedAt), /birth date/);
+  const drafts = normalizeSansadBiography(source,
+    { mpsno: 5619, fullName: "Smt. Manju Sharma", dateOfBirth: "31-Feb-1960" }, 5619, capturedAt);
+  assert.ok(drafts.some((item) => item.predicate === "person.name"));
+  assert.ok(!drafts.some((item) => item.predicate === "person.birthDate"));
+});
+
+test("biography accepts a full month name in an official birth date", () => {
+  const source = snapshot("https://sansad.in/api_ls/member/159?locale=en");
+  const drafts = normalizeSansadBiography(source,
+    { mpsno: 159, fullName: "Shri Jai Prakash", dateOfBirth: "16-April-1958" }, 159, capturedAt);
+  assert.equal(drafts.find((item) => item.predicate === "person.birthDate")?.normalizedValue, "1958-04-16");
 });
 
 test("optional malformed links and empty HTML do not block other sourced fields", () => {
@@ -60,9 +70,23 @@ test("positions preserve title, raw period and only supported date precision", (
   ]);
 });
 
-test("positions reject wrong source member and incomplete entries", () => {
+test("positions reject wrong source member and omit blank source rows", () => {
   const source = snapshot("https://sansad.in/api_ls/member/positionHeld?mpCode=5620&locale=en");
   assert.throws(() => normalizeSansadPositions(source, [], 5619, capturedAt), /member ID/);
-  assert.throws(() => normalizeSansadPositions(snapshot("https://sansad.in/api_ls/member/positionHeld?mpCode=5619&locale=en"),
-    [{ period: "2024" }], 5619, capturedAt), /positionHeld/);
+  const drafts = normalizeSansadPositions(snapshot("https://sansad.in/api_ls/member/positionHeld?mpCode=5619&locale=en"),
+    [{ positionHeld: "", period: "" }, { positionHeld: "Member, Committee", period: "2024" }], 5619, capturedAt);
+  assert.deepEqual(drafts[0].normalizedValue, [{ title: "Member, Committee", period: "2024" }]);
+});
+
+test("positions keep a titled role when the source has no date and clean title markup", () => {
+  const source = snapshot("https://sansad.in/api_ls/member/positionHeld?mpCode=5619&locale=en");
+  const drafts = normalizeSansadPositions(source, [
+    { positionHeld: "<body>Re-elected to 17<sup>th</sup> Lok Sabha</body>", period: "May 2019" },
+    { positionHeld: "Member, Committee on Petitions", period: "" },
+  ], 5619, capturedAt);
+  assert.deepEqual(drafts[0].normalizedValue, [
+    { title: "Re-elected to 17th Lok Sabha", period: "May 2019",
+      validFrom: { value: "2019-05", precision: "month", originalText: "May 2019" } },
+    { title: "Member, Committee on Petitions" },
+  ]);
 });

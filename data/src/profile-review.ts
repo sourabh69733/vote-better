@@ -33,7 +33,7 @@ function urls(memberId: number): readonly string[] {
 }
 
 function canonicalName(value: string): string {
-  return value.trim().replace(/^(?:(?:smt|shri|dr|mr|mrs|ms)\.?\s+)+/i, "")
+  return value.trim().replace(/^(?:(?:smt|shri|dr|mr|mrs|ms|prof|adv)\.?\s+)+/i, "")
     .replace(/\s+/g, " ").toLocaleLowerCase("en-IN");
 }
 
@@ -48,13 +48,19 @@ export async function loadProfileReview(db: Queryable, memberId: number): Promis
   if (snapshots.rows.length !== 2) throw new Error("both Sansad biography sources must be collected");
   const snapshotIds = snapshots.rows.map((row) => row.id as string);
   const result = await db.query(`
-    SELECT o.id, o.predicate, o.locator, o.normalized_value, o.snapshot_id, s.url
+    SELECT o.id, o.predicate, o.locator, o.normalized_value, o.snapshot_id, o.normalizer_version, s.url
     FROM observation o JOIN snapshot s ON s.id = o.snapshot_id
     WHERE o.snapshot_id = ANY($1::uuid[])
-      AND o.normalizer_version IN ('sansad-ls-biography-v1', 'sansad-ls-positions-v2')
+      AND o.normalizer_version IN ('sansad-ls-biography-v1', 'sansad-ls-biography-v2', 'sansad-ls-positions-v2', 'sansad-ls-positions-v3', 'sansad-ls-positions-v4')
     ORDER BY s.url, o.locator, o.predicate, o.id
   `, [snapshotIds]);
-  const observations: ProfileReviewObservation[] = result.rows.map((row) => ({
+  const positionsVersion = ["sansad-ls-positions-v4", "sansad-ls-positions-v3", "sansad-ls-positions-v2"]
+    .find((version) => result.rows.some((row) => row.normalizer_version === version));
+  const biographyVersion = result.rows.some((row) => row.normalizer_version === "sansad-ls-biography-v2")
+    ? "sansad-ls-biography-v2" : "sansad-ls-biography-v1";
+  const currentRows = result.rows.filter((row) => row.predicate === "office.positionsHeld"
+    ? row.normalizer_version === positionsVersion : row.normalizer_version === biographyVersion);
+  const observations: ProfileReviewObservation[] = currentRows.map((row) => ({
     id: row.id, predicate: row.predicate, locator: row.locator, value: row.normalized_value,
     sourceUrl: row.url, snapshotId: row.snapshot_id,
   }));
