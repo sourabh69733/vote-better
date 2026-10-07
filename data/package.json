@@ -17,6 +17,7 @@
     "profile:preview": "node --import tsx src/profile-preview.ts",
     "profile:drafts": "node --import tsx src/profile-draft.ts",
     "profile:source-check": "node --import tsx src/profile-source-check.ts",
+    "export:local-mps": "node --import tsx src/export-local-mps.ts",
     "report:mp-crosswalk": "node --import tsx src/report-mp-crosswalk.ts",
     "review": "node --import tsx src/cli.ts",
     "export:jaipur": "node --import tsx src/export-jaipur.ts"
