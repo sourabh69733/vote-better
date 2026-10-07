@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 
 export interface ReviewedFact {
   predicate: string;
-  value: string | { title: string; period: string; validFrom?: { value: string; precision: string } }[];
+  value: string | { title: string; period?: string; validFrom?: { value: string; precision: string } }[];
   reviewedAt: string;
   source: { url: string; contentHash: string; capturedAt: string; locator: string };
 }
@@ -56,7 +56,8 @@ export async function loadReviewedProfilePreview(
     if (fact.predicate === "office.positionsHeld") {
       if (!Array.isArray(fact.value) || fact.value.some((value) => {
         const position = object(value);
-        return !position || typeof position.title !== "string" || typeof position.period !== "string";
+        return !position || typeof position.title !== "string" ||
+          (position.period !== undefined && typeof position.period !== "string");
       })) return null;
     } else if (typeof fact.value !== "string") return null;
     facts.push(fact as unknown as ReviewedFact);
