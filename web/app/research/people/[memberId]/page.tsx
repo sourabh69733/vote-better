@@ -5,6 +5,7 @@ import { loadResearchRoster } from "@/lib/research-roster";
 import { loadReviewedProfilePreview } from "@/lib/reviewed-profile-preview";
 import { isReviewedDraftFact, loadDraftProfilePreview,
   type DraftFact } from "@/lib/draft-profile-preview";
+import { ProfileJumpLinks } from "@/components/ProfileSection";
 
 export const metadata: Metadata = {
   title: "Draft MP record | Vote Better",
@@ -43,20 +44,35 @@ export default async function ResearchMemberPage({ params }: PageProps) {
     { label: "Birth date listed", fact: birthDate },
   ].flatMap(({ label, fact }) => fact && typeof fact.value === "string" ? [{ label, fact, value: fact.value }] : []);
 
-  return <div className="mx-auto w-full max-w-3xl px-4 pb-16 pt-10 sm:px-6 sm:pt-16">
-    <Link href="/research/pin" className="text-sm font-semibold text-[#276b4e] hover:underline">← PIN research</Link>
-    <article className="mt-8 rounded-[28px] border border-[#dce6dc] bg-white p-6 shadow-[0_16px_44px_rgba(28,64,40,.06)] sm:p-10">
-      <p className="text-xs font-extrabold uppercase tracking-[0.17em] text-[#91692d]">{draft?.sourceCheck ? "Source checked Sansad record" : "Unreviewed Sansad record"}</p>
-      <h1 className="mt-3 text-4xl font-semibold tracking-[-0.06em] text-[#19372d] sm:text-5xl">{member.name}</h1>
-      <p className="mt-4 text-sm leading-6 text-[#607568]">Digital Sansad listed this person as a sitting Lok Sabha member when this source was captured on {source.capturedAt.slice(0, 10)}. The record has not completed Vote Better review.</p>
-      <dl className="mt-8 grid gap-4 sm:grid-cols-2">
-        {[["Constituency", member.constituency], ["State or territory", member.state], ["Party in source", member.party], ["Parliament member ID", String(member.id)]].map(([label, value]) =>
+  return <div className="mx-auto w-full max-w-[1160px] px-4 pb-16 pt-7 sm:px-6 sm:pt-10 lg:px-8">
+    <Link href="/research/pin" className="inline-flex min-h-11 items-center text-sm font-semibold text-[#276b4e] hover:underline">← PIN research</Link>
+    <article className="mt-5">
+      <header className="overflow-hidden rounded-[28px] border border-[#d6e2d7] bg-white shadow-[0_12px_36px_rgba(24,55,43,.05)]">
+        <div className="grid gap-7 p-6 sm:p-8 md:grid-cols-[minmax(0,1fr)_280px] md:gap-8 lg:grid-cols-[minmax(0,1fr)_310px] lg:p-10">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#91692d]">Local research preview</p>
+            <h1 className="mt-4 max-w-[16ch] text-[clamp(2.5rem,5vw,4.4rem)] font-semibold leading-[1.02] tracking-[-0.06em] text-[#19372d]">{member.name}</h1>
+            <p className="mt-4 text-base leading-7 text-[#4d6354]">Lok Sabha record for {member.constituency}, {member.state}</p>
+          </div>
+          <div className="self-start rounded-2xl bg-[#fbf6e8] p-5 sm:p-6">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#866620]">{draft?.sourceCheck ? "Source checked" : "Unreviewed"}</p>
+            <p className="mt-3 text-lg font-semibold leading-7 text-[#3f3b2d]">Not yet reviewed by Vote Better</p>
+            <p className="mt-2 text-sm leading-6 text-[#625b47]">Digital Sansad listed this person as sitting when captured on {source.capturedAt.slice(0, 10)}.</p>
+          </div>
+        </div>
+      <dl className="grid gap-3 border-t border-[#e2ebe2] bg-[#fafcf9] p-6 sm:grid-cols-2 sm:p-8 lg:px-10">
+        {[["Constituency", member.constituency], ["Party in source", member.party]].map(([label, value]) =>
           <div key={label} className="rounded-2xl bg-[#f7faf5] px-5 py-4">
             <dt className="text-xs font-bold uppercase tracking-[0.1em] text-[#688071]">{label}</dt>
             <dd className="mt-2 font-semibold text-[#1f4532]">{value}</dd>
           </div>)}
       </dl>
-      {facts.length > 0 && <section className="mt-8 rounded-2xl border border-[#dce6dc] bg-[#f5faf5] p-5 sm:p-6" aria-labelledby="profile-details-heading">
+      </header>
+      <div className="mt-8"><ProfileJumpLinks links={[
+        ...(facts.length ? [{ href: "#draft-facts", label: "Collected facts" }] : []),
+        { href: "#source-trail", label: "Source trail" },
+      ]} /></div>
+      {facts.length > 0 && <section id="draft-facts" className="mt-8 scroll-mt-28 rounded-2xl border border-[#dce6dc] bg-[#f5faf5] p-5 sm:p-6" aria-labelledby="profile-details-heading">
         <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#91692d]">Local profile draft</p>
         <h2 id="profile-details-heading" className="mt-2 text-xl font-semibold text-[#19372d]">About this person</h2>
         <p className="mt-2 text-sm leading-6 text-[#607568]">All currently collected biography fields appear here. {draft?.sourceCheck
@@ -90,10 +106,10 @@ export default async function ResearchMemberPage({ params }: PageProps) {
         </details>}
         <p className="mt-5 text-xs leading-5 text-[#607568]">Party changes, earlier employment, and education dates appear only if a source supplies them. This draft is not a complete life history.</p>
       </section>}
-      <div className="mt-8 border-t border-[#e2eae2] pt-6">
+      <div id="source-trail" className="mt-8 scroll-mt-28 rounded-2xl border border-[#dce6dc] bg-white p-5 sm:p-6">
         <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#688071]">Source trail</p>
         <a href="https://sansad.in/ls/members" target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-sm font-semibold text-[#24694b] underline underline-offset-4">Digital Sansad member list ↗</a>
-        <p className="mt-2 text-xs text-[#688071]">Captured {source.capturedAt} · Snapshot {source.id}</p>
+        <p className="mt-2 text-xs text-[#688071]">Captured {source.capturedAt} · Member ID {member.id} · Snapshot {source.id}</p>
         <details className="mt-4 text-xs text-[#607568]">
           <summary className="cursor-pointer font-semibold">Technical evidence</summary>
           <p className="mt-2">Exact source endpoints and snapshot records used by this local draft:</p>
