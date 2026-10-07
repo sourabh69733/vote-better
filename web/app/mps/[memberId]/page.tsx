@@ -12,7 +12,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function MpProfilePage({ params }: PageProps) {
-  if (process.env.NODE_ENV !== "development") notFound();
   const { memberId } = await params;
   const profile = /^\d+$/.test(memberId) ? await getPublicMp(Number(memberId)) : undefined;
   if (!profile) notFound();

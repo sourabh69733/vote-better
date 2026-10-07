@@ -28,8 +28,7 @@ function validProfile(value: PublicMp): boolean {
 }
 
 export async function listPublicMps(path?: string): Promise<readonly PublicMp[]> {
-  if (!path && process.env.NODE_ENV !== "development") return [];
-  const file = path ?? resolve(process.cwd(), "../data/raw/public-profiles/sansad-mps.json");
+  const file = path ?? process.env.VOTE_BETTER_MP_EXPORT ?? resolve(process.cwd(), "../data/raw/public-profiles/sansad-mps.json");
   try {
     const records = JSON.parse(await readFile(/* turbopackIgnore: true */ file, "utf8"));
     const profiles = records.profiles as PublicMp[];

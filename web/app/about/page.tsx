@@ -28,7 +28,7 @@ export default function AboutPage() {
           <h2 className="text-xl font-bold text-slate-900">Current scope</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-700">
             Current verified area coverage includes Jaipur and Jaipur Rural parliamentary
-            constituencies. A local research preview has 64 source checked Digital Sansad profiles across India. We have not cleared those biographies for public redistribution. We have not verified assembly-area mapping, other
+            constituencies. The MP directory can show 64 source checked Digital Sansad profiles across India when its private export is installed. Source reuse permission is still pending. We have not verified assembly-area mapping, other
             representatives, candidate social accounts, or a complete record
             of constituency work. Each profile shows when its sources were checked.
           </p>
@@ -37,7 +37,7 @@ export default function AboutPage() {
 
       <section className="mt-5 rounded-2xl border border-slate-200 bg-white p-6">
         <h2 className="text-xl font-bold text-slate-900">Other sources to connect</h2>
-        <p className="mt-3 text-sm leading-relaxed text-slate-700">These sources are not connected to the 64 MP biography previews. A few Jaipur candidate disclosures cite MyNeta manually. Its terms require written consent for automated collection, so there is no MyNeta scraper.</p>
+        <p className="mt-3 text-sm leading-relaxed text-slate-700">These sources are not connected to the 64 MP profiles. A few Jaipur candidate disclosures cite MyNeta manually. Its terms require written consent for automated collection, so there is no MyNeta scraper.</p>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-emerald-800">
           <li><a href="https://www.eci.gov.in/affidavit-portal" target="_blank" rel="noopener noreferrer" className="underline">Election Commission affidavits</a> for candidates&apos; filed disclosures</li>
           <li><a href="https://prsindia.org/mptrack" target="_blank" rel="noopener noreferrer" className="underline">PRS MP Track</a> for parliamentary participation</li>

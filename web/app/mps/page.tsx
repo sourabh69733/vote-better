@@ -8,10 +8,10 @@ export const metadata: Metadata = { title: "MP profiles | Vote Better" };
 interface PageProps { searchParams: Promise<{ q?: string | string[] }> }
 
 export default async function MpDirectory({ searchParams }: PageProps) {
-  if (process.env.NODE_ENV !== "development") notFound();
   const params = await searchParams;
   const query = typeof params.q === "string" ? params.q.trim().slice(0, 80) : "";
   const allProfiles = await listPublicMps();
+  if (allProfiles.length === 0) notFound();
   const profiles = allProfiles.filter((profile) =>
     `${profile.name} ${profile.constituency} ${profile.state} ${profile.party}`
       .toLocaleLowerCase("en-IN").includes(query.toLocaleLowerCase("en-IN")));
@@ -19,7 +19,7 @@ export default async function MpDirectory({ searchParams }: PageProps) {
     <header className="border-b border-[#dce6dc] pb-8">
       <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#347353]">Digital Sansad records</p>
       <h1 className="mt-3 text-4xl font-semibold tracking-[-0.06em] text-[#19372d] sm:text-5xl">Explore MPs</h1>
-      <p className="mt-3 max-w-2xl text-sm leading-6 text-[#607568]">{allProfiles.length} locally collected profiles. Each fact links to its official source and shows when we captured it. This preview is awaiting source reuse clearance.</p>
+      <p className="mt-3 max-w-2xl text-sm leading-6 text-[#607568]">{allProfiles.length} profiles from Digital Sansad records. Each fact links to its official source and shows when we captured it.</p>
       <form action="/mps" method="get" className="mt-6 flex max-w-2xl gap-2">
         <label htmlFor="mp-search" className="sr-only">Search MPs by name, constituency, state or party</label>
         <input id="mp-search" name="q" defaultValue={query} placeholder="Name, constituency, state or party"
