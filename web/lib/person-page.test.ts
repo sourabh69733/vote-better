@@ -3,6 +3,7 @@ import test from "node:test";
 import { renderToStaticMarkup } from "react-dom/server";
 
 import PersonPage from "../app/people/[slug]/page";
+import { getPersonProfile, listPersonSlugs } from "./verified-profile";
 
 test("elected profile leads with office held before election and filing records", async () => {
   const page = await PersonPage({ params: Promise.resolve({ slug: "manju-sharma" }) });
@@ -35,6 +36,21 @@ test("a candidate with only an official filing age leaves other disclosure field
   assert.match(html, /Age at filing/);
   assert.doesNotMatch(html, /Education declared/);
   assert.doesNotMatch(html, /Assets declared/);
+  assert.doesNotMatch(html, /Life and public work/);
+  assert.match(html, /Election and filing records/);
+});
+
+test("every candidate profile renders its name, election record and sources", async () => {
+  for (const slug of listPersonSlugs()) {
+    const html = renderToStaticMarkup(await PersonPage({ params: Promise.resolve({ slug }) }));
+    assert.match(html, /<h1\b[^>]*>[^<]+<\/h1>/, slug);
+    assert.match(html, /Election and filing records/, slug);
+    assert.match(html, /Sources and review dates/, slug);
+    const timeline = getPersonProfile(slug)!.timeline;
+    if (timeline.length === 1 && timeline[0].kind === "election") {
+      assert.doesNotMatch(html, /href="#life"/, slug);
+    }
+  }
 });
 
 test("elected profile moves from current office to life history, work and deeper records", async () => {

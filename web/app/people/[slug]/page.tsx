@@ -39,6 +39,7 @@ export default async function PersonPage({ params }: PageProps) {
   const electionStatus = election ? election.status[0].toUpperCase() + election.status.slice(1) : "";
   const electionYear = election?.resultDate?.slice(0, 4);
   const voteTraceId = getJaipurVoteTraceId(profile.slug);
+  const showTimeline = profile.timeline.length > 1 || profile.timeline.some((event) => event.kind !== "election");
 
   return (
     <div className="mx-auto w-full max-w-[1160px] px-4 pb-16 pt-7 sm:px-6 sm:pt-10 lg:px-8">
@@ -73,7 +74,7 @@ export default async function PersonPage({ params }: PageProps) {
 
       <div className="mt-8"><ProfileJumpLinks links={[
         ...(profile.officeTerms.length ? [{ href: "#offices", label: "Offices held" }] : []),
-        ...(profile.timeline.length ? [{ href: "#life", label: "Life and public work" }] : []),
+        ...(showTimeline ? [{ href: "#life", label: "Life and public work" }] : []),
         ...(profile.activities.length ? [{ href: "#work", label: "Work in office" }] : []),
         ...((election || profile.disclosures.length) ? [{ href: "#records", label: "Election and filings" }] : []),
         { href: "#sources", label: "Sources" },
@@ -90,7 +91,7 @@ export default async function PersonPage({ params }: PageProps) {
             </article>)}</div>
           </ProfileSection>}
 
-          {profile.timeline.length > 0 && <ProfileSection id="life" number={profile.officeTerms.length ? "02" : "01"} title="Life and public work" description="Selected dated records, not a continuous employment history. Gaps mean we have not found a dated source, not that nothing happened.">
+          {showTimeline && <ProfileSection id="life" number={profile.officeTerms.length ? "02" : "01"} title="Life and public work" description="Selected dated records, not a continuous employment history. Gaps mean we have not found a dated source, not that nothing happened.">
             <ol className="border-l-2 border-emerald-200 pl-5">{profile.timeline.toReversed().map((event) => <li key={`${event.kind}-${event.date}-${event.title}`} className="relative border-b border-slate-200 py-4 last:border-b-0 before:absolute before:-left-[27px] before:top-[23px] before:h-3 before:w-3 before:rounded-full before:bg-emerald-600">
               <p className="text-xs font-bold uppercase tracking-wide text-emerald-700">{event.date} · {{ career: "Public role", education: "Education", party: "Party role", work: "Work declaration", election: "Election" }[event.kind]}</p>
               <h3 className="mt-1 font-semibold text-slate-900">{event.title}</h3>
@@ -99,7 +100,7 @@ export default async function PersonPage({ params }: PageProps) {
             </li>)}</ol>
           </ProfileSection>}
 
-          {profile.activities.length > 0 && <ProfileSection id="work" number={String(1 + Number(profile.officeTerms.length > 0) + Number(profile.timeline.length > 0)).padStart(2, "0")} title="Work in office" description="Documented actions. Asking a question is not proof that a project was completed.">
+          {profile.activities.length > 0 && <ProfileSection id="work" number={String(1 + Number(profile.officeTerms.length > 0) + Number(showTimeline)).padStart(2, "0")} title="Work in office" description="Documented actions. Asking a question is not proof that a project was completed.">
             <div className="grid gap-3">
               {profile.activities.map((activity) => <article key={activity.sourceId} className="rounded-2xl border border-slate-200 bg-white p-5">
                 <p className="text-xs font-bold uppercase tracking-wide text-slate-500">{activity.date}</p>
