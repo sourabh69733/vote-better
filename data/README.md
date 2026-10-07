@@ -38,6 +38,14 @@ The member ID comes from the Sansad roster. This fetches two official JSON endpo
 
 For a paced batch of existing roster IDs, use `npm --prefix data run import:sansad-biographies -- --limit 50`. The result includes `lastMemberId` and `remaining`; continue with `--after <lastMemberId>` until none remain. A failed member ID is reported in `failedMemberIds` and can be retried with the one-member command. This batch stores drafts only. A three-member live run after ID 5619 saved 36 drafts without errors on 2026-10-07. It does not perform identity review or make those profiles public.
 
+To show every collected biography field before review in the local research site, regenerate the ignored draft exports after each collection batch:
+
+```sh
+npm --prefix data run profile:drafts
+```
+
+This command checks the latest official roster and biography member ID and name, then exports available birth date, education statement, profession, official photo link, social links and positions with source URL, locator, hash and capture time. A position without a source date keeps its title but no inferred date; blank position rows and unusable birth dates stay out. It does not invent missing career or party history, confirm identity with an internal person, approve facts or publish them. Rejected or needs-changes observations are omitted on the next export. The development-only `/research/people/<member-id>` page marks each field unverified unless the exact value and source also appear in an approved local review preview. The draft files stay under ignored `data/raw/profile-drafts/`. A local run on 2026-10-07 exported 64 profiles after the first 50-member batch and two targeted retries.
+
 Run `npm --prefix data run report:mp-crosswalk` after the Sansad import and PIN boundary draft exist locally. It writes ignored `data/raw/maps/mp_crosswalk_draft.json` with source hashes, all roster members, exact state-and-constituency matches, naming suggestions, ambiguous matches, and unmatched records. It refuses incomplete page sets or mixed snapshots. The local report has 373 exact proposals, 145 suggestions for reservation suffixes or known state label differences, 25 unmatched areas, and 22 unmatched members among 543 boundary areas and 540 imported members. Every connection remains unreviewed. This report does not publish verified profiles or assign an MP to a PIN.
 
 The import refuses a changed PDF until its page-linked transcription in `extractions/jaipur-form21e-2024.json` is checked and updated. The transcription is explicitly unreviewed. The command never publishes to the website. It saves source URL, PDF hash and check attempts, but does not retain PDF bytes. A private blob storage adapter exists for sources whose reuse policy permits retaining a copy.

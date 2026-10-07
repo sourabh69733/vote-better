@@ -15,6 +15,7 @@
     "import:sansad-biographies": "node --import tsx src/batch-sansad-biographies.ts",
     "profile:review": "node --import tsx src/profile-review.ts",
     "profile:preview": "node --import tsx src/profile-preview.ts",
+    "profile:drafts": "node --import tsx src/profile-draft.ts",
     "report:mp-crosswalk": "node --import tsx src/report-mp-crosswalk.ts",
     "review": "node --import tsx src/cli.ts",
     "export:jaipur": "node --import tsx src/export-jaipur.ts"
