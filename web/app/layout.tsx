@@ -25,18 +25,24 @@ export default function RootLayout({
         {/* Header */}
         <header className="sticky top-0 z-50 border-b border-[#e1e9e0] bg-[#f5f7f2]/95 backdrop-blur-md">
           <div className="mx-auto flex h-[72px] w-full max-w-[1320px] items-center justify-between px-4 sm:px-6 lg:px-8">
-            <Link href="/" className="flex items-center gap-2 group">
+            <Link href="/" className="flex shrink-0 items-center gap-2 group">
               <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#1e6b4d] text-xl font-bold text-white" aria-hidden="true">✓</span>
-              <span className="text-lg font-extrabold tracking-[-0.05em] text-[#18372a] transition-colors group-hover:text-[#1e6b4d]">
+              <span className="whitespace-nowrap text-lg font-extrabold tracking-[-0.05em] text-[#18372a] transition-colors group-hover:text-[#1e6b4d]">
                 Vote Better
               </span>
             </Link>
-            <nav className="flex items-center gap-7 text-sm font-semibold">
+            <nav className="ml-4 flex min-w-0 items-center gap-4 overflow-x-auto whitespace-nowrap [scrollbar-width:none] text-sm font-semibold sm:gap-7">
               <Link
                 href="/"
                 className="text-[#526a59] transition-colors hover:text-[#1e6b4d]"
               >
                 Areas
+              </Link>
+              <Link
+                href="/constitution"
+                className="text-[#526a59] transition-colors hover:text-[#1e6b4d]"
+              >
+                Constitution
               </Link>
               {process.env.NODE_ENV === "development" && <Link href="/mps" className="text-[#526a59] transition-colors hover:text-[#1e6b4d]">MPs</Link>}
               <Link
