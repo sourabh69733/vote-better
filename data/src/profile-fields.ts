@@ -35,6 +35,7 @@ export const profileFields = {
   "office.membershipStatus": { subject: "office-term", time: "changing", sources: ["sansad-member-list", "official-office-record"] },
   "office.lokSabhaTerms": { subject: "office-term", time: "changing", sources: ["sansad-member-list", "official-biography"] },
   "office.positionHeld": { subject: "office-term", time: "dated-event", sources: ["official-biography"] },
+  "office.positionsHeld": { subject: "office-term", time: "changing", sources: ["official-biography"] },
   "office.startedAt": { subject: "office-term", time: "dated-event", sources: ["official-office-record"] },
   "office.endedAt": { subject: "office-term", time: "dated-event", sources: ["official-office-record"] },
   "party.membership": { subject: "party-term", time: "dated-event", sources: ["official-biography", "official-office-record"] },

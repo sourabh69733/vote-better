@@ -49,12 +49,15 @@ test("positions preserve title, raw period and only supported date precision", (
     { period: "June 2024", positionHeld: "Elected to 18th Lok Sabha" },
     { period: "date unclear", positionHeld: "Earlier role" },
   ], 5619, capturedAt);
-  assert.equal(drafts.length, 3);
-  assert.deepEqual(drafts[0].validFrom, { value: "2025-02-24", precision: "day", originalText: "24-Feb-2025" });
-  assert.deepEqual(drafts[1].validFrom, { value: "2024-06", precision: "month", originalText: "June 2024" });
-  assert.equal(drafts[2].validFrom, undefined);
-  assert.deepEqual(drafts[0].normalizedValue,
-    { title: "Member, Committee on Petitions", period: "24-Feb-2025 -" });
+  assert.equal(drafts.length, 1);
+  assert.equal(drafts[0].predicate, "office.positionsHeld");
+  assert.deepEqual(drafts[0].normalizedValue, [
+    { title: "Member, Committee on Petitions", period: "24-Feb-2025 -",
+      validFrom: { value: "2025-02-24", precision: "day", originalText: "24-Feb-2025" } },
+    { title: "Elected to 18th Lok Sabha", period: "June 2024",
+      validFrom: { value: "2024-06", precision: "month", originalText: "June 2024" } },
+    { title: "Earlier role", period: "date unclear" },
+  ]);
 });
 
 test("positions reject wrong source member and incomplete entries", () => {

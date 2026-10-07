@@ -3,7 +3,7 @@ import { assertProfileDrafts, type ProfilePredicate } from "../profile-fields.js
 import type { ObservationDraft } from "../store.js";
 
 export const SANSAD_BIOGRAPHY_NORMALIZER_VERSION = "sansad-ls-biography-v1";
-export const SANSAD_POSITIONS_NORMALIZER_VERSION = "sansad-ls-positions-v1";
+export const SANSAD_POSITIONS_NORMALIZER_VERSION = "sansad-ls-positions-v2";
 
 const months: Record<string, number> = {
   Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6,
@@ -118,15 +118,20 @@ export function normalizeSansadPositions(
   memberUrl(snapshot, memberId, "positions");
   if (!isUtcInstant(normalizedAt)) throw new Error("normalizedAt must be UTC");
   if (!Array.isArray(input) || input.length > 200) throw new Error("positions must be an array of at most 200 rows");
-  const drafts = input.map((entry, index): ObservationDraft => {
+  const positions = input.map((entry, index) => {
     const row = object(entry, `position ${index}`);
     const title = text(row.positionHeld);
     const period = text(row.period);
     if (!title || !period) throw new Error(`positionHeld and period required at row ${index}`);
-    return { locator: `member[mpsno=${memberId}].positions[${index}]`, predicate: "office.positionHeld",
-      rawValue: `${period} | ${title}`, normalizedValue: { title, period },
-      validFrom: periodStart(period), normalizedAt, normalizerVersion: SANSAD_POSITIONS_NORMALIZER_VERSION };
+    const validFrom = periodStart(period);
+    return { title, period, ...(validFrom ? { validFrom: {
+      value: validFrom.value, precision: validFrom.precision, originalText: validFrom.originalText,
+      ...(validFrom.sourceTimezone ? { sourceTimezone: validFrom.sourceTimezone } : {}),
+    } } : {}) };
   });
+  const drafts: ObservationDraft[] = [{ locator: `member[mpsno=${memberId}].positions`, predicate: "office.positionsHeld",
+    rawValue: JSON.stringify(input), normalizedValue: positions,
+    normalizedAt, normalizerVersion: SANSAD_POSITIONS_NORMALIZER_VERSION }];
   assertProfileDrafts("official-biography", drafts);
   return drafts;
 }

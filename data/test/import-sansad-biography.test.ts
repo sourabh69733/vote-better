@@ -44,7 +44,7 @@ test("imports biography and positions as separate immutable review drafts", asyn
   assert.equal(urls.length, 2);
   assert.equal(dataStore.attempts.filter((item) => item.outcome === "succeeded").length, 2);
   assert.equal(dataStore.observations.length, 2);
-  assert.ok(dataStore.observations[1].predicates.includes("office.positionHeld"));
+  assert.ok(dataStore.observations[1].predicates.includes("office.positionsHeld"));
 });
 
 test("a failed second endpoint cannot save a partial profile update", async () => {
