@@ -1,13 +1,14 @@
 import { createHash } from "node:crypto";
-import { mkdir, rename, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const API = "https://sansad.in/api_ls/question";
 const PAGE_SIZE = 1000;
-const MEMBERS = [
-  { personId: "manju-sharma", memberId: 5619, officialName: "Smt. Manju Sharma" },
-  { personId: "rao-rajendra-singh", memberId: 5632, officialName: "Shri Rao Rajendra Singh" },
-] as const;
+export interface QuestionTarget {
+  personId: string;
+  memberId: number;
+  officialName: string;
+}
 
 export interface PublishedQuestion {
   id: string;
@@ -28,6 +29,12 @@ export interface QuestionPublication {
   sourcePages: { url: string; sha256: string; count: number }[];
   totalSessionQuestions: number;
   members: { personId: string; memberId: number; officialName: string; questions: PublishedQuestion[] }[];
+}
+
+export function verifyCachedQuestionPublication(cached: QuestionPublication, pages: { url: string; body: string }[], officialMembers: unknown, targets: readonly QuestionTarget[]): QuestionPublication {
+  const recreated = buildQuestionPublication(pages, officialMembers, cached.session, cached.collectedAt, targets);
+  if (JSON.stringify(recreated) !== JSON.stringify(cached)) throw new Error(`Cached publication mismatch in session ${cached.session}`);
+  return cached;
 }
 
 type FeedRow = Record<string, unknown>;
@@ -80,9 +87,15 @@ export function buildQuestionPublication(
   officialMembers: unknown,
   session: number,
   collectedAt: string,
+  targets: readonly QuestionTarget[],
 ): QuestionPublication {
   if (!Array.isArray(officialMembers)) throw new Error("Member directory is invalid");
-  for (const member of MEMBERS) {
+  if (!targets.length) throw new Error("No reviewed member targets");
+  if (new Set(targets.map((member) => member.memberId)).size !== targets.length) throw new Error("Duplicate member ID");
+  if (new Set(targets.map((member) => member.personId)).size !== targets.length) throw new Error("Duplicate person ID");
+  if (new Set(targets.map((member) => member.officialName)).size !== targets.length) throw new Error("Duplicate official name");
+  for (const member of targets) {
+    if (!member.personId || !Number.isSafeInteger(member.memberId) || member.memberId < 1 || !member.officialName) throw new Error("Invalid member target");
     const directoryRow = officialMembers.find((row) => row?.mpNo === member.memberId);
     if (directoryRow?.mpName !== member.officialName) throw new Error(`Member identity mismatch: ${member.memberId}`);
     if (officialMembers.filter((row) => row?.mpName === member.officialName).length !== 1) {
@@ -107,13 +120,13 @@ export function buildQuestionPublication(
       if (seenQuestionKeys.has(key)) throw new Error(`Duplicate feed question: ${key}`);
       seenQuestionKeys.add(key);
       const names = Array.isArray(row.member) ? row.member.map(text) : [];
-      if (!MEMBERS.some((member) => names.includes(member.officialName))) continue;
+      if (!targets.some((member) => names.includes(member.officialName))) continue;
       const question = normalizeQuestion(row, 18, session);
       if (questions.has(question.id)) throw new Error(`Duplicate question: ${question.id}`);
       questions.set(question.id, question);
     }
   }
-  if (total < 1 || sourcePages.reduce((sum, page) => sum + page.count, 0) !== total) {
+  if (total < 0 || sourcePages.reduce((sum, page) => sum + page.count, 0) !== total) {
     throw new Error(`Incomplete session: received ${sourcePages.reduce((sum, page) => sum + page.count, 0)} of ${total}`);
   }
   return {
@@ -123,19 +136,28 @@ export function buildQuestionPublication(
     source: "https://sansad.in/ls/questions/questions-and-answers",
     sourcePages,
     totalSessionQuestions: total,
-    members: MEMBERS.map((member) => ({ ...member, questions: [...questions.values()]
+    members: targets.map((member) => ({ ...member, questions: [...questions.values()]
       .filter((question) => question.listedMembers.includes(member.officialName))
       .sort((a, b) => b.date.localeCompare(a.date) || a.number - b.number) })),
   };
 }
 
-async function fetchText(url: string): Promise<string> {
-  const response = await fetch(url, { headers: { "User-Agent": "VoteBetter/0.1 (public civic research)" }, signal: AbortSignal.timeout(45_000) });
-  if (!response.ok) throw new Error(`${url}: HTTP ${response.status}`);
-  return response.text();
+export async function fetchText(url: string, request: typeof fetch = fetch, pause: (ms: number) => Promise<void> = (ms) => new Promise((resolve) => setTimeout(resolve, ms))): Promise<string> {
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const response = await request(url, { headers: { "User-Agent": "VoteBetter/0.1 (public civic research)" }, signal: AbortSignal.timeout(45_000) });
+      if (!response.ok && response.status !== 429 && response.status < 500) throw new Error(`${url}: HTTP ${response.status}`);
+      if (!response.ok) throw new Error(`${url}: HTTP ${response.status}`);
+      return await response.text();
+    } catch (error) {
+      if (attempt === 3 || (error instanceof Error && /: HTTP 4\d\d$/.test(error.message) && !error.message.endsWith("429"))) throw error;
+      await pause(500 * attempt);
+    }
+  }
+  throw new Error("Unreachable retry state");
 }
 
-export async function collectQuestions(session: number, output: string): Promise<QuestionPublication> {
+export async function collectQuestions(session: number, output: string, targets: readonly QuestionTarget[]): Promise<QuestionPublication> {
   if (!Number.isSafeInteger(session) || session < 1) throw new Error("Session must be a positive integer");
   const memberUrl = `${API}/getMembers?lkNo=18`;
   const officialMembers = JSON.parse(await fetchText(memberUrl));
@@ -149,7 +171,7 @@ export async function collectQuestions(session: number, output: string): Promise
     if (pageNo * PAGE_SIZE >= result.totalRecordSize) break;
     await new Promise((resolve) => setTimeout(resolve, 300));
   }
-  const publication = buildQuestionPublication(pages, officialMembers, session, new Date().toISOString());
+  const publication = buildQuestionPublication(pages, officialMembers, session, new Date().toISOString(), targets);
   const rawDir = path.resolve("raw", "sansad-questions", `ls18-s${session}`);
   await mkdir(rawDir, { recursive: true });
   for (const [index, page] of pages.entries()) await writeFile(path.join(rawDir, `page-${index + 1}.json`), page.body);
@@ -163,10 +185,11 @@ export async function collectQuestions(session: number, output: string): Promise
 
 if (process.argv[1] && import.meta.url === new URL(`file://${path.resolve(process.argv[1])}`).href) {
   const session = Number(process.argv[2] ?? 7);
-  const output = path.resolve(process.argv[3] ?? `../web/records/imported/lok-sabha-18-session-${session}.json`);
-  collectQuestions(session, output).then((publication) => {
+  const output = path.resolve(process.argv[3] ?? `raw/sansad-questions/ls18-s${session}/publication.json`);
+  const targetPath = path.resolve("config", "sansad-question-targets.json");
+  readFile(targetPath, "utf8").then((contents) => JSON.parse(contents) as QuestionTarget[]).then((targets) => collectQuestions(session, output, targets)).then((publication) => {
     console.log(`Collected all ${publication.totalSessionQuestions} session questions in ${publication.sourcePages.length} pages.`);
     for (const member of publication.members) console.log(`${member.officialName}: ${member.questions.length} listed questions`);
-    console.log(`Published ${output}`);
+    console.log(`Saved ${output}`);
   }).catch((error) => { console.error(error); process.exitCode = 1; });
 }
