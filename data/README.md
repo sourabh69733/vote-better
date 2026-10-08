@@ -78,6 +78,20 @@ To export source checked factual fields into the private local MP preview, run `
 
 Run `npm --prefix data run report:mp-crosswalk` after the Sansad import and PIN boundary draft exist locally. It writes ignored `data/raw/maps/mp_crosswalk_draft.json` with source hashes, all roster members, exact state-and-constituency matches, naming suggestions, ambiguous matches, and unmatched records. It refuses incomplete page sets or mixed snapshots. The local report has 373 exact proposals, 145 suggestions for reservation suffixes or known state label differences, 25 unmatched areas, and 22 unmatched members among 543 boundary areas and 540 imported members. Every connection remains unreviewed. This report does not publish verified profiles or assign an MP to a PIN.
 
+To prepare and review these matches in bulk:
+
+```sh
+npm --prefix data run report:mp-crosswalk
+npm --prefix data run review:mp-links -- prepare
+# inspect data/raw/maps/mp_link_review_queue.json
+# copy data/raw/maps/mp_link_decisions_template.json to data/config/mp-link-decisions.json
+# change only checked rows from "pending" to "approve" or "reject"
+npm --prefix data run review:mp-links -- promote
+npm --prefix data run review:mp-links -- promote --write
+```
+
+The queue includes official member names, both constituency labels, match type and a token bound to the boundary source, Sansad roster page and question member directory. The fetched directory bytes are saved privately with their hash. The template supplies stable `mp-<member ID>` person IDs for new members; existing reviewed IDs are retained. For each approval or rejection, add a UTC `reviewedAt` instant, `reviewer` and a specific `reason`. Exact matches are still pending until reviewed. Promotion checks every decision against the saved crosswalk and a fresh question member directory, then rejects stale tokens, duplicate identities and changes to existing links. Refresh the crosswalk before preparing a new review batch. `--directory <file>` lets either command use cached directory bytes offline, but does not check for source changes since that file was saved. The dry run prints counts; `--write` atomically updates the shared importer target list. Run the question archive and debate imports separately after promotion. This does not create a public person profile or verify a PIN-to-constituency assignment. The boundary draft uses a research mirror whose geometry and reuse terms still need independent review.
+
 The import refuses a changed PDF until its page-linked transcription in `extractions/jaipur-form21e-2024.json` is checked and updated. The transcription is explicitly unreviewed. The command never publishes to the website. It saves source URL, PDF hash and check attempts, but does not retain PDF bytes. A private blob storage adapter exists for sources whose reuse policy permits retaining a copy.
 
 The Rajasthan source currently needs legacy TLS renegotiation. Only this exact URL uses a source-specific adapter; normal certificate verification stays enabled. Other source adapters should use the standard fetch path.

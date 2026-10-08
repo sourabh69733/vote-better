@@ -22,6 +22,7 @@
     "profile:source-check": "node --import tsx src/profile-source-check.ts",
     "export:local-mps": "node --import tsx src/export-local-mps.ts",
     "report:mp-crosswalk": "node --import tsx src/report-mp-crosswalk.ts",
+    "review:mp-links": "node --import tsx src/review-mp-links.ts",
     "review": "node --import tsx src/cli.ts",
     "export:jaipur": "node --import tsx src/export-jaipur.ts"
   },
