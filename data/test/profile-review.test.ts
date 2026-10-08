@@ -95,6 +95,18 @@ test("official professional titles do not create a false name conflict", async (
   assert.equal(report.rosterName, "Smt. S P Singh Baghel");
 });
 
+test("official regional honorifics do not create false identity conflicts", async () => {
+  for (const [biographyName, rosterName] of [
+    ["Thiru Dayanidhi Maran", "Dayanidhi Maran"],
+    ["Chh. Udayanraje Pratapsinha Maharaj Bhonsle", "Udayanraje Pratapsinha Maharaj Bhonsle"],
+    ["Km. Shobha Karandlaje", "Shobha Karandlaje"],
+  ]) {
+    const memberId = randomInt(100_000, 10_000_000);
+    await fixture(memberId, biographyName, rosterName);
+    assert.equal((await loadProfileReview(pool, memberId)).memberId, memberId);
+  }
+});
+
 test("explicit identity review links all fields for one official ID", async () => {
   const memberId = randomInt(100_000, 10_000_000);
   const { personId } = await fixture(memberId);
