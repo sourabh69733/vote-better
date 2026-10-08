@@ -80,7 +80,7 @@ export default async function PersonPage({ params }: PageProps) {
             {parliamentaryWork && <a href="#work" className="rounded-2xl bg-[#eff6ef] p-3 transition-colors hover:bg-[#e4f0e5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 sm:p-4">
               <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#52735c]">Parliamentary questions</span>
               <strong className="mt-2 block text-lg leading-6 text-[#19372d] sm:text-xl sm:leading-7">{parliamentaryWork.questions.length} listed</strong>
-              <span className="mt-1 block text-xs leading-5 text-[#55715e]">Session {parliamentaryWork.session} · collected {parliamentaryWork.collectedOn} ↗</span>
+              <span className="mt-1 block text-xs leading-5 text-[#55715e]">Sessions {parliamentaryWork.sessions[0].session}-{parliamentaryWork.sessions.at(-1)!.session} · collected through {parliamentaryWork.collectedOn} ↗</span>
             </a>}
             {!office && election && <a href="#records" className="rounded-2xl bg-[#eff6ef] p-3 transition-colors hover:bg-[#e4f0e5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 sm:p-4">
               <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#52735c]">{electionYear ?? "Recorded"} election result</span>
