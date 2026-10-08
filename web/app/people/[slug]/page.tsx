@@ -6,7 +6,9 @@ import { getPersonProfile, getProfileSource, listPersonSlugs, type SourceRecord 
 import { getJaipurVoteTraceId } from "@/lib/publication";
 import { ProfileJumpLinks, ProfileSection } from "@/components/ProfileSection";
 import { ParliamentQuestions } from "@/components/ParliamentQuestions";
+import { ParliamentDebates } from "@/components/ParliamentDebates";
 import { getParliamentaryWork } from "@/lib/parliamentary-work";
+import { getParliamentaryDebates } from "@/lib/parliamentary-debates";
 import { formatTermDuration } from "@/lib/term-duration";
 
 interface PageProps {
@@ -44,8 +46,11 @@ export default async function PersonPage({ params }: PageProps) {
   const voteTraceId = getJaipurVoteTraceId(profile.slug);
   const showTimeline = profile.timeline.length > 1 || profile.timeline.some((event) => event.kind !== "election");
   const parliamentaryWork = getParliamentaryWork(slug);
-  const showWork = Boolean(parliamentaryWork || profile.activities.length);
+  const debates = getParliamentaryDebates(slug);
+  const showWork = Boolean(parliamentaryWork || debates || profile.activities.length);
   const disclosure = profile.disclosures[0];
+  const quickFactCount = Number(Boolean(office)) + Number(Boolean(parliamentaryWork)) + Number(Boolean(debates)) + Number(Boolean(!office && election)) + Number(disclosure?.declaredCases !== undefined) + Number(!office && disclosure?.ageAtFiling !== undefined);
+  const quickFactColumns = quickFactCount >= 4 ? "lg:grid-cols-4" : quickFactCount === 3 ? "lg:grid-cols-3" : "lg:grid-cols-2";
   const workSectionNumber = String(1 + Number(profile.officeTerms.length > 0)).padStart(2, "0");
   const lifeSectionNumber = String(1 + Number(profile.officeTerms.length > 0) + Number(showWork)).padStart(2, "0");
 
@@ -71,7 +76,7 @@ export default async function PersonPage({ params }: PageProps) {
             </div>}
           </div>
 
-          {(office || election || disclosure) && <div className={`mt-7 grid gap-3 border-t border-[#e1ebe2] pt-6 min-[360px]:grid-cols-2 ${disclosure?.declaredCases !== undefined && (office || disclosure.ageAtFiling !== undefined) ? "lg:grid-cols-3" : "lg:grid-cols-2"}`}>
+          {quickFactCount > 0 && <div className={`mt-7 grid gap-3 border-t border-[#e1ebe2] pt-6 min-[360px]:grid-cols-2 ${quickFactColumns}`}>
             {office && <a href="#offices" className="rounded-2xl bg-[#eff6ef] p-3 transition-colors hover:bg-[#e4f0e5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 sm:p-4">
               <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#52735c]">Current term</span>
               <strong className="mt-2 block text-lg leading-6 text-[#19372d] sm:text-xl sm:leading-7">{formatTermDuration(office.startedOn, office.reviewedOn)}</strong>
@@ -82,12 +87,17 @@ export default async function PersonPage({ params }: PageProps) {
               <strong className="mt-2 block text-lg leading-6 text-[#19372d] sm:text-xl sm:leading-7">{parliamentaryWork.questions.length} listed</strong>
               <span className="mt-1 block text-xs leading-5 text-[#55715e]">Sessions {parliamentaryWork.sessions[0].session}-{parliamentaryWork.sessions.at(-1)!.session} · collected through {parliamentaryWork.collectedOn} ↗</span>
             </a>}
+            {debates && <a href="#work" className="rounded-2xl bg-[#eff6ef] p-3 transition-colors hover:bg-[#e4f0e5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 sm:p-4">
+              <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#52735c]">Debate records</span>
+              <strong className="mt-2 block text-lg leading-6 text-[#19372d] sm:text-xl sm:leading-7">{debates.totalRecords} listed</strong>
+              <span className="mt-1 block text-xs leading-5 text-[#55715e]">Official feed · collected {debates.collectedOn} ↗</span>
+            </a>}
             {!office && election && <a href="#records" className="rounded-2xl bg-[#eff6ef] p-3 transition-colors hover:bg-[#e4f0e5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 sm:p-4">
               <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#52735c]">{electionYear ?? "Recorded"} election result</span>
               <strong className="mt-2 block text-lg leading-6 text-[#19372d] sm:text-xl sm:leading-7">{electionStatus}</strong>
               <span className="mt-1 block text-xs leading-5 text-[#55715e]">{election.votes !== undefined ? `${election.votes.toLocaleString("en-IN")} votes · ` : ""}See sourced record ↗</span>
             </a>}
-            {disclosure?.declaredCases !== undefined && <a href="#records" className={`rounded-2xl bg-[#f5f7f4] p-3 transition-colors hover:bg-[#e9eee9] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 sm:p-4 ${office && parliamentaryWork ? "min-[360px]:col-span-2 lg:col-span-1" : ""}`}>
+            {disclosure?.declaredCases !== undefined && <a href="#records" className={`rounded-2xl bg-[#f5f7f4] p-3 transition-colors hover:bg-[#e9eee9] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 sm:p-4 ${office && parliamentaryWork && !debates ? "min-[360px]:col-span-2 lg:col-span-1" : ""}`}>
               <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#5c6d5d]">Criminal cases declared at filing</span>
               <strong className="mt-2 block text-lg leading-6 text-[#19372d] sm:text-xl sm:leading-7">{disclosure.declaredCases}</strong>
               <span className="mt-1 block text-xs leading-5 text-[#5c6d5d]">{disclosure.election} affidavit · filing-time claim ↗</span>
@@ -125,11 +135,12 @@ export default async function PersonPage({ params }: PageProps) {
             </article>)}</div>
           </ProfileSection>}
 
-          {showWork && <ProfileSection id="work" number={workSectionNumber} title="Work in office" description="Documented parliamentary actions. A question is not proof that a project was completed.">
+          {showWork && <ProfileSection id="work" number={workSectionNumber} title="Work in office" description="Documented parliamentary actions. A record does not establish that a project was completed.">
             <div className="grid gap-5">
+              {debates && <ParliamentDebates work={debates} />}
               {parliamentaryWork && <ParliamentQuestions work={parliamentaryWork} />}
               {profile.activities.length > 0 && <div>
-                {parliamentaryWork && <h3 className="mb-3 text-base font-bold text-[#19372d]">Earlier sourced example</h3>}
+                {(parliamentaryWork || debates) && <h3 className="mb-3 text-base font-bold text-[#19372d]">Earlier sourced example</h3>}
               {profile.activities.map((activity) => <article key={activity.sourceId} className="rounded-2xl border border-slate-200 bg-white p-5">
                 <p className="text-xs font-bold uppercase tracking-wide text-slate-500">{activity.date}</p>
                 <h3 className="mt-2 font-bold text-slate-900">{activity.title}</h3>

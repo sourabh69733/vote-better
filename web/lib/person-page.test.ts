@@ -121,6 +121,15 @@ test("MP profile exposes each imported session before the question list", async 
   assert.match(html, /Sessions 1-8/);
 });
 
+test("MP profile separates sourced debate records from questions", async () => {
+  const manju = renderToStaticMarkup(await PersonPage({ params: Promise.resolve({ slug: "manju-sharma" }) }));
+  const rao = renderToStaticMarkup(await PersonPage({ params: Promise.resolve({ slug: "rao-rajendra-singh" }) }));
+  assert.match(manju, /48 debate records/);
+  assert.match(rao, /22 debate records/);
+  assert.match(manju, /Debates and matters/);
+  assert.match(manju, /some entries were laid rather than spoken/);
+});
+
 test("former candidate shows election-time party and sourced earlier roles", async () => {
   const html = renderToStaticMarkup(await PersonPage({ params: Promise.resolve({ slug: "jaipur-lok-sabha-2024-candidate-row-01" }) }));
   assert.match(html, /Party at 2024 election/);
