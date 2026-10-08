@@ -45,6 +45,9 @@ export default async function PersonPage({ params }: PageProps) {
   const showTimeline = profile.timeline.length > 1 || profile.timeline.some((event) => event.kind !== "election");
   const parliamentaryWork = getParliamentaryWork(slug);
   const showWork = Boolean(parliamentaryWork || profile.activities.length);
+  const disclosure = profile.disclosures[0];
+  const workSectionNumber = String(1 + Number(profile.officeTerms.length > 0)).padStart(2, "0");
+  const lifeSectionNumber = String(1 + Number(profile.officeTerms.length > 0) + Number(showWork)).padStart(2, "0");
 
   return (
     <div className="mx-auto w-full max-w-[1160px] px-4 pb-16 pt-7 sm:px-6 sm:pt-10 lg:px-8">
@@ -53,22 +56,47 @@ export default async function PersonPage({ params }: PageProps) {
       </Link>
 
       <header className="mt-5 overflow-hidden rounded-[28px] border border-[#d6e2d7] bg-white shadow-[0_12px_36px_rgba(24,55,43,.05)]">
-        <div className="grid gap-7 p-6 sm:p-8 md:grid-cols-[minmax(0,1fr)_280px] md:gap-8 lg:grid-cols-[minmax(0,1fr)_310px] lg:gap-12 lg:p-10">
-          <div>
-            <p className="flex flex-wrap gap-x-3 gap-y-1 text-xs font-bold uppercase tracking-[0.1em] text-[#326c4d]"><span>Person profile</span><span>Core facts reviewed {profile.reviewedOn}</span></p>
-            <h1 className="mt-4 max-w-[16ch] text-[clamp(2.5rem,5vw,4.4rem)] font-semibold leading-[1.02] tracking-[-0.06em] text-[#19372d]">{profile.name}</h1>
-            <p className="mt-4 max-w-xl text-base leading-7 text-[#4d6354]">{office ? `${office.title} for ${office.constituency}, ${office.state}` : election ? `${election.election} · ${electionStatus}` : "Sourced public profile"}</p>
-            <p className="mt-5 inline-flex rounded-full bg-[#e7f3e9] px-3 py-2 text-xs font-bold text-[#1d6042]">{office ? "Current representative" : election?.status === "contesting" ? "Contesting" : "Election record"}</p>
+        <div className="p-6 sm:p-8 lg:p-10">
+          <p className="flex flex-wrap gap-x-3 gap-y-1 text-xs font-bold uppercase tracking-[0.1em] text-[#326c4d]"><span>Person profile</span><span>Core facts reviewed {profile.reviewedOn}</span></p>
+          <div className="mt-4 grid gap-6 md:grid-cols-[minmax(0,1fr)_250px] md:items-start lg:grid-cols-[minmax(0,1fr)_290px]">
+            <div>
+              <h1 className="max-w-[17ch] text-[clamp(2.5rem,5vw,4.4rem)] font-semibold leading-[1.02] tracking-[-0.06em] text-[#19372d]">{profile.name}</h1>
+              <p className="mt-4 max-w-xl text-base leading-7 text-[#4d6354]">{office ? `${office.title} for ${office.constituency}, ${office.state}` : election ? election.election : "Sourced public profile"}</p>
+              {(office || election?.status === "contesting") && <p className="mt-4 inline-flex rounded-full bg-[#e7f3e9] px-3 py-2 text-xs font-bold text-[#1d6042]">{office ? "Current representative" : "Contesting"}</p>}
+            </div>
+            {(office || election?.party) && <div className="rounded-2xl border border-[#d9e8db] bg-[#f6faf5] px-4 py-4">
+              <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#55715e]">{office ? `Current party · checked ${office.reviewedOn}` : `Party at ${electionYear ?? "recorded"} election`}</p>
+              <p className="mt-2 font-semibold leading-6 text-[#19372d]">{office?.party ?? election?.party}</p>
+              <EvidenceLink source={getProfileSource(profile, office?.statusSourceId ?? election!.sourceId)} />
+            </div>}
           </div>
-          {(office || election) && <div className="self-start rounded-2xl bg-[#eff6ef] p-5 sm:p-6">
-            <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#3c7554]">{office ? "Office held" : "Election record"}</p>
-            <p className="mt-3 text-xl font-semibold leading-7 tracking-[-0.03em] text-[#19372d]">{office?.title ?? election?.election}</p>
-            {office && <p className="mt-2 text-sm leading-6 text-[#4d6354]">{office.constituency}, {office.state} · from {office.startedOn}</p>}
-            {office && <p className="mt-1 text-sm font-semibold text-[#285b3e]">{formatTermDuration(office.startedOn, office.reviewedOn)} in this MP term · as of {office.reviewedOn}</p>}
-            {!office && election && <p className="mt-2 text-sm leading-6 text-[#4d6354]">{electionStatus}{election.resultDate ? ` · result ${election.resultDate}` : ""}{election.votes !== undefined ? ` · ${election.votes.toLocaleString("en-IN")} votes` : ""}</p>}
-            <p className="mt-5 border-t border-[#cfdfd1] pt-4 text-xs font-bold uppercase tracking-[0.1em] text-[#55715e]">{office ? `Current party · checked ${office.reviewedOn}` : `Party at ${electionYear ?? "recorded"} election`}</p>
-            <p className="mt-1 font-semibold text-[#19372d]">{office?.party ?? election?.party}</p>
-            <div className="mt-2">{office ? <EvidenceLink source={getProfileSource(profile, office.statusSourceId)} /> : election && <EvidenceLink source={getProfileSource(profile, election.sourceId)} />}</div>
+
+          {(office || election || disclosure) && <div className={`mt-7 grid gap-3 border-t border-[#e1ebe2] pt-6 min-[360px]:grid-cols-2 ${disclosure?.declaredCases !== undefined && (office || disclosure.ageAtFiling !== undefined) ? "lg:grid-cols-3" : "lg:grid-cols-2"}`}>
+            {office && <a href="#offices" className="rounded-2xl bg-[#eff6ef] p-3 transition-colors hover:bg-[#e4f0e5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 sm:p-4">
+              <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#52735c]">Current term</span>
+              <strong className="mt-2 block text-lg leading-6 text-[#19372d] sm:text-xl sm:leading-7">{formatTermDuration(office.startedOn, office.reviewedOn)}</strong>
+              <span className="mt-1 block text-xs leading-5 text-[#55715e]">As of {office.reviewedOn} ↗</span>
+            </a>}
+            {parliamentaryWork && <a href="#work" className="rounded-2xl bg-[#eff6ef] p-3 transition-colors hover:bg-[#e4f0e5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 sm:p-4">
+              <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#52735c]">Parliamentary questions</span>
+              <strong className="mt-2 block text-lg leading-6 text-[#19372d] sm:text-xl sm:leading-7">{parliamentaryWork.questions.length} listed</strong>
+              <span className="mt-1 block text-xs leading-5 text-[#55715e]">Session {parliamentaryWork.session} · collected {parliamentaryWork.collectedOn} ↗</span>
+            </a>}
+            {!office && election && <a href="#records" className="rounded-2xl bg-[#eff6ef] p-3 transition-colors hover:bg-[#e4f0e5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 sm:p-4">
+              <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#52735c]">{electionYear ?? "Recorded"} election result</span>
+              <strong className="mt-2 block text-lg leading-6 text-[#19372d] sm:text-xl sm:leading-7">{electionStatus}</strong>
+              <span className="mt-1 block text-xs leading-5 text-[#55715e]">{election.votes !== undefined ? `${election.votes.toLocaleString("en-IN")} votes · ` : ""}See sourced record ↗</span>
+            </a>}
+            {disclosure?.declaredCases !== undefined && <a href="#records" className={`rounded-2xl bg-[#f5f7f4] p-3 transition-colors hover:bg-[#e9eee9] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 sm:p-4 ${office && parliamentaryWork ? "min-[360px]:col-span-2 lg:col-span-1" : ""}`}>
+              <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#5c6d5d]">Criminal cases declared at filing</span>
+              <strong className="mt-2 block text-lg leading-6 text-[#19372d] sm:text-xl sm:leading-7">{disclosure.declaredCases}</strong>
+              <span className="mt-1 block text-xs leading-5 text-[#5c6d5d]">{disclosure.election} affidavit · filing-time claim ↗</span>
+            </a>}
+            {!office && disclosure?.ageAtFiling !== undefined && <a href="#records" className={`rounded-2xl bg-[#f5f7f4] p-3 transition-colors hover:bg-[#e9eee9] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 sm:p-4 ${disclosure.declaredCases !== undefined ? "min-[360px]:col-span-2 lg:col-span-1" : ""}`}>
+              <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#5c6d5d]">Age at filing</span>
+              <strong className="mt-2 block text-lg leading-6 text-[#19372d] sm:text-xl sm:leading-7">{disclosure.ageAtFiling}</strong>
+              <span className="mt-1 block text-xs leading-5 text-[#5c6d5d]">{disclosure.election} affidavit ↗</span>
+            </a>}
           </div>}
         </div>
         {profile.background && (profile.background.educationDetail || profile.background.workDescription) && <div className="grid gap-4 border-t border-[#e2ebe2] bg-[#fafcf9] px-6 py-5 sm:grid-cols-2 sm:px-8 lg:px-10">
@@ -80,8 +108,8 @@ export default async function PersonPage({ params }: PageProps) {
 
       <div className="mt-8"><ProfileJumpLinks links={[
         ...(profile.officeTerms.length ? [{ href: "#offices", label: "Offices held" }] : []),
-        ...(showTimeline ? [{ href: "#life", label: "Life and public work" }] : []),
         ...(showWork ? [{ href: "#work", label: "Work in office" }] : []),
+        ...(showTimeline ? [{ href: "#life", label: "Background and timeline" }] : []),
         ...((election || profile.disclosures.length) ? [{ href: "#records", label: "Election and filings" }] : []),
         { href: "#sources", label: "Sources" },
       ]} /></div>
@@ -97,16 +125,7 @@ export default async function PersonPage({ params }: PageProps) {
             </article>)}</div>
           </ProfileSection>}
 
-          {showTimeline && <ProfileSection id="life" number={profile.officeTerms.length ? "02" : "01"} title="Life and public work" description="Selected dated records, not a continuous employment history. Gaps mean we have not found a dated source, not that nothing happened.">
-            <ol className="border-l-2 border-emerald-200 pl-5">{profile.timeline.toReversed().map((event) => <li key={`${event.kind}-${event.date}-${event.title}`} className="relative border-b border-slate-200 py-4 last:border-b-0 before:absolute before:-left-[27px] before:top-[23px] before:h-3 before:w-3 before:rounded-full before:bg-emerald-600">
-              <p className="text-xs font-bold uppercase tracking-wide text-emerald-700">{event.date} · {{ career: "Public role", education: "Education", party: "Party role", work: "Work declaration", election: "Election" }[event.kind]}</p>
-              <h3 className="mt-1 font-semibold text-slate-900">{event.title}</h3>
-              {event.party && <p className="mt-1 text-sm text-slate-600">{event.kind === "election" ? "Party at election" : "Party in this record"}: {event.party}</p>}
-              <div className="mt-2"><EvidenceLink source={getProfileSource(profile, event.sourceId)} /></div>
-            </li>)}</ol>
-          </ProfileSection>}
-
-          {showWork && <ProfileSection id="work" number={String(1 + Number(profile.officeTerms.length > 0) + Number(showTimeline)).padStart(2, "0")} title="Work in office" description="Documented parliamentary actions. A question is not proof that a project was completed.">
+          {showWork && <ProfileSection id="work" number={workSectionNumber} title="Work in office" description="Documented parliamentary actions. A question is not proof that a project was completed.">
             <div className="grid gap-5">
               {parliamentaryWork && <ParliamentQuestions work={parliamentaryWork} />}
               {profile.activities.length > 0 && <div>
@@ -121,12 +140,21 @@ export default async function PersonPage({ params }: PageProps) {
             </div>
           </ProfileSection>}
 
-          {(election || profile.disclosures.length > 0) && <details id="records" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
-            <summary className="cursor-pointer text-xl font-bold text-slate-900">Election and filing records</summary>
+          {showTimeline && <ProfileSection id="life" number={lifeSectionNumber} title="Background and timeline" description="Selected dated records, not a continuous employment history. Gaps mean we have not found a dated source, not that nothing happened.">
+            <ol className="border-l-2 border-emerald-200 pl-5">{profile.timeline.toReversed().map((event) => <li key={`${event.kind}-${event.date}-${event.title}`} className="relative border-b border-slate-200 py-4 last:border-b-0 before:absolute before:-left-[27px] before:top-[23px] before:h-3 before:w-3 before:rounded-full before:bg-emerald-600">
+              <p className="text-xs font-bold uppercase tracking-wide text-emerald-700">{event.date} · {{ career: "Public role", education: "Education", party: "Party role", work: "Work declaration", election: "Election" }[event.kind]}</p>
+              <h3 className="mt-1 font-semibold text-slate-900">{event.title}</h3>
+              {event.party && <p className="mt-1 text-sm text-slate-600">{event.kind === "election" ? "Party at election" : "Party in this record"}: {event.party}</p>}
+              <div className="mt-2"><EvidenceLink source={getProfileSource(profile, event.sourceId)} /></div>
+            </li>)}</ol>
+          </ProfileSection>}
+
+          {(election || profile.disclosures.length > 0) && <section id="records" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6" aria-labelledby="records-heading">
+            <h2 id="records-heading" className="text-xl font-bold text-slate-900">Election and filing records</h2>
             <p className="mt-3 text-sm text-slate-600">Election results and information declared at filing time. Open a source to check each claim.</p>
 
           {election && <section className="mt-8" aria-labelledby="election-heading">
-            <h2 id="election-heading" className="text-xl font-bold text-slate-900">Election record</h2>
+            <h3 id="election-heading" className="text-xl font-bold text-slate-900">Election record</h3>
             <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-6">
               <p className="font-semibold text-slate-900">{election.election}</p>
               {election.party && <p className="mt-1 text-sm text-slate-600">{election.party}</p>}
@@ -141,7 +169,7 @@ export default async function PersonPage({ params }: PageProps) {
           </section>}
 
           {profile.disclosures.map((disclosure) => <section key={disclosure.sourceId} className="mt-8" aria-labelledby={`disclosure-${disclosure.sourceId}`}>
-            <h2 id={`disclosure-${disclosure.sourceId}`} className="text-xl font-bold text-slate-900">Affidavit summary</h2>
+            <h3 id={`disclosure-${disclosure.sourceId}`} className="text-xl font-bold text-slate-900">Affidavit summary</h3>
             <p className="mt-2 text-sm text-slate-600">2024 self-declared affidavit or ECI filing. These are filing-time disclosures, not current values. Each item is shown only where the linked record supports it.</p>
             <div className="mt-3 rounded-2xl border border-slate-200 bg-white p-6">
               <dl className="grid gap-x-5 gap-y-4 sm:grid-cols-2">
@@ -154,7 +182,7 @@ export default async function PersonPage({ params }: PageProps) {
               <div className="mt-5 border-t border-slate-100 pt-4"><EvidenceLink source={getProfileSource(profile, disclosure.sourceId)} /></div>
             </div>
           </section>)}
-          </details>}
+          </section>}
         </div>
 
         <aside id="sources" className="grid scroll-mt-28 gap-4 lg:sticky lg:top-24" aria-label="Profile sources">

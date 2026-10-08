@@ -36,7 +36,7 @@ test("a candidate with only an official filing age leaves other disclosure field
   assert.match(html, /Age at filing/);
   assert.doesNotMatch(html, /Education declared/);
   assert.doesNotMatch(html, /Assets declared/);
-  assert.doesNotMatch(html, /Life and public work/);
+  assert.doesNotMatch(html, /Background and timeline/);
   assert.match(html, /Election and filing records/);
 });
 
@@ -53,16 +53,16 @@ test("every candidate profile renders its name, election record and sources", as
   }
 });
 
-test("elected profile moves from current office to life history, work and deeper records", async () => {
+test("elected profile puts office and work before life history and deeper records", async () => {
   const page = await PersonPage({ params: Promise.resolve({ slug: "manju-sharma" }) });
   const html = renderToStaticMarkup(page);
-  for (const heading of ["Person profile", "Offices held", "Life and public work", "Work in office", "Official presence", "Election and filing records", "Sources and review dates"]) {
+  for (const heading of ["Person profile", "Offices held", "Background and timeline", "Work in office", "Official presence", "Election and filing records", "Sources and review dates"]) {
     assert.match(html, new RegExp(heading));
   }
   assert.ok(html.indexOf("Person profile") < html.indexOf("Offices held"));
-  assert.ok(html.indexOf("Offices held") < html.indexOf("Life and public work"));
-  assert.ok(html.indexOf("Life and public work") < html.indexOf("Work in office"));
-  assert.ok(html.indexOf("Work in office") < html.indexOf("Election and filing records"));
+  assert.ok(html.indexOf('id="offices"') < html.indexOf('id="work"'));
+  assert.ok(html.indexOf('id="work"') < html.indexOf('id="life"'));
+  assert.ok(html.indexOf('id="life"') < html.indexOf('id="records"'));
   assert.equal((html.match(/Current office/g) ?? []).length, 1);
   assert.match(html, /Official profile/);
   assert.match(html, /2024-06-04 to present/);
@@ -73,7 +73,7 @@ test("former candidate profile shows past roles but does not invent current offi
   const page = await PersonPage({ params: Promise.resolve({ slug: "jaipur-lok-sabha-2024-candidate-row-01" }) });
   const html = renderToStaticMarkup(page);
   assert.match(html, /Person profile/);
-  assert.match(html, /Life and public work/);
+  assert.match(html, /Background and timeline/);
   assert.match(html, /Party at election/);
   assert.doesNotMatch(html, /Not elected in 2024/);
   assert.doesNotMatch(html, /Work in office/);
@@ -87,19 +87,21 @@ test("elected profile leads with present party, background and office work", asy
   assert.match(html, /1983 · Education/);
   assert.match(html, /M\.A\., Rajasthan University/);
   assert.match(html, /jewellery business/);
-  assert.match(html, /Life and public work/);
+  assert.match(html, /Background and timeline/);
   assert.match(html, /LL\.B\. \(academic\)/);
   assert.match(html, /Hawa Mahal Assembly election/);
   assert.doesNotMatch(html, /Candidate-published account/);
   assert.doesNotMatch(html, /Navsari district/);
   assert.match(html, /not a continuous employment history/);
   assert.match(html, /Work in office/);
-  assert.match(html, /2 years, 3 months in this MP term/);
+  assert.match(html, /Current term/);
+  assert.match(html, /2 years, 3 months/);
+  assert.match(html, /Criminal cases declared at filing/);
   assert.match(html, /32<\/strong>/);
   assert.match(html, /complete Session 7 feed/);
   assert.match(html, /See all 32 questions/);
   assert.match(html, /Outcomes are not assessed here/);
-  assert.ok(html.indexOf("Life and public work") < html.indexOf("Work in office"));
+  assert.ok(html.indexOf('id="work"') < html.indexOf('id="life"'));
 });
 
 test("Rao profile has sourced session work without inventing an impact", async () => {
