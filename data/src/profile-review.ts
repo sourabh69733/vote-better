@@ -33,7 +33,7 @@ function urls(memberId: number): readonly string[] {
 }
 
 function canonicalName(value: string): string {
-  return value.trim().replace(/^(?:(?:smt|shri|dr|mr|mrs|ms|prof|adv|thiru|chh|km)\.?\s+)+/i, "")
+  return value.trim().replace(/^(?:(?:smt|shri|dr|mr|mrs|ms|prof|adv|thiru|chh|km|md)\.?\s+)+/i, "")
     .replace(/\s+/g, " ").toLocaleLowerCase("en-IN");
 }
 

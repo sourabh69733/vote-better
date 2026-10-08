@@ -100,6 +100,7 @@ test("official regional honorifics do not create false identity conflicts", asyn
     ["Thiru Dayanidhi Maran", "Dayanidhi Maran"],
     ["Chh. Udayanraje Pratapsinha Maharaj Bhonsle", "Udayanraje Pratapsinha Maharaj Bhonsle"],
     ["Km. Shobha Karandlaje", "Shobha Karandlaje"],
+    ["Md Abu Taher Khan", "Abu Taher Khan"],
   ]) {
     const memberId = randomInt(100_000, 10_000_000);
     await fixture(memberId, biographyName, rosterName);
