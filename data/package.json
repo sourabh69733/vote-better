@@ -15,6 +15,7 @@
     "import:sansad-biographies": "node --import tsx src/batch-sansad-biographies.ts",
     "import:sansad-questions": "node --import tsx src/sansad-questions.ts",
     "import:sansad-question-archive": "node --import tsx src/sansad-question-archive.ts",
+    "import:sansad-debates": "node --import tsx src/sansad-debates.ts",
     "profile:review": "node --import tsx src/profile-review.ts",
     "profile:preview": "node --import tsx src/profile-preview.ts",
     "profile:drafts": "node --import tsx src/profile-draft.ts",

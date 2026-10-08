@@ -44,6 +44,14 @@ The explicit person-to-Parliament ID map is `config/sansad-question-targets.json
 
 The one-session command writes only under ignored `data/raw/sansad-questions/`; it does not update the website. The archive command above is the publication path. On 2026-10-08, Session 8 had 4,500 feed questions, of which 19 listed Manju and 16 listed Rao. Across Sessions 1 to 8, the archive lists 137 for Manju and 111 for Rao. These counts include jointly listed questions and do not establish sole authorship, impact, or work outside these sessions. The site links to the official question and answer PDF rather than copying its contents. Check Digital Sansad's reuse terms before a public deployment.
 
+To refresh official debate and matters records for the same reviewed MP IDs:
+
+```sh
+npm run import:sansad-debates
+```
+
+This reads each MP's complete member-filtered Digital Sansad debate result, checks the member ID and name on every row, validates pagination and source-page hashes, and atomically writes `web/records/imported/lok-sabha-18-debates.json`. The 2026-10-08 import found 48 records listing Manju and 22 listing Rao. The profile links to the official debate view. These are feed records, not a speech count: some matters were laid rather than spoken, and no outcomes are inferred. Raw pages stay under ignored `data/raw/sansad-debates/`.
+
 To collect one member's individual official biography and positions held:
 
 ```sh
