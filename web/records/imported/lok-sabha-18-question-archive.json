@@ -1,0 +1,3000 @@
+{
+  "lokSabha": 18,
+  "sessions": [
+    {
+      "lokSabha": 18,
+      "session": 1,
+      "collectedAt": "2026-10-08T13:21:47.542Z",
+      "source": "https://sansad.in/ls/questions/questions-and-answers",
+      "sourcePages": [
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=1&pageNo=1&pageSize=1000&locale=en",
+          "sha256": "660052179e450860033f329c30771ca9e7f89fa772928f41a62438c7669cf4c5",
+          "count": 0
+        }
+      ],
+      "totalSessionQuestions": 0,
+      "members": [
+        {
+          "personId": "manju-sharma",
+          "memberId": 5619,
+          "officialName": "Smt. Manju Sharma",
+          "questions": []
+        },
+        {
+          "personId": "rao-rajendra-singh",
+          "memberId": 5632,
+          "officialName": "Shri Rao Rajendra Singh",
+          "questions": []
+        }
+      ]
+    },
+    {
+      "lokSabha": 18,
+      "session": 2,
+      "collectedAt": "2026-10-08T13:22:32.316Z",
+      "source": "https://sansad.in/ls/questions/questions-and-answers",
+      "sourcePages": [
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=2&pageNo=1&pageSize=1000&locale=en",
+          "sha256": "936dea51df3b53be624e0ef7682642ee06ebe35fd17cb078f0c2cbbd6a02c1b0",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=2&pageNo=2&pageSize=1000&locale=en",
+          "sha256": "5cd28484f5681eac542e3a24d3899b984fca0e821b933d37e6fc3792cc52660e",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=2&pageNo=3&pageSize=1000&locale=en",
+          "sha256": "53d66b2e7d1cabae438c3ebb0b3c257df6ba1454e95c9827fe07d6bbd9705e46",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=2&pageNo=4&pageSize=1000&locale=en",
+          "sha256": "10375f69e4b24c2c922a22539144d97ba3a9a5ad10cd99ac66e8cc1edd4ed92e",
+          "count": 499
+        }
+      ],
+      "totalSessionQuestions": 3499,
+      "members": [
+        {
+          "personId": "manju-sharma",
+          "memberId": 5619,
+          "officialName": "Smt. Manju Sharma",
+          "questions": []
+        },
+        {
+          "personId": "rao-rajendra-singh",
+          "memberId": 5632,
+          "officialName": "Shri Rao Rajendra Singh",
+          "questions": [
+            {
+              "id": "ls18-s2-starred-267-2024-08-09",
+              "date": "2024-08-09",
+              "number": 267,
+              "type": "STARRED",
+              "subject": "HPV Vaccination Programme",
+              "ministry": "HEALTH AND FAMILY WELFARE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/182/AS267_fnABbv.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s2-unstarred-1971-2024-08-02",
+              "date": "2024-08-02",
+              "number": 1971,
+              "type": "UNSTARRED",
+              "subject": "Grievances of Indian Workers",
+              "ministry": "EXTERNAL AFFAIRS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/182/AU1971_cPAqG2.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s2-unstarred-1766-2024-08-01",
+              "date": "2024-08-01",
+              "number": 1766,
+              "type": "UNSTARRED",
+              "subject": "Eastern Rajasthan Canal Project",
+              "ministry": "JAL SHAKTI",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/182/AU1766_FQWRSR.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s2-starred-127-2024-07-31",
+              "date": "2024-07-31",
+              "number": 127,
+              "type": "STARRED",
+              "subject": "Operational Safety of Nuclear Power Plants",
+              "ministry": "ATOMIC ENERGY",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/182/AS127_QX8n9H.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s2-unstarred-1060-2024-07-29",
+              "date": "2024-07-29",
+              "number": 1060,
+              "type": "UNSTARRED",
+              "subject": "Discharge of Effluents into Canal",
+              "ministry": "ENVIRONMENT, FOREST AND CLIMATE CHANGE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/182/AU1060_fAptPD.pdf?source=lsapps"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lokSabha": 18,
+      "session": 3,
+      "collectedAt": "2026-10-08T13:23:44.243Z",
+      "source": "https://sansad.in/ls/questions/questions-and-answers",
+      "sourcePages": [
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=3&pageNo=1&pageSize=1000&locale=en",
+          "sha256": "d56d1f8343c5d1c76219b477d5f8400872e0fa1aee491047a3d61e58e490d7ec",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=3&pageNo=2&pageSize=1000&locale=en",
+          "sha256": "45180c54e3efd2e80455136d6192ed22d387622adbdbc9d6178ad6570d39e6df",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=3&pageNo=3&pageSize=1000&locale=en",
+          "sha256": "bc2ae5a5a774537d0c04f2fd8bb4fe2751d76509d35b51bdaa002e89e908913a",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=3&pageNo=4&pageSize=1000&locale=en",
+          "sha256": "344569273acea9aeace3d717b7d7777ab7463c6a017cb35cbe53e55c6becfb03",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=3&pageNo=5&pageSize=1000&locale=en",
+          "sha256": "dffb867933368a7d68a99a69b17463efefa3e44e9725f34cb8fefdebaafba584",
+          "count": 749
+        }
+      ],
+      "totalSessionQuestions": 4749,
+      "members": [
+        {
+          "personId": "manju-sharma",
+          "memberId": 5619,
+          "officialName": "Smt. Manju Sharma",
+          "questions": [
+            {
+              "id": "ls18-s3-unstarred-4192-2024-12-20",
+              "date": "2024-12-20",
+              "number": 4192,
+              "type": "UNSTARRED",
+              "subject": "Export and Import of Ayurvedic Medicines",
+              "ministry": "AYUSH",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU4192_xnvkzv.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-4016-2024-12-19",
+              "date": "2024-12-19",
+              "number": 4016,
+              "type": "UNSTARRED",
+              "subject": "Estimated Requirement of Power",
+              "ministry": "POWER",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU4016_MbVRwn.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-3756-2024-12-18",
+              "date": "2024-12-18",
+              "number": 3756,
+              "type": "UNSTARRED",
+              "subject": "Railway Projects in Rajasthan",
+              "ministry": "RAILWAYS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU3756_hSqh0M.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-3542-2024-12-17",
+              "date": "2024-12-17",
+              "number": 3542,
+              "type": "UNSTARRED",
+              "subject": "Training in Scientific Methods of Agriculture",
+              "ministry": "AGRICULTURE AND FARMERS WELFARE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU3542_1STYrV.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-3397-2024-12-16",
+              "date": "2024-12-16",
+              "number": 3397,
+              "type": "UNSTARRED",
+              "subject": "UGC Guidelines for Pay Fixation of Teachers and Administrative Officers",
+              "ministry": "EDUCATION",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU3397_d1A57z.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-3114-2024-12-13",
+              "date": "2024-12-13",
+              "number": 3114,
+              "type": "UNSTARRED",
+              "subject": "Increasing Prices of Medicines",
+              "ministry": "CHEMICALS AND FERTILIZERS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU3114_mtV51a.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-2868-2024-12-12",
+              "date": "2024-12-12",
+              "number": 2868,
+              "type": "UNSTARRED",
+              "subject": "Depleting Water Level in Rajasthan",
+              "ministry": "JAL SHAKTI",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU2868_sNqgJn.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-2728-2024-12-11",
+              "date": "2024-12-11",
+              "number": 2728,
+              "type": "UNSTARRED",
+              "subject": "Electricity from Waste",
+              "ministry": "NEW AND RENEWABLE ENERGY",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU2728_v8NOpI.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-2388-2024-12-10",
+              "date": "2024-12-10",
+              "number": 2388,
+              "type": "UNSTARRED",
+              "subject": "Increase of Financial Assistance under PM-KISAN",
+              "ministry": "AGRICULTURE AND FARMERS WELFARE",
+              "listedMembers": [
+                "Shri Yaduveer Wadiyar",
+                "Smt. Manju Sharma",
+                "Shri Rajkumar Roat"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU2388_qdHkn8.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-2099-2024-12-09",
+              "date": "2024-12-09",
+              "number": 2099,
+              "type": "UNSTARRED",
+              "subject": "Mechanism for Monitoring Agencies engaged in Skill Development Training",
+              "ministry": "SKILL DEVELOPMENT AND ENTREPRENEURSHIP",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU2099_JKjCaa.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-1963-2024-12-06",
+              "date": "2024-12-06",
+              "number": 1963,
+              "type": "UNSTARRED",
+              "subject": "Blood Donation Card",
+              "ministry": "HEALTH AND FAMILY WELFARE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU1963_PIQtsk.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-1637-2024-12-05",
+              "date": "2024-12-05",
+              "number": 1637,
+              "type": "UNSTARRED",
+              "subject": "Aviation Skill Development Centre in Rajasthan",
+              "ministry": "CIVIL AVIATION",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU1637_aNZrJL.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-1467-2024-12-04",
+              "date": "2024-12-04",
+              "number": 1467,
+              "type": "UNSTARRED",
+              "subject": "Re-development of Stations",
+              "ministry": "RAILWAYS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU1467_RNvkZj.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-1292-2024-12-03",
+              "date": "2024-12-03",
+              "number": 1292,
+              "type": "UNSTARRED",
+              "subject": "Survey on Farmers living Below the Poverty Line",
+              "ministry": "AGRICULTURE AND FARMERS WELFARE",
+              "listedMembers": [
+                "Shri Devesh Chandra Thakur",
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU1292_l8wraH.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-1050-2024-12-02",
+              "date": "2024-12-02",
+              "number": 1050,
+              "type": "UNSTARRED",
+              "subject": "Schemes for Agricultural Labourers",
+              "ministry": "LABOUR AND EMPLOYMENT",
+              "listedMembers": [
+                "Smt. Manju Sharma",
+                "Shri Devesh Chandra Thakur"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU1050_9JKwA8.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-709-2024-11-29",
+              "date": "2024-11-29",
+              "number": 709,
+              "type": "UNSTARRED",
+              "subject": "Sanctioned Staff in AIIMS",
+              "ministry": "HEALTH AND FAMILY WELFARE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU709_t3squo.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-877-2024-11-29",
+              "date": "2024-11-29",
+              "number": 877,
+              "type": "UNSTARRED",
+              "subject": "AYUSH Educational Institutions",
+              "ministry": "AYUSH",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU877_8sJcYD.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-549-2024-11-28",
+              "date": "2024-11-28",
+              "number": 549,
+              "type": "UNSTARRED",
+              "subject": "Fake Pilot Licenses",
+              "ministry": "CIVIL AVIATION",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU549_L3BnY4.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-240-2024-11-27",
+              "date": "2024-11-27",
+              "number": 240,
+              "type": "UNSTARRED",
+              "subject": "Eradication of Poverty",
+              "ministry": "PLANNING",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU240_8oV97v.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-438-2024-11-27",
+              "date": "2024-11-27",
+              "number": 438,
+              "type": "UNSTARRED",
+              "subject": "Rail Projects for Rajasthan",
+              "ministry": "RAILWAYS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU438_OBqo0L.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-22-2024-11-25",
+              "date": "2024-11-25",
+              "number": 22,
+              "type": "UNSTARRED",
+              "subject": "Encroachment in Forest Areas",
+              "ministry": "ENVIRONMENT, FOREST AND CLIMATE CHANGE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU22_zeMtCC.pdf?source=lsapps"
+            }
+          ]
+        },
+        {
+          "personId": "rao-rajendra-singh",
+          "memberId": 5632,
+          "officialName": "Shri Rao Rajendra Singh",
+          "questions": [
+            {
+              "id": "ls18-s3-unstarred-4153-2024-12-20",
+              "date": "2024-12-20",
+              "number": 4153,
+              "type": "UNSTARRED",
+              "subject": "Training of Maldivian Civil Servants",
+              "ministry": "EXTERNAL AFFAIRS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh",
+                "Shri Bhartruhari Mahtab",
+                "Shri P P Chaudhary",
+                "Shri Mukeshkumar Chandrakaant Dalal",
+                "Shri Jagdambika Pal",
+                "Shri Anurag Singh Thakur",
+                "Smt. Shobhanaben Mahendrasinh Baraiya",
+                "Smt. Smita Uday Wagh",
+                "Shri Manoj Tiwari"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU4153_2a6RYs.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-3978-2024-12-19",
+              "date": "2024-12-19",
+              "number": 3978,
+              "type": "UNSTARRED",
+              "subject": "Six Laning of Delhi-Jaipur Highway (NH 48)",
+              "ministry": "ROAD TRANSPORT AND HIGHWAYS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU3978_OdZVfB.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-3612-2024-12-17",
+              "date": "2024-12-17",
+              "number": 3612,
+              "type": "UNSTARRED",
+              "subject": "Free Trade Agreements",
+              "ministry": "COMMERCE AND INDUSTRY",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU3612_E4fp3L.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-3379-2024-12-16",
+              "date": "2024-12-16",
+              "number": 3379,
+              "type": "UNSTARRED",
+              "subject": "Revenue Expenditure",
+              "ministry": "FINANCE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU3379_LELKWj.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-2917-2024-12-12",
+              "date": "2024-12-12",
+              "number": 2917,
+              "type": "UNSTARRED",
+              "subject": "Data on Amount of Carbon Credits",
+              "ministry": "POWER",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU2917_C02hiV.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-2700-2024-12-11",
+              "date": "2024-12-11",
+              "number": 2700,
+              "type": "UNSTARRED",
+              "subject": "Fund Deductions against Tilam Sangh",
+              "ministry": "CONSUMER AFFAIRS, FOOD AND PUBLIC DISTRIBUTION",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU2700_8TFEB9.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-1560-2024-12-04",
+              "date": "2024-12-04",
+              "number": 1560,
+              "type": "UNSTARRED",
+              "subject": "Accidents in Coal Mines",
+              "ministry": "COAL",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU1560_4fntzP.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-1302-2024-12-03",
+              "date": "2024-12-03",
+              "number": 1302,
+              "type": "UNSTARRED",
+              "subject": "Production Linked Incentive (PLI) Schemes",
+              "ministry": "COMMERCE AND INDUSTRY",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU1302_kYgIkd.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-631-2024-11-28",
+              "date": "2024-11-28",
+              "number": 631,
+              "type": "UNSTARRED",
+              "subject": "High Performance Buildings",
+              "ministry": "HOUSING AND URBAN AFFAIRS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU631_BDIE3o.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-414-2024-11-27",
+              "date": "2024-11-27",
+              "number": 414,
+              "type": "UNSTARRED",
+              "subject": "Nuclear Safety Regulatory Authority Bill, 2011",
+              "ministry": "ATOMIC ENERGY",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU414_449K8w.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s3-unstarred-137-2024-11-25",
+              "date": "2024-11-25",
+              "number": 137,
+              "type": "UNSTARRED",
+              "subject": "Kendriya Vidyalayas in Rural Areas of Jaipur",
+              "ministry": "EDUCATION",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/183/AU137_MXCfaB.pdf?source=lsapps"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lokSabha": 18,
+      "session": 4,
+      "collectedAt": "2026-10-08T13:32:47.360Z",
+      "source": "https://sansad.in/ls/questions/questions-and-answers",
+      "sourcePages": [
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=4&pageNo=1&pageSize=1000&locale=en",
+          "sha256": "d4deb231b842d53b6e6ced1e2ce5a85df24780981a6ab001222899bad25cdfef",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=4&pageNo=2&pageSize=1000&locale=en",
+          "sha256": "8c70504ec2dfa3e877eb91907f52dfc513565fb1137aacbb60b92515a87cbf78",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=4&pageNo=3&pageSize=1000&locale=en",
+          "sha256": "2c7dd15ea9b9f39ee1dbe2988f8e04ce4eeb004b6d496e66dc0badd8b61738c2",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=4&pageNo=4&pageSize=1000&locale=en",
+          "sha256": "5fb2b96cf38ecca4ca51c7d6df1dd003b49a96038e1e1ba269629920e3cec205",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=4&pageNo=5&pageSize=1000&locale=en",
+          "sha256": "88dddfb22c0d2230fc388da415e137cd7a3454bc04cd5723e59b8c9e52677706",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=4&pageNo=6&pageSize=1000&locale=en",
+          "sha256": "757eea6131614081ccd8380d23963089232d99fc8867ef0d9c9b13c965ffc884",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=4&pageNo=7&pageSize=1000&locale=en",
+          "sha256": "40bd634d90ba91e7d07014f35eae9b599717c9f4dbc3ba5414f754da9c20aa2a",
+          "count": 250
+        }
+      ],
+      "totalSessionQuestions": 6250,
+      "members": [
+        {
+          "personId": "manju-sharma",
+          "memberId": 5619,
+          "officialName": "Smt. Manju Sharma",
+          "questions": [
+            {
+              "id": "ls18-s4-unstarred-5576-2025-04-04",
+              "date": "2025-04-04",
+              "number": 5576,
+              "type": "UNSTARRED",
+              "subject": "Tender on Nomination basis",
+              "ministry": "PORTS, SHIPPING AND WATERWAYS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU5576_rpa92q.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-5736-2025-04-04",
+              "date": "2025-04-04",
+              "number": 5736,
+              "type": "UNSTARRED",
+              "subject": "Improvement of AYUSH Infrastructure",
+              "ministry": "AYUSH",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU5736_3QokcF.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-starred-470-2025-04-03",
+              "date": "2025-04-03",
+              "number": 470,
+              "type": "STARRED",
+              "subject": "Swachh Bharat Mission-Gramin",
+              "ministry": "JAL SHAKTI",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AS470_Eq9YXO.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-5135-2025-04-02",
+              "date": "2025-04-02",
+              "number": 5135,
+              "type": "UNSTARRED",
+              "subject": "Renewable Energy Schemes in Rajasthan",
+              "ministry": "NEW AND RENEWABLE ENERGY",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU5135_tgGt8x.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-starred-439-2025-04-01",
+              "date": "2025-04-01",
+              "number": 439,
+              "type": "STARRED",
+              "subject": "Basic facilities for Panchayats",
+              "ministry": "PANCHAYATI RAJ",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AS439_59XNpx.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-4748-2025-03-28",
+              "date": "2025-03-28",
+              "number": 4748,
+              "type": "UNSTARRED",
+              "subject": "Effect of Usage of Chemical Fertilizers",
+              "ministry": "CHEMICALS AND FERTILIZERS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU4748_wla4of.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-4449-2025-03-27",
+              "date": "2025-03-27",
+              "number": 4449,
+              "type": "UNSTARRED",
+              "subject": "Privatisation of Airports",
+              "ministry": "CIVIL AVIATION",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU4449_Ar9522.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-4155-2025-03-26",
+              "date": "2025-03-26",
+              "number": 4155,
+              "type": "UNSTARRED",
+              "subject": "Revenue earned/losses incurred by Railways",
+              "ministry": "RAILWAYS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU4155_ygofOH.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-4040-2025-03-25",
+              "date": "2025-03-25",
+              "number": 4040,
+              "type": "UNSTARRED",
+              "subject": "Development of Rural Areas",
+              "ministry": "RURAL DEVELOPMENT",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU4040_8l921t.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-3733-2025-03-24",
+              "date": "2025-03-24",
+              "number": 3733,
+              "type": "UNSTARRED",
+              "subject": "Status of Employment",
+              "ministry": "LABOUR AND EMPLOYMENT",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU3733_LduEa7.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-starred-308-2025-03-21",
+              "date": "2025-03-21",
+              "number": 308,
+              "type": "STARRED",
+              "subject": "Setting up of Central Research Institute",
+              "ministry": "AYUSH",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AS308_czVphi.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-3493-2025-03-21",
+              "date": "2025-03-21",
+              "number": 3493,
+              "type": "UNSTARRED",
+              "subject": "Malnutrition among Children and Pregnant Women",
+              "ministry": "WOMEN AND CHILD DEVELOPMENT",
+              "listedMembers": [
+                "Shri Nalin Soren",
+                "Smt. Manju Sharma",
+                "Shri Manish Jaiswal"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU3493_3hRIg3.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-3365-2025-03-20",
+              "date": "2025-03-20",
+              "number": 3365,
+              "type": "UNSTARRED",
+              "subject": "Shortage of Electricity",
+              "ministry": "POWER",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU3365_WU9phr.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-3119-2025-03-19",
+              "date": "2025-03-19",
+              "number": 3119,
+              "type": "UNSTARRED",
+              "subject": "Increase of Revenue in IT Sector",
+              "ministry": "ELECTRONICS AND INFORMATION TECHNOLOGY",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU3119_6euwiW.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-2809-2025-03-18",
+              "date": "2025-03-18",
+              "number": 2809,
+              "type": "UNSTARRED",
+              "subject": "Ban on Chinese Products",
+              "ministry": "COMMERCE AND INDUSTRY",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU2809_ckd0mH.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-2574-2025-03-17",
+              "date": "2025-03-17",
+              "number": 2574,
+              "type": "UNSTARRED",
+              "subject": "Promotion of Indian Art and Culture in Rajasthan",
+              "ministry": "CULTURE",
+              "listedMembers": [
+                "Smt. Manju Sharma",
+                "Smt. Mahima Kumari Mewar",
+                "Shri Brijendra Singh Ola"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU2574_3CGzuL.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-2654-2025-03-17",
+              "date": "2025-03-17",
+              "number": 2654,
+              "type": "UNSTARRED",
+              "subject": "Promotion of Indian Art and Culture",
+              "ministry": "CULTURE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU2654_9rTFYN.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-2336-2025-03-13",
+              "date": "2025-03-13",
+              "number": 2336,
+              "type": "UNSTARRED",
+              "subject": "Technical Faults in Airlines",
+              "ministry": "CIVIL AVIATION",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU2336_OWNca8.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-2199-2025-03-12",
+              "date": "2025-03-12",
+              "number": 2199,
+              "type": "UNSTARRED",
+              "subject": "Cost of Imported Pulses",
+              "ministry": "CONSUMER AFFAIRS, FOOD AND PUBLIC DISTRIBUTION",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU2199_tIUA1V.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-1952-2025-03-11",
+              "date": "2025-03-11",
+              "number": 1952,
+              "type": "UNSTARRED",
+              "subject": "Inflow of FDI",
+              "ministry": "COMMERCE AND INDUSTRY",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU1952_IEte4o.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-1697-2025-03-10",
+              "date": "2025-03-10",
+              "number": 1697,
+              "type": "UNSTARRED",
+              "subject": "KVs not having Buildings, Teachers, Labs and Sitting Arrangements",
+              "ministry": "EDUCATION",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU1697_y20ZpK.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-1404-2025-02-13",
+              "date": "2025-02-13",
+              "number": 1404,
+              "type": "UNSTARRED",
+              "subject": "Safety Standards for Airlines",
+              "ministry": "CIVIL AVIATION",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU1404_Q8OTWO.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-1280-2025-02-11",
+              "date": "2025-02-11",
+              "number": 1280,
+              "type": "UNSTARRED",
+              "subject": "Impact of Ukraine-Russia War on Indian Industry",
+              "ministry": "COMMERCE AND INDUSTRY",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU1280_3egKUW.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-995-2025-02-10",
+              "date": "2025-02-10",
+              "number": 995,
+              "type": "UNSTARRED",
+              "subject": "Survey of Monuments and Forts",
+              "ministry": "CULTURE",
+              "listedMembers": [
+                "Smt. Manju Sharma",
+                "Shri Jaswantsinh Sumanbhai Bhabhor"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU995_qK4pSO.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-1047-2025-02-10",
+              "date": "2025-02-10",
+              "number": 1047,
+              "type": "UNSTARRED",
+              "subject": "Preventing Encroachment on Monuments",
+              "ministry": "CULTURE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU1047_aJn2nm.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-846-2025-02-07",
+              "date": "2025-02-07",
+              "number": 846,
+              "type": "UNSTARRED",
+              "subject": "Availability of Chemical Fertilizers",
+              "ministry": "CHEMICALS AND FERTILIZERS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU846_PJpVSb.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-512-2025-02-06",
+              "date": "2025-02-06",
+              "number": 512,
+              "type": "UNSTARRED",
+              "subject": "Harmful Effects of Contamination in Groundwater",
+              "ministry": "JAL SHAKTI",
+              "listedMembers": [
+                "Shri Kuldeep Indora",
+                "Smt. Manju Sharma",
+                "Thiru D M Kathir Anand"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU512_AWOeEG.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-598-2025-02-06",
+              "date": "2025-02-06",
+              "number": 598,
+              "type": "UNSTARRED",
+              "subject": "Encroachment on Government Lands",
+              "ministry": "HOUSING AND URBAN AFFAIRS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU598_a6LODt.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-337-2025-02-04",
+              "date": "2025-02-04",
+              "number": 337,
+              "type": "UNSTARRED",
+              "subject": "Implementation of Centrally Sponsored Schemes",
+              "ministry": "PANCHAYATI RAJ",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU337_N9Hpgd.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-33-2025-02-03",
+              "date": "2025-02-03",
+              "number": 33,
+              "type": "UNSTARRED",
+              "subject": "Encroachment of Forest Land",
+              "ministry": "ENVIRONMENT, FOREST AND CLIMATE CHANGE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU33_XkETuy.pdf?source=lsapps"
+            }
+          ]
+        },
+        {
+          "personId": "rao-rajendra-singh",
+          "memberId": 5632,
+          "officialName": "Shri Rao Rajendra Singh",
+          "questions": [
+            {
+              "id": "ls18-s4-unstarred-5673-2025-04-04",
+              "date": "2025-04-04",
+              "number": 5673,
+              "type": "UNSTARRED",
+              "subject": "Rising Cases of Deaths due to Non-Communicable Diseases",
+              "ministry": "HEALTH AND FAMILY WELFARE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU5673_c0W7KG.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-5491-2025-04-03",
+              "date": "2025-04-03",
+              "number": 5491,
+              "type": "UNSTARRED",
+              "subject": "Allocation of Funds to NESTS",
+              "ministry": "TRIBAL AFFAIRS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU5491_3LShc4.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-5253-2025-04-02",
+              "date": "2025-04-02",
+              "number": 5253,
+              "type": "UNSTARRED",
+              "subject": "Import of Rare Earth Metals",
+              "ministry": "MINES",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU5253_uzur2H.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-4989-2025-04-01",
+              "date": "2025-04-01",
+              "number": 4989,
+              "type": "UNSTARRED",
+              "subject": "Per-hectare Yield of Cotton Crops",
+              "ministry": "AGRICULTURE AND FARMERS WELFARE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU4989_AvWn65.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-4640-2025-03-28",
+              "date": "2025-03-28",
+              "number": 4640,
+              "type": "UNSTARRED",
+              "subject": "Transparency in Allocation of Cases to Panel Counsels",
+              "ministry": "LAW AND JUSTICE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU4640_V9dUSL.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-4470-2025-03-27",
+              "date": "2025-03-27",
+              "number": 4470,
+              "type": "UNSTARRED",
+              "subject": "Financial Viability of DISCOMs",
+              "ministry": "POWER",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh",
+                "Shri Bhartruhari Mahtab",
+                "Shri Bidyut Baran Mahato",
+                "Shri Dilip Saikia",
+                "Shri Yogender Chandolia",
+                "Shri Lumbaram Choudhary",
+                "Shri Naba Charan Majhi",
+                "Dr. Rajesh Mishra",
+                "Shri Arun Govil",
+                "Shri Dineshbhai Makwana"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU4470_997IPX.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-4593-2025-03-27",
+              "date": "2025-03-27",
+              "number": 4593,
+              "type": "UNSTARRED",
+              "subject": "Energy Transition in Petroleum Sector",
+              "ministry": "PETROLEUM AND NATURAL GAS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU4593_lsPgVV.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-3880-2025-03-24",
+              "date": "2025-03-24",
+              "number": 3880,
+              "type": "UNSTARRED",
+              "subject": "Sacred Groves Forest",
+              "ministry": "ENVIRONMENT, FOREST AND CLIMATE CHANGE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU3880_LYXGpK.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-starred-293-2025-03-20",
+              "date": "2025-03-20",
+              "number": 293,
+              "type": "STARRED",
+              "subject": "Modification in Central Share for States under JJM",
+              "ministry": "JAL SHAKTI",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AS293_q7ZUiZ.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-3187-2025-03-19",
+              "date": "2025-03-19",
+              "number": 3187,
+              "type": "UNSTARRED",
+              "subject": "Price Stabilisation Fund",
+              "ministry": "CONSUMER AFFAIRS, FOOD AND PUBLIC DISTRIBUTION",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU3187_sWPYQR.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-starred-260-2025-03-18",
+              "date": "2025-03-18",
+              "number": 260,
+              "type": "STARRED",
+              "subject": "Funds under PM-JANMAN",
+              "ministry": "RURAL DEVELOPMENT",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AS260_I0Ay4u.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-starred-231-2025-03-17",
+              "date": "2025-03-17",
+              "number": 231,
+              "type": "STARRED",
+              "subject": "Cess and Surcharges",
+              "ministry": "FINANCE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh",
+                "Shri Abhishek Banerjee"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AS231_xFgpXN.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-2112-2025-03-12",
+              "date": "2025-03-12",
+              "number": 2112,
+              "type": "UNSTARRED",
+              "subject": "Scientific Publications",
+              "ministry": "SCIENCE AND TECHNOLOGY",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU2112_0Nbo9Z.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-1800-2025-03-10",
+              "date": "2025-03-10",
+              "number": 1800,
+              "type": "UNSTARRED",
+              "subject": "Restoration of Ancient Indian Knowledge Centres",
+              "ministry": "CULTURE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU1800_Q3Zks6.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-1597-2025-02-13",
+              "date": "2025-02-13",
+              "number": 1597,
+              "type": "UNSTARRED",
+              "subject": "Cess Levied through Petroleum Products",
+              "ministry": "PETROLEUM AND NATURAL GAS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU1597_fZaKle.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-1345-2025-02-11",
+              "date": "2025-02-11",
+              "number": 1345,
+              "type": "UNSTARRED",
+              "subject": "Jute Imports",
+              "ministry": "TEXTILES",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU1345_KSzbny.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-976-2025-02-10",
+              "date": "2025-02-10",
+              "number": 976,
+              "type": "UNSTARRED",
+              "subject": "SDS 2.0 in Rajasthan",
+              "ministry": "TOURISM",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh",
+                "Shri Lumbaram Choudhary"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU976_PmrGLQ.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-1022-2025-02-10",
+              "date": "2025-02-10",
+              "number": 1022,
+              "type": "UNSTARRED",
+              "subject": "Creation of New Employment Opportunities",
+              "ministry": "LABOUR AND EMPLOYMENT",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU1022_Pchqzy.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-896-2025-02-07",
+              "date": "2025-02-07",
+              "number": 896,
+              "type": "UNSTARRED",
+              "subject": "Skill Training Centre for Emergency Medical Services",
+              "ministry": "HEALTH AND FAMILY WELFARE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU896_ksOmcS.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s4-unstarred-541-2025-02-06",
+              "date": "2025-02-06",
+              "number": 541,
+              "type": "UNSTARRED",
+              "subject": "Release of Amount Pending against NAFED and FCI",
+              "ministry": "FOOD PROCESSING INDUSTRIES",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/184/AU541_OdMrE7.pdf?source=lsapps"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lokSabha": 18,
+      "session": 5,
+      "collectedAt": "2026-10-08T13:34:14.968Z",
+      "source": "https://sansad.in/ls/questions/questions-and-answers",
+      "sourcePages": [
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=5&pageNo=1&pageSize=1000&locale=en",
+          "sha256": "da5e901b30ca1569d9cdc36e11f0d03eb8a0f099360b3e0c989d2a9e3192d7b5",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=5&pageNo=2&pageSize=1000&locale=en",
+          "sha256": "fc3ed69fb998044779d60753b4faa493d9517d576657242d7afbdccacb38e6ba",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=5&pageNo=3&pageSize=1000&locale=en",
+          "sha256": "be47c478660118b87f938d5774cd5a99f28dd7f39cf903a134b8f6ba2818e1ea",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=5&pageNo=4&pageSize=1000&locale=en",
+          "sha256": "110c0bed9f2948a03d5f7ba1d8dc589dbd9896956dd2c984b42b1e5660e0737c",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=5&pageNo=5&pageSize=1000&locale=en",
+          "sha256": "22406bbf433d66264dd09b73c1a03957f9c5a029e6c4d453b37af8485a480555",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=5&pageNo=6&pageSize=1000&locale=en",
+          "sha256": "3c01edf731091e2e71c21d3082f626d691c6cbd68eb850ca7513c313ba92e17a",
+          "count": 248
+        }
+      ],
+      "totalSessionQuestions": 5248,
+      "members": [
+        {
+          "personId": "manju-sharma",
+          "memberId": 5619,
+          "officialName": "Smt. Manju Sharma",
+          "questions": [
+            {
+              "id": "ls18-s5-unstarred-4713-2025-08-21",
+              "date": "2025-08-21",
+              "number": 4713,
+              "type": "UNSTARRED",
+              "subject": "Scheme for Homeless People",
+              "ministry": "HOUSING AND URBAN AFFAIRS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU4713_gjnoVl.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-4460-2025-08-20",
+              "date": "2025-08-20",
+              "number": 4460,
+              "type": "UNSTARRED",
+              "subject": "Optical Fiber Network Connectivity",
+              "ministry": "COMMUNICATIONS",
+              "listedMembers": [
+                "Smt. Manju Sharma",
+                "Shri Chhotelal"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU4460_ji5NQi.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-4149-2025-08-19",
+              "date": "2025-08-19",
+              "number": 4149,
+              "type": "UNSTARRED",
+              "subject": "Promoting Private Investment in Startups",
+              "ministry": "COMMERCE AND INDUSTRY",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU4149_fl3i6c.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-4064-2025-08-18",
+              "date": "2025-08-18",
+              "number": 4064,
+              "type": "UNSTARRED",
+              "subject": "Workers of Unorganised Sectors",
+              "ministry": "LABOUR AND EMPLOYMENT",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU4064_rfIQTA.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-3781-2025-08-12",
+              "date": "2025-08-12",
+              "number": 3781,
+              "type": "UNSTARRED",
+              "subject": "Boosting Investment",
+              "ministry": "COMMERCE AND INDUSTRY",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU3781_XZ7xWG.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-3617-2025-08-11",
+              "date": "2025-08-11",
+              "number": 3617,
+              "type": "UNSTARRED",
+              "subject": "New Affiliation of Institutions by NIOS",
+              "ministry": "EDUCATION",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU3617_RcsRi9.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-3370-2025-08-08",
+              "date": "2025-08-08",
+              "number": 3370,
+              "type": "UNSTARRED",
+              "subject": "Extensive use of Urea",
+              "ministry": "CHEMICALS AND FERTILIZERS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU3370_ht67rv.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-3141-2025-08-07",
+              "date": "2025-08-07",
+              "number": 3141,
+              "type": "UNSTARRED",
+              "subject": "Allotment of Houses Constructed under PMAY-U",
+              "ministry": "HOUSING AND URBAN AFFAIRS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU3141_1dpdJz.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-2826-2025-08-06",
+              "date": "2025-08-06",
+              "number": 2826,
+              "type": "UNSTARRED",
+              "subject": "Alleged Corruption in Mining Sectors",
+              "ministry": "MINES",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU2826_zTpq5j.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-2645-2025-08-05",
+              "date": "2025-08-05",
+              "number": 2645,
+              "type": "UNSTARRED",
+              "subject": "Setting-up of Horticulture University in Rajasthan",
+              "ministry": "AGRICULTURE AND FARMERS WELFARE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU2645_hsd3Nc.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-2490-2025-08-04",
+              "date": "2025-08-04",
+              "number": 2490,
+              "type": "UNSTARRED",
+              "subject": "Comprehensive Master Plan for Development of Eminent Sites in Rajasthan",
+              "ministry": "TOURISM",
+              "listedMembers": [
+                "Smt. Manju Sharma",
+                "Shri Amra Ram"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU2490_DudNvP.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-2246-2025-08-01",
+              "date": "2025-08-01",
+              "number": 2246,
+              "type": "UNSTARRED",
+              "subject": "Pathology Laboratories",
+              "ministry": "HEALTH AND FAMILY WELFARE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU2246_sYjlYP.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-2009-2025-07-31",
+              "date": "2025-07-31",
+              "number": 2009,
+              "type": "UNSTARRED",
+              "subject": "Encroachment on Government Land",
+              "ministry": "HOUSING AND URBAN AFFAIRS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU2009_nGrhqk.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-1762-2025-07-30",
+              "date": "2025-07-30",
+              "number": 1762,
+              "type": "UNSTARRED",
+              "subject": "Railway Projects in the Country including Rajasthan",
+              "ministry": "RAILWAYS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU1762_fzplHQ.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-1541-2025-07-29",
+              "date": "2025-07-29",
+              "number": 1541,
+              "type": "UNSTARRED",
+              "subject": "Schemes to Strengthen Panchayati Raj Institution",
+              "ministry": "PANCHAYATI RAJ",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU1541_b6RQRp.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-1220-2025-07-28",
+              "date": "2025-07-28",
+              "number": 1220,
+              "type": "UNSTARRED",
+              "subject": "Funds utilised under Samagra Shiksha Abhiyan in Rajasthan",
+              "ministry": "EDUCATION",
+              "listedMembers": [
+                "Shri Ummeda Ram Beniwal",
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU1220_K44lqM.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-998-2025-07-25",
+              "date": "2025-07-25",
+              "number": 998,
+              "type": "UNSTARRED",
+              "subject": "Augmentation of AIIMS Personnel",
+              "ministry": "HEALTH AND FAMILY WELFARE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU998_USkGcO.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-785-2025-07-24",
+              "date": "2025-07-24",
+              "number": 785,
+              "type": "UNSTARRED",
+              "subject": "Water Scarcity in Eastern Regions of Rajasthan",
+              "ministry": "JAL SHAKTI",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU785_YocKch.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-610-2025-07-23",
+              "date": "2025-07-23",
+              "number": 610,
+              "type": "UNSTARRED",
+              "subject": "Warehouses of FCI in Rajasthan",
+              "ministry": "CONSUMER AFFAIRS, FOOD AND PUBLIC DISTRIBUTION",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU610_oyzOkf.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-340-2025-07-22",
+              "date": "2025-07-22",
+              "number": 340,
+              "type": "UNSTARRED",
+              "subject": "Proposal to Computerisation of all Panchayats",
+              "ministry": "PANCHAYATI RAJ",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU340_rrOGXH.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-52-2025-07-21",
+              "date": "2025-07-21",
+              "number": 52,
+              "type": "UNSTARRED",
+              "subject": "Promotion of Commerce Stream in KVs",
+              "ministry": "EDUCATION",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU52_mc7i8V.pdf?source=lsapps"
+            }
+          ]
+        },
+        {
+          "personId": "rao-rajendra-singh",
+          "memberId": 5632,
+          "officialName": "Shri Rao Rajendra Singh",
+          "questions": [
+            {
+              "id": "ls18-s5-unstarred-4623-2025-08-21",
+              "date": "2025-08-21",
+              "number": 4623,
+              "type": "UNSTARRED",
+              "subject": "Yamuna Water Pipeline Project",
+              "ministry": "JAL SHAKTI",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU4623_LX7Ysk.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-4455-2025-08-20",
+              "date": "2025-08-20",
+              "number": 4455,
+              "type": "UNSTARRED",
+              "subject": "Nuclear Waste Management",
+              "ministry": "ATOMIC ENERGY",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU4455_0Lkshs.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-starred-367-2025-08-19",
+              "date": "2025-08-19",
+              "number": 367,
+              "type": "STARRED",
+              "subject": "Production Linked Incentive Schemes",
+              "ministry": "COMMERCE AND INDUSTRY",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh",
+                "Shri Balabhadra Majhi"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AS367_MMpVvs.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-4060-2025-08-18",
+              "date": "2025-08-18",
+              "number": 4060,
+              "type": "UNSTARRED",
+              "subject": "Minimum Wage",
+              "ministry": "LABOUR AND EMPLOYMENT",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU4060_oZkVm5.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-4138-2025-08-18",
+              "date": "2025-08-18",
+              "number": 4138,
+              "type": "UNSTARRED",
+              "subject": "Impact of IBC on Ease of Doing Business",
+              "ministry": "CORPORATE AFFAIRS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh",
+                "Shri Vishweshwar Hegde Kageri",
+                "Shri Janardan Mishra",
+                "Shri Khagen Murmu",
+                "Shri Vishnu Dayal Ram",
+                "Shri Tejasvi Surya",
+                "Shri Kota Srinivasa Poojary"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU4138_A8ayRq.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-3819-2025-08-12",
+              "date": "2025-08-12",
+              "number": 3819,
+              "type": "UNSTARRED",
+              "subject": "Central Forensic Science Laboratories",
+              "ministry": "HOME AFFAIRS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU3819_ocgpWi.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-3478-2025-08-11",
+              "date": "2025-08-11",
+              "number": 3478,
+              "type": "UNSTARRED",
+              "subject": "Preservation of Orans",
+              "ministry": "ENVIRONMENT, FOREST AND CLIMATE CHANGE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU3478_pg1Xq5.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-3493-2025-08-11",
+              "date": "2025-08-11",
+              "number": 3493,
+              "type": "UNSTARRED",
+              "subject": "Data on Cross-Border UPI Transaction",
+              "ministry": "FINANCE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh",
+                "Shri Bidyut Baran Mahato",
+                "Dr. K Sudhakar",
+                "Shri Alok Sharma",
+                "Smt. Kamlesh Jangde",
+                "Shri Vishweshwar Hegde Kageri",
+                "Shri Dilip Saikia",
+                "Smt. Mahima Kumari Mewar",
+                "Shri Yogender Chandolia",
+                "Shri Lumbaram Choudhary",
+                "Smt. Kamaljeet Sehrawat",
+                "Dr. Bhola Singh",
+                "Shri Tejasvi Surya",
+                "Shri Dineshbhai Makwana"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU3493_IxuDsb.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-3447-2025-08-08",
+              "date": "2025-08-08",
+              "number": 3447,
+              "type": "UNSTARRED",
+              "subject": "Territories occupied by China in 1962",
+              "ministry": "EXTERNAL AFFAIRS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU3447_Q7NfwB.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-3160-2025-08-07",
+              "date": "2025-08-07",
+              "number": 3160,
+              "type": "UNSTARRED",
+              "subject": "Seaplane Initiatives under UDAN",
+              "ministry": "CIVIL AVIATION",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU3160_WameeQ.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-2970-2025-08-06",
+              "date": "2025-08-06",
+              "number": 2970,
+              "type": "UNSTARRED",
+              "subject": "Criteria for Loan by IREDA",
+              "ministry": "NEW AND RENEWABLE ENERGY",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU2970_fZ8hEP.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-2314-2025-08-04",
+              "date": "2025-08-04",
+              "number": 2314,
+              "type": "UNSTARRED",
+              "subject": "National Code against Age Fraud in Sports 2025",
+              "ministry": "YOUTH AFFAIRS AND SPORTS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh",
+                "Shri Ananta Nayak",
+                "Dr. Vinod Kumar Bind",
+                "Shri Chandan Chauhan"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU2314_MHIlpB.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-2351-2025-08-04",
+              "date": "2025-08-04",
+              "number": 2351,
+              "type": "UNSTARRED",
+              "subject": "Safeguard of Endangered Species",
+              "ministry": "ENVIRONMENT, FOREST AND CLIMATE CHANGE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU2351_6JvFgV.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-2105-2025-08-01",
+              "date": "2025-08-01",
+              "number": 2105,
+              "type": "UNSTARRED",
+              "subject": "Development of National Waterway-48",
+              "ministry": "PORTS, SHIPPING AND WATERWAYS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU2105_HJgMzO.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-starred-155-2025-07-30",
+              "date": "2025-07-30",
+              "number": 155,
+              "type": "STARRED",
+              "subject": "CONCOR Projects in Phulera, Rajasthan",
+              "ministry": "RAILWAYS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AS155_k8v0t8.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-1570-2025-07-29",
+              "date": "2025-07-29",
+              "number": 1570,
+              "type": "UNSTARRED",
+              "subject": "Export of Spices from India",
+              "ministry": "COMMERCE AND INDUSTRY",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU1570_Apjknq.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-1340-2025-07-28",
+              "date": "2025-07-28",
+              "number": 1340,
+              "type": "UNSTARRED",
+              "subject": "Regulations for Virtual Digital Assets (VDA)",
+              "ministry": "FINANCE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU1340_kPWHiB.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-1089-2025-07-25",
+              "date": "2025-07-25",
+              "number": 1089,
+              "type": "UNSTARRED",
+              "subject": "Radiotherapy for Cancer Patients in India",
+              "ministry": "HEALTH AND FAMILY WELFARE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU1089_PqMLqM.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-638-2025-07-23",
+              "date": "2025-07-23",
+              "number": 638,
+              "type": "UNSTARRED",
+              "subject": "SMART-PDS Scheme",
+              "ministry": "CONSUMER AFFAIRS, FOOD AND PUBLIC DISTRIBUTION",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU638_IzTOiY.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-393-2025-07-22",
+              "date": "2025-07-22",
+              "number": 393,
+              "type": "UNSTARRED",
+              "subject": "Implementation of National Mission on Natural Farming",
+              "ministry": "AGRICULTURE AND FARMERS WELFARE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU393_IBh7LW.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s5-unstarred-179-2025-07-21",
+              "date": "2025-07-21",
+              "number": 179,
+              "type": "UNSTARRED",
+              "subject": "Disinvestment of Loss Making PSUs",
+              "ministry": "FINANCE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/185/AU179_P4t48c.pdf?source=lsapps"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lokSabha": 18,
+      "session": 6,
+      "collectedAt": "2026-10-08T13:35:25.398Z",
+      "source": "https://sansad.in/ls/questions/questions-and-answers",
+      "sourcePages": [
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=6&pageNo=1&pageSize=1000&locale=en",
+          "sha256": "c92a369463dfc146efa7e53276e32efaa58948ea121a6a1fa4a77ffafec41e04",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=6&pageNo=2&pageSize=1000&locale=en",
+          "sha256": "759322bb61a86dfa5a8761d96b1ed5302f14476932c22a196d79b4a951c460c9",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=6&pageNo=3&pageSize=1000&locale=en",
+          "sha256": "fda2109091965e4d0e78413157310b13c124c51e77068b7d420b47b66aeaede7",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=6&pageNo=4&pageSize=1000&locale=en",
+          "sha256": "0856572e4cdd88758f326138e0c7b4674e69e3f5f0e46413e530117c351d37cd",
+          "count": 499
+        }
+      ],
+      "totalSessionQuestions": 3499,
+      "members": [
+        {
+          "personId": "manju-sharma",
+          "memberId": 5619,
+          "officialName": "Smt. Manju Sharma",
+          "questions": [
+            {
+              "id": "ls18-s6-unstarred-3019-2025-12-18",
+              "date": "2025-12-18",
+              "number": 3019,
+              "type": "UNSTARRED",
+              "subject": "Public Procurement Policy for MSMEs",
+              "ministry": "MICRO, SMALL AND MEDIUM ENTERPRISES",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU3019_jZJ3TC.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-2794-2025-12-17",
+              "date": "2025-12-17",
+              "number": 2794,
+              "type": "UNSTARRED",
+              "subject": "Reduction in PMGKAY",
+              "ministry": "CONSUMER AFFAIRS, FOOD AND PUBLIC DISTRIBUTION",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU2794_RxI7cS.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-2611-2025-12-16",
+              "date": "2025-12-16",
+              "number": 2611,
+              "type": "UNSTARRED",
+              "subject": "Export Infrastructure in Coastal Areas",
+              "ministry": "COMMERCE AND INDUSTRY",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU2611_r4ftUw.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-2492-2025-12-15",
+              "date": "2025-12-15",
+              "number": 2492,
+              "type": "UNSTARRED",
+              "subject": "Travel Grants to Artists",
+              "ministry": "CULTURE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU2492_N4ExGh.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-2251-2025-12-12",
+              "date": "2025-12-12",
+              "number": 2251,
+              "type": "UNSTARRED",
+              "subject": "New Medical Colleges in Rajasthan",
+              "ministry": "HEALTH AND FAMILY WELFARE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU2251_kSMzub.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-1995-2025-12-11",
+              "date": "2025-12-11",
+              "number": 1995,
+              "type": "UNSTARRED",
+              "subject": "Separate Fund for Repair of Roads damaged due to Floods",
+              "ministry": "ROAD TRANSPORT AND HIGHWAYS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU1995_aRCHnx.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-1714-2025-12-10",
+              "date": "2025-12-10",
+              "number": 1714,
+              "type": "UNSTARRED",
+              "subject": "NFS Scheme",
+              "ministry": "CONSUMER AFFAIRS, FOOD AND PUBLIC DISTRIBUTION",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU1714_y5UDFT.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-1585-2025-12-09",
+              "date": "2025-12-09",
+              "number": 1585,
+              "type": "UNSTARRED",
+              "subject": "Branding of Indian Textiles",
+              "ministry": "TEXTILES",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU1585_zz2J4H.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-1317-2025-12-08",
+              "date": "2025-12-08",
+              "number": 1317,
+              "type": "UNSTARRED",
+              "subject": "PMKK for Marginalised Communities",
+              "ministry": "SKILL DEVELOPMENT AND ENTREPRENEURSHIP",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU1317_JJj1Cs.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-1107-2025-12-05",
+              "date": "2025-12-05",
+              "number": 1107,
+              "type": "UNSTARRED",
+              "subject": "New Policy on Litigation",
+              "ministry": "LAW AND JUSTICE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU1107_uPXZi4.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-886-2025-12-04",
+              "date": "2025-12-04",
+              "number": 886,
+              "type": "UNSTARRED",
+              "subject": "Delay in Release of Share under SBM-G",
+              "ministry": "JAL SHAKTI",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU886_8xwIG6.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-497-2025-12-03",
+              "date": "2025-12-03",
+              "number": 497,
+              "type": "UNSTARRED",
+              "subject": "Share of Nuclear Energy in Power Generation",
+              "ministry": "ATOMIC ENERGY",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU497_jj8Iob.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-337-2025-12-02",
+              "date": "2025-12-02",
+              "number": 337,
+              "type": "UNSTARRED",
+              "subject": "Allocation of Funds for Rural Development Projects",
+              "ministry": "RURAL DEVELOPMENT",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU337_cUiqnM.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-149-2025-12-01",
+              "date": "2025-12-01",
+              "number": 149,
+              "type": "UNSTARRED",
+              "subject": "Promotion of Sports Activities in Rajasthan",
+              "ministry": "YOUTH AFFAIRS AND SPORTS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU149_1O7mvK.pdf?source=lsapps"
+            }
+          ]
+        },
+        {
+          "personId": "rao-rajendra-singh",
+          "memberId": 5632,
+          "officialName": "Shri Rao Rajendra Singh",
+          "questions": [
+            {
+              "id": "ls18-s6-unstarred-3077-2025-12-18",
+              "date": "2025-12-18",
+              "number": 3077,
+              "type": "UNSTARRED",
+              "subject": "Installed Power Capacity",
+              "ministry": "POWER",
+              "listedMembers": [
+                "Shri Dileshwar Kamait",
+                "Shri Babu Singh Kushwaha",
+                "Shri Rao Rajendra Singh",
+                "Dr. Sanjay Jaiswal",
+                "Shri Chandra Prakash Joshi"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU3077_lEyoBO.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-2473-2025-12-15",
+              "date": "2025-12-15",
+              "number": 2473,
+              "type": "UNSTARRED",
+              "subject": "Regulations for Retail Investors",
+              "ministry": "FINANCE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU2473_JmzTiN.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-2132-2025-12-12",
+              "date": "2025-12-12",
+              "number": 2132,
+              "type": "UNSTARRED",
+              "subject": "Global Partnerships in Shipping Sector",
+              "ministry": "PORTS, SHIPPING AND WATERWAYS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh",
+                "Shri Chavda Vinod Lakhamshi",
+                "Shri Khagen Murmu",
+                "Shri Vishnu Dayal Ram",
+                "Shri Captain Brijesh Chowta",
+                "Shri Manoj Tiwari",
+                "Shri Tatkare Sunil Dattatrey",
+                "Shri Vijay Baghel"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU2132_ZUXIwX.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-1372-2025-12-08",
+              "date": "2025-12-08",
+              "number": 1372,
+              "type": "UNSTARRED",
+              "subject": "Revision of International Poverty Line",
+              "ministry": "FINANCE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU1372_gUeuHh.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-1133-2025-12-05",
+              "date": "2025-12-05",
+              "number": 1133,
+              "type": "UNSTARRED",
+              "subject": "Audit on Blood Banks",
+              "ministry": "HEALTH AND FAMILY WELFARE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU1133_uDDDrO.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-starred-54-2025-12-03",
+              "date": "2025-12-03",
+              "number": 54,
+              "type": "STARRED",
+              "subject": "\"Jaago Grahak Jaago\" Campaign",
+              "ministry": "CONSUMER AFFAIRS, FOOD AND PUBLIC DISTRIBUTION",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AS54_7U8FF5.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-27-2025-12-01",
+              "date": "2025-12-01",
+              "number": 27,
+              "type": "UNSTARRED",
+              "subject": "Increasing GER in Higher Education",
+              "ministry": "EDUCATION",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh",
+                "Shri Raja Ram Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU27_kP3V0q.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s6-unstarred-197-2025-12-01",
+              "date": "2025-12-01",
+              "number": 197,
+              "type": "UNSTARRED",
+              "subject": "Declining Household Savings",
+              "ministry": "FINANCE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/186/AU197_sgXhpu.pdf?source=lsapps"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lokSabha": 18,
+      "session": 7,
+      "collectedAt": "2026-10-08T13:37:20.261Z",
+      "source": "https://sansad.in/ls/questions/questions-and-answers",
+      "sourcePages": [
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=7&pageNo=1&pageSize=1000&locale=en",
+          "sha256": "08c0b46a2930188bfeefd6306b5316fd99f06c6c0a604db34253fa4a60b641ba",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=7&pageNo=2&pageSize=1000&locale=en",
+          "sha256": "54fb6f29e4f939eeaad4e1c59d64dbfae1c7879b4c72c40d04c1d9321fbb8093",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=7&pageNo=3&pageSize=1000&locale=en",
+          "sha256": "57b1728c5cd4eef0d83a3156bb5c65f19165871810c08b06b5747e0522cafbfd",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=7&pageNo=4&pageSize=1000&locale=en",
+          "sha256": "447805873bf9b4fa313fbbe453156533d7dcb6b57a2ea27a932d629558e3d7f8",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=7&pageNo=5&pageSize=1000&locale=en",
+          "sha256": "d62d663760af1d3c75fc5f2ade0761699ab4fd79462a7b2e9c12b83ad809c445",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=7&pageNo=6&pageSize=1000&locale=en",
+          "sha256": "95cfdd636a28c6633bac92dac6276f243124fa1c397231e999ef410a57aad5e7",
+          "count": 1000
+        },
+        {
+          "url": "https://sansad.in/api_ls/question/qetFilteredQuestionsAns?loksabhaNo=18&sessionNumber=7&pageNo=7&pageSize=1000&locale=en",
+          "sha256": "4084d108a0c7fe28c122ec79b794f256c1c2a2af3f377f4c04eef8512c7ed375",
+          "count": 975
+        }
+      ],
+      "totalSessionQuestions": 6975,
+      "members": [
+        {
+          "personId": "manju-sharma",
+          "memberId": 5619,
+          "officialName": "Smt. Manju Sharma",
+          "questions": [
+            {
+              "id": "ls18-s7-unstarred-6284-2026-04-02",
+              "date": "2026-04-02",
+              "number": 6284,
+              "type": "UNSTARRED",
+              "subject": "Digital Public Infrastructure for MSMEs",
+              "ministry": "MICRO, SMALL AND MEDIUM ENTERPRISES",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU6284_guYyJI.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-6303-2026-04-02",
+              "date": "2026-04-02",
+              "number": 6303,
+              "type": "UNSTARRED",
+              "subject": "Rejuvenation of Traditional Water Bodies",
+              "ministry": "JAL SHAKTI",
+              "listedMembers": [
+                "Shri Trivendra Singh Rawat",
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU6303_TSGoKX.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-5987-2026-04-01",
+              "date": "2026-04-01",
+              "number": 5987,
+              "type": "UNSTARRED",
+              "subject": "Generation of Revenue by Kavach",
+              "ministry": "RAILWAYS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU5987_TK3A2X.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-6182-2026-04-01",
+              "date": "2026-04-01",
+              "number": 6182,
+              "type": "UNSTARRED",
+              "subject": "5G Service Providers",
+              "ministry": "COMMUNICATIONS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU6182_gNnSTS.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-5828-2026-03-30",
+              "date": "2026-03-30",
+              "number": 5828,
+              "type": "UNSTARRED",
+              "subject": "Enhancement of Wages of the Labourers",
+              "ministry": "LABOUR AND EMPLOYMENT",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU5828_dATAPj.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-5657-2026-03-27",
+              "date": "2026-03-27",
+              "number": 5657,
+              "type": "UNSTARRED",
+              "subject": "ICMR Research Overview",
+              "ministry": "HEALTH AND FAMILY WELFARE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU5657_JJgEfg.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-5328-2026-03-25",
+              "date": "2026-03-25",
+              "number": 5328,
+              "type": "UNSTARRED",
+              "subject": "Assistance to States for Solar Energy",
+              "ministry": "NEW AND RENEWABLE ENERGY",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU5328_c2V33U.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-5150-2026-03-24",
+              "date": "2026-03-24",
+              "number": 5150,
+              "type": "UNSTARRED",
+              "subject": "Foodgrains Crisis",
+              "ministry": "AGRICULTURE AND FARMERS WELFARE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU5150_3CHKYL.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-4925-2026-03-23",
+              "date": "2026-03-23",
+              "number": 4925,
+              "type": "UNSTARRED",
+              "subject": "Shortage of Qualified Teachers in Schools",
+              "ministry": "EDUCATION",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU4925_BB2xlC.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-4737-2026-03-20",
+              "date": "2026-03-20",
+              "number": 4737,
+              "type": "UNSTARRED",
+              "subject": "Law for Compulsory Voting",
+              "ministry": "LAW AND JUSTICE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU4737_Pjldky.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-4477-2026-03-19",
+              "date": "2026-03-19",
+              "number": 4477,
+              "type": "UNSTARRED",
+              "subject": "Food Processing Units under PMKSY",
+              "ministry": "FOOD PROCESSING INDUSTRIES",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU4477_POW33S.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-starred-375-2026-03-18",
+              "date": "2026-03-18",
+              "number": 375,
+              "type": "STARRED",
+              "subject": "Renewable Energy Schemes in Rajasthan",
+              "ministry": "NEW AND RENEWABLE ENERGY",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AS375_egQs7l.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-3923-2026-03-17",
+              "date": "2026-03-17",
+              "number": 3923,
+              "type": "UNSTARRED",
+              "subject": "Organic Farming in Rajasthan",
+              "ministry": "AGRICULTURE AND FARMERS WELFARE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU3923_zs2jB4.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-3837-2026-03-16",
+              "date": "2026-03-16",
+              "number": 3837,
+              "type": "UNSTARRED",
+              "subject": "Promotion of Library Network under NML",
+              "ministry": "CULTURE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU3837_KzTFwU.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-3589-2026-03-13",
+              "date": "2026-03-13",
+              "number": 3589,
+              "type": "UNSTARRED",
+              "subject": "Promotion of Siddha System of Medicine",
+              "ministry": "AYUSH",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU3589_9WNwrj.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-3319-2026-03-12",
+              "date": "2026-03-12",
+              "number": 3319,
+              "type": "UNSTARRED",
+              "subject": "Rozgar Yukt Gaon Scheme in Khadi Sector",
+              "ministry": "MICRO, SMALL AND MEDIUM ENTERPRISES",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU3319_eHpHB2.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-3011-2026-03-11",
+              "date": "2026-03-11",
+              "number": 3011,
+              "type": "UNSTARRED",
+              "subject": "New/Ongoing/Pending Railway Projects across the Country",
+              "ministry": "RAILWAYS",
+              "listedMembers": [
+                "Smt. Manju Sharma",
+                "Shri Mansukhbhai Dhanjibhai Vasava",
+                "Shri Ajay Bhatt",
+                "Shri Tharaniventhan M S",
+                "Shri Arun Kumar Sagar"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU3011_yf2aMw.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-3111-2026-03-11",
+              "date": "2026-03-11",
+              "number": 3111,
+              "type": "UNSTARRED",
+              "subject": "Zoonotic Diseases",
+              "ministry": "SCIENCE AND TECHNOLOGY",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU3111_FUsL4Y.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-2900-2026-03-10",
+              "date": "2026-03-10",
+              "number": 2900,
+              "type": "UNSTARRED",
+              "subject": "Startup India Scheme",
+              "ministry": "COMMERCE AND INDUSTRY",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU2900_HiCGL2.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-2673-2026-03-09",
+              "date": "2026-03-09",
+              "number": 2673,
+              "type": "UNSTARRED",
+              "subject": "Projects pending for Environmental Clearance",
+              "ministry": "ENVIRONMENT, FOREST AND CLIMATE CHANGE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU2673_sDO8A1.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-2451-2026-02-13",
+              "date": "2026-02-13",
+              "number": 2451,
+              "type": "UNSTARRED",
+              "subject": "Services provided under Anganwadi Scheme",
+              "ministry": "WOMEN AND CHILD DEVELOPMENT",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU2451_7AGVBc.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-2236-2026-02-12",
+              "date": "2026-02-12",
+              "number": 2236,
+              "type": "UNSTARRED",
+              "subject": "Construction of Additional Airports",
+              "ministry": "CIVIL AVIATION",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU2236_fE1RUO.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-1900-2026-02-11",
+              "date": "2026-02-11",
+              "number": 1900,
+              "type": "UNSTARRED",
+              "subject": "Expenditure on Maintenance of Electric and Diesel Locomotives",
+              "ministry": "RAILWAYS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU1900_5YCiow.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-1738-2026-02-10",
+              "date": "2026-02-10",
+              "number": 1738,
+              "type": "UNSTARRED",
+              "subject": "Establishment of Horticulture University in Rajasthan",
+              "ministry": "AGRICULTURE AND FARMERS WELFARE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU1738_HJKleI.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-1470-2026-02-09",
+              "date": "2026-02-09",
+              "number": 1470,
+              "type": "UNSTARRED",
+              "subject": "Profit and Loss incurred by Public Sector Banks",
+              "ministry": "FINANCE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU1470_BjgOwN.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-1181-2026-02-06",
+              "date": "2026-02-06",
+              "number": 1181,
+              "type": "UNSTARRED",
+              "subject": "National Commission for Protection of Child Rights",
+              "ministry": "WOMEN AND CHILD DEVELOPMENT",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU1181_RKTGgY.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-940-2026-02-05",
+              "date": "2026-02-05",
+              "number": 940,
+              "type": "UNSTARRED",
+              "subject": "Approval for New FPIs",
+              "ministry": "FOOD PROCESSING INDUSTRIES",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU940_hQ4FI3.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-starred-80-2026-02-04",
+              "date": "2026-02-04",
+              "number": 80,
+              "type": "STARRED",
+              "subject": "Railway Coach Manufacturing Units in the Country",
+              "ministry": "RAILWAYS",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AS80_iVxBJc.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-791-2026-02-04",
+              "date": "2026-02-04",
+              "number": 791,
+              "type": "UNSTARRED",
+              "subject": "Expansion of Railway Network across Country",
+              "ministry": "RAILWAYS",
+              "listedMembers": [
+                "Smt. Manju Sharma",
+                "Shri Tharaniventhan M S"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU791_1X1pGg.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-592-2026-02-03",
+              "date": "2026-02-03",
+              "number": 592,
+              "type": "UNSTARRED",
+              "subject": "Horticulture Production in Rajasthan",
+              "ministry": "AGRICULTURE AND FARMERS WELFARE",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU592_RoD0i5.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-374-2026-02-02",
+              "date": "2026-02-02",
+              "number": 374,
+              "type": "UNSTARRED",
+              "subject": "Measures to Increase Employment Opportunities",
+              "ministry": "LABOUR AND EMPLOYMENT",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU374_ndrjjc.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-119-2026-01-29",
+              "date": "2026-01-29",
+              "number": 119,
+              "type": "UNSTARRED",
+              "subject": "JJM in Rajasthan",
+              "ministry": "JAL SHAKTI",
+              "listedMembers": [
+                "Smt. Manju Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU119_BPjYjs.pdf?source=lsapps"
+            }
+          ]
+        },
+        {
+          "personId": "rao-rajendra-singh",
+          "memberId": 5632,
+          "officialName": "Shri Rao Rajendra Singh",
+          "questions": [
+            {
+              "id": "ls18-s7-unstarred-6279-2026-04-02",
+              "date": "2026-04-02",
+              "number": 6279,
+              "type": "UNSTARRED",
+              "subject": "Crude Oil Production",
+              "ministry": "PETROLEUM AND NATURAL GAS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU6279_EMIz73.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-6018-2026-04-01",
+              "date": "2026-04-01",
+              "number": 6018,
+              "type": "UNSTARRED",
+              "subject": "Subordinate Legislation Management System",
+              "ministry": "PARLIAMENTARY AFFAIRS",
+              "listedMembers": [
+                "Shri Yogender Chandolia",
+                "Shri Rao Rajendra Singh",
+                "Smt. Mala Rajya Laxmi Shah",
+                "Shri Madhavaneni Raghunandan Rao",
+                "Smt. Smita Uday Wagh",
+                "Shri Mukeshkumar Chandrakaant Dalal",
+                "Smt. Kamaljeet Sehrawat"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU6018_5Gv3ln.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-6074-2026-04-01",
+              "date": "2026-04-01",
+              "number": 6074,
+              "type": "UNSTARRED",
+              "subject": "Role of Digital Radio and Direct to Mobile Broadcasting",
+              "ministry": "INFORMATION AND BROADCASTING",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU6074_R2vM3V.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-6140-2026-04-01",
+              "date": "2026-04-01",
+              "number": 6140,
+              "type": "UNSTARRED",
+              "subject": "Startups approved under Design Linked Incentive Scheme",
+              "ministry": "ELECTRONICS AND INFORMATION TECHNOLOGY",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh",
+                "Dr. Hemant Vishnu Savara"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU6140_qbSWBV.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-6185-2026-04-01",
+              "date": "2026-04-01",
+              "number": 6185,
+              "type": "UNSTARRED",
+              "subject": "Water Treatment Facilities",
+              "ministry": "ATOMIC ENERGY",
+              "listedMembers": [
+                "Shri Bhartruhari Mahtab",
+                "Shri Sukanta Kumar Panigrahi",
+                "Shri Rao Rajendra Singh",
+                "Shri Praveen Patel",
+                "Shri Anurag Sharma",
+                "Shri Damodar Agrawal",
+                "Shri P P Chaudhary",
+                "Shri P C Mohan",
+                "Shri Alok Sharma"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU6185_5Bn7cL.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-5960-2026-03-30",
+              "date": "2026-03-30",
+              "number": 5960,
+              "type": "UNSTARRED",
+              "subject": "Skilled Labour Force",
+              "ministry": "SKILL DEVELOPMENT AND ENTREPRENEURSHIP",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU5960_g5PHp4.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-5528-2026-03-27",
+              "date": "2026-03-27",
+              "number": 5528,
+              "type": "UNSTARRED",
+              "subject": "ASEAN India Relations",
+              "ministry": "EXTERNAL AFFAIRS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU5528_AmIjvb.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-5402-2026-03-25",
+              "date": "2026-03-25",
+              "number": 5402,
+              "type": "UNSTARRED",
+              "subject": "Delhi-Bhiwadi-Neemrana-Manoharpur-Jaipur Rail Line",
+              "ministry": "RAILWAYS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU5402_9qsl8f.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-5477-2026-03-25",
+              "date": "2026-03-25",
+              "number": 5477,
+              "type": "UNSTARRED",
+              "subject": "Vacancies in Union Government Ministries/Departments",
+              "ministry": "PERSONNEL, PUBLIC GRIEVANCES AND PENSIONS",
+              "listedMembers": [
+                "Shri Kalipada Saren Kherwal",
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU5477_xyBBEF.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-5230-2026-03-24",
+              "date": "2026-03-24",
+              "number": 5230,
+              "type": "UNSTARRED",
+              "subject": "Identification and Registration of Tea Growers",
+              "ministry": "COMMERCE AND INDUSTRY",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU5230_GbHkP8.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-4974-2026-03-23",
+              "date": "2026-03-23",
+              "number": 4974,
+              "type": "UNSTARRED",
+              "subject": "Strengthening National Service Scheme",
+              "ministry": "YOUTH AFFAIRS AND SPORTS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU4974_w3W7Xu.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-4758-2026-03-20",
+              "date": "2026-03-20",
+              "number": 4758,
+              "type": "UNSTARRED",
+              "subject": "Revival of Shipbuilding Industry",
+              "ministry": "PORTS, SHIPPING AND WATERWAYS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU4758_BWrTf4.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-4399-2026-03-19",
+              "date": "2026-03-19",
+              "number": 4399,
+              "type": "UNSTARRED",
+              "subject": "Phase-II Strategic Petroleum Reserves and Crude Diversification",
+              "ministry": "PETROLEUM AND NATURAL GAS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh",
+                "Dr. Sanjay Jaiswal",
+                "Smt. Smita Uday Wagh",
+                "Smt. Aparajita Sarangi"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU4399_0ot3z8.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-4191-2026-03-18",
+              "date": "2026-03-18",
+              "number": 4191,
+              "type": "UNSTARRED",
+              "subject": "Ban on Online Money Games",
+              "ministry": "INFORMATION AND BROADCASTING",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU4191_stmzFo.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-3945-2026-03-17",
+              "date": "2026-03-17",
+              "number": 3945,
+              "type": "UNSTARRED",
+              "subject": "India-China Trade",
+              "ministry": "COMMERCE AND INDUSTRY",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU3945_PRUbAV.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-3903-2026-03-16",
+              "date": "2026-03-16",
+              "number": 3903,
+              "type": "UNSTARRED",
+              "subject": "Power usage Effectiveness Standards",
+              "ministry": "ENVIRONMENT, FOREST AND CLIMATE CHANGE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU3903_WLll6J.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-3607-2026-03-13",
+              "date": "2026-03-13",
+              "number": 3607,
+              "type": "UNSTARRED",
+              "subject": "Analysis of Food Samples",
+              "ministry": "HEALTH AND FAMILY WELFARE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU3607_UUpptp.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-3385-2026-03-12",
+              "date": "2026-03-12",
+              "number": 3385,
+              "type": "UNSTARRED",
+              "subject": "Closure of MSMEs due to COVID-19 Pandemic",
+              "ministry": "MICRO, SMALL AND MEDIUM ENTERPRISES",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU3385_XddeBv.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-3148-2026-03-11",
+              "date": "2026-03-11",
+              "number": 3148,
+              "type": "UNSTARRED",
+              "subject": "Public and Private Spending on R&D",
+              "ministry": "SCIENCE AND TECHNOLOGY",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU3148_84jxW6.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-2647-2026-03-09",
+              "date": "2026-03-09",
+              "number": 2647,
+              "type": "UNSTARRED",
+              "subject": "Skill Development under PM-DAKSH",
+              "ministry": "SKILL DEVELOPMENT AND ENTREPRENEURSHIP",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU2647_B9xXle.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-starred-204-2026-02-13",
+              "date": "2026-02-13",
+              "number": 204,
+              "type": "STARRED",
+              "subject": "Regulation of Sugar Levels in Baby Food Products",
+              "ministry": "HEALTH AND FAMILY WELFARE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AS204_9d8nBA.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-2266-2026-02-12",
+              "date": "2026-02-12",
+              "number": 2266,
+              "type": "UNSTARRED",
+              "subject": "Mandatory Safety Devices for Heavy Commercial Vehicles",
+              "ministry": "ROAD TRANSPORT AND HIGHWAYS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU2266_LG0hjj.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-1669-2026-02-10",
+              "date": "2026-02-10",
+              "number": 1669,
+              "type": "UNSTARRED",
+              "subject": "Outcome of Digital Agriculture Initiatives",
+              "ministry": "AGRICULTURE AND FARMERS WELFARE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh",
+                "Shri Jashubhai Bhilubhai Rathva",
+                "Shri Shashank Mani",
+                "Smt. Poonamben Hematbhai Maadam",
+                "Dr. Sambit Patra"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU1669_ebhZWg.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-1801-2026-02-10",
+              "date": "2026-02-10",
+              "number": 1801,
+              "type": "UNSTARRED",
+              "subject": "Beneficiaries under NSAP and NFBS",
+              "ministry": "RURAL DEVELOPMENT",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU1801_TADxlX.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-1428-2026-02-09",
+              "date": "2026-02-09",
+              "number": 1428,
+              "type": "UNSTARRED",
+              "subject": "Indian University Campuses in Abroad",
+              "ministry": "EDUCATION",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU1428_87dqlq.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-1364-2026-02-06",
+              "date": "2026-02-06",
+              "number": 1364,
+              "type": "UNSTARRED",
+              "subject": "Import Dependence for Fertilizers",
+              "ministry": "CHEMICALS AND FERTILIZERS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU1364_NIO83x.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-892-2026-02-04",
+              "date": "2026-02-04",
+              "number": 892,
+              "type": "UNSTARRED",
+              "subject": "Space Insurance Ecosystem in India",
+              "ministry": "SPACE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU892_8QzBv5.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-635-2026-02-03",
+              "date": "2026-02-03",
+              "number": 635,
+              "type": "UNSTARRED",
+              "subject": "Mental Health Facilities for CAPF",
+              "ministry": "HOME AFFAIRS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU635_FpRv6F.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-413-2026-02-02",
+              "date": "2026-02-02",
+              "number": 413,
+              "type": "UNSTARRED",
+              "subject": "Development of Debt Markets for Infrastructure Financing",
+              "ministry": "FINANCE",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU413_G5UG75.pdf?source=lsapps"
+            },
+            {
+              "id": "ls18-s7-unstarred-157-2026-01-29",
+              "date": "2026-01-29",
+              "number": 157,
+              "type": "UNSTARRED",
+              "subject": "Oilfield Regulation and State Royalties",
+              "ministry": "PETROLEUM AND NATURAL GAS",
+              "listedMembers": [
+                "Shri Rao Rajendra Singh"
+              ],
+              "sourceUrl": "https://sansad.in/getFile/lsapps/loksabhaquestions/annex/187/AU157_gn2Mj1.pdf?source=lsapps"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

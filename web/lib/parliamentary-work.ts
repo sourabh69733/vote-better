@@ -1,4 +1,4 @@
-import importedSession from "@/records/imported/lok-sabha-18-session-7.json";
+import importedArchive from "@/records/imported/lok-sabha-18-question-archive.json";
 
 export interface ParliamentaryQuestion {
   id: string;
@@ -11,25 +11,38 @@ export interface ParliamentaryQuestion {
   sourceUrl: string;
 }
 
-interface SessionPublication {
+interface QuestionArchive {
   lokSabha: number;
-  session: number;
-  collectedAt: string;
-  source: string;
-  totalSessionQuestions: number;
-  members: { personId: string; officialName: string; questions: ParliamentaryQuestion[] }[];
+  sessions: {
+    session: number;
+    collectedAt: string;
+    source: string;
+    sourcePages: { url: string; sha256: string; count: number }[];
+    totalSessionQuestions: number;
+    members: { personId: string; questions: ParliamentaryQuestion[] }[];
+  }[];
 }
 
-const publication = importedSession as SessionPublication;
+export function summarizeParliamentaryWork(archive: QuestionArchive, personId: string) {
+  if (!archive.sessions.some((session) => session.members.some((member) => member.personId === personId))) return null;
+  const sessions = archive.sessions.map((session) => {
+    const questions = session.members.find((member) => member.personId === personId)?.questions ?? [];
+    return { session: session.session, collectedOn: session.collectedAt.slice(0, 10), count: questions.length, sourcePages: session.sourcePages, totalSessionQuestions: session.totalSessionQuestions };
+  });
+  const questions = archive.sessions.flatMap((session) => (session.members.find((member) => member.personId === personId)?.questions ?? [])
+    .map((question) => ({ ...question, session: session.session })))
+    .sort((a, b) => b.date.localeCompare(a.date) || b.session - a.session || a.number - b.number);
+  return {
+    lokSabha: archive.lokSabha,
+    collectedOn: sessions.reduce((latest, session) => session.collectedOn > latest ? session.collectedOn : latest, ""),
+    directoryUrl: archive.sessions[0].source,
+    sessions,
+    questions,
+  };
+}
+
+const archive = importedArchive as QuestionArchive;
 
 export function getParliamentaryWork(personId: string) {
-  const member = publication.members.find((item) => item.personId === personId);
-  if (!member) return null;
-  return {
-    lokSabha: publication.lokSabha,
-    session: publication.session,
-    collectedOn: publication.collectedAt.slice(0, 10),
-    directoryUrl: publication.source,
-    questions: member.questions,
-  };
+  return summarizeParliamentaryWork(archive, personId);
 }
