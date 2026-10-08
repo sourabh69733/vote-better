@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { listPublicMps } from "@/lib/public-mps";
+import { paginateMpResults } from "@/lib/mp-directory";
 
 export const metadata: Metadata = { title: "MP profiles | Vote Better" };
 
-interface PageProps { searchParams: Promise<{ q?: string | string[] }> }
+interface PageProps { searchParams: Promise<{ q?: string | string[]; page?: string | string[] }> }
 
 export default async function MpDirectory({ searchParams }: PageProps) {
   const params = await searchParams;
@@ -15,6 +16,13 @@ export default async function MpDirectory({ searchParams }: PageProps) {
   const profiles = allProfiles.filter((profile) =>
     `${profile.name} ${profile.constituency} ${profile.state} ${profile.party}`
       .toLocaleLowerCase("en-IN").includes(query.toLocaleLowerCase("en-IN")));
+  const results = paginateMpResults(profiles, typeof params.page === "string" ? params.page : undefined);
+  const pageHref = (page: number) => {
+    const values = new URLSearchParams();
+    if (query) values.set("q", query);
+    values.set("page", String(page));
+    return `/mps?${values}`;
+  };
   return <div className="mx-auto w-full max-w-[1200px] px-4 pb-16 pt-10 sm:px-6 sm:pt-14">
     <header className="border-b border-[#dce6dc] pb-8">
       <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#347353]">Digital Sansad records</p>
@@ -27,9 +35,9 @@ export default async function MpDirectory({ searchParams }: PageProps) {
         <button type="submit" className="min-h-12 rounded-xl bg-[#1c6047] px-5 text-sm font-bold text-white">Search</button>
       </form>
     </header>
-    <p className="mt-6 text-sm text-[#607568]">{profiles.length} {profiles.length === 1 ? "profile" : "profiles"} found</p>
+    <p className="mt-6 text-sm text-[#607568]">{profiles.length} {profiles.length === 1 ? "profile" : "profiles"} found{profiles.length > 0 ? ` · Showing ${results.first}-${results.last}` : ""}</p>
     <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {profiles.map((profile) => <Link key={profile.memberId} href={`/mps/${profile.memberId}`}
+      {results.items.map((profile) => <Link key={profile.memberId} href={`/mps/${profile.memberId}`}
         className="rounded-2xl border border-[#dce6dc] bg-white p-5 shadow-[0_8px_26px_rgba(28,64,40,.04)] hover:border-[#8bbf98]">
         <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#5e8268]">{profile.constituency}, {profile.state}</p>
         <h2 className="mt-3 text-xl font-semibold tracking-[-0.03em] text-[#19372d]">{profile.name}</h2>
@@ -37,5 +45,11 @@ export default async function MpDirectory({ searchParams }: PageProps) {
         <p className="mt-4 text-xs font-semibold text-[#28724f]">Open sourced profile →</p>
       </Link>)}
     </div>
+    {profiles.length === 0 && <p className="mt-8 rounded-2xl border border-[#dce6dc] bg-white p-6 text-[#607568]">No MPs match that search. Try a name, constituency, state or party.</p>}
+    {results.pageCount > 1 && <nav aria-label="MP result pages" className="mt-8 flex items-center justify-between gap-3">
+      {results.page > 1 ? <Link href={pageHref(results.page - 1)} className="inline-flex min-h-11 items-center rounded-xl border border-[#bfd3c3] bg-white px-4 font-semibold text-[#1c6047]">← Previous</Link> : <span />}
+      <span className="text-sm text-[#607568]">Page {results.page} of {results.pageCount}</span>
+      {results.page < results.pageCount ? <Link href={pageHref(results.page + 1)} className="inline-flex min-h-11 items-center rounded-xl border border-[#bfd3c3] bg-white px-4 font-semibold text-[#1c6047]">Next →</Link> : <span />}
+    </nav>}
   </div>;
 }
