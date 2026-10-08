@@ -28,6 +28,14 @@ npm --prefix data run import:sansad-members
 
 This importer pages through the Parliament JSON feed and records each page URL, hash, capture time and collection attempt. It checks page counts and unique Parliament member IDs before saving any draft claims. Drafts include the current member name, party, constituency, state, membership status, reported education level and profession when present. They do not establish complete education or work history. Dates absent from the source remain absent. Person matching, review and publication remain separate. A live run on 2026-10-06 saved 5,311 unreviewed claims for 540 members across six pages. Parliament's reuse policy needs review before publishing content from this feed; this command stores factual claims privately and does not copy contact details or publish profiles.
 
+To refresh the first parliamentary work slice, run from `data/`:
+
+```sh
+npm run import:sansad-questions -- 7
+```
+
+This fetches all pages of the official 18th Lok Sabha Session 7 question feed and the official member directory. It checks the complete feed count, unique question keys, exact member IDs and names, dates, and individual official PDF links before replacing `web/records/imported/lok-sabha-18-session-7.json`. Raw feed pages stay under ignored `data/raw/sansad-questions/`; the public file contains page hashes and only the question metadata for Manju Sharma and Rao Rajendra Singh. The 2026-10-08 import found 6,975 session questions, of which 32 list Manju and 30 list Rao. This is a complete count for that session's feed, including jointly listed questions, not a lifetime count or an impact score. The site links to the original question and answer PDF rather than copying its contents. Check Digital Sansad's reuse terms before a public deployment.
+
 To collect one member's individual official biography and positions held:
 
 ```sh
