@@ -97,17 +97,17 @@ test("elected profile leads with present party, background and office work", asy
   assert.match(html, /Current term/);
   assert.match(html, /2 years, 3 months/);
   assert.match(html, /Criminal cases declared at filing/);
-  assert.match(html, /118<\/strong>/);
-  assert.match(html, /7 complete session feeds/);
-  assert.match(html, /See all 118 questions/);
+  assert.match(html, /137<\/strong>/);
+  assert.match(html, /8 complete session feeds/);
+  assert.match(html, /See all 137 questions/);
   assert.match(html, /Outcomes are not assessed here/);
   assert.ok(html.indexOf('id="work"') < html.indexOf('id="life"'));
 });
 
 test("Rao profile has sourced session work without inventing an impact", async () => {
   const html = renderToStaticMarkup(await PersonPage({ params: Promise.resolve({ slug: "rao-rajendra-singh" }) }));
-  assert.match(html, /95<\/strong>/);
-  assert.match(html, /See all 95 questions/);
+  assert.match(html, /111<\/strong>/);
+  assert.match(html, /See all 111 questions/);
   assert.match(html, /Outcomes are not assessed here/);
   assert.doesNotMatch(html, /Earlier sourced example/);
 });
@@ -117,8 +117,8 @@ test("MP profile exposes each imported session before the question list", async 
   assert.match(html, /Questions by session/);
   assert.match(html, /How these counts were built/);
   assert.match(html, /Session 1/);
-  assert.match(html, /Session 7/);
-  assert.match(html, /Sessions 1-7/);
+  assert.match(html, /Session 8/);
+  assert.match(html, /Sessions 1-8/);
 });
 
 test("former candidate shows election-time party and sourced earlier roles", async () => {
