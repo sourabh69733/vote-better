@@ -1,4 +1,4 @@
-import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
@@ -19,6 +19,22 @@ export interface DraftProfile {
     value: unknown;
     source: { url: string; contentHash: string; capturedAt: string; locator: string };
   }[];
+}
+
+export async function buildDraftBatch(ids: readonly number[], load: (memberId: number) => Promise<DraftProfile>): Promise<{
+  drafts: DraftProfile[];
+  exceptions: { memberId: number; reason: string }[];
+}> {
+  const drafts: DraftProfile[] = [];
+  const exceptions: { memberId: number; reason: string }[] = [];
+  for (const memberId of ids) {
+    try {
+      drafts.push(await load(memberId));
+    } catch (error) {
+      exceptions.push({ memberId, reason: error instanceof Error ? error.message : String(error) });
+    }
+  }
+  return { drafts, exceptions };
 }
 
 export async function listCollectedBiographyIds(db: Queryable): Promise<number[]> {
@@ -84,16 +100,17 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1
     } catch { /* An absent local check report leaves drafts unverified. */ }
     const checkedEntries = sourceChecks.schemaVersion === 1 && sourceChecks.method === "sansad-snapshot-replay-v1" &&
       Array.isArray(sourceChecks.entries) ? sourceChecks.entries : [];
-    const drafts: DraftProfile[] = [];
-    for (const id of ids) drafts.push(await loadDraftProfile(pool, id,
+    const { drafts, exceptions } = await buildDraftBatch(ids, (id) => loadDraftProfile(pool, id,
       checkedEntries.find((entry) => entry.memberId === id)));
     const directory = fileURLToPath(new URL("../raw/profile-drafts/", import.meta.url));
     await mkdir(directory, { recursive: true, mode: 0o700 });
     for (const draft of drafts) await writeJson(resolve(directory, `${draft.memberId}.json`), draft);
+    for (const exception of exceptions) await rm(resolve(directory, `${exception.memberId}.json`), { force: true });
     await writeJson(resolve(directory, "index.json"), { schemaVersion: 1,
-      access: "local-unverified-profile", generatedAt: new Date().toISOString(), memberIds: ids });
+      access: "local-unverified-profile", generatedAt: new Date().toISOString(),
+      memberIds: drafts.map((draft) => draft.memberId), exceptions });
     process.stdout.write(`${JSON.stringify({ exported: drafts.length,
-      memberIds: ids, directory })}\n`);
+      exceptions, directory })}\n`);
   } catch (error) {
     process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
     process.exitCode = 1;
