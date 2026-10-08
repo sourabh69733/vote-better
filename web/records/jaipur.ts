@@ -63,12 +63,6 @@ export const jaipurSources: SourceRecord[] = [
     checkedOn: "2026-10-06",
   },
   {
-    id: "manju-renewable-question",
-    title: "Lok Sabha starred question 375, renewable energy in Rajasthan",
-    url: "https://sansad.in/getFile/loksabhaquestions/annex/187/AS375_egQs7l.pdf?source=pqals",
-    checkedOn: "2026-10-02",
-  },
-  {
     id: "manju-fiber-question",
     title: "Lok Sabha unstarred question 4460, optical fibre connectivity",
     url: "https://sansad.in/getFile/loksabhaquestions/annex/185/AU4460_ji5NQi.pdf?source=pqals",
@@ -77,14 +71,6 @@ export const jaipurSources: SourceRecord[] = [
 ];
 
 export const jaipurActivities: ActivityRecord[] = [
-  {
-    id: "manju-renewable-2026",
-    personId: jaipurPerson.id,
-    date: "2026-03-18",
-    title: "Asked about renewable energy schemes in Rajasthan",
-    description: "Her question requested details of schemes, spending and beneficiaries, including Jaipur. This records a parliamentary question, not a completed local project.",
-    sourceId: "manju-renewable-question",
-  },
   {
     id: "manju-fiber-2025",
     personId: jaipurPerson.id,

@@ -94,7 +94,20 @@ test("elected profile leads with present party, background and office work", asy
   assert.doesNotMatch(html, /Navsari district/);
   assert.match(html, /not a continuous employment history/);
   assert.match(html, /Work in office/);
+  assert.match(html, /2 years, 3 months in this MP term/);
+  assert.match(html, /32<\/strong>/);
+  assert.match(html, /complete Session 7 feed/);
+  assert.match(html, /See all 32 questions/);
+  assert.match(html, /Outcomes are not assessed here/);
   assert.ok(html.indexOf("Life and public work") < html.indexOf("Work in office"));
+});
+
+test("Rao profile has sourced session work without inventing an impact", async () => {
+  const html = renderToStaticMarkup(await PersonPage({ params: Promise.resolve({ slug: "rao-rajendra-singh" }) }));
+  assert.match(html, /30<\/strong>/);
+  assert.match(html, /See all 30 questions/);
+  assert.match(html, /Outcomes are not assessed here/);
+  assert.doesNotMatch(html, /Earlier sourced example/);
 });
 
 test("former candidate shows election-time party and sourced earlier roles", async () => {

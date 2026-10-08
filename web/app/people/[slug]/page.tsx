@@ -5,6 +5,9 @@ import { getAreaForPerson } from "@/lib/civic-area";
 import { getPersonProfile, getProfileSource, listPersonSlugs, type SourceRecord } from "@/lib/verified-profile";
 import { getJaipurVoteTraceId } from "@/lib/publication";
 import { ProfileJumpLinks, ProfileSection } from "@/components/ProfileSection";
+import { ParliamentQuestions } from "@/components/ParliamentQuestions";
+import { getParliamentaryWork } from "@/lib/parliamentary-work";
+import { formatTermDuration } from "@/lib/term-duration";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -40,6 +43,8 @@ export default async function PersonPage({ params }: PageProps) {
   const electionYear = election?.resultDate?.slice(0, 4);
   const voteTraceId = getJaipurVoteTraceId(profile.slug);
   const showTimeline = profile.timeline.length > 1 || profile.timeline.some((event) => event.kind !== "election");
+  const parliamentaryWork = getParliamentaryWork(slug);
+  const showWork = Boolean(parliamentaryWork || profile.activities.length);
 
   return (
     <div className="mx-auto w-full max-w-[1160px] px-4 pb-16 pt-7 sm:px-6 sm:pt-10 lg:px-8">
@@ -50,7 +55,7 @@ export default async function PersonPage({ params }: PageProps) {
       <header className="mt-5 overflow-hidden rounded-[28px] border border-[#d6e2d7] bg-white shadow-[0_12px_36px_rgba(24,55,43,.05)]">
         <div className="grid gap-7 p-6 sm:p-8 md:grid-cols-[minmax(0,1fr)_280px] md:gap-8 lg:grid-cols-[minmax(0,1fr)_310px] lg:gap-12 lg:p-10">
           <div>
-            <p className="flex flex-wrap gap-x-3 gap-y-1 text-xs font-bold uppercase tracking-[0.1em] text-[#326c4d]"><span>Person profile</span><span>Reviewed {profile.reviewedOn}</span></p>
+            <p className="flex flex-wrap gap-x-3 gap-y-1 text-xs font-bold uppercase tracking-[0.1em] text-[#326c4d]"><span>Person profile</span><span>Core facts reviewed {profile.reviewedOn}</span></p>
             <h1 className="mt-4 max-w-[16ch] text-[clamp(2.5rem,5vw,4.4rem)] font-semibold leading-[1.02] tracking-[-0.06em] text-[#19372d]">{profile.name}</h1>
             <p className="mt-4 max-w-xl text-base leading-7 text-[#4d6354]">{office ? `${office.title} for ${office.constituency}, ${office.state}` : election ? `${election.election} · ${electionStatus}` : "Sourced public profile"}</p>
             <p className="mt-5 inline-flex rounded-full bg-[#e7f3e9] px-3 py-2 text-xs font-bold text-[#1d6042]">{office ? "Current representative" : election?.status === "contesting" ? "Contesting" : "Election record"}</p>
@@ -59,6 +64,7 @@ export default async function PersonPage({ params }: PageProps) {
             <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#3c7554]">{office ? "Office held" : "Election record"}</p>
             <p className="mt-3 text-xl font-semibold leading-7 tracking-[-0.03em] text-[#19372d]">{office?.title ?? election?.election}</p>
             {office && <p className="mt-2 text-sm leading-6 text-[#4d6354]">{office.constituency}, {office.state} · from {office.startedOn}</p>}
+            {office && <p className="mt-1 text-sm font-semibold text-[#285b3e]">{formatTermDuration(office.startedOn, office.reviewedOn)} in this MP term · as of {office.reviewedOn}</p>}
             {!office && election && <p className="mt-2 text-sm leading-6 text-[#4d6354]">{electionStatus}{election.resultDate ? ` · result ${election.resultDate}` : ""}{election.votes !== undefined ? ` · ${election.votes.toLocaleString("en-IN")} votes` : ""}</p>}
             <p className="mt-5 border-t border-[#cfdfd1] pt-4 text-xs font-bold uppercase tracking-[0.1em] text-[#55715e]">{office ? `Current party · checked ${office.reviewedOn}` : `Party at ${electionYear ?? "recorded"} election`}</p>
             <p className="mt-1 font-semibold text-[#19372d]">{office?.party ?? election?.party}</p>
@@ -75,7 +81,7 @@ export default async function PersonPage({ params }: PageProps) {
       <div className="mt-8"><ProfileJumpLinks links={[
         ...(profile.officeTerms.length ? [{ href: "#offices", label: "Offices held" }] : []),
         ...(showTimeline ? [{ href: "#life", label: "Life and public work" }] : []),
-        ...(profile.activities.length ? [{ href: "#work", label: "Work in office" }] : []),
+        ...(showWork ? [{ href: "#work", label: "Work in office" }] : []),
         ...((election || profile.disclosures.length) ? [{ href: "#records", label: "Election and filings" }] : []),
         { href: "#sources", label: "Sources" },
       ]} /></div>
@@ -100,14 +106,18 @@ export default async function PersonPage({ params }: PageProps) {
             </li>)}</ol>
           </ProfileSection>}
 
-          {profile.activities.length > 0 && <ProfileSection id="work" number={String(1 + Number(profile.officeTerms.length > 0) + Number(showTimeline)).padStart(2, "0")} title="Work in office" description="Documented actions. Asking a question is not proof that a project was completed.">
-            <div className="grid gap-3">
+          {showWork && <ProfileSection id="work" number={String(1 + Number(profile.officeTerms.length > 0) + Number(showTimeline)).padStart(2, "0")} title="Work in office" description="Documented parliamentary actions. A question is not proof that a project was completed.">
+            <div className="grid gap-5">
+              {parliamentaryWork && <ParliamentQuestions work={parliamentaryWork} />}
+              {profile.activities.length > 0 && <div>
+                {parliamentaryWork && <h3 className="mb-3 text-base font-bold text-[#19372d]">Earlier sourced example</h3>}
               {profile.activities.map((activity) => <article key={activity.sourceId} className="rounded-2xl border border-slate-200 bg-white p-5">
                 <p className="text-xs font-bold uppercase tracking-wide text-slate-500">{activity.date}</p>
                 <h3 className="mt-2 font-bold text-slate-900">{activity.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-600">{activity.description}</p>
                 <div className="mt-3"><EvidenceLink source={getProfileSource(profile, activity.sourceId)} /></div>
               </article>)}
+              </div>}
             </div>
           </ProfileSection>}
 
