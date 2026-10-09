@@ -7,8 +7,9 @@ export const metadata: Metadata = { title: "Delhi public offices | Vote Better",
 
 const officialDirectories = [
   { title: "Delhi government", detail: "Departments and public services", url: "https://delhi.gov.in/departments-offices" },
+  { title: "Chief Minister", detail: "Official profile and office contact", url: "https://delhi.gov.in/cmo" },
   { title: "Delhi ministers", detail: "Council of ministers and offices", url: "https://delhi.gov.in/council-of-ministers-office" },
-  { title: "Assembly members", detail: "Delhi Legislative Assembly", url: "https://delhiassembly.delhi.gov.in/" },
+  { title: "Assembly members", detail: "Official 8th Assembly roster (PDF)", url: "https://delhiassembly.delhi.gov.in/sites/default/files/2025-07/list_of_members.pdf" },
   { title: "Members of Parliament", detail: "Lok Sabha member directory", url: "https://sansad.in/ls/members" },
   { title: "Police", detail: "Find a station and official contacts", url: "https://delhipolice.gov.in/kyps" },
   { title: "Delhi High Court", detail: "Court and judge information", url: "https://www.delhihighcourt.nic.in/web/" },
@@ -21,6 +22,8 @@ const coverageNames: Record<string, string> = {
   "gnctd-services-officers": "GNCTD Services officers",
   "delhi-assembly-secretariat": "Assembly Secretariat",
   "delhi-police-contacts": "Delhi Police contacts",
+  "gnctd-ministers": "Delhi ministers",
+  "gnctd-mps": "Delhi MPs",
 };
 
 export default async function DelhiPage({ searchParams }: { searchParams: Promise<{ q?: string | string[] }> }) {

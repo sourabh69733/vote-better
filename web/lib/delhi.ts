@@ -9,7 +9,7 @@ export interface DelhiPublication {
   institutions: { id: string; name: string; kind: string }[];
   offices: { id: string; institutionId: string; title: string; traceId: string; officeContact?: string }[];
   people: { id: string; name: string }[];
-  appointments: { id: string; officeId: string; personId: string; status: "source-listed" | "current" | "former"; traceId: string }[];
+  appointments: { id: string; officeId: string; personId: string; status: "source-listed" | "current" | "former"; traceId: string; party?: string; officialProfileUrl?: string }[];
   jurisdictions: { id: string; officeId: string; areaId: string; traceId: string }[];
   facilities: { id: string; institutionId: string; name: string; traceId: string }[];
   coverage: { sourceId: string; state: "partial" | "stale" | "missing"; publishedRows: number; observedRows: number | null; expectedRows: number | null; lastCapturedAt?: string }[];
@@ -38,6 +38,15 @@ export function validateDelhiPublication(value: unknown): asserts value is Delhi
   if (institutions.size !== publication.institutions.length || offices.size !== publication.offices.length || people.size !== publication.people.length || traces.size !== publication.traces.length) throw new Error("duplicate Delhi record ID");
   if (publication.offices.some((office) => !institutions.has(office.institutionId) || !traces.has(office.traceId))) throw new Error("broken office reference");
   if (publication.appointments.some((item) => !offices.has(item.officeId) || !people.has(item.personId) || !traces.has(item.traceId))) throw new Error("broken appointment reference");
+  if (publication.appointments.some((item) => {
+    if (item.party !== undefined && (typeof item.party !== "string" || !item.party.trim())) return true;
+    if (item.officialProfileUrl === undefined) return false;
+    const trace = publication.traces.find((entry) => entry.id === item.traceId);
+    try {
+      const profile = new URL(item.officialProfileUrl);
+      return profile.origin !== new URL(trace?.sourceUrl ?? "").origin || !profile.pathname.startsWith("/profile/");
+    } catch { return true; }
+  })) throw new Error("invalid appointment detail");
   if (publication.jurisdictions.some((item) => !offices.has(item.officeId) || !traces.has(item.traceId)) ||
     publication.facilities.some((item) => !institutions.has(item.institutionId) || !traces.has(item.traceId))) throw new Error("broken graph reference");
   const current = new Set<string>();
