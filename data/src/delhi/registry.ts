@@ -22,7 +22,7 @@ export class DelhiRegistry {
     if (result.rows[0]) return result.rows[0].id;
     const previous = await this.pool.query("SELECT * FROM delhi_institution WHERE stable_key = $1", [input.stableKey]);
     const row = previous.rows[0];
-    if (row.name !== input.name || row.kind !== input.kind || row.observation_id !== input.observationId) throw new Error("institution draft conflicts with existing evidence");
+    if (row.name !== input.name || row.kind !== input.kind) throw new Error("institution draft conflicts with existing identity");
     return row.id;
   }
 
@@ -36,7 +36,7 @@ export class DelhiRegistry {
     if (result.rows[0]) return result.rows[0].id;
     const previous = await this.pool.query("SELECT * FROM delhi_office WHERE stable_key = $1", [input.stableKey]);
     const row = previous.rows[0];
-    if (row.institution_id !== input.institutionId || row.title !== input.title || row.observation_id !== input.observationId) throw new Error("office draft conflicts with existing evidence");
+    if (row.institution_id !== input.institutionId || row.title !== input.title) throw new Error("office draft conflicts with existing identity");
     return row.id;
   }
 
@@ -78,7 +78,7 @@ export class DelhiRegistry {
     if (result.rows[0]) return result.rows[0].id;
     const previous = await this.pool.query("SELECT * FROM delhi_facility WHERE stable_key = $1", [input.stableKey]);
     const row = previous.rows[0];
-    if (row.institution_id !== input.institutionId || row.name !== input.name || row.official_address !== (input.officialAddress ?? null) || row.observation_id !== input.observationId) throw new Error("facility draft conflicts with existing evidence");
+    if (row.institution_id !== input.institutionId || row.name !== input.name || row.official_address !== (input.officialAddress ?? null)) throw new Error("facility draft conflicts with existing identity");
     return row.id;
   }
 
