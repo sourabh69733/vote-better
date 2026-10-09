@@ -27,6 +27,11 @@ export default function Home() {
         </div>
       </header>
 
+      <section className="mt-8 flex flex-col gap-5 rounded-[24px] border border-[#c8dbcc] bg-white p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8" aria-labelledby="delhi-feature-heading">
+        <div><p className="text-xs font-extrabold uppercase tracking-[0.14em] text-[#528166]">New / Delhi public information</p><h2 id="delhi-feature-heading" className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[#19372d]">Find offices, official records and legal help.</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-[#607466]">Start with an office or a situation. Each checked listing links back to its source.</p></div>
+        <Link href="/delhi" className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-[#1c6047] px-5 text-sm font-bold text-white hover:bg-[#154c38]">Explore Delhi →</Link>
+      </section>
+
       <section id="verified-areas" className="grid gap-6 py-12 lg:grid-cols-[230px_minmax(0,1fr)] lg:gap-12" aria-labelledby="areas-heading">
         <div>
           <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#528166]">01 / Explore</p>
