@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { currentDslsaHelpline, validateRightsGuide, type RightsGuide } from "./rights";
+import { currentDslsaHelpline, rightsSituations, rightsSources, validateRightsGuide, type RightsGuide } from "./rights";
 
 const guide: RightsGuide = {
   id: "arrested", situation: "Arrested", custodyPath: "ordinary", steps: [{ kind: "legal", text: "Ask for the grounds of arrest.", citationIds: ["bnss-47"] }],
@@ -26,4 +26,16 @@ test("a 24-hour claim needs preventive-detention exception and amendment re-revi
 test("a stored legal-aid phone is hidden after its check expires", () => {
   assert.equal(currentDslsaHelpline(new Date("2026-10-10T00:00:00.000Z")), "1516");
   assert.equal(currentDslsaHelpline(new Date("2026-12-01T00:00:00.000Z")), null);
+});
+
+test("every visible rights summary has official sources and a detention exception", () => {
+  for (const situation of rightsSituations) {
+    assert.ok(situation.summary.length > 50);
+    assert.ok(situation.summaryReference);
+    assert.ok(situation.sourceIds.length);
+    for (const id of situation.sourceIds) assert.match(rightsSources[id].url, /^https:\/\//);
+  }
+  const detention = rightsSituations.find((item) => item.id === "detained");
+  assert.match(detention?.summary ?? "", /24 hours/i);
+  assert.match(detention?.summary ?? "", /preventive-detention/i);
 });

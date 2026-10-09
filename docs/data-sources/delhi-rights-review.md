@@ -1,6 +1,8 @@
 # Delhi rights content review
 
-Source check: 2026-10-09. Public pages currently show official links and the Delhi legal-aid source only. No situation-specific legal instruction is marked reviewed. A qualified India criminal-law reviewer must sign off before any plain-language steps are published.
+Source check: 2026-10-09. Public pages show short descriptions of what the cited official sources say, followed by the source links and Delhi legal-aid path. These descriptions are source checks, not case-specific instructions or qualified legal review. No situation-specific legal instruction is marked reviewed. A qualified India criminal-law reviewer must sign off before any plain-language steps are published.
+
+The displayed summaries draw on Constitution Article 22(1)-(3), BNSS sections 35, 38, 47, 48 and 53 and its Second Schedule, Delhi Police's missing-person registration and telephone directory, and DSLSA's introduction page. Article 22(3)'s enemy-alien and preventive-detention exclusions accompany the 24-hour summary. Delhi Police's 1094 and 112 and DSLSA's 1516 are tied to their official pages; stored helpline display expires after 30 days without a new check.
 
 ## Draft research map for reviewer
 
