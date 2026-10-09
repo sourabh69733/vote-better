@@ -40,6 +40,7 @@ export default function ConstitutionPage() {
             ))}
           </nav>
           <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/rights" className="inline-flex min-h-11 items-center gap-3 rounded-full border border-[#bad4c0] bg-white px-5 text-sm font-bold text-[#1c6047] hover:bg-[#eaf4eb]">Delhi rights and legal help →</Link>
             {constitutionGuides.map((guide) => (
               <Link key={guide.id} href={`/constitution/${guide.id}`} className="inline-flex min-h-11 items-center gap-3 rounded-full bg-[#1c6047] px-5 text-sm font-bold text-white hover:bg-[#154c38]">
                 Guide: {guide.title} <span aria-hidden="true">→</span>
