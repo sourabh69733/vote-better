@@ -9,6 +9,7 @@
     "test": "node --import tsx --test test/*.test.ts",
     "typecheck": "tsc --noEmit",
     "db:migrate": "node --import tsx src/migrate.ts",
+    "import:delhi": "node --import tsx src/delhi/import.ts",
     "import:jaipur": "node --import tsx src/import-jaipur.ts",
     "import:sansad-members": "node --import tsx src/import-sansad-members.ts",
     "import:sansad-biography": "node --import tsx src/import-sansad-biography.ts",
