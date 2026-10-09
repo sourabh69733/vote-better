@@ -19,8 +19,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Browser extensions can add attributes to <html> before React hydrates it.
   return (
-    <html lang="en" className={`${inter.variable}`}>
+    <html lang="en" className={`${inter.variable}`} suppressHydrationWarning>
       <body className="min-h-screen flex flex-col bg-[#f5f7f2] text-slate-900 font-sans">
         {/* Header */}
         <header className="sticky top-0 z-50 border-b border-[#e1e9e0] bg-[#f5f7f2]/95 backdrop-blur-md">
