@@ -51,7 +51,7 @@ test("collector records unavailable and invalid sources without changing saved f
   const result = await collectJaipurForm21E(source, store, { fetcher, maxAttempts: 2, retryDelayMs: 0, minIntervalMs: 0 });
   assert.equal(result.status, "failed");
   assert.equal(calls, 2);
-  const attempts = await pool.query("SELECT outcome FROM collection_attempt WHERE source_id = $1", [source.id]);
+  const attempts = await pool.query("SELECT outcome FROM collection_attempt WHERE source_id = $1 ORDER BY recorded_at, id", [source.id]);
   assert.deepEqual(attempts.rows.map((row) => row.outcome), ["succeeded", "invalid", "invalid"]);
   const snapshots = await pool.query("SELECT count(*)::integer AS count FROM snapshot WHERE source_id = $1", [source.id]);
   assert.equal(snapshots.rows[0].count, 1);
