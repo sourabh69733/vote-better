@@ -6,6 +6,8 @@ import { delhiSources } from "./source-catalog.js";
 import { normalizeGnctd } from "./normalize/gnctd.js";
 import { normalizeAssembly } from "./normalize/assembly.js";
 import { normalizePolice } from "./normalize/police.js";
+import { normalizeMinisters } from "./normalize/ministers.js";
+import { normalizeMps } from "./normalize/mps.js";
 
 type Fetcher = (url: string, init?: RequestInit) => Promise<Response>;
 interface Options { fetcher?: Fetcher; minIntervalMs?: number; timeoutMs?: number; maxBytes?: number }
@@ -15,6 +17,8 @@ const parsers: Record<string, (html: string, at: string) => ObservationDraft[]> 
   "gnctd-services-officers": normalizeGnctd,
   "delhi-assembly-secretariat": normalizeAssembly,
   "delhi-police-contacts": normalizePolice,
+  "gnctd-ministers": normalizeMinisters,
+  "gnctd-mps": normalizeMps,
 };
 const nextRequestByHost = new Map<string, number>();
 

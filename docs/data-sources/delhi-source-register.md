@@ -5,7 +5,10 @@ Checked 2026-10-09. A visible official page is evidence of its displayed content
 | Source | Official locator | Facts / key | Freshness and gap | Use |
 | --- | --- | --- | --- | --- |
 | GNCTD departments | https://delhi.gov.in/departments-offices | Department titles and destination URLs; URL is provisional key | Page has update footer, but does not establish that every linked roster is current | Review required |
+| GNCTD Chief Minister | https://delhi.gov.in/cmo | Official CM profile, portfolio and office contact | Separate from the six minister cards; not collected into the local preview yet | Link only |
 | GNCTD Services officers | https://services.delhi.gov.in/who-is-who | Name, designation, office contact; page URL plus table row locator | No stable person ID or reliable appointment start date; same-name rows possible | Review required |
+| GNCTD ministers | https://delhi.gov.in/council-of-ministers-office | Profile path, minister name, portfolio, official office contact | Six cards; Chief Minister has a separate page. Tenure dates and current status need independent confirmation | Review required |
+| GNCTD MPs | https://delhi.gov.in/members-of-parliament | Profile path, name, party, Delhi constituency where shown; blank constituency denotes Rajya Sabha on this page | Cross-check each appointment against Sansad before marking current; no tenure date here | Review required |
 | Delhi Assembly members | https://delhiassembly.delhi.gov.in/sites/default/files/2025-07/list_of_members.pdf | Eighth Assembly, AC number, constituency, member, party; AC number is scoped key | PDF date in path is not an appointment date; residential addresses and personal mobiles excluded | Review required |
 | Assembly Secretariat | https://delhiassembly.delhi.gov.in/dlas/directory | Officeholder, role and office phone | Names lack stable IDs; residence and personal mobile columns excluded | Review required |
 | Delhi Police station finder | https://delhipolice.gov.in/kyps | User-facing station search | Interactive input; no verified bulk station list or boundary map | Link only |
@@ -22,4 +25,6 @@ The Delhi Assembly site has a [Members of Parliament from Delhi](https://delhias
 
 ## First controlled import
 
-On 2026-10-09, `npm run import:delhi` stored official snapshots and 25 Services Department officeholder drafts, 26 Assembly Secretariat officeholder drafts, and 11 Delhi Police contact drafts. These are source observations, not identity-resolved, reviewed, or published records. The police page's default 11 rows are helplines, not a station or jurisdiction map. Assembly member PDF and Sansad Delhi MP evidence still need their own review path.
+On 2026-10-09, `npm run import:delhi` stored official snapshots and 25 Services Department officeholder drafts, 26 Assembly Secretariat officeholder drafts, and 11 Delhi Police contact drafts. These are source observations, not reviewed or production-published records. The police page's default 11 rows are helplines, not a station or jurisdiction map. Assembly member PDF and Sansad Delhi MP evidence still need their own review path.
+
+The same controlled import then captured 6 GNCTD minister cards and 10 Delhi MP rows (7 Lok Sabha constituency rows and 3 Delhi Rajya Sabha rows). Each was checked against the displayed GNCTD page and approved only as a *source-listed* local preview claim. This does not verify current tenure, prove that the pages include every office, or approve republication in a production export. The Chief Minister has a separate page and is not included in the six cards. The Delhi MP rows still need current Sansad cross-checks.

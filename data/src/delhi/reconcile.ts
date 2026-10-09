@@ -15,7 +15,7 @@ function claim(value: unknown, key: string): string | undefined {
 
 export async function reconcileDelhiSnapshot(pool: pg.Pool, sourceId: string, snapshotId: string): Promise<number> {
   const definition = delhiSources.find((item) => item.id === sourceId);
-  if (!definition || !["gnctd-services-officers", "delhi-assembly-secretariat", "delhi-police-contacts"].includes(sourceId)) throw new Error("source has no Delhi identity mapping");
+  if (!definition || !["gnctd-services-officers", "delhi-assembly-secretariat", "delhi-police-contacts", "gnctd-ministers", "gnctd-mps"].includes(sourceId)) throw new Error("source has no Delhi identity mapping");
   const snapshot = await pool.query<{ url: string }>("SELECT s.url FROM snapshot s JOIN source src ON src.id = s.source_id WHERE s.id = $1 AND src.url = $2", [snapshotId, definition.url]);
   if (!snapshot.rows.length) throw new Error("snapshot does not belong to audited source");
   const rows = await pool.query<{ id: string; locator: string; predicate: string; normalized_value: unknown }>("SELECT id, locator, predicate, normalized_value FROM observation WHERE snapshot_id = $1 ORDER BY locator", [snapshotId]);
@@ -26,6 +26,7 @@ export async function reconcileDelhiSnapshot(pool: pg.Pool, sourceId: string, sn
     const role = claim(row.normalized_value, "role");
     const office = claim(row.normalized_value, "office");
     const department = claim(row.normalized_value, "department");
+    const portfolio = claim(row.normalized_value, "portfolio");
     if (sourceId === "delhi-police-contacts") {
       if (row.predicate !== "contact.official" || !office) continue;
       const institutionId = await registry.upsertInstitutionDraft({ stableKey: stableKey([sourceId, "police"]), name: "Delhi Police", kind: "police", observationId: row.id });
@@ -37,8 +38,10 @@ export async function reconcileDelhiSnapshot(pool: pg.Pool, sourceId: string, sn
     const institutionName = sourceId === "delhi-assembly-secretariat" ? "Delhi Legislative Assembly" : department;
     if (!institutionName) continue;
     const institutionId = await registry.upsertInstitutionDraft({ stableKey: stableKey([sourceId, institutionName]), name: institutionName,
-      kind: sourceId === "delhi-assembly-secretariat" ? "government" : "department", observationId: row.id });
-    const officeId = await registry.recordOfficeDraft({ stableKey: stableKey([sourceId, institutionName, role]), institutionId, title: role, observationId: row.id });
+      kind: ["delhi-assembly-secretariat", "gnctd-ministers", "gnctd-mps"].includes(sourceId) ? "government" : "department", observationId: row.id });
+    if (sourceId === "gnctd-ministers" && !portfolio) continue;
+    const officeTitle = sourceId === "gnctd-ministers" ? `Minister for ${portfolio}` : role;
+    const officeId = await registry.recordOfficeDraft({ stableKey: stableKey([sourceId, institutionName, officeTitle]), institutionId, title: officeTitle, observationId: row.id });
     // The locator is part of the provisional identity. A shared name does not merge rows.
     const personKey = stableKey([sourceId, row.locator, name]);
     const inserted = await pool.query<{ id: string }>("INSERT INTO person (stable_key, display_name) VALUES ($1,$2) ON CONFLICT (stable_key) DO NOTHING RETURNING id", [personKey, name]);

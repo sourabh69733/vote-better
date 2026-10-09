@@ -6,6 +6,8 @@ import { delhiSources, type DelhiSourceDefinition } from "./source-catalog.js";
 import { normalizeGnctd } from "./normalize/gnctd.js";
 import { normalizeAssembly } from "./normalize/assembly.js";
 import { normalizePolice } from "./normalize/police.js";
+import { normalizeMinisters } from "./normalize/ministers.js";
+import { normalizeMps } from "./normalize/mps.js";
 
 export interface ReviewedDelhiRow {
   observationId: string;
@@ -19,6 +21,8 @@ export interface ReviewedDelhiRow {
   reuseStatus: DelhiSourceDefinition["reuseStatus"];
   contactKind?: "official" | "private";
   officeContact?: string;
+  party?: string;
+  profilePath?: string;
 }
 
 export interface DelhiPublication {
@@ -29,7 +33,7 @@ export interface DelhiPublication {
   institutions: { id: string; name: string; kind: string }[];
   offices: { id: string; institutionId: string; title: string; traceId: string; officeContact?: string }[];
   people: { id: string; name: string }[];
-  appointments: { id: string; officeId: string; personId: string; status: ReviewedDelhiRow["status"]; traceId: string }[];
+  appointments: { id: string; officeId: string; personId: string; status: ReviewedDelhiRow["status"]; traceId: string; party?: string; officialProfileUrl?: string }[];
   jurisdictions: { id: string; officeId: string; areaId: string; traceId: string }[];
   facilities: { id: string; institutionId: string; name: string; traceId: string }[];
   coverage: { sourceId: string; state: "partial" | "stale" | "missing"; publishedRows: number; observedRows: number | null; expectedRows: number | null; lastCapturedAt?: string }[];
@@ -65,7 +69,10 @@ export function buildDelhiPublication(rows: readonly ReviewedDelhiRow[], audienc
         if (currentOffices.has(row.officeId)) throw new Error("duplicate current officeholders need review");
         currentOffices.add(row.officeId);
       }
-      appointments.push({ id: row.observationId, officeId: row.officeId, personId: row.personId, status: row.status, traceId: row.observationId });
+      const officialProfileUrl = row.profilePath ? new URL(row.profilePath, row.source.url).href : undefined;
+      if (officialProfileUrl && (new URL(officialProfileUrl).origin !== new URL(row.source.url).origin || !new URL(officialProfileUrl).pathname.startsWith("/profile/"))) throw new Error("profile link outside official source");
+      appointments.push({ id: row.observationId, officeId: row.officeId, personId: row.personId, status: row.status, traceId: row.observationId,
+        ...(row.party ? { party: row.party } : {}), ...(officialProfileUrl ? { officialProfileUrl } : {}) });
     }
     traces.push({ id: row.observationId, observationId: row.observationId, sourceId: row.source.id, sourceUrl: row.source.url, locator: row.source.locator,
       contentHash: row.source.contentHash, capturedAt: row.source.capturedAt, checkedAt: row.check.checkedAt, reviewedAt: row.review.reviewedAt });
@@ -103,7 +110,7 @@ export async function loadDelhiSourceCoverage(pool: pg.Pool, now = new Date()): 
   return coverage;
 }
 
-const parsers = { "gnctd-services-officers": normalizeGnctd, "delhi-assembly-secretariat": normalizeAssembly, "delhi-police-contacts": normalizePolice } as const;
+const parsers = { "gnctd-services-officers": normalizeGnctd, "delhi-assembly-secretariat": normalizeAssembly, "delhi-police-contacts": normalizePolice, "gnctd-ministers": normalizeMinisters, "gnctd-mps": normalizeMps } as const;
 
 export async function loadReviewedDelhiRows(pool: pg.Pool, blobs: BlobStore): Promise<ReviewedDelhiRow[]> {
   const result = await pool.query(`
@@ -111,10 +118,10 @@ export async function loadReviewedDelhiRows(pool: pg.Pool, blobs: BlobStore): Pr
       di.id AS institution_id, di.name AS institution_name, di.kind AS institution_kind, dof.id AS office_id, dof.title AS office_title,
       p.id AS person_id, p.display_name AS person_name, rev.decision, rev.reviewed_at
     FROM observation o JOIN snapshot s ON s.id = o.snapshot_id
-    JOIN delhi_office dof ON dof.observation_id = o.id OR EXISTS (SELECT 1 FROM delhi_appointment da WHERE da.office_id = dof.id AND da.observation_id = o.id)
+    LEFT JOIN LATERAL (SELECT da.office_id, da.person_id FROM delhi_appointment da WHERE da.observation_id = o.id ORDER BY da.recorded_at DESC, da.id DESC LIMIT 1) appointment ON true
+    JOIN delhi_office dof ON dof.id = appointment.office_id OR (appointment.office_id IS NULL AND dof.observation_id = o.id)
     JOIN delhi_institution di ON di.id = dof.institution_id
-    LEFT JOIN delhi_appointment da ON da.office_id = dof.id AND da.observation_id = o.id
-    LEFT JOIN person p ON p.id = da.person_id
+    LEFT JOIN person p ON p.id = appointment.person_id
     JOIN LATERAL (
       SELECT r.decision, r.reviewed_at FROM review_observation ro JOIN review_event r ON r.id = ro.review_id
       WHERE ro.observation_id = o.id ORDER BY r.sequence DESC LIMIT 1
@@ -145,7 +152,9 @@ export async function loadReviewedDelhiRows(pool: pg.Pool, blobs: BlobStore): Pr
       source: { id: definition.id, url: row.url, locator: row.locator, contentHash: row.content_hash, capturedAt: new Date(row.captured_at).toISOString() },
       review: { decision: row.decision, reviewedAt: new Date(row.reviewed_at).toISOString() },
       check: { contentHash: check.hash, checkedAt: check.at }, reuseStatus: definition.reuseStatus,
-      contactKind: "official", ...(typeof value.officePhone === "string" ? { officeContact: value.officePhone } : {}) });
+      contactKind: "official", ...(typeof value.officePhone === "string" ? { officeContact: value.officePhone } : {}),
+      ...(typeof value.party === "string" ? { party: value.party } : {}),
+      ...(typeof value.profilePath === "string" ? { profilePath: value.profilePath } : {}) });
   }
   return rows;
 }

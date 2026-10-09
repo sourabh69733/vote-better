@@ -21,6 +21,13 @@ test("preview publication has trace and blocks unreviewed, stale-check and priva
   assert.throws(() => buildDelhiPublication([row], "production"), /reuse/i);
 });
 
+test("official profile link must stay on the observed source host", () => {
+  assert.throws(() => buildDelhiPublication([{ ...row, profilePath: "https://elsewhere.example/profile/a" }], "preview"), /profile link/i);
+  const publication = buildDelhiPublication([{ ...row, party: "BJP", profilePath: "/profile/a" }], "preview");
+  assert.equal(publication.appointments[0].officialProfileUrl, "https://services.delhi.gov.in/profile/a");
+  assert.equal(publication.appointments[0].party, "BJP");
+});
+
 test("one office cannot have two asserted current holders", () => {
   assert.throws(() => buildDelhiPublication([{ ...row, status: "current" }, { ...row, observationId: "observation-2", personId: "person-2", personName: "B Person", status: "current" }], "preview"), /current/i);
 });

@@ -7,7 +7,7 @@ import { CivicStore } from "../store.js";
 import { collectDelhiSource } from "./collect.js";
 import { reconcileDelhiSnapshot } from "./reconcile.js";
 
-export const initialDelhiSources = ["gnctd-services-officers", "delhi-assembly-secretariat", "delhi-police-contacts"] as const;
+export const initialDelhiSources = ["gnctd-services-officers", "delhi-assembly-secretariat", "delhi-police-contacts", "gnctd-ministers", "gnctd-mps"] as const;
 
 export async function importInitialDelhiSources(pool: pg.Pool, store: CivicStore, blobs: LocalBlobStore) {
   const results = [];
