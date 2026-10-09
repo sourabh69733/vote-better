@@ -9,7 +9,7 @@ const publication: DelhiPublication = {
   offices: [{ id: "o1", institutionId: "i", title: "Missing Persons", traceId: "t1" }, { id: "o2", institutionId: "i", title: "Secretary", traceId: "t2" }],
   people: [{ id: "p1", name: "A Kumar" }, { id: "p2", name: "A Kumar" }],
   appointments: [{ id: "a1", officeId: "o1", personId: "p1", status: "source-listed", traceId: "t1" }, { id: "a2", officeId: "o2", personId: "p2", status: "former", traceId: "t2" }],
-  jurisdictions: [], facilities: [], coverage: [{ sourceId: "police", state: "stale", publishedRows: 2 }],
+  jurisdictions: [], facilities: [], coverage: [{ sourceId: "police", state: "stale", publishedRows: 2, observedRows: 2, expectedRows: null }],
   traces: [{ id: "t1", observationId: "t1", sourceId: "police", sourceUrl: "https://example.org", locator: "1", contentHash: `sha256:${"b".repeat(64)}`, capturedAt: "2026-10-09T00:00:00.000Z", checkedAt: "2026-10-09T00:00:00.000Z", reviewedAt: "2026-10-09T00:00:00.000Z" }, { id: "t2", observationId: "t2", sourceId: "police", sourceUrl: "https://example.org", locator: "2", contentHash: `sha256:${"b".repeat(64)}`, capturedAt: "2026-10-09T00:00:00.000Z", checkedAt: "2026-10-09T00:00:00.000Z", reviewedAt: "2026-10-09T00:00:00.000Z" }],
 };
 

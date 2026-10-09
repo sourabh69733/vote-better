@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import pg from "pg";
 import { LocalBlobStore } from "../blob-store.js";
 import { migrate } from "../migrate.js";
-import { buildDelhiPublication, loadReviewedDelhiRows } from "./export.js";
+import { buildDelhiPublication, loadDelhiSourceCoverage, loadReviewedDelhiRows } from "./export.js";
 
 const directory = fileURLToPath(new URL("../../raw/delhi/", import.meta.url));
 const target = resolve(directory, "publication-preview.json");
@@ -14,7 +14,7 @@ async function main() {
   try {
     await migrate(pool);
     const rows = await loadReviewedDelhiRows(pool, new LocalBlobStore(directory));
-    const publication = buildDelhiPublication(rows, "preview");
+    const publication = buildDelhiPublication(rows, "preview", new Date().toISOString(), await loadDelhiSourceCoverage(pool));
     await mkdir(dirname(target), { recursive: true, mode: 0o700 });
     const temporary = `${target}.tmp`;
     await writeFile(temporary, `${JSON.stringify(publication, null, 2)}\n`, { mode: 0o600 });

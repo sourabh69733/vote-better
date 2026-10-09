@@ -24,3 +24,8 @@ test("preview publication has trace and blocks unreviewed, stale-check and priva
 test("one office cannot have two asserted current holders", () => {
   assert.throws(() => buildDelhiPublication([{ ...row, status: "current" }, { ...row, observationId: "observation-2", personId: "person-2", personName: "B Person", status: "current" }], "preview"), /current/i);
 });
+
+test("coverage reports reviewed versus observed rows without claiming complete coverage", () => {
+  const publication = buildDelhiPublication([row], "preview", "2026-10-09T02:00:00.000Z", [{ sourceId: row.source.id, state: "partial", observedRows: 25, expectedRows: null }]);
+  assert.deepEqual(publication.coverage[0], { sourceId: row.source.id, state: "partial", publishedRows: 1, observedRows: 25, expectedRows: null, lastCapturedAt: row.source.capturedAt });
+});

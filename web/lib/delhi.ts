@@ -12,7 +12,7 @@ export interface DelhiPublication {
   appointments: { id: string; officeId: string; personId: string; status: "source-listed" | "current" | "former"; traceId: string }[];
   jurisdictions: { id: string; officeId: string; areaId: string; traceId: string }[];
   facilities: { id: string; institutionId: string; name: string; traceId: string }[];
-  coverage: { sourceId: string; state: "partial" | "stale" | "missing"; publishedRows: number; lastCapturedAt?: string }[];
+  coverage: { sourceId: string; state: "partial" | "stale" | "missing"; publishedRows: number; observedRows: number | null; expectedRows: number | null; lastCapturedAt?: string }[];
   traces: { id: string; observationId: string; sourceId: string; sourceUrl: string; locator: string; contentHash: string; capturedAt: string; checkedAt: string; reviewedAt: string }[];
 }
 
