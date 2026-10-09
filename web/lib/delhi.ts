@@ -7,13 +7,13 @@ export interface DelhiPublication {
   revision: string;
   generatedAt: string;
   institutions: { id: string; name: string; kind: string }[];
-  offices: { id: string; institutionId: string; title: string; officeContact?: string }[];
+  offices: { id: string; institutionId: string; title: string; traceId: string; officeContact?: string }[];
   people: { id: string; name: string }[];
   appointments: { id: string; officeId: string; personId: string; status: "source-listed" | "current" | "former"; traceId: string }[];
   jurisdictions: { id: string; officeId: string; areaId: string; traceId: string }[];
   facilities: { id: string; institutionId: string; name: string; traceId: string }[];
   coverage: { sourceId: string; state: "partial" | "stale" | "missing"; publishedRows: number; lastCapturedAt?: string }[];
-  traces: { id: string; observationId: string; sourceUrl: string; locator: string; contentHash: string; capturedAt: string; checkedAt: string; reviewedAt: string }[];
+  traces: { id: string; observationId: string; sourceId: string; sourceUrl: string; locator: string; contentHash: string; capturedAt: string; checkedAt: string; reviewedAt: string }[];
 }
 
 const emptyPublication: DelhiPublication = {
@@ -36,7 +36,7 @@ export function validateDelhiPublication(value: unknown): asserts value is Delhi
   const people = ids(publication.people);
   const traces = ids(publication.traces);
   if (institutions.size !== publication.institutions.length || offices.size !== publication.offices.length || people.size !== publication.people.length || traces.size !== publication.traces.length) throw new Error("duplicate Delhi record ID");
-  if (publication.offices.some((office) => !institutions.has(office.institutionId))) throw new Error("broken office reference");
+  if (publication.offices.some((office) => !institutions.has(office.institutionId) || !traces.has(office.traceId))) throw new Error("broken office reference");
   if (publication.appointments.some((item) => !offices.has(item.officeId) || !people.has(item.personId) || !traces.has(item.traceId))) throw new Error("broken appointment reference");
   if (publication.jurisdictions.some((item) => !offices.has(item.officeId) || !traces.has(item.traceId)) ||
     publication.facilities.some((item) => !institutions.has(item.institutionId) || !traces.has(item.traceId))) throw new Error("broken graph reference");
@@ -53,6 +53,7 @@ export function validateDelhiPublication(value: unknown): asserts value is Delhi
 }
 
 export async function loadDelhiPublication(path?: string, audience: "preview" | "production" = process.env.NODE_ENV === "development" ? "preview" : "production"): Promise<DelhiPublication> {
+  if (audience === "production" && !path && !process.env.DELHI_PUBLICATION_PATH) return emptyPublication;
   const target = path ?? process.env.DELHI_PUBLICATION_PATH ?? resolve(process.cwd(), "../data/raw/delhi/publication-preview.json");
   let raw: string;
   try { raw = await readFile(target, "utf8"); }

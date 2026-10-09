@@ -27,13 +27,13 @@ export interface DelhiPublication {
   revision: string;
   generatedAt: string;
   institutions: { id: string; name: string; kind: string }[];
-  offices: { id: string; institutionId: string; title: string; officeContact?: string }[];
+  offices: { id: string; institutionId: string; title: string; traceId: string; officeContact?: string }[];
   people: { id: string; name: string }[];
   appointments: { id: string; officeId: string; personId: string; status: ReviewedDelhiRow["status"]; traceId: string }[];
   jurisdictions: { id: string; officeId: string; areaId: string; traceId: string }[];
   facilities: { id: string; institutionId: string; name: string; traceId: string }[];
   coverage: { sourceId: string; state: "partial" | "stale" | "missing"; publishedRows: number; lastCapturedAt?: string }[];
-  traces: { id: string; observationId: string; sourceUrl: string; locator: string; contentHash: string; capturedAt: string; checkedAt: string; reviewedAt: string }[];
+  traces: { id: string; observationId: string; sourceId: string; sourceUrl: string; locator: string; contentHash: string; capturedAt: string; checkedAt: string; reviewedAt: string }[];
 }
 
 export function buildDelhiPublication(rows: readonly ReviewedDelhiRow[], audience: "preview" | "production", generatedAt = new Date().toISOString()): DelhiPublication {
@@ -54,7 +54,7 @@ export function buildDelhiPublication(rows: readonly ReviewedDelhiRow[], audienc
     institutions.set(row.institutionId, { id: row.institutionId, name: row.institutionName, kind: row.institutionKind });
     const priorOffice = offices.get(row.officeId);
     if (priorOffice && (priorOffice.institutionId !== row.institutionId || priorOffice.title !== row.officeTitle)) throw new Error("conflicting office identity");
-    offices.set(row.officeId, { id: row.officeId, institutionId: row.institutionId, title: row.officeTitle, ...(row.officeContact ? { officeContact: row.officeContact } : {}) });
+    if (!priorOffice) offices.set(row.officeId, { id: row.officeId, institutionId: row.institutionId, title: row.officeTitle, traceId: row.observationId, ...(row.officeContact ? { officeContact: row.officeContact } : {}) });
     if (row.personId && row.personName) {
       const priorPerson = people.get(row.personId);
       if (priorPerson && priorPerson.name !== row.personName) throw new Error("conflicting person identity");
@@ -65,7 +65,7 @@ export function buildDelhiPublication(rows: readonly ReviewedDelhiRow[], audienc
       }
       appointments.push({ id: row.observationId, officeId: row.officeId, personId: row.personId, status: row.status, traceId: row.observationId });
     }
-    traces.push({ id: row.observationId, observationId: row.observationId, sourceUrl: row.source.url, locator: row.source.locator,
+    traces.push({ id: row.observationId, observationId: row.observationId, sourceId: row.source.id, sourceUrl: row.source.url, locator: row.source.locator,
       contentHash: row.source.contentHash, capturedAt: row.source.capturedAt, checkedAt: row.check.checkedAt, reviewedAt: row.review.reviewedAt });
   }
   const sourceIds = [...new Set(rows.map((row) => row.source.id))];
