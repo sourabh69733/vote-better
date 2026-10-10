@@ -1,6 +1,18 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { currentDslsaHelpline, rightsSituations, rightsSources, validateRightsGuide, type RightsGuide } from "./rights";
+import { currentDslsaHelpline, rightsSituations, rightsSources, validateRightsGuide, validateRightsArticles, type RightsGuide } from "./rights";
+
+test("public rights articles reject uncited paragraphs and unknown references", () => {
+  const validate = validateRightsArticles;
+  const references = { law: { label: "BNSS section 35", url: "https://www.mha.gov.in/law.pdf#page=13", locator: "Section 35; PDF page 13", checkedAt: "2026-10-10" } };
+  const article = { id: "arrest", title: "Arrest", summary: "A summary", paragraphs: [{ text: "Explanation", references: ["law"] }] };
+  assert.doesNotThrow(() => validate([article], references));
+  assert.throws(() => validate([{ ...article, paragraphs: [{ text: "Explanation", references: [] }] }], references), /citation/i);
+  assert.throws(() => validate([{ ...article, paragraphs: [{ text: "Explanation", references: ["missing"] }] }], references), /reference/i);
+  assert.throws(() => validate([article, article], references), /duplicate/i);
+  assert.throws(() => validate([article], { law: { ...references.law, locator: "" } }), /locator/i);
+  assert.throws(() => validate([article], { law: { ...references.law, checkedAt: "invalid" } }), /date/i);
+});
 
 const guide: RightsGuide = {
   id: "arrested", situation: "Arrested", custodyPath: "ordinary", steps: [{ kind: "legal", text: "Ask for the grounds of arrest.", citationIds: ["bnss-47"] }],

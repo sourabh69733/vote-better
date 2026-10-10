@@ -13,6 +13,42 @@ export interface RightsGuide {
   amendedAt?: string;
 }
 
+export interface RightsReference {
+  label: string;
+  url: string;
+  locator: string;
+  checkedAt: string;
+  kind?: "statute" | "judgment" | "service";
+}
+
+export interface RightsArticle {
+  id: string;
+  title: string;
+  summary: string;
+  paragraphs: { text: string; references: string[] }[];
+}
+
+// Source-backed explanations have their own boundary. They are not legally
+// reviewed, case-specific guides and must never inherit that review status.
+export function validateRightsArticles(articles: RightsArticle[], references: Record<string, RightsReference>): void {
+  const ids = new Set<string>();
+  for (const article of articles) {
+    if (ids.has(article.id)) throw new Error(`duplicate article: ${article.id}`);
+    ids.add(article.id);
+    if (!article.id?.trim() || !article.title?.trim() || !article.summary?.trim() || !article.paragraphs.length) throw new Error("incomplete rights article");
+    for (const paragraph of article.paragraphs) {
+      if (!paragraph.text?.trim() || !paragraph.references.length) throw new Error("every paragraph needs a citation");
+      for (const id of paragraph.references) {
+        const reference = references[id];
+        if (!reference) throw new Error(`unknown rights reference: ${id}`);
+        if (!reference.label?.trim() || !reference.locator?.trim()) throw new Error("reference needs a label and locator");
+        if (!/^https:\/\//.test(reference.url)) throw new Error("reference requires HTTPS");
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(reference.checkedAt) || !Number.isFinite(Date.parse(reference.checkedAt))) throw new Error("invalid source check date");
+      }
+    }
+  }
+}
+
 const day = 86_400_000;
 function instant(value: string): number { return typeof value === "string" ? Date.parse(value) : NaN; }
 
@@ -50,6 +86,6 @@ export const rightsSituations = [
 ] as const;
 
 export function currentDslsaHelpline(now = new Date()): string | null {
-  const checkedAt = Date.parse("2026-10-09T00:00:00.000Z");
+  const checkedAt = Date.parse("2026-10-10T00:00:00.000Z");
   return now.getTime() - checkedAt <= 30 * day ? "1516" : null;
 }
