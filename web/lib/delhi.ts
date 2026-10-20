@@ -65,7 +65,7 @@ export async function loadDelhiPublication(path?: string, audience: "preview" | 
   if (audience === "production" && !path && !process.env.DELHI_PUBLICATION_PATH) return emptyPublication;
   const target = path ?? process.env.DELHI_PUBLICATION_PATH ?? resolve(process.cwd(), "../data/raw/delhi/publication-preview.json");
   let raw: string;
-  try { raw = await readFile(target, "utf8"); }
+  try { raw = await readFile(/* turbopackIgnore: true */ target, "utf8"); }
   catch (error) {
     if (!path && (error as NodeJS.ErrnoException).code === "ENOENT") return emptyPublication;
     throw error;
