@@ -1,19 +1,20 @@
 # Vote Better
 
-An open-source project to help people understand their elected representatives and, during elections, the people contesting their seat.
+An open-source project to help people in India understand who represents them, what those people have done, and what rights citizens have. Every published fact links to its original public source and shows when it was checked.
 
-## Current coverage
+## What is on the site
 
-The home page lists verified areas. Each area has its own overview and relationship graph, and each person has a lasting profile. Jaipur and Jaipur Rural Lok Sabha are the first two data entries. Their sitting MPs have sourced profiles with the current office and 2024 election return. Jaipur's profile also shows two dated parliamentary questions. Each displayed record links to the original public source. Profiles remain incomplete while other facts are reviewed.
-
-The former PIN lookup, candidate comparison, quiz, and generated demo profiles have been removed from the public website because their sample figures were not verified. The scripts and sample output under `data/` remain development material and must not be published as factual profiles.
-
-## Site structure
-
-- `/` lists verified areas from `web/records/registry.ts`.
-- `/areas/[areaId]` and `/areas/[areaId]/relationships` render any registered area from the same records.
-- `/people/[slug]` renders a registered person's sourced profile.
-- `web/records/jaipur.ts` and `web/records/jaipur-rural.ts` contain the first curated area, person and relationship records. Shared offices live in `web/records/offices.ts`. Add future verified records in separate files and register them in `web/records/registry.ts`. The shared pages do not need city-specific copies.
+| Route | Content | Status |
+| --- | --- | --- |
+| `/` | Verified areas and the Delhi entry point | Public |
+| `/areas/[areaId]` | Jaipur and Jaipur Rural Lok Sabha: office holders, 2024 results, relationship map | Public |
+| `/people/[slug]` | Sitting MPs and all 2024 Jaipur candidates: office, results, affidavit details, career, parliamentary work | Public |
+| `/facts/[factId]` | Source trail for each published election fact | Public |
+| `/constitution` | Plain-language Constitution questions, topics and animations | Public, expert review pending |
+| `/rights` | Protest, police, arrest and legal aid guide for Delhi, with BNSS citations | Public, legal review pending |
+| `/mps` | 540 MP profiles from Digital Sansad | Shown only when a local export exists; reuse rights under review |
+| `/delhi` | Delhi offices and office holders | Preview data in development; empty in production until a reviewed export is supplied |
+| `/research/*` | PIN lookup and draft MP profiles | Development only |
 
 ## Data rules
 
@@ -21,9 +22,17 @@ The former PIN lookup, candidate comparison, quiz, and generated demo profiles h
 - A claim needs a source, a review date, and wording that matches what the source establishes.
 - A parliamentary question proves the question was asked. It does not prove that a local project was delivered.
 - Missing or unreviewed fields remain absent. No numerical candidate ranking is published.
-- Jaipur and Jaipur Rural are separate parliamentary constituencies. A PIN code alone is not enough to identify every representative.
+- A PIN code alone is not enough to identify every representative.
+
+## Project layout
+
+- `web/` is the Next.js site. It reads curated records in `web/records/` and reviewed exports; it never fetches sources on page load. See [web/README.md](web/README.md).
+- `data/` is the collection and review pipeline: snapshots, normalized observations, identity matching, human review and publication, stored in PostgreSQL. See [data/README.md](data/README.md).
+- `docs/architecture/` describes the data model, the profile collection framework and the Delhi system. `docs/data-sources/` records each source audit.
 
 ## Run locally
+
+Use Node.js 22 (`web/.nvmrc`).
 
 ```bash
 cd web
@@ -31,10 +40,19 @@ npm install
 npm run dev
 ```
 
-Then open `http://localhost:3000`. Use `npm run lint` and `npm run build` to check the site.
+Then open `http://localhost:3000`. Use `npm test`, `npm run lint` and `npm run build` to check the site.
 
-## Next validation
+The data pipeline needs Docker for its database:
 
-Use the [Jaipur comprehension check](docs/research/jaipur-voter-test.md) with residents. Review source status again before public release.
+```bash
+docker compose -f data/compose.yaml up -d --wait
+npm --prefix data test
+```
+
+## Before public release
+
+1. A qualified lawyer reviews `/rights` and `/constitution`.
+2. Decide whether Digital Sansad biographies can be republished.
+3. Run the [Jaipur comprehension check](docs/research/jaipur-voter-test.md) with residents.
 
 License: MIT.

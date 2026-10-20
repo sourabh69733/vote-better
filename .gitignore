@@ -58,3 +58,5 @@ public/data
 !/data/extractions/
 !/data/src/
 !/data/test/
+.agents/
+.superpowers/
