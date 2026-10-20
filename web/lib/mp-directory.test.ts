@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { paginateMpResults } from "./mp-directory";
+import { paginateMpResults, sortMpsByName } from "./mp-directory";
 
 test("national directory returns one page at a time and clamps invalid pages", () => {
   const members = Array.from({ length: 53 }, (_, id) => id + 1);
@@ -11,4 +11,10 @@ test("national directory returns one page at a time and clamps invalid pages", (
   assert.equal(paginateMpResults(members, "999").page, 3);
   assert.equal(paginateMpResults(members, "bad").page, 1);
   assert.deepEqual(paginateMpResults([], "1"), { items: [], page: 1, pageCount: 1, first: 0, last: 0 });
+});
+
+test("directory sorts by name, ignoring titles", () => {
+  const names = ["Adv Dean Kuriakose", "Dr. Amar Singh", "Shri Ashish Sood", "Com. Selvaraj V", "Md Rakibul Hussain", "Smt. Kamaljeet Sehrawat"];
+  assert.deepEqual(sortMpsByName(names.map((name) => ({ name }))).map((item) => item.name),
+    ["Dr. Amar Singh", "Shri Ashish Sood", "Adv Dean Kuriakose", "Smt. Kamaljeet Sehrawat", "Md Rakibul Hussain", "Com. Selvaraj V"]);
 });

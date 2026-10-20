@@ -8,3 +8,14 @@ export function paginateMpResults<T>(items: readonly T[], requestedPage?: string
   return { items: items.slice(start, start + PAGE_SIZE), page, pageCount,
     first: items.length ? start + 1 : 0, last: Math.min(start + PAGE_SIZE, items.length) };
 }
+
+// Honorifics seen in Sansad names. "Md" is kept because it is part of a name.
+const honorific = /^(?:(?:adv|dr|prof|shri|sh|smt|kumari|kum|sushri|ms|mr|mrs|com|chh|capt|col|er|thiru|selvi)\.?\s+)+/i;
+
+export function sortableMpName(name: string) {
+  return name.trim().replace(honorific, "");
+}
+
+export function sortMpsByName<T extends { name: string }>(items: readonly T[]) {
+  return [...items].sort((a, b) => sortableMpName(a.name).localeCompare(sortableMpName(b.name), "en-IN", { sensitivity: "base" }));
+}

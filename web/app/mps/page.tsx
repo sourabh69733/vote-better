@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { listPublicMps } from "@/lib/public-mps";
-import { paginateMpResults } from "@/lib/mp-directory";
+import { paginateMpResults, sortMpsByName } from "@/lib/mp-directory";
 
 export const metadata: Metadata = { title: "MP profiles | Vote Better" };
 
@@ -13,7 +13,7 @@ export default async function MpDirectory({ searchParams }: PageProps) {
   const query = typeof params.q === "string" ? params.q.trim().slice(0, 80) : "";
   const allProfiles = await listPublicMps();
   if (allProfiles.length === 0) notFound();
-  const profiles = allProfiles.filter((profile) =>
+  const profiles = sortMpsByName(allProfiles).filter((profile) =>
     `${profile.name} ${profile.constituency} ${profile.state} ${profile.party}`
       .toLocaleLowerCase("en-IN").includes(query.toLocaleLowerCase("en-IN")));
   const results = paginateMpResults(profiles, typeof params.page === "string" ? params.page : undefined);
