@@ -49,8 +49,8 @@ export default function AskQuestion({ questions }: { questions: ConstitutionQues
               <h3 className="mt-2 text-lg font-semibold tracking-[-0.02em] text-[#18372b]">{best.question}</h3>
               <p className="mt-2 text-[15px] leading-7 text-[#33493b]">{best.answer}</p>
               <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
-                {best.guideId && (
-                  <Link href={`/constitution/${best.guideId}`} className="text-sm font-bold text-[#1d6547] underline decoration-[#9ec9a8] underline-offset-4">Read the full guide →</Link>
+                {best.rightsSituation && (
+                  <Link href={`/rights/${best.rightsSituation}`} className="text-sm font-bold text-[#1d6547] underline decoration-[#9ec9a8] underline-offset-4">Read the detailed rights guide →</Link>
                 )}
                 <a href={`#${best.topicId}`} className="text-sm font-semibold text-[#4d6b57] underline decoration-[#c5d9ca] underline-offset-4">Related topic ↓</a>
               </div>

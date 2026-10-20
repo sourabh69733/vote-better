@@ -37,13 +37,14 @@ test("every answer cites an article and belongs to a topic", () => {
   }
 });
 
-test("protest questions lead to the protest guide", async () => {
-  const { getConstitutionGuide } = await import("../records/constitution-guides");
-  for (const query of ["what are my protest rights", "can police stop our dharna", "can we block the road"]) {
-    const best = searchQuestions(constitutionQuestions, query)[0];
-    assert.equal(best?.guideId, "protest", query);
+test("protest and arrest questions link to an existing rights guide", async () => {
+  const { rightsPaths } = await import("./protest-guide");
+  const situations = new Set<string>(rightsPaths.map((path) => path.id));
+  const cases: [string, string][] = [["what are my protest rights", "protesting"], ["can police stop our dharna", "protesting"], ["can we block the road", "protesting"], ["arrested by police", "arrested"]];
+  for (const [query, situation] of cases) {
+    assert.equal(searchQuestions(constitutionQuestions, query)[0]?.rightsSituation, situation, query);
   }
-  const guide = getConstitutionGuide("protest");
-  assert.ok(guide);
-  assert.ok(guide.sections.every((section) => section.items.every((item) => item.ref.length > 0)));
+  for (const item of constitutionQuestions) {
+    if (item.rightsSituation) assert.ok(situations.has(item.rightsSituation), item.id);
+  }
 });

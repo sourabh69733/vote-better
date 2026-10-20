@@ -17,23 +17,8 @@ export type ConstitutionQuestion = {
   answer: string;
   articles: string;
   topicId: string;
-  guideId?: string;
+  rightsSituation?: string;
   keywords: string[];
-};
-
-export type GuideSourceKind = "constitution" | "court" | "law";
-
-export type ConstitutionGuide = {
-  id: string;
-  title: string;
-  summary: string;
-  glance: { tone: "yes" | "limit" | "no"; heading: string; text: string }[];
-  sections: {
-    heading: string;
-    intro: string;
-    items: { label: string; detail: string; ref: string; kind: GuideSourceKind }[];
-  }[];
-  checklist: string[];
 };
 
 export type QuestionMatch = ConstitutionQuestion & { score: number };
