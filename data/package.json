@@ -12,6 +12,8 @@
     "import:delhi": "node --import tsx src/delhi/import.ts",
     "export:delhi-preview": "node --import tsx src/delhi/export-preview.ts",
     "import:jaipur": "node --import tsx src/import-jaipur.ts",
+    "import:eci-2024": "node --import tsx src/import-eci-2024.ts",
+    "review:batch": "node --import tsx src/review-batch.ts",
     "import:sansad-members": "node --import tsx src/import-sansad-members.ts",
     "import:sansad-biography": "node --import tsx src/import-sansad-biography.ts",
     "import:sansad-biographies": "node --import tsx src/batch-sansad-biographies.ts",
@@ -26,7 +28,8 @@
     "report:mp-crosswalk": "node --import tsx src/report-mp-crosswalk.ts",
     "review:mp-links": "node --import tsx src/review-mp-links.ts",
     "review": "node --import tsx src/cli.ts",
-    "export:jaipur": "node --import tsx src/export-jaipur.ts"
+    "export:jaipur": "node --import tsx src/export-jaipur.ts",
+    "export:lok-sabha-2024": "node --import tsx src/export-lok-sabha-2024.ts"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -35,6 +38,7 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "pg": "^8.23.1"
+    "pg": "^8.23.1",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   }
 }
