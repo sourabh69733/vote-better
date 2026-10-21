@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { listAreaOverviews } from "@/lib/civic-area";
 import { formatNumber, getCandidate, loadLokSabha2024, seatHref, summaryOf } from "@/lib/lok-sabha-2024";
-import { findMpForSeat } from "@/lib/mp-seat-link";
+import { findCandidacy2024, findMpForSeat } from "@/lib/mp-seat-link";
+import { getPersonProfile, listPersonSlugs } from "@/lib/verified-profile";
 import { Card, FactList, ProfileHeader, SeatResultBars, Tile, Timeline } from "@/components/profile/ProfileParts";
 import ProfileTabs, { type ProfileTab } from "@/components/profile/ProfileTabs";
 import type { ChipSource } from "@/components/profile/SourceChip";
@@ -42,9 +42,11 @@ export default async function CandidatePage({ params }: PageProps) {
   const party = data.parties[candidate.party];
   const won = candidate.rank === 1;
   const namesake = seat.candidates.some((other) => other.slug !== candidate.slug && other.name === candidate.name);
-  const curatedPerson = won
-    ? listAreaOverviews().flatMap(({ links }) => links).find((link) => link.person.name.toLowerCase() === candidate.name.toLowerCase())?.person
-    : undefined;
+  // A hand-checked profile for this exact ECI row, if one exists.
+  const curatedPerson = listPersonSlugs().map((item) => getPersonProfile(item)!).find((person) => {
+    const row = findCandidacy2024(person.name, person.candidacies[0]?.election);
+    return row?.seat.slug === seat.slug && row.seat.stateSlug === seat.stateSlug && row.candidate.slug === candidate.slug;
+  });
   const sittingMp = won ? await findMpForSeat(seat) : undefined;
   const eci: ChipSource = {
     label: "ECI", title: "ECI 2024 results, report 33", url: data.source.url,
@@ -126,6 +128,12 @@ export default async function CandidatePage({ params }: PageProps) {
         status={won ? { label: "Won", tone: "won" } : { label: `Lost · ${candidate.rank} of ${seat.candidates.length}`, tone: "lost" }}
         summary={summaryOf(seat, candidate, partyName)}
       >
+        {curatedPerson && (
+          <Link href={`/people/${curatedPerson.slug}`} className="mt-3 flex items-center justify-between gap-3 rounded-2xl border border-[#cfe0d2] bg-[#eff7ef] p-3 text-sm font-semibold text-[#1d6547] hover:bg-[#e3f0e5]">
+            <span>A hand-checked profile with affidavit details and career history is available.</span>
+            <span aria-hidden="true">→</span>
+          </Link>
+        )}
         {namesake && (
           <p className="mt-3 rounded-2xl bg-[#fbf6e8] p-3 text-sm text-[#6b5520]">Another candidate in this seat has the same name. This profile is the {party?.name ?? candidate.party} candidate.</p>
         )}
