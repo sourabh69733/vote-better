@@ -6,7 +6,7 @@ export interface ChipSource {
   label: string;
   title: string;
   url: string;
-  locator: string;
+  locator?: string;
   checkedOn: string;
 }
 
@@ -42,10 +42,11 @@ export default function SourceChip({ source }: { source: ChipSource }) {
       </button>
       {open && (
         <span id={panel} role="note" className="absolute left-0 top-full z-20 mt-2 block w-[min(18rem,75vw)] rounded-xl border border-[#cfe0d2] bg-white p-3 text-xs leading-5 text-[#2c4f3a] shadow-[0_12px_30px_rgba(28,64,40,.14)]">
-          {source.title}, {source.locator}. Checked {source.checkedOn}.{" "}
+          {source.title}{source.locator ? `, ${source.locator}` : ""}. Checked {source.checkedOn}.{" "}
           <a href={source.url} target="_blank" rel="noopener noreferrer" className="font-bold underline underline-offset-2">Open original</a>
         </span>
       )}
     </span>
   );
 }
+

@@ -27,3 +27,11 @@ test("name matching ignores titles but not different people", () => {
   assert.ok(!sameName("Shri Chavan Ravindra Vasantrao", "CHAVAN VASANTRAO BALWANTRAO"));
   assert.ok(!sameName("Smt. Priyanka Gandhi Vadra", "RAHUL GANDHI"));
 });
+
+test("curated people find their own 2024 seat row", async () => {
+  const { findCandidacy2024 } = await import("./mp-seat-link");
+  assert.equal(findCandidacy2024("Manju Sharma", "Jaipur Lok Sabha, 2024")?.candidate.rank, 1);
+  assert.equal(findCandidacy2024("Rao Rajendra Singh", "Jaipur Rural Lok Sabha, 2024")?.seat.slug, "jaipur-rural");
+  assert.equal(findCandidacy2024("Advocate Hari Kishan Tiwari", "Jaipur Lok Sabha, 2024")?.seat.slug, "jaipur");
+  assert.equal(findCandidacy2024("Manju Sharma", "Jaipur Lok Sabha, 2019"), undefined);
+});

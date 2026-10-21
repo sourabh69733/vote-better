@@ -46,3 +46,15 @@ export async function findMpForSeat(seat: Pick<Seat, "stateSlug" | "slug">): Pro
     return link.status === "won-2024" && link.seat.stateSlug === seat.stateSlug && link.seat.slug === seat.slug;
   });
 }
+
+// The 2024 ECI row for a curated person: the seat named in their own election record, then the name.
+export function findCandidacy2024(name: string, electionLabel: string | undefined) {
+  if (!electionLabel?.includes("2024")) return undefined;
+  const label = electionLabel.toLowerCase();
+  const seats = loadLokSabha2024().seats
+    .filter((seat) => label.startsWith(`${seat.name.toLowerCase()} lok sabha`))
+    .sort((a, b) => b.name.length - a.name.length);
+  const seat = seats[0];
+  const candidate = seat?.candidates.find((item) => sameName(name, item.sourceName));
+  return seat && candidate ? { seat, candidate } : undefined;
+}
