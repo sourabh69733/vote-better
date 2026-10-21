@@ -6,7 +6,10 @@ An open-source project to help people in India understand who represents them, w
 
 | Route | Content | Status |
 | --- | --- | --- |
-| `/` | Verified areas and the Delhi entry point | Public |
+| `/` | Search for a seat or candidate, verified areas, Delhi entry point | Public |
+| `/seats` | All 543 Lok Sabha seats from 2024: search by seat, state or any candidate's name | Public |
+| `/seats/[state]/[seat]` | Who won, the margin, every candidate's votes and share, NOTA, turnout, ECI source rows | Public |
+| `/seats/[state]/[seat]/[candidate]` | Each of the 8,359 candidates: party, age, gender, category, votes, margin, rivals, source row | Public |
 | `/areas/[areaId]` | Jaipur and Jaipur Rural Lok Sabha: office holders, 2024 results, relationship map | Public |
 | `/people/[slug]` | Sitting MPs and all 2024 Jaipur candidates: office, results, affidavit details, career, parliamentary work | Public |
 | `/facts/[factId]` | Source trail for each published election fact | Public |
@@ -23,6 +26,7 @@ An open-source project to help people in India understand who represents them, w
 - A parliamentary question proves the question was asked. It does not prove that a local project was delivered.
 - Missing or unreviewed fields remain absent. No numerical candidate ranking is published.
 - A PIN code alone is not enough to identify every representative.
+- National 2024 results come from ECI statistical reports. ECI states that its statutory forms are final; the site shows that note on every result.
 
 ## Project layout
 
