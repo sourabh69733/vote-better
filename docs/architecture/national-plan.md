@@ -44,8 +44,8 @@ Source registry -> Scheduled collect -> Snapshot (hash) -> Normalize -> Match id
 
 | Source | Gives | Format | Status |
 | --- | --- | --- | --- |
-| ECI 2024 statistical report 33, "Constituency Wise Detailed Result" | Every candidate, party and vote count in all 543 seats | XLS (3 MB) | Located, not collected |
-| ECI report 4, "List of Successful Candidates" | Winner per seat | XLS | Located |
+| ECI 2024 statistical report 33, "Constituency Wise Detailed Result" | Every candidate, party and vote count in 542 seats | XLS (3 MB) | Collected and published |
+| ECI reports 4, 3 and 2A | Winner cross-check, seat numbers, party names, unopposed Surat | XLS/XLSX | Collected and used |
 | Digital Sansad | Sitting MPs, biography, positions, questions, debates | JSON API | Collected; reuse decision pending |
 | ECI affidavit portal | Assets, liabilities, declared cases, education | PDF per candidate, often scanned | Not started; needs OCR and review |
 | State election offices (Form 21E) | Official per-seat return | PDF | Jaipur only |
@@ -58,7 +58,7 @@ MyNeta and PRS stay as manual cross-checks unless they give written permission.
 
 ## Phases
 
-1. **National 2024 Lok Sabha (next).** Import ECI report 33 for all 543 seats. One profile page for every candidate and MP, with "How they got here": votes, vote share, margin and every rival linked. One area page for every seat. Home page search by name, seat or state.
+1. **National 2024 Lok Sabha.** Done on 2026-10-21: ECI reports 33, 4, 3 and 2A imported with automatic checks and batch review; `/seats` search, 543 seat pages and 8,359 candidate pages. Remaining: link winners to Sansad MP records and the curated `/people` profiles so each MP has one profile.
 2. **Automated data flow.** Source registry, scheduled collection, batch review, publication bundle, pull-request sync and deployment.
 3. **Work and declarations.** Questions, debates and attendance for all MPs. Affidavits for winners first, then all candidates.
 4. **Find your area.** Location or PIN to Lok Sabha and assembly seat, using boundaries with a checked licence. Then MLAs, state by state.
@@ -67,7 +67,7 @@ MyNeta and PRS stay as manual cross-checks unless they give written permission.
 
 ## Decisions needed
 
-1. Approve batch review per official snapshot (step 4 of the data flow).
+1. ~~Approve batch review per official snapshot.~~ Approved 2026-10-21.
 2. Approve pull-request based sync and choose a host (for example Vercel).
 3. Decide on Digital Sansad reuse.
 4. A lawyer reviews `/rights` and `/constitution`.
