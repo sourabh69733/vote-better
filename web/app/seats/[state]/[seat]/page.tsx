@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { listAreaOverviews } from "@/lib/civic-area";
-import { candidateHref, formatNumber, getSeat, loadLokSabha2024, marginOf } from "@/lib/lok-sabha-2024";
+import { candidateHref, formatNumber, getSeat, loadLokSabha2024, marginOf, seatHref } from "@/lib/lok-sabha-2024";
 import SourceNote from "../../SourceNote";
 
 interface PageProps {
@@ -108,8 +108,13 @@ export default async function SeatPage({ params }: PageProps) {
 
       {seat.candidates.length > 0 && (
         <section className="mt-8" aria-labelledby="candidates-heading">
-          <h2 id="candidates-heading" className="text-2xl font-semibold tracking-[-0.04em] text-[#19372d]">Everyone who contested</h2>
-          <p className="mt-1 text-sm text-[#66796d]">Ranked by votes. Share is of valid votes.</p>
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 id="candidates-heading" className="text-2xl font-semibold tracking-[-0.04em] text-[#19372d]">Everyone who contested</h2>
+              <p className="mt-1 text-sm text-[#66796d]">Ranked by votes. Share is of valid votes.</p>
+            </div>
+            <Link href={`${seatHref(seat)}/compare`} className="inline-flex min-h-10 items-center rounded-full border border-[#bed6c4] bg-white px-4 text-sm font-bold text-[#216146] hover:bg-[#eff7ef]">Compare two candidates</Link>
+          </div>
           <ol className="mt-4 grid gap-2">
             {seat.candidates.map((candidate) => (
               <li key={candidate.slug}>
