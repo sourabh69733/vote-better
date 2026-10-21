@@ -1,90 +1,219 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPublicMp, publicMpFact } from "@/lib/public-mps";
-import { ProfileDisclosure, ProfileJumpLinks, ProfileSection } from "@/components/ProfileSection";
+import { listAreaOverviews } from "@/lib/civic-area";
+import { formatShort, loadLokSabha2024, summaryOf } from "@/lib/lok-sabha-2024";
+import { sortableMpName } from "@/lib/mp-directory";
+import { linkMpToSeat } from "@/lib/mp-seat-link";
+import { getPublicMp, publicMpFact, type PublicMp, type PublicMpFact } from "@/lib/public-mps";
+import { Card, FactList, ProfileHeader, SeatResultBars, Tile, Timeline, type TimelineItem } from "@/components/profile/ProfileParts";
+import ProfileTabs, { type ProfileTab } from "@/components/profile/ProfileTabs";
+import type { ChipSource } from "@/components/profile/SourceChip";
+import SourceNote from "../../seats/SourceNote";
 
 interface PageProps { params: Promise<{ memberId: string }> }
+
+type Position = { title: string; period?: string; validFrom?: { value: string; precision: string } };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { memberId } = await params;
   const profile = /^\d+$/.test(memberId) ? await getPublicMp(Number(memberId)) : undefined;
-  return { title: profile ? `${profile.name} | Vote Better` : "MP profile | Vote Better" };
+  return { title: profile ? `${sortableMpName(profile.name)}, MP for ${profile.constituency} | Vote Better` : "MP profile | Vote Better" };
+}
+
+const day = (value: string) => new Date(value).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+
+function ageOn(birthDate: string, today = new Date()) {
+  const [year, month, date] = birthDate.split("-").map(Number);
+  const birthdayPassed = today.getUTCMonth() + 1 > month || (today.getUTCMonth() + 1 === month && today.getUTCDate() >= date);
+  return today.getUTCFullYear() - year - (birthdayPassed ? 0 : 1);
+}
+
+// Elections, terms and offices tell the story. Committee seats belong under Work.
+const milestone = /elected|^member, (lok|rajya) sabha|minister|speaker|chairperson|leader|member, .*legislative (assembly|council)/i;
+
+function text(fact: PublicMpFact | undefined) {
+  return fact && typeof fact.value === "string" ? fact.value : undefined;
+}
+
+function sansadSource(profile: PublicMp, fact: PublicMpFact | undefined): ChipSource | undefined {
+  if (!fact) return undefined;
+  return {
+    label: "Sansad", title: "Digital Sansad member record", url: `https://sansad.in/ls/members/biography/${profile.memberId}`,
+    locator: fact.source.locator.replace(/^member\[mpsno=\d+\]\./, "field "), checkedOn: day(profile.sourceCheckedAt),
+  };
 }
 
 export default async function MpProfilePage({ params }: PageProps) {
   const { memberId } = await params;
   const profile = /^\d+$/.test(memberId) ? await getPublicMp(Number(memberId)) : undefined;
   if (!profile) notFound();
+  const data = loadLokSabha2024();
+  const partyName = (code: string) => data.parties[code]?.name ?? code;
+  const name = sortableMpName(profile.name);
   const officialUrl = `https://sansad.in/ls/members/biography/${profile.memberId}`;
   const birth = publicMpFact(profile, "person.birthDate");
   const education = publicMpFact(profile, "person.educationStatement");
   const profession = publicMpFact(profile, "person.profession");
-  const positions = publicMpFact(profile, "office.positionsHeld");
+  const positionsFact = publicMpFact(profile, "office.positionsHeld");
+  const positions = (Array.isArray(positionsFact?.value) ? positionsFact.value : []) as Position[];
   const socials = profile.facts.filter((fact) => fact.predicate === "person.socialProfile" && typeof fact.value === "string");
-  const summary = [["Profession", profession], ["Education", education], ["Born", birth]] as const;
-  const hasBackground = summary.some(([, fact]) => fact && typeof fact.value === "string");
-  const hasPositions = Boolean(positions && Array.isArray(positions.value) && positions.value.length);
-  return <div className="mx-auto w-full max-w-[1160px] px-4 pb-16 pt-7 sm:px-6 sm:pt-10 lg:px-8">
-    <Link href="/mps" className="inline-flex min-h-11 items-center text-sm font-semibold text-[#276b4e] hover:underline">← All MP profiles</Link>
-    <header className="mt-5 overflow-hidden rounded-[28px] border border-[#d6e2d7] bg-white shadow-[0_12px_36px_rgba(24,55,43,.05)]">
-      <div className="grid gap-7 p-6 sm:p-8 md:grid-cols-[minmax(0,1fr)_280px] md:gap-8 lg:grid-cols-[minmax(0,1fr)_310px] lg:gap-12 lg:p-10">
-        <div>
-          <p className="flex flex-wrap gap-x-3 gap-y-1 text-xs font-bold uppercase tracking-[0.1em] text-[#326c4d]"><span>Digital Sansad record</span><span>Source checked {profile.sourceCheckedAt.slice(0, 10)}</span></p>
-          <h1 className="mt-4 max-w-[16ch] text-[clamp(2.5rem,5vw,4.4rem)] font-semibold leading-[1.02] tracking-[-0.06em] text-[#19372d]">{profile.name}</h1>
-          <p className="mt-4 text-base leading-7 text-[#4d6354]">Lok Sabha member for {profile.constituency}, {profile.state}</p>
-          <p className="mt-5 inline-flex rounded-full bg-[#e7f3e9] px-3 py-2 text-xs font-bold text-[#1d6042]">Listed as {profile.membershipStatus.toLowerCase()} on {profile.rosterSource.capturedAt.slice(0, 10)}</p>
+  const link = linkMpToSeat(profile);
+  const winner = link.status === "won-2024" ? link.candidate : null;
+  const curated = listAreaOverviews().flatMap(({ links }) => links).find((item) => item.person.name.toLowerCase() === name.toLowerCase())?.person;
+
+  const seatLine = `${profile.constituency}, ${profile.state}`;
+  const summary = link.status === "won-2024"
+    ? (winner ? `Sitting Lok Sabha MP for ${seatLine}. ${summaryOf(link.seat, winner, partyName)}` : `Sitting Lok Sabha MP for ${seatLine}. Elected unopposed in 2024.`)
+    : link.status === "by-election" ? `Sitting Lok Sabha MP for ${seatLine}. ${link.note}` : `Sitting Lok Sabha MP for ${seatLine}.`;
+
+  const eci: ChipSource | undefined = winner ? {
+    label: "ECI", title: "ECI 2024 results, report 33", url: data.source.url,
+    locator: winner.locator.toLowerCase(), checkedOn: day(winner.reviewedAt),
+  } : undefined;
+  const positionsSource = sansadSource(profile, positionsFact);
+  // With an ECI result, Sansad's "Elected to 18th Lok Sabha" repeats it.
+  const milestones: TimelineItem[] = positions.filter((position) => milestone.test(position.title) &&
+    !(winner && /^elected to 18th lok sabha$/i.test(position.title))).map((position) => ({
+    when: position.period ?? "Date not stated", text: position.title, source: positionsSource,
+    strong: /18th lok sabha/i.test(position.title),
+  }));
+  if (winner && eci) {
+    milestones.unshift({ when: "2024 · Lok Sabha election", strong: true, source: eci,
+      text: `Won ${link.status === "won-2024" ? link.seat.name : profile.constituency} with ${formatShort(winner.votes)} votes (${winner.shareOfValidVotes.toFixed(2)}%).` });
+  }
+  const educationText = text(education)?.replace(/^[\s;,.]+|[\s;,]+$/g, "") || undefined;
+
+  const story = (
+    <div className="grid gap-4">
+      <Card title="Timeline">
+        {milestones.length ? (
+          <Timeline items={milestones.slice(0, 8)} gap={milestones.length > 8 ? `${milestones.length - 8} earlier entries are under Work.` : undefined} />
+        ) : <p>Sansad does not list elections or offices for this member yet.</p>}
+      </Card>
+      <Card title="Who they are">
+        <FactList facts={[
+          ["Name in Sansad record", profile.name],
+          ["Party", profile.party],
+          ...(text(profession) ? [["Profession", text(profession)!] as [string, string]] : []),
+          ...(educationText ? [["Education", educationText] as [string, string]] : []),
+          ...(text(birth) ? [["Born", day(text(birth)!)] as [string, string]] : []),
+        ]} />
+        {socials.length > 0 && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {socials.map((fact) => (
+              <a key={fact.source.locator} href={fact.value as string} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-9 items-center rounded-full border border-[#bed6c4] px-3 text-sm font-semibold text-[#216146] hover:bg-[#eff7ef]">
+                {new URL(fact.value as string).hostname.replace(/^www\./, "")} ↗
+              </a>
+            ))}
+          </div>
+        )}
+      </Card>
+    </div>
+  );
+
+  const work = (
+    <div className="grid gap-4">
+      <Card title={`Positions and committees (${positions.length})`}>
+        {positions.length ? (
+          <ol className="grid gap-2">
+            {positions.map((position, index) => (
+              <li key={`${position.title}-${index}`} className="flex flex-col justify-between gap-1 border-b border-[#eef3ed] pb-2 text-sm last:border-0 sm:flex-row sm:gap-4">
+                <span className="font-semibold text-[#19372d]">{position.title}</span>
+                <span className="shrink-0 text-[#66796d]">{position.period ?? "Date not stated"}</span>
+              </li>
+            ))}
+          </ol>
+        ) : <p>Sansad lists no positions for this member.</p>}
+        <a href={officialUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block text-sm font-bold text-[#1d6547] underline decoration-[#9ec9a8] underline-offset-4">Check on Digital Sansad ↗</a>
+      </Card>
+      <Card title="Attendance, questions and debates">
+        {curated ? (
+          <p>These are on the checked profile.{" "}
+            <Link href={`/people/${curated.slug}`} className="font-bold text-[#1d6547] underline decoration-[#9ec9a8] underline-offset-4">Open {curated.name}&apos;s parliamentary work</Link>
+          </p>
+        ) : <p>Not collected for this MP yet. They come from Parliament&apos;s own records.</p>}
+      </Card>
+    </div>
+  );
+
+  const elections = (
+    <Card title={link.status === "unlinked" ? "Elections" : `${link.seat.name}, 2024`}>
+      {link.status === "won-2024" && winner && <SeatResultBars seat={link.seat} highlight={winner} compareWith={link.seat.candidates[1]} />}
+      {link.status === "won-2024" && !winner && <p>Elected unopposed. No vote was held in {link.seat.name}.</p>}
+      {link.status === "by-election" && (
+        <>
+          <p>{link.note} By-election results are not collected yet. This is the 2024 general election result for the seat.</p>
+          <SeatResultBars seat={link.seat} />
+        </>
+      )}
+      {link.status === "unlinked" && <p>This MP is not yet linked to an election result.</p>}
+    </Card>
+  );
+
+  const tabs: ProfileTab[] = [
+    { id: "story", label: "Story", content: story },
+    { id: "work", label: "Work", content: work },
+    { id: "elections", label: "Elections", content: elections },
+    {
+      id: "money", label: "Money and cases", content: (
+        <Card title="Money and cases">
+          <p>Every candidate files a sworn affidavit with assets, liabilities, education and pending criminal cases. These are not collected for this profile yet.</p>
+          <p className="mt-3 text-sm text-[#66796d]">When added, cases will be shown as declared by the candidate. A declared case is not a conviction.</p>
+        </Card>
+      ),
+    },
+    {
+      id: "sources", label: "Sources", content: (
+        <div className="grid gap-4">
+          <Card title="Digital Sansad">
+            <p>Name, party, seat and status from the Lok Sabha member list, captured {day(profile.rosterSource.capturedAt)}. Biography fields checked against saved Sansad responses on {day(profile.sourceCheckedAt)}. This does not independently confirm every claim.</p>
+            <details className="mt-3 text-sm">
+              <summary className="cursor-pointer font-semibold text-[#216146]">Field by field</summary>
+              <ul className="mt-2 grid gap-1 break-all text-[#5f7465]">
+                {profile.facts.filter((fact) => fact.predicate !== "person.photoUrl").map((fact) => (
+                  <li key={`${fact.predicate}-${fact.source.locator}`}>{fact.source.locator} · captured {day(fact.source.capturedAt)} · {fact.source.contentHash.slice(0, 19)}…</li>
+                ))}
+              </ul>
+            </details>
+            <a href={officialUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-sm font-bold text-[#1d6547] underline decoration-[#9ec9a8] underline-offset-4">Open on Digital Sansad ↗</a>
+          </Card>
+          {link.status !== "unlinked" && <SourceNote data={data} rows={winner?.locator.toLowerCase()} reviewedAt={winner?.reviewedAt} />}
         </div>
-        <div className="self-start rounded-2xl bg-[#eff6ef] p-5 sm:p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#3c7554]">Office listed</p>
-          <p className="mt-3 text-xl font-semibold leading-7 tracking-[-0.03em] text-[#19372d]">Member of Parliament</p>
-          <p className="mt-2 text-sm leading-6 text-[#4d6354]">{profile.constituency}, {profile.state}</p>
-          <p className="mt-5 border-t border-[#cfdfd1] pt-4 text-xs font-bold uppercase tracking-[0.1em] text-[#55715e]">Party in roster</p>
-          <p className="mt-1 font-semibold text-[#19372d]">{profile.party}</p>
-          <a href={officialUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex min-h-10 items-center text-sm font-semibold text-[#24694b] underline underline-offset-4">View on Digital Sansad ↗</a>
+      ),
+    },
+  ];
+
+  return (
+    <div className="mx-auto w-full max-w-[1000px] px-4 pb-14 pt-8 sm:px-6 sm:pt-12 lg:px-8">
+      <nav className="text-sm font-semibold text-[#286b4e]" aria-label="Breadcrumb">
+        <Link href="/mps" className="hover:underline">All MPs</Link>
+        {link.status !== "unlinked" && (
+          <>
+            <span className="mx-2 text-[#a3b7a7]" aria-hidden="true">/</span>
+            <Link href={`/seats/${link.seat.stateSlug}/${link.seat.slug}`} className="hover:underline">{link.seat.name}</Link>
+          </>
+        )}
+      </nav>
+
+      <ProfileHeader
+        eyebrow={`Member of Parliament · ${seatLine} · 18th Lok Sabha`}
+        name={name}
+        subtitle={`${profile.party}${winner?.partySymbol ? ` · ${winner.partySymbol}` : ""}`}
+        status={{ label: "Sitting MP", tone: "sitting" }}
+        summary={summary}
+      >
+        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+          {text(birth) ? <Tile label="Age" value={String(ageOn(text(birth)!))} source={sansadSource(profile, birth)} /> : <Tile label="Age" value="Not listed" pending="Not in Sansad record" />}
+          {educationText ? <Tile label="Education" value={educationText} source={sansadSource(profile, education)} /> : <Tile label="Education" value="Not listed" pending="Not in Sansad record" />}
+          <Tile label="Declared assets" value="Not yet" pending="From the 2024 affidavit" />
+          <Tile label="Declared cases" value="Not yet" pending="From the 2024 affidavit" />
         </div>
+      </ProfileHeader>
+
+      <div className="mt-4">
+        <ProfileTabs tabs={tabs} />
       </div>
-    </header>
-    <div className="mt-8"><ProfileJumpLinks links={[
-      ...(hasPositions ? [{ href: "#positions", label: "Positions" }] : []),
-      ...(hasBackground ? [{ href: "#background", label: "Background" }] : []),
-      ...(socials.length ? [{ href: "#presence", label: "Public presence" }] : []),
-      { href: "#sources", label: "Sources" },
-    ]} /></div>
-    {positions && Array.isArray(positions.value) && positions.value.length > 0 && <ProfileSection id="positions" number="01" title="Positions listed by Sansad">
-      <p className="mt-2 text-sm text-[#607568]">Source captured {positions.source.capturedAt.slice(0, 10)}. A missing date means Sansad did not provide one for that entry.</p>
-      <ol className="mt-5 space-y-3">{positions.value.slice(0, 4).map((position, index) => <li key={`${position.title}-${index}`} className="border-l-2 border-[#a7cdb0] py-1 pl-4">
-        <p className="font-semibold text-[#1f4532]">{position.title}</p>
-        <p className="mt-1 text-sm text-[#607568]">{position.period ?? "Date not stated"}</p>
-      </li>)}</ol>
-      {positions.value.length > 4 && <details className="mt-5 rounded-xl bg-[#f5faf5] p-4">
-        <summary className="cursor-pointer text-sm font-semibold text-[#216146]">Show {positions.value.length - 4} more positions</summary>
-        <ol className="mt-4 space-y-3">{positions.value.slice(4).map((position, index) => <li key={`${position.title}-${index}`} className="border-l-2 border-[#a7cdb0] py-1 pl-4">
-          <p className="font-semibold text-[#1f4532]">{position.title}</p>
-          <p className="mt-1 text-sm text-[#607568]">{position.period ?? "Date not stated"}</p>
-        </li>)}</ol>
-      </details>}
-      <a href={officialUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-block text-sm font-semibold text-[#24694b] underline">Check positions on Digital Sansad ↗</a>
-    </ProfileSection>}
-    {hasBackground && <ProfileSection id="background" number={hasPositions ? "02" : "01"} title="Background" description="These details are listed by Digital Sansad. A missing field is left blank.">
-      <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {summary.map(([label, fact]) => fact && typeof fact.value === "string" && <div key={label} className="rounded-xl bg-[#f5faf5] p-4">
-          <dt className="text-xs font-bold uppercase tracking-[0.1em] text-[#688071]">{label}</dt>
-          <dd className="mt-2 font-semibold text-[#1f4532]">{fact.value}</dd>
-          <a href={officialUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex min-h-10 items-center text-xs text-[#24694b] underline">Digital Sansad · captured {fact.source.capturedAt.slice(0, 10)}</a>
-        </div>)}
-      </dl>
-    </ProfileSection>}
-    {socials.length > 0 && <ProfileSection id="presence" number={String(1 + Number(hasPositions) + Number(hasBackground)).padStart(2, "0")} title="Links listed by Sansad">
-      <div className="mt-4 flex flex-wrap gap-3">{socials.map((fact) => <a key={fact.source.locator} href={fact.value as string} target="_blank" rel="noopener noreferrer" className="rounded-full border border-[#bed6c4] px-4 py-2 text-sm font-semibold text-[#216146]">{new URL(fact.value as string).hostname} ↗</a>)}</div>
-    </ProfileSection>}
-    <section id="sources" className="mt-10 scroll-mt-28 border-t border-[#dce6dc] pt-8" aria-labelledby="sources-heading">
-      <h2 id="sources-heading" className="text-2xl font-semibold tracking-[-0.04em] text-[#19372d]">Sources and limits</h2>
-      <p className="mt-3 max-w-3xl text-sm leading-6 text-[#53695a]">These fields were checked against saved Digital Sansad responses on {profile.sourceCheckedAt.slice(0, 10)}. This does not independently confirm every claim. Missing history stays blank.</p>
-      <div className="mt-4"><ProfileDisclosure title="Technical source details">
-      <p className="mt-3 break-all">Roster: {profile.rosterSource.url} · {profile.rosterSource.contentHash}</p>
-      <ul className="mt-3 space-y-2">{profile.facts.map((fact) => <li key={`${fact.predicate}-${fact.source.locator}`} className="break-all">{fact.predicate}: {fact.source.locator} · {fact.source.contentHash}</li>)}</ul>
-      </ProfileDisclosure></div>
-    </section>
-  </div>;
+    </div>
+  );
 }
