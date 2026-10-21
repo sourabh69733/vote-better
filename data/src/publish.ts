@@ -11,7 +11,7 @@ export interface PublicFact {
   revisionId: string;
   publishedAt: string;
   reviewedAt: string;
-  reviewMethod: "agent-visual-check" | "recorded-reviewer-decision";
+  reviewMethod: "agent-visual-check" | "automated-batch-check" | "recorded-reviewer-decision";
   priorFactId?: string;
   source: {
     url: string;
@@ -118,7 +118,8 @@ export async function loadPublication(pool: pg.Pool, sourceUrl: string): Promise
     id: row.id, subjectId: row.stable_key, predicate: row.predicate, value: row.value,
     revisionId: row.revision_id, publishedAt: instant(row.published_at),
     reviewedAt: instant(row.reviewed_at),
-    reviewMethod: row.reviewer_id === "codex-agent-visual-check" ? "agent-visual-check" : "recorded-reviewer-decision",
+    reviewMethod: row.reviewer_id === "codex-agent-visual-check" ? "agent-visual-check"
+      : row.reviewer_id === "automated-batch-check" ? "automated-batch-check" : "recorded-reviewer-decision",
     ...(row.prior_fact_id ? { priorFactId: row.prior_fact_id } : {}),
     source: {
       url: row.url, contentHash: row.content_hash, capturedAt: instant(row.captured_at),
