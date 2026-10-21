@@ -139,3 +139,23 @@ export function marginOf(seat: Seat, candidate: Candidate) {
   }
   return { kind: "behind" as const, votes: winner.votes - candidate.votes, other: winner };
 }
+
+// Short Indian form for reading: 3,72,032 -> "3.72 lakh". Exact figures stay on the page.
+export function formatShort(value: number) {
+  const trim = (n: number) => n.toFixed(2).replace(/\.?0+$/, "");
+  if (value >= 10_000_000) return `${trim(value / 10_000_000)} crore`;
+  if (value >= 100_000) return `${trim(value / 100_000)} lakh`;
+  return formatNumber(value);
+}
+
+// One plain sentence built only from the published result.
+export function summaryOf(seat: Seat, candidate: Candidate, partyName: (code: string) => string) {
+  const margin = marginOf(seat, candidate);
+  const share = `${Math.round(candidate.shareOfValidVotes)}% of valid votes`;
+  const votes = `Got ${formatShort(candidate.votes)} votes (${share}) in ${seat.name}.`;
+  if (!margin) return `${votes} Was the only candidate on the ballot.`;
+  if (margin.kind === "won") {
+    return `${votes} Won by ${formatShort(margin.votes)} votes over ${margin.other.name} (${partyName(margin.other.party)}).`;
+  }
+  return `${votes} Finished ${candidate.rank} of ${seat.candidates.length}, ${formatShort(margin.votes)} votes behind the winner, ${margin.other.name} (${partyName(margin.other.party)}).`;
+}
