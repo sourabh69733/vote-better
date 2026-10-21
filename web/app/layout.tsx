@@ -34,10 +34,10 @@ export default function RootLayout({
             </Link>
             <nav className="ml-4 flex min-w-0 items-center gap-4 overflow-x-auto whitespace-nowrap [scrollbar-width:none] text-sm font-semibold sm:gap-7">
               <Link
-                href="/"
+                href="/seats"
                 className="text-[#526a59] transition-colors hover:text-[#1e6b4d]"
               >
-                Areas
+                Seats
               </Link>
               <Link
                 href="/constitution"

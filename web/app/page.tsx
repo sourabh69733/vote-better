@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { listAreaOverviews } from "@/lib/civic-area";
+import { loadLokSabha2024 } from "@/lib/lok-sabha-2024";
 
 export default function Home() {
   const areas = listAreaOverviews();
+  const seatCount = loadLokSabha2024().seats.length;
 
   return (
     <div className="mx-auto w-full max-w-[1320px] px-4 pb-14 pt-10 sm:px-6 sm:pt-16 lg:px-8">
-      <header className="grid gap-7 border-b border-[#d9e3da] pb-12 lg:grid-cols-[minmax(0,1.5fr)_minmax(280px,.65fr)] lg:items-end lg:gap-16 lg:pb-16">
+      <header className="grid gap-7 border-b border-[#d9e3da] pb-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,.9fr)] lg:items-end lg:gap-16 lg:pb-16">
         <div>
           <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#2a7658]">Civic information, made clear</p>
           <h1 className="mt-5 max-w-4xl text-[clamp(2.7rem,5vw,4.8rem)] font-semibold leading-[1.02] tracking-[-0.075em] text-[#19372d]">
@@ -14,14 +16,19 @@ export default function Home() {
           </h1>
         </div>
         <div className="lg:pb-2">
-          <p className="max-w-sm text-base leading-7 text-[#576c60]">
-            Start with a place. Follow its public offices to the people who hold them, then check the records behind each connection.
-          </p>
-          <a href="#verified-areas" className="mt-6 inline-flex min-h-11 items-center gap-3 rounded-full bg-[#1c6047] px-5 text-sm font-bold text-white transition-colors hover:bg-[#154c38]">
-            Explore verified areas <span aria-hidden="true">↗</span>
-          </a>
-          <Link href="/mps" className="ml-4 inline-flex min-h-11 items-center text-sm font-semibold text-[#286b4e] underline underline-offset-4">Browse MP profiles</Link>
-          {process.env.NODE_ENV === "development" && <Link href="/research/pin" className="ml-4 inline-flex min-h-11 items-center text-sm font-semibold text-[#286b4e] underline underline-offset-4">
+          <form action="/seats" method="get" role="search" className="rounded-[24px] border border-[#dce6dc] bg-white p-5 shadow-[0_12px_36px_rgba(28,64,40,.07)]">
+            <label htmlFor="home-seat-search" className="text-sm font-bold text-[#19372d]">Find your MP and everyone who contested</label>
+            <div className="mt-3 flex gap-2">
+              <input id="home-seat-search" name="q" placeholder="Your constituency, state or a name" autoComplete="off"
+                className="min-h-12 min-w-0 flex-1 rounded-xl border border-[#bfd3c3] bg-white px-4 text-base text-[#18372b] focus:border-[#28724f] focus:outline-none focus:ring-4 focus:ring-[#2a7658]/10" />
+              <button type="submit" className="min-h-12 rounded-xl bg-[#1c6047] px-5 text-sm font-bold text-white hover:bg-[#154c38]">Search</button>
+            </div>
+            <p className="mt-3 text-sm text-[#66796d]">
+              All {seatCount} Lok Sabha seats from the 2024 election, from official ECI records. <Link href="/seats" className="font-semibold text-[#286b4e] underline underline-offset-4">Browse by state</Link>
+            </p>
+          </form>
+          {process.env.NODE_ENV === "development" && <Link href="/mps" className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-[#286b4e] underline underline-offset-4">Browse MP profiles</Link>}
+          {process.env.NODE_ENV === "development" && <Link href="/research/pin" className="ml-4 mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-[#286b4e] underline underline-offset-4">
             Try PIN research preview
           </Link>}
         </div>
