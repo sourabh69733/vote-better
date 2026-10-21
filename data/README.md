@@ -154,3 +154,19 @@ Run `npm --prefix data run review -- queue` to see unreviewed observations with 
 The first local revision included only Manju Sharma's result row. The next revision contains all 13 candidate names, parties and vote totals from Jaipur Form 21E, each linked to its source row and review decision. The 2026-10-06 source recheck matched the existing PDF hash. Contest totals remain unpublished, and these result records do not create full person profiles. The current office term and parliamentary activities still come from the separately curated website records.
 
 The exporter also derives candidate-result coverage from the latest snapshot, collection attempts, review decisions and published facts. It reports the number of complete candidate rows published from this return, not the coverage of all election data. A successful check of unchanged bytes updates the last check time without changing the original snapshot capture time.
+
+## National Lok Sabha 2024 results
+
+The source is ECI's 2024 statistical report 33, "Constituency Wise Detailed Result" (XLS). It covers 542 seats; Surat was decided unopposed and is reported separately. ECI notes that the statutory forms kept by Returning Officers are final, and the site shows that note.
+
+```sh
+npm --prefix data run import:eci-2024
+npm --prefix data run review:batch -- --reviewer=automated-batch-check "--reason=<checks and approval>"
+npm --prefix data run export:lok-sabha-2024
+```
+
+The import saves a hashed snapshot and stores one `candidate.result` observation per candidate row. It refuses the file unless the title, header and disclaimer match, there are 542 seats, general plus postal votes equal the total in every row, candidate votes equal valid votes in every seat, each seat has one NOTA row and no seat has a tie for first place.
+
+Batch review is allowed only for sources listed in `src/review-batch.ts`. It creates one person record per candidacy, keyed by election, state, seat and name (party is added for namesakes in the same seat), and records one approval for the snapshot. It stops if any result differs from an already published fact. These person records are not yet linked to Sansad members or other elections.
+
+The export publishes approved facts and writes `web/records/generated/lok-sabha-2024.json`, grouped by seat. Each candidate keeps its fact ID and worksheet row.
