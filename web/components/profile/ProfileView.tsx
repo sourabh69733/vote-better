@@ -4,6 +4,8 @@ import { candidateHref, formatShort, marginOf, seatHref, type LokSabha2024 } fro
 import { partyColor } from "@/lib/party-colors";
 import type { ProfileModel, ProfileStat } from "@/lib/profile-model";
 import SourceNote from "@/app/seats/SourceNote";
+import { buildStory } from "@/lib/story";
+import StoryLauncher from "@/components/story/StoryLauncher";
 import SourceChip from "./SourceChip";
 import { Bars, SectionNav, TugOfWar, VoteRace } from "./Visuals";
 
@@ -54,7 +56,7 @@ function StatCard({ stat, color }: { stat: ProfileStat; color: string }) {
 
 function Section({ id, title, kicker, children }: { id: string; title: string; kicker?: string; children: ReactNode }) {
   return (
-    <section id={id} className="scroll-mt-36 pt-10" aria-labelledby={`${id}-title`}>
+    <section id={id} className="scroll-reveal scroll-mt-36 pt-10" aria-labelledby={`${id}-title`}>
       {kicker && <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#5b8a6c]">{kicker}</p>}
       <h2 id={`${id}-title`} className="mt-1 text-2xl font-semibold tracking-[-0.04em] text-[#122a20] sm:text-3xl">{title}</h2>
       <div className="mt-4">{children}</div>
@@ -125,7 +127,10 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
             </div>
           )}
         </div>
-        <p className="relative border-t border-white/10 px-6 py-4 text-[15px] leading-7 text-white/85 sm:px-8 lg:px-10">{model.headline}</p>
+        <div className="relative flex flex-col gap-4 border-t border-white/10 px-6 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10">
+          <p className="text-[15px] leading-7 text-white/85">{model.headline}</p>
+          <StoryLauncher story={buildStory(model)} className="shrink-0 self-start sm:self-center" />
+        </div>
       </header>
 
       {model.warning && <p className="mt-3 rounded-2xl bg-[#fbf3df] p-3 text-sm text-[#6b5520]">{model.warning}</p>}

@@ -65,3 +65,29 @@ input::placeholder {
     transform: scaleY(0);
   }
 }
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(28px);
+  }
+}
+
+/* Desktop scroll story: sections rise as they enter the view. Movement only,
+   never transparency, so content is always fully visible. Browsers without
+   scroll-driven animations simply show the content. */
+@supports (animation-timeline: view()) {
+  @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+    .scroll-reveal {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+}
