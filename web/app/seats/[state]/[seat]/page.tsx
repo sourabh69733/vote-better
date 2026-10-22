@@ -79,9 +79,14 @@ export default async function SeatPage({ params }: PageProps) {
                 </p>
               )}
             </div>
-            <Link href={candidateHref(seat, winner)} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#1c6047] px-5 text-sm font-bold text-white hover:bg-[#154c38]">
-              See profile <span aria-hidden="true">→</span>
-            </Link>
+            <div className="flex flex-wrap gap-2">
+              <Link href={`${candidateHref(seat, winner)}?story=1`} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#1c6047] px-5 text-sm font-bold text-white hover:bg-[#154c38]">
+                <span aria-hidden="true">▶</span> Play story
+              </Link>
+              <Link href={candidateHref(seat, winner)} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[#bed6c4] px-5 text-sm font-bold text-[#216146] hover:bg-[#eff7ef]">
+                See profile <span aria-hidden="true">→</span>
+              </Link>
+            </div>
           </div>
           <dl className="grid grid-cols-2 gap-px border-t border-[#e6ede6] bg-[#e6ede6] sm:grid-cols-4">
             {[
