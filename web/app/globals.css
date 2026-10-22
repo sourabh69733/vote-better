@@ -53,3 +53,15 @@ input::placeholder {
     transform: translateY(0);
   }
 }
+
+@keyframes growX {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes growY {
+  from {
+    transform: scaleY(0);
+  }
+}
