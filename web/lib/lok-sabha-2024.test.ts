@@ -43,3 +43,11 @@ test("short numbers and summaries read plainly", async () => {
   const lost = getCandidate("rajasthan", "jaipur", "pratap-singh-khachariyawas")!;
   assert.match(summaryOf(lost.seat, lost.candidate, party), /^Got 5\.55 lakh votes \(38% of valid votes\) in Jaipur\. Finished 2 of 13, 3\.32 lakh votes behind the winner, Manju Sharma \(Bharatiya Janata Party\)\.$/);
 });
+
+test("margin rank compares a seat with the other contested seats in its state", async () => {
+  const { marginRankInState } = await import("./lok-sabha-2024");
+  const jaipur = marginRankInState(getSeat("rajasthan", "jaipur")!);
+  assert.equal(jaipur?.total, 25);
+  assert.ok(jaipur && jaipur.rank >= 1 && jaipur.rank <= 25);
+  assert.equal(marginRankInState(getSeat("gujarat", "surat")!), null);
+});

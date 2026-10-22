@@ -159,3 +159,13 @@ export function summaryOf(seat: Seat, candidate: Candidate, partyName: (code: st
   }
   return `${votes} Finished ${candidate.rank} of ${seat.candidates.length}, ${formatShort(margin.votes)} votes behind the winner, ${margin.other.name} (${partyName(margin.other.party)}).`;
 }
+
+// Where this seat's winning margin ranks among the contested seats in its state.
+export function marginRankInState(seat: Seat) {
+  const margins = loadLokSabha2024().seats
+    .filter((item) => item.state === seat.state && item.candidates.length > 1)
+    .map((item) => ({ key: item.slug, margin: item.candidates[0].votes - item.candidates[1].votes }))
+    .sort((a, b) => b.margin - a.margin);
+  const rank = margins.findIndex((item) => item.key === seat.slug) + 1;
+  return rank ? { rank, total: margins.length } : null;
+}
