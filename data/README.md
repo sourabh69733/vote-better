@@ -155,6 +155,19 @@ The first local revision included only Manju Sharma's result row. The next revis
 
 The exporter also derives candidate-result coverage from the latest snapshot, collection attempts, review decisions and published facts. It reports the number of complete candidate rows published from this return, not the coverage of all election data. A successful check of unchanged bytes updates the last check time without changing the original snapshot capture time.
 
+## Sources and syncing
+
+Every collected source is listed in `src/registry.ts` with its owner, link, refresh interval, reuse status, the fields it may supply and how it is reviewed. A source that is not in the registry is not collected; a source marked `restricted` fails validation.
+
+```sh
+npm --prefix data run sync -- --list            # every source, last run, whether it is due
+npm --prefix data run sync -- --due             # run everything that is due, dependencies first
+npm --prefix data run sync -- eci-ge2024-results # run named sources
+npm --prefix data run sync -- --due --dry-run   # show what would run
+```
+
+Each run, including a failed one, is written to the `sync_run` table and cannot be edited. A source is due when it has never succeeded or its refresh interval has passed; fixed archives are checked only until they first succeed. Unchanged files keep their original snapshot. Reuse status `under-review` means outputs stay local.
+
 ## National Lok Sabha 2024 results
 
 The source is ECI's 2024 statistical report 33, "Constituency Wise Detailed Result" (XLS). It covers 542 seats; Surat was decided unopposed and is reported separately. ECI notes that the statutory forms kept by Returning Officers are final, and the site shows that note.

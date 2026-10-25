@@ -88,7 +88,7 @@ export async function runAllBiographyBatches(memberIds: readonly number[], optio
     ...(failedMemberIds.length ? { failedMemberIds } : {}), batches };
 }
 
-async function rosterIds(pool: pg.Pool): Promise<number[]> {
+export async function rosterIds(pool: pg.Pool): Promise<number[]> {
   const result = await pool.query(`
     SELECT DISTINCT o.raw_value AS member_id
     FROM observation o
