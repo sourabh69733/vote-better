@@ -53,6 +53,17 @@ Then open `http://localhost:3000`. Use `npm test`, `npm run lint` and `npm run b
 
 Set `NEXT_PUBLIC_SITE_URL` (for example `https://example.org`) in production. Link previews use it as their base address and share frames print it on the last slide; without it they say "Link in bio".
 
+Folders such as `app/seats/[state]/[seat]` are how Next.js marks the changing parts of an address, so they keep their square brackets. To find a page's file without typing those paths:
+
+```bash
+cd web
+npm run route                                   # every page and its file
+npm run route -- /seats/rajasthan/jaipur        # the file for one address, already quoted
+npm run route -- /seats/rajasthan/jaipur --open # open it in your editor
+```
+
+When typing such a path yourself, put it in quotes, for example `git add "web/app/seats/[state]"`. Without quotes zsh reads the brackets as a pattern.
+
 To make an MP4 reel from a deck with ffmpeg, with the site running:
 
 ```bash

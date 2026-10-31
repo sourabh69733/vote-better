@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "node --import tsx --test lib/*.test.ts",
-    "reel": "node scripts/make-reel.mjs"
+    "reel": "node scripts/make-reel.mjs",
+    "route": "node scripts/route.mjs"
   },
   "dependencies": {
     "@xyflow/react": "^12.12.0",
