@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { electionStatus, formatDay, groupElections, lastCheckedOn, validateElections, type Election } from "./elections";
+import { byElectionsFor, electionStatus, formatDay, groupElections, lastCheckedOn, validateElections, type Election } from "./elections";
 import { elections } from "@/records/elections";
 
 const source = { title: "Press note", publisher: "ECI", url: "https://example.org/note", checkedOn: "2026-10-31" };
@@ -64,4 +64,13 @@ test("the curated records are valid and cover the 2024 Lok Sabha election", () =
   assert.equal(groups.now.length, 0);
   assert.equal(groups.upcoming.length, 7);
   assert.equal(groups.recent[0].id, "bye-elections-october-2026");
+});
+
+test("bye-elections list their seats, and a seat's later bye-elections can be found", () => {
+  const bad = validateElections([{ ...base, body: "bye-election", seats: 2, contests: [{ state: "Test State", seat: 5, name: "A" }, { state: "Elsewhere", seat: 5, name: "A" }] }]);
+  assert.ok(bad.some((e) => e.includes("state the election does not list")));
+  const found = byElectionsFor(elections, "Rajasthan", 27, "2023-12-03").map((e) => e.id);
+  assert.deepEqual(found, ["rajasthan-bye-elections-november-2024"]);
+  assert.deepEqual(byElectionsFor(elections, "Rajasthan", 54, "2023-12-03"), []);
+  assert.deepEqual(byElectionsFor(elections, "Rajasthan", 165, "2023-12-03").map((e) => e.polls[0].date), ["2024-04-26"]);
 });

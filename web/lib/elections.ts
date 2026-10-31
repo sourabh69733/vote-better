@@ -34,6 +34,8 @@ export interface Election {
   // A page on this site that carries the results.
   siteHref?: string;
   note?: string;
+  // For bye-elections: the seats that voted, numbered as in the state's assembly results.
+  contests?: { state: string; seat: number; name: string }[];
   sources: ElectionSource[];
 }
 
@@ -131,6 +133,17 @@ export function validateElections(elections: readonly Election[]): string[] {
     }
     for (const url of [election.resultsUrl]) if (url !== undefined && !url.startsWith("https://")) errors.push(`${at}: resultsUrl needs an HTTPS URL`);
     if (election.siteHref !== undefined && !election.siteHref.startsWith("/")) errors.push(`${at}: siteHref must be a path on this site`);
+    if (election.contests) {
+      const seen = new Set<string>();
+      for (const contest of election.contests) {
+        const key = `${contest.state}/${contest.seat}`;
+        if (!Number.isInteger(contest.seat) || contest.seat < 1 || !contest.name.trim()) errors.push(`${at}: contest ${key} needs a seat number and name`);
+        if (!election.states.includes(contest.state)) errors.push(`${at}: contest ${key} is in a state the election does not list`);
+        if (seen.has(key)) errors.push(`${at}: contest ${key} listed twice`);
+        seen.add(key);
+      }
+      if (election.seats !== undefined && election.seats !== election.contests.length) errors.push(`${at}: seats and contests disagree`);
+    }
   }
   return errors;
 }
@@ -142,4 +155,12 @@ export function lastCheckedOn(elections: readonly Election[]): string | undefine
 
 export function todayIso(now = new Date()): string {
   return now.toISOString().slice(0, 10);
+}
+
+// Bye-elections held in an assembly seat after a given day, newest first.
+export function byElectionsFor(records: readonly Election[], state: string, seat: number, after: string) {
+  return records
+    .filter((election) => election.body === "bye-election" && election.polls[0] && election.polls[0].date > after)
+    .flatMap((election) => (election.contests ?? []).filter((contest) => contest.state === state && contest.seat === seat).map(() => election))
+    .sort((a, b) => b.polls[0].date.localeCompare(a.polls[0].date));
 }
