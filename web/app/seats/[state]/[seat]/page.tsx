@@ -91,6 +91,9 @@ export default async function SeatPage({ params }: PageProps) {
               <Link href={candidateHref(seat, winner)} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[#bed6c4] px-5 text-sm font-bold text-[#216146] hover:bg-[#eff7ef]">
                 See profile <span aria-hidden="true">→</span>
               </Link>
+              <Link href={`/share/seat/lok-sabha-2024/${seat.stateSlug}/${seat.slug}`} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[#bed6c4] px-5 text-sm font-bold text-[#216146] hover:bg-[#eff7ef]">
+                Share on Instagram
+              </Link>
             </div>
           </div>
           <dl className="grid grid-cols-2 gap-px border-t border-[#e6ede6] bg-[#e6ede6] sm:grid-cols-4">

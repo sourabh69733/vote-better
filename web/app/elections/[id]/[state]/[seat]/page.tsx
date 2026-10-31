@@ -67,6 +67,7 @@ export default async function ContestPage({ params }: PageProps) {
               <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-[#4c8063]">Won the seat</p>
               <h2 id="winner-heading" className="mt-2 text-3xl font-semibold tracking-[-0.04em] text-[#18372b]">{winner.name}</h2>
               <p className="mt-1 text-[#4f6455]">{party(winner.party)}</p>
+              <Link href={`/share/seat/${id}/${seat.stateSlug}/${seat.slug}`} className="mt-4 inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[#bed6c4] px-5 text-sm font-bold text-[#216146] hover:bg-[#eff7ef]">Share on Instagram</Link>
               {winner.margin !== null && (
                 <p className="mt-4 text-[15px] leading-7 text-[#43594a]">
                   Won by <strong className="text-[#19372d]">{formatNumber(winner.margin)} votes</strong>

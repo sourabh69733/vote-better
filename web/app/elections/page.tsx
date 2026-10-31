@@ -96,7 +96,7 @@ export default function ElectionsPage() {
         <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#2a7658]">Election calendar{checked ? ` · checked ${formatDay(checked)}` : ""}</p>
         <h1 className="mt-3 text-[clamp(2.4rem,5vw,3.8rem)] font-semibold leading-[1.04] tracking-[-0.06em] text-[#19372d]">What is being voted on</h1>
         <p className="mt-3 max-w-xl text-[15px] leading-7 text-[#576c60]">
-          Elections underway now, the ones due next, and the ones counted recently. Every date comes from an Election Commission of India press note; dates ECI has not announced are left blank.
+          Voting for the first time? <Link href="/share/first-time-voter" className="font-semibold text-[#1d6547] underline underline-offset-4">Share the three steps</Link>. Elections underway now, the ones due next, and the ones counted recently. Every date comes from an Election Commission of India press note; dates ECI has not announced are left blank.
         </p>
       </header>
 

@@ -9,6 +9,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  // Set NEXT_PUBLIC_SITE_URL in production so link previews point at the public address.
+  ...(process.env.NEXT_PUBLIC_SITE_URL ? { metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL) } : {}),
   title: "Vote Better",
   description:
     "Explore sourced public records about elected representatives and candidates in India.",

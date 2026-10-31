@@ -10,6 +10,8 @@ An open-source project to help people in India understand who represents them, w
 | `/elections` | Election calendar: polls underway, assemblies due next, and recent counts, each dated from an ECI press note | Public, curated by hand |
 | `/elections/[id]` | One election: schedule timeline with each polling day, and for Lok Sabha 2024, 2019 and 2014 every seat by state with a margin strip and a seat filter | Public |
 | `/elections/[id]/[state]/[seat]` | One seat in 2019 or 2014: winner, margin, how close it was in the state, every candidate, the seat's history across elections. 2024 seats redirect to `/seats` | Public |
+| `/share/[...deck]` | Share kit: Instagram story frames (9:16), carousel slides (4:5), an in-browser reel, and English and Hinglish captions. Decks: `seat/<election>/<state>/<seat>`, `quiz/...`, `closest/<election>/<state>`, `mp-role`, `first-time-voter` | Public, not indexed |
+| `/share/image/<format>/<frame>/<deck>` | One frame as a PNG, drawn on request from published facts | Public |
 | `/seats` | All 543 Lok Sabha seats from 2024: search by seat, state or any candidate's name | Public |
 | `/seats/[state]/[seat]` | Who won, the margin, every candidate's votes and share, NOTA, turnout, ECI source rows | Public |
 | `/seats/[state]/[seat]/[candidate]` | Each of the 8,359 candidates: party, age, gender, category, votes, margin, rivals, source row | Public |
@@ -48,6 +50,15 @@ npm run dev
 ```
 
 Then open `http://localhost:3000`. Use `npm test`, `npm run lint` and `npm run build` to check the site.
+
+Set `NEXT_PUBLIC_SITE_URL` (for example `https://example.org`) in production. Link previews use it as their base address and share frames print it on the last slide; without it they say "Link in bio".
+
+To make an MP4 reel from a deck with ffmpeg, with the site running:
+
+```bash
+cd web
+npm run reel -- seat/lok-sabha-2024/rajasthan/jaipur
+```
 
 The data pipeline needs Docker for its database:
 

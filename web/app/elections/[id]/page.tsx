@@ -83,7 +83,12 @@ function Results({ election, results }: { election: Election; results: LokSabhaR
                   </span>
                   {dots.length > 1 && <span className="mt-2 block max-w-xl"><MarginStrip dots={dots} state={state.state} compact /></span>}
                 </summary>
-                <ul className="grid gap-2 border-t border-[#eef3ed] p-3 sm:grid-cols-2">
+                {dots.length >= 3 && (
+                  <p className="border-t border-[#eef3ed] px-5 pt-3 text-sm">
+                    <Link href={`/share/closest/${results.election.id}/${state.stateSlug}`} className="font-semibold text-[#1d6547] underline underline-offset-4">Share the closest fights in {state.state}</Link>
+                  </p>
+                )}
+                <ul className="grid gap-2 p-3 sm:grid-cols-2">
                   {state.seats.map((seat) => {
                     const winner = seatWinner(seat);
                     return (
