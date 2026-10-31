@@ -47,4 +47,16 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 public/data
-data
+/data/*
+!/data/package.json
+!/data/package-lock.json
+!/data/tsconfig.json
+!/data/compose.yaml
+!/data/README.md
+!/data/requirements-geo.txt
+!/data/migrations/
+!/data/extractions/
+!/data/src/
+!/data/test/
+.agents/
+.superpowers/

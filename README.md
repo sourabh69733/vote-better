@@ -1,79 +1,88 @@
-# Vote Better 🗳️
+# Vote Better
 
-**Make every Indian voter understand their candidates in 30 seconds.**
+An open-source project to help people in India understand who represents them, what those people have done, and what rights citizens have. Every published fact links to its original public source and shows when it was checked.
 
-An open-source, mobile-first voter intelligence platform that takes publicly available election data and presents it so simply that anyone can make an informed choice.
+## What is on the site
 
-## What This Does
+| Route | Content | Status |
+| --- | --- | --- |
+| `/` | Search for a seat or candidate, verified areas, Delhi entry point | Public |
+| `/elections` | Election calendar: polls underway, assemblies due next, and recent counts, each dated from an ECI press note | Public, curated by hand |
+| `/elections/[id]` | One election: schedule timeline with each polling day, and for Lok Sabha 2024, 2019 and 2014 every seat by state with a margin strip and a seat filter | Public |
+| `/elections/[id]/[state]/[seat]` | One seat in 2019 or 2014: winner, margin, how close it was in the state, every candidate, the seat's history across elections. 2024 seats redirect to `/seats` | Public |
+| `/share/[...deck]` | Share kit: Instagram story frames (9:16), carousel slides (4:5), an in-browser reel, and English and Hinglish captions. Decks: `seat/<election>/<state>/<seat>`, `quiz/...`, `closest/<election>/<state>`, `mp-role`, `first-time-voter` | Public, not indexed |
+| `/share/image/<format>/<frame>/<deck>` | One frame as a PNG, drawn on request from published facts | Public |
+| `/seats` | Search every Lok Sabha seat in 2024, 2019 and 2014 and every Rajasthan assembly seat in 2023, by seat, state or anyone who contested; browse 2024 by state | Public |
+| `/my-area` | Enter a PIN to see your MP, your MLA and your ward councillor (not collected yet). Rajasthan only | Preview: works only where the unpublished PIN boundary file exists; the boundary licence is being checked |
+| `/seats/[state]/[seat]` | Who won, the margin, every candidate's votes and share, NOTA, turnout, ECI source rows | Public |
+| `/seats/[state]/[seat]/[candidate]` | Each of the 8,359 candidates: party, age, gender, category, votes, margin, rivals, source row | Public |
+| `/areas/[areaId]` | Jaipur and Jaipur Rural Lok Sabha: office holders, 2024 results, relationship map | Public |
+| `/people/[slug]` | Sitting MPs and all 2024 Jaipur candidates: office, results, affidavit details, career, parliamentary work | Public |
+| `/facts/[factId]` | Source trail for each published election fact | Public |
+| `/constitution` | Plain-language Constitution questions, topics and animations | Public, expert review pending |
+| `/rights` | Protest, police, arrest and legal aid guide for Delhi, with BNSS citations | Public, legal review pending |
+| `/mps` | 540 MP profiles from Digital Sansad | Shown only when a local export exists; reuse rights under review |
+| `/delhi` | Delhi offices and office holders | Preview data in development; empty in production until a reviewed export is supplied |
+| `/research/*` | PIN lookup and draft MP profiles | Development only |
 
-1. **Enter your PIN code** → instantly see your elected representatives (MP, MLA, Corporator)
-2. **Tap any candidate** → see their deep profile: assets, criminal cases, attendance, fund spending
-3. **Compare candidates** → side-by-side Head-to-Head Clash with trophy indicators
-4. **Take the Priority Quiz** → 5 questions to filter candidates by what matters to YOU
-5. **Share on WhatsApp** → one-tap report card image for viral civic awareness
+## Data rules
 
-## What This Is NOT
+- A person has a lasting profile. Office terms and election candidacies are dated records attached to that person.
+- A claim needs a source, a review date, and wording that matches what the source establishes.
+- A parliamentary question proves the question was asked. It does not prove that a local project was delivered.
+- Missing or unreviewed fields remain absent. No numerical candidate ranking is published.
+- A PIN code alone is not enough to identify every representative.
+- National 2024 results come from ECI statistical reports. ECI states that its statutory forms are final; the site shows that note on every result.
 
-- ❌ NOT a recommendation engine ("Vote for X")
-- ❌ NOT an opinion platform
-- ❌ NOT affiliated with any political party
-- ❌ Every data point links to its official government source
+## Project layout
 
-## Data Sources
+- `web/` is the Next.js site. It reads curated records in `web/records/` and reviewed exports; it never fetches sources on page load. See [web/README.md](web/README.md).
+- `data/` is the collection and review pipeline: snapshots, normalized observations, identity matching, human review and publication, stored in PostgreSQL. See [data/README.md](data/README.md).
+- `docs/architecture/` describes the data model, the profile collection framework and the Delhi system. `docs/data-sources/` records each source audit.
 
-| Source | What We Use |
-|:---|:---|
-| [MyNeta / ADR](https://myneta.info) | Candidate assets, criminal records, education |
-| [TCPD / Lok Dhaba](https://lokdhaba.ashoka.edu.in) | Historical election results, turnout, margins |
-| [PRS Legislative Research](https://prsindia.org) | MP attendance, questions asked, bills |
-| [MPLADS Portal](https://mplads.gov.in) | Development fund utilization |
-| [DataMeet](https://github.com/datameet/maps) | Constituency boundary maps (GeoJSON) |
+## Run locally
 
-## Tech Stack
-
-- **Frontend**: Next.js 14 + Tailwind CSS (Static Export, PWA)
-- **Data Processing**: Python scripts
-- **Hosting**: Vercel / Cloudflare Pages (free tier)
-- **Charts**: Recharts
-- **No backend required** — all data is pre-processed into static JSON
-
-## Getting Started
+Use Node.js 22 (`web/.nvmrc`).
 
 ```bash
-# Install frontend dependencies
-cd web && npm install
-
-# Run development server
+cd web
+npm install
 npm run dev
-
-# Process data (requires Python 3.10+)
-cd data && pip install -r requirements.txt
-python scripts/merge_profiles.py
 ```
 
-## Project Structure
+Then open `http://localhost:3000`. Use `npm test`, `npm run lint` and `npm run build` to check the site.
 
-```
-vote-better/
-├── data/                    # Data processing pipeline
-│   ├── raw/                 # Source datasets (gitignored)
-│   ├── scripts/             # Python processing scripts
-│   ├── mappings/            # Static reference data (IPC translations, party colors)
-│   └── output/              # Generated JSON files
-├── web/                     # Next.js frontend app
-│   ├── app/                 # Pages (App Router)
-│   ├── components/          # React components
-│   ├── lib/                 # Utilities
-│   └── public/data/         # Static JSON served to frontend
-└── docs/                    # Documentation
+Set `NEXT_PUBLIC_SITE_URL` (for example `https://example.org`) in production. Link previews use it as their base address and share frames print it on the last slide; without it they say "Link in bio".
+
+Folders such as `app/seats/[state]/[seat]` are how Next.js marks the changing parts of an address, so they keep their square brackets. To find a page's file without typing those paths:
+
+```bash
+cd web
+npm run route                                   # every page and its file
+npm run route -- /seats/rajasthan/jaipur        # the file for one address, already quoted
+npm run route -- /seats/rajasthan/jaipur --open # open it in your editor
 ```
 
-## Contributing
+When typing such a path yourself, put it in quotes, for example `git add "web/app/seats/[state]"`. Without quotes zsh reads the brackets as a pattern.
 
-This is an open-source civic project. Contributions welcome!
+To make an MP4 reel from a deck with ffmpeg, with the site running:
 
-See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for guidelines.
+```bash
+cd web
+npm run reel -- seat/lok-sabha-2024/rajasthan/jaipur
+```
 
-## License
+The data pipeline needs Docker for its database:
 
-MIT License — free to use, modify, and distribute.
+```bash
+docker compose -f data/compose.yaml up -d --wait
+npm --prefix data test
+```
+
+## Before public release
+
+1. A qualified lawyer reviews `/rights` and `/constitution`.
+2. Decide whether Digital Sansad biographies can be republished.
+3. Run the [Jaipur comprehension check](docs/research/jaipur-voter-test.md) with residents.
+
+License: MIT.
