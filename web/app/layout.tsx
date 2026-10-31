@@ -39,6 +39,7 @@ export default function RootLayout({
               >
                 Seats
               </Link>
+              <Link href="/elections" className="text-[#526a59] transition-colors hover:text-[#1e6b4d]">Elections</Link>
               <Link
                 href="/constitution"
                 className="text-[#526a59] transition-colors hover:text-[#1e6b4d]"

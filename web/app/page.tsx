@@ -24,7 +24,7 @@ export default function Home() {
               <button type="submit" className="min-h-12 rounded-xl bg-[#1c6047] px-5 text-sm font-bold text-white hover:bg-[#154c38]">Search</button>
             </div>
             <p className="mt-3 text-sm text-[#66796d]">
-              All {seatCount} Lok Sabha seats from the 2024 election, from official ECI records. <Link href="/seats" className="font-semibold text-[#286b4e] underline underline-offset-4">Browse by state</Link>
+              All {seatCount} Lok Sabha seats from the 2024 election, from official ECI records. <Link href="/seats" className="font-semibold text-[#286b4e] underline underline-offset-4">Browse by state</Link> or see <Link href="/elections" className="font-semibold text-[#286b4e] underline underline-offset-4">which elections are coming up</Link>.
             </p>
           </form>
           {process.env.NODE_ENV === "development" && <Link href="/mps" className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-[#286b4e] underline underline-offset-4">Browse MP profiles</Link>}

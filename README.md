@@ -7,6 +7,7 @@ An open-source project to help people in India understand who represents them, w
 | Route | Content | Status |
 | --- | --- | --- |
 | `/` | Search for a seat or candidate, verified areas, Delhi entry point | Public |
+| `/elections` | Election calendar: polls underway, assemblies due next, and recent counts, each dated from an ECI press note | Public, curated by hand |
 | `/seats` | All 543 Lok Sabha seats from 2024: search by seat, state or any candidate's name | Public |
 | `/seats/[state]/[seat]` | Who won, the margin, every candidate's votes and share, NOTA, turnout, ECI source rows | Public |
 | `/seats/[state]/[seat]/[candidate]` | Each of the 8,359 candidates: party, age, gender, category, votes, margin, rivals, source row | Public |
