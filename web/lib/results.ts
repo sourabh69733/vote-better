@@ -1,11 +1,17 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
+import { elections as calendar } from "../records/elections";
+import { byElectionsFor, type Election } from "./elections";
+
 // Lok Sabha results for every election the site has published, in one shape:
 // loading and validation, seat and candidate lookups, links, margins, search and formatting.
 
 // Newest first within each body.
-export const RESULT_ELECTIONS = ["lok-sabha-2024", "lok-sabha-2019", "lok-sabha-2014", "rajasthan-assembly-2023"] as const;
+export const RESULT_ELECTIONS = [
+  "lok-sabha-2024", "lok-sabha-2019", "lok-sabha-2014",
+  "rajasthan-bye-election-anta-2025", "rajasthan-bye-elections-november-2024", "rajasthan-bye-election-bagidora-2024", "rajasthan-assembly-2023",
+] as const;
 export type ResultElectionId = (typeof RESULT_ELECTIONS)[number];
 export type ResultBody = "lok-sabha" | "assembly";
 
@@ -14,6 +20,10 @@ export const ELECTION_INFO: Record<ResultElectionId, { body: ResultBody; label: 
   "lok-sabha-2019": { body: "lok-sabha", label: "Lok Sabha 2019", seatLabel: "Lok Sabha seat" },
   "lok-sabha-2014": { body: "lok-sabha", label: "Lok Sabha 2014", seatLabel: "Lok Sabha seat" },
   "rajasthan-assembly-2023": { body: "assembly", label: "Rajasthan Assembly 2023", seatLabel: "Assembly seat" },
+  // Bye-elections are published only after a person has reviewed the transcribed returns.
+  "rajasthan-bye-election-anta-2025": { body: "assembly", label: "Rajasthan bye-election 2025", seatLabel: "Assembly seat" },
+  "rajasthan-bye-elections-november-2024": { body: "assembly", label: "Rajasthan bye-election 2024", seatLabel: "Assembly seat" },
+  "rajasthan-bye-election-bagidora-2024": { body: "assembly", label: "Rajasthan bye-election 2024", seatLabel: "Assembly seat" },
 };
 
 export interface ResultCandidate {
@@ -45,7 +55,8 @@ export interface ResultSeat {
   slug: string;
   unopposed: null | { winner: string; party: string; nominated: number; rejected: number; withdrawn: number };
   // Seats ECI's detailed file leaves out: winner and margin from its winners list only.
-  winnerOnly?: null | { winner: string; party: string; margin: number };
+  // margin is null when the source names the winner only, as a result gazette does.
+  winnerOnly?: null | { winner: string; party: string; margin: number | null };
   // Assembly seats: the Lok Sabha seat they lie in (ECI 2024 report 15).
   parliament?: null | { slug: string; name: string };
   electors: number | null;
@@ -94,7 +105,8 @@ export function validateResults(value: unknown, id: ResultElectionId): asserts v
     seat.candidates.forEach((candidate, index) => {
       if (candidate.rank !== index + 1) throw new Error(`${key} candidates out of order`);
       if (!data.parties[candidate.party]) throw new Error(`${key} unknown party ${candidate.party}`);
-      if (!/^Worksheet, row \d+$/.test(candidate.locator)) throw new Error(`${key} candidate without source row`);
+      // A spreadsheet row, or a page and row in a scanned return.
+      if (!/^(Worksheet, row \d+|page \d+, candidate row \d+)$/.test(candidate.locator)) throw new Error(`${key} candidate without source row`);
     });
   }
 }
@@ -287,10 +299,29 @@ export function searchSeats(query: string, limit = 60): SeatMatch[] {
     .slice(0, limit);
 }
 
-// The assembly seats inside a Lok Sabha seat, with their latest result.
+// The newest published result for a seat within one body: a reviewed bye-election beats the general election.
+export function latestResult(stateSlug: string, seatSlug: string, body: ResultBody) {
+  for (const id of RESULT_ELECTIONS) {
+    if (ELECTION_INFO[id].body !== body) continue;
+    const seat = findSeat(id, stateSlug, seatSlug);
+    if (seat) return { id, seat, winner: seatWinner(seat) };
+  }
+  return undefined;
+}
+
+// Bye-elections held in an assembly seat after a given election, whose results are not published here yet.
+export function pendingByElections(seat: Pick<ResultSeat, "state" | "number">, after: ResultElectionId): Election[] {
+  const general = calendar.find((election) => election.id === after);
+  if (!seat.number || !general?.countingOn) return [];
+  return byElectionsFor(calendar, seat.state, seat.number, general.countingOn).filter((election) => !(isResultElection(election.id) && loadResults(election.id)));
+}
+
+// The assembly seats inside a Lok Sabha seat, each with its newest published result.
 export function assemblySeatsIn(stateSlug: string, parliamentSlug: string) {
   return RESULT_ELECTIONS.filter((id) => ELECTION_INFO[id].body === "assembly").flatMap((id) =>
-    (loadResults(id)?.seats ?? []).filter((seat) => seat.stateSlug === stateSlug && seat.parliament?.slug === parliamentSlug).map((seat) => ({ id, seat, winner: seatWinner(seat) })));
+    (loadResults(id)?.seats ?? []).filter((seat) => seat.stateSlug === stateSlug && seat.parliament?.slug === parliamentSlug))
+    .map((seat) => ({ base: seat, latest: latestResult(seat.stateSlug, seat.slug, "assembly")! }))
+    .map(({ base, latest }) => ({ id: latest.id, seat: latest.seat.parliament ? latest.seat : { ...latest.seat, parliament: base.parliament }, winner: latest.winner }));
 }
 
 export function ordinal(n: number) {

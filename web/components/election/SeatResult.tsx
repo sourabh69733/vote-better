@@ -2,7 +2,8 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { Breadcrumb, Card, Eyebrow, NotCollected, SectionHeading, StatGrid } from "@/components/ui";
-import { assemblySeatsIn, candidateHref, ELECTION_INFO, findSeat, formatNumber, marginsInState, ordinal, requireResults, seatHref, seatWinner, turnout, yearOf, type ResultElectionId, type ResultSeat } from "@/lib/results";
+import { formatDay } from "@/lib/elections";
+import { assemblySeatsIn, candidateHref, ELECTION_INFO, findSeat, formatNumber, latestResult, pendingByElections, marginsInState, ordinal, requireResults, seatHref, seatWinner, turnout, yearOf, type ResultElectionId, type ResultSeat } from "@/lib/results";
 import { partyColor } from "@/lib/party-colors";
 import MarginStrip from "./MarginStrip";
 import SeatHistory from "./SeatHistory";
@@ -16,6 +17,8 @@ export default function SeatResult({ id, seat, actions, aside }: { id: ResultEle
   const year = yearOf(id);
   const info = ELECTION_INFO[id];
   const parent = seat.parliament ? findSeat("lok-sabha-2024", seat.stateSlug, seat.parliament.slug) : undefined;
+  const newer = latestResult(seat.stateSlug, seat.slug, info.body);
+  const pending = info.body === "assembly" ? pendingByElections(seat, id) : [];
   const segments = id === "lok-sabha-2024" ? assemblySeatsIn(seat.stateSlug, seat.slug) : [];
   const has2024Pages = id === "lok-sabha-2024";
   const party = (code: string) => results.parties[code]?.name ?? code;
@@ -26,8 +29,11 @@ export default function SeatResult({ id, seat, actions, aside }: { id: ResultEle
   const runnerUp = seat.candidates[1];
   const names = new Map<string, number>();
   for (const candidate of seat.candidates) names.set(candidate.name, (names.get(candidate.name) ?? 0) + 1);
-  const rowNumbers = seat.candidates.map((candidate) => Number(candidate.locator.replace("Worksheet, row ", "")));
-  const rows = rowNumbers.length ? `worksheet rows ${Math.min(...rowNumbers)} to ${Math.max(...rowNumbers)}` : undefined;
+  const located = seat.candidates.map((candidate) => /^(?:Worksheet, row (\d+)|page (\d+), candidate row (\d+))$/.exec(candidate.locator)).filter((match) => match !== null);
+  const rowNumbers = located.map((match) => Number(match[1] ?? match[3]));
+  const rows = !rowNumbers.length ? undefined
+    : located[0][2] ? `page ${located[0][2]}, rows ${Math.min(...rowNumbers)} to ${Math.max(...rowNumbers)}`
+    : `worksheet rows ${Math.min(...rowNumbers)} to ${Math.max(...rowNumbers)}`;
   const file = seat.unopposed ? results.references.find((ref) => ref.title.includes("report 2A"))
     : seat.winnerOnly ? results.references.find((ref) => ref.title.includes("Successful")) : undefined;
 
@@ -45,6 +51,19 @@ export default function SeatResult({ id, seat, actions, aside }: { id: ResultEle
           </p>
         )}
       </header>
+
+      {newer && newer.id !== id && (
+        <p className="mt-6 rounded-2xl border border-you bg-you-soft p-4 text-sm leading-6 text-body">
+          <strong className="text-ink">There is a newer result for this seat.</strong>{" "}
+          <Link href={seatHref(newer.seat, newer.id)} className="font-semibold text-link underline">{ELECTION_INFO[newer.id].label}: {newer.winner?.name ?? "see result"}</Link>
+        </p>
+      )}
+      {pending.map((election) => (
+        <NotCollected key={election.id} title={`A bye-election was held here on ${formatDay(election.polls[0].date)}.`} className="mt-6">
+          Its official return is waiting for review on this site, so the MLA shown below may have changed.{" "}
+          <a href={election.sources.at(-1)!.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-link underline">See the official return ↗</a>
+        </NotCollected>
+      ))}
 
       {winner && (
         <section className="mt-8 overflow-hidden rounded-[24px] border border-line bg-surface" aria-labelledby="winner-heading">
@@ -83,7 +102,9 @@ export default function SeatResult({ id, seat, actions, aside }: { id: ResultEle
           )}
           {winner.how === "winner-only" && (
             <NotCollected title="Full results not available." className="rounded-none border-0 border-t">
-              ECI&apos;s detailed {year} results file leaves out this seat. The winner and margin come from ECI&apos;s list of successful candidates.
+              {winner.margin === null
+                ? "The official result gazette names the winner only; it gives no vote counts."
+                : <>ECI&apos;s detailed {year} results file leaves out this seat. The winner and margin come from ECI&apos;s list of successful candidates.</>}
             </NotCollected>
           )}
         </section>

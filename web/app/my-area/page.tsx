@@ -3,7 +3,8 @@ import Link from "next/link";
 
 import { Breadcrumb, ButtonLink, Card, Eyebrow, NotCollected } from "@/components/ui";
 import { lookupMyArea, pinLookupAvailable, type AreaSeat } from "@/lib/my-area";
-import { candidateHref, ELECTION_INFO, formatNumber, seatHref, seatWinner, type ResultElectionId, type ResultSeat } from "@/lib/results";
+import { formatDay } from "@/lib/elections";
+import { candidateHref, ELECTION_INFO, formatNumber, latestResult, pendingByElections, seatHref, seatWinner, type ResultElectionId, type ResultSeat } from "@/lib/results";
 import { partyColor } from "@/lib/party-colors";
 
 export const metadata: Metadata = {
@@ -42,14 +43,18 @@ function Representative({ office, election, seat, profileHref, note }: { office:
 
 function Cards({ chosen }: { chosen: AreaSeat }) {
   const mp = chosen.parliament;
+  const mla = latestResult(chosen.assembly.stateSlug, chosen.assembly.slug, "assembly") ?? { id: "rajasthan-assembly-2023" as const, seat: chosen.assembly };
+  const pending = pendingByElections(chosen.assembly, mla.id);
   const mpWinner = mp?.candidates[0];
   return (
     <div className="grid gap-4 lg:grid-cols-3">
       {mp ? <Representative office="Your MP · Lok Sabha" election="lok-sabha-2024" seat={mp} profileHref={mpWinner ? candidateHref(mp, mpWinner) : undefined} /> : (
         <NotCollected title="Your Lok Sabha seat could not be matched." />
       )}
-      <Representative office="Your MLA · Rajasthan Assembly" election="rajasthan-assembly-2023" seat={chosen.assembly}
-        note="Elected in 2023. By-elections since then are not on the site yet, so check the seat page for changes." />
+      <Representative office="Your MLA · Rajasthan Assembly" election={mla.id} seat={mla.seat}
+        note={pending.length
+          ? `A bye-election was held here on ${formatDay(pending[0].polls[0].date)}. Its return is waiting for review, so the MLA may have changed.`
+          : mla.id === "rajasthan-assembly-2023" ? "Elected in 2023." : undefined} />
       <div className="flex flex-col gap-3 rounded-[24px] border border-dashed border-line-strong bg-[repeating-linear-gradient(135deg,var(--color-track)_0_6px,var(--color-surface-soft)_6px_12px)] p-5 sm:p-6">
         <Eyebrow>Your councillor · ward</Eyebrow>
         <p className="text-sm leading-6 text-body"><strong className="text-ink">Not collected yet.</strong> Ward councillors and city election results are not on the site yet.</p>

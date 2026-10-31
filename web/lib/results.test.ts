@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { assemblySeatsIn, electionTotals, findCandidate, findSeat, formatShort, loadResults, marginOf, marginRank, marginsInState, ordinal, requireResults, searchSeats, seatHistory, seatHref, seatWinner, statesOf, summaryOf, validateResults, type ResultSeat } from "./results";
+import { assemblySeatsIn, electionTotals, latestResult, pendingByElections, findCandidate, findSeat, formatShort, loadResults, marginOf, marginRank, marginsInState, ordinal, requireResults, searchSeats, seatHistory, seatHref, seatWinner, statesOf, summaryOf, validateResults, type ResultSeat } from "./results";
 
 test("all three Lok Sabha results files load and pass validation", () => {
   for (const id of ["lok-sabha-2024", "lok-sabha-2019", "lok-sabha-2014"] as const) {
@@ -122,4 +122,18 @@ test("a Lok Sabha seat lists its assembly seats, and the two chambers never shar
   assert.deepEqual(seatHistory("rajasthan", "27-jhunjhunu", "assembly").map((entry) => entry.id), ["rajasthan-assembly-2023"]);
   const matches = searchSeats("malviya nagar");
   assert.ok(matches.some((match) => match.body === "assembly" && match.seat.number === 54));
+});
+
+test("bye-elections waiting for review are flagged on their seats, and nothing else is", () => {
+  const jhunjhunu = findSeat("rajasthan-assembly-2023", "rajasthan", "27-jhunjhunu")!;
+  const pending = pendingByElections(jhunjhunu, "rajasthan-assembly-2023");
+  if (loadResults("rajasthan-bye-elections-november-2024")) {
+    assert.deepEqual(pending, []);
+    assert.equal(latestResult("rajasthan", "27-jhunjhunu", "assembly")?.id, "rajasthan-bye-elections-november-2024");
+  } else {
+    assert.deepEqual(pending.map((election) => election.id), ["rajasthan-bye-elections-november-2024"]);
+    assert.equal(latestResult("rajasthan", "27-jhunjhunu", "assembly")?.id, "rajasthan-assembly-2023");
+  }
+  assert.deepEqual(pendingByElections(findSeat("rajasthan-assembly-2023", "rajasthan", "54-malviya-nagar")!, "rajasthan-assembly-2023"), []);
+  assert.equal(assemblySeatsIn("rajasthan", "jaipur").length, 8);
 });
