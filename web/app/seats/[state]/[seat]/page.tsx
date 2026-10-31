@@ -3,6 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { listAreaOverviews } from "@/lib/civic-area";
 import { candidateHref, formatNumber, getSeat, loadLokSabha2024, marginOf, seatHref } from "@/lib/lok-sabha-2024";
+import MarginStrip from "@/components/election/MarginStrip";
+import SeatHistory from "@/components/election/SeatHistory";
+import { contestHref, loadResults, marginsInState } from "@/lib/lok-sabha";
 import SourceNote from "../../SourceNote";
 
 interface PageProps {
@@ -35,6 +38,8 @@ export default async function SeatPage({ params }: PageProps) {
   // Curated areas add the office holder's work. Match them by seat name and state.
   const curated = listAreaOverviews().find(({ area }) => area.name.toLowerCase() === seat.name.toLowerCase() && area.state === seat.state);
 
+  const all2024 = loadResults("lok-sabha-2024")!;
+  const dots = marginsInState(all2024, seat.stateSlug).map(({ seat: other, margin }) => ({ key: other.slug, name: other.name, margin, href: contestHref("lok-sabha-2024", other) }));
   const winner = seat.candidates[0];
   const margin = winner ? marginOf(seat, winner) : null;
   const turnout = seat.electors && seat.votesPolled ? (seat.votesPolled / seat.electors) * 100 : null;
@@ -46,7 +51,7 @@ export default async function SeatPage({ params }: PageProps) {
   return (
     <div className="mx-auto w-full max-w-[1100px] px-4 pb-14 pt-8 sm:px-6 sm:pt-12 lg:px-8">
       <nav className="text-sm font-semibold text-[#286b4e]" aria-label="Breadcrumb">
-        <Link href="/seats" className="hover:underline">All seats</Link>
+        <Link href="/elections/lok-sabha-2024" className="hover:underline">Lok Sabha 2024</Link>
         <span className="mx-2 text-[#a3b7a7]" aria-hidden="true">/</span>
         <Link href={`/seats?q=${encodeURIComponent(seat.state)}`} className="hover:underline">{seat.state}</Link>
       </nav>
@@ -101,6 +106,14 @@ export default async function SeatPage({ params }: PageProps) {
               </div>
             ))}
           </dl>
+        </section>
+      )}
+
+      {dots.length > 1 && (
+        <section className="mt-8 rounded-[24px] border border-[#dce6dc] bg-white p-5 sm:p-7" aria-labelledby="close-heading">
+          <h2 id="close-heading" className="text-lg font-semibold tracking-[-0.02em] text-[#19372d]">How close was it, compared with {seat.state}?</h2>
+          <p className="mt-1 text-sm text-[#66796d]">Each dot is one seat in {seat.state} in 2024. Tap a dot to open that seat.</p>
+          <div className="mt-4"><MarginStrip dots={dots} highlight={seat.slug} state={seat.state} /></div>
         </section>
       )}
 
@@ -161,6 +174,8 @@ export default async function SeatPage({ params }: PageProps) {
           )}
         </section>
       )}
+
+      <SeatHistory stateSlug={seat.stateSlug} seatSlug={seat.slug} current="lok-sabha-2024" />
 
       <div className="mt-8">
         <SourceNote data={data} rows={rows} file={seat.unopposed ? data.references.find((file) => file.title.includes("report 2A")) : undefined} />

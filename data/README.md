@@ -185,3 +185,19 @@ The import saves a hashed snapshot and stores one `candidate.result` observation
 Batch review is allowed only for sources listed in `src/review-batch.ts`. It creates one person record per candidacy, keyed by election, state, seat and name (party is added for namesakes in the same seat), and records one approval for the snapshot. It stops if any result differs from an already published fact. These person records are not yet linked to Sansad members or other elections.
 
 The export publishes approved facts and writes `web/records/generated/lok-sabha-2024.json`, grouped by seat. Each candidate keeps its fact ID and worksheet row.
+
+## Elections, seats and contests
+
+Results attach to an entity graph: election, contest (one per seat in one election), area (the seat) and candidacy (one person in one contest). The curated calendar in `web/records/elections.ts` is the list of elections; every election with published results must have a calendar record.
+
+```sh
+npm --prefix data run sync -- eci-ge2019-results eci-ge2014-results
+npm --prefix data run review:batch -- <report 33 URL> --reviewer=automated-batch-check "--reason=<checks and approval>"
+npm --prefix data run export:elections
+```
+
+`export:elections` publishes approved 2019 and 2014 results, writes `web/records/generated/lok-sabha-2019.json` and `lok-sabha-2014.json` in the same shape as 2024, and links all three elections in the database. Running it again adds nothing new.
+
+Seats are matched across elections by state and seat name, after dropping the "(SC)" or "(ST)" older files add to the name. Nothing else is guessed. The export lists every older seat with no 2024 match: Assam's seats redrawn in 2023, Telangana seats listed under Andhra Pradesh in 2014, Ladakh and Dadra and Nagar Haveli changing status, and spelling variants such as Secundrabad and Gauhati. These stay separate until a reviewed alias list exists.
+
+The older reports have no seat numbers and no vote-share column; vote share and valid votes are calculated and marked as derived. ECI's 2014 detailed file leaves out 32 seats in Chhattisgarh and Odisha; those appear with the winner and margin from ECI's list of successful candidates and no candidate rows.

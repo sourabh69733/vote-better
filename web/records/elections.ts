@@ -1,4 +1,4 @@
-import { validateElections, type Election, type ElectionSource } from "@/lib/elections";
+import { validateElections, type Election, type ElectionSource } from "../lib/elections";
 
 // Curated from ECI press notes as relayed by the Press Information Bureau (PIB) and ECI's own site.
 // Add an election only with a source that states the dates. Dates ECI has not announced stay absent.
@@ -40,9 +40,53 @@ export const elections: Election[] = [
       { date: "2024-06-01", covers: "Phase 7, 57 seats" },
     ],
     countingOn: "2024-06-04",
-    siteHref: "/seats",
+    siteHref: "/elections/lok-sabha-2024",
     note: "Assembly elections in Andhra Pradesh, Arunachal Pradesh, Odisha and Sikkim were held alongside. Every seat's result is on this site.",
     sources: [pib("Announcement of schedule for General Elections to Lok Sabha and Legislative Assemblies of Andhra Pradesh, Arunachal Pradesh, Odisha and Sikkim, 2024, in maps and tables", "2015237", "&reg=48&lang=2")],
+  },
+  {
+    id: "lok-sabha-2019",
+    body: "lok-sabha",
+    name: "General Election to Lok Sabha, 2019",
+    states: ["All states and union territories"],
+    seats: 543,
+    announcedOn: "2019-03-10",
+    polls: [
+      { date: "2019-04-11", covers: "Phase 1" },
+      { date: "2019-04-18", covers: "Phase 2" },
+      { date: "2019-04-23", covers: "Phase 3" },
+      { date: "2019-04-29", covers: "Phase 4" },
+      { date: "2019-05-06", covers: "Phase 5" },
+      { date: "2019-05-12", covers: "Phase 6" },
+      { date: "2019-05-19", covers: "Phase 7" },
+    ],
+    countingOn: "2019-05-23",
+    siteHref: "/elections/lok-sabha-2019",
+    note: "Assembly elections in Andhra Pradesh, Arunachal Pradesh, Odisha and Sikkim were held alongside. Every seat's result is on this site.",
+    sources: [{ title: "Announcement of schedule for General Elections to Lok Sabha and four state assemblies, press note ECI/PN/23/2019, 10 March 2019", publisher: ECI, checkedOn: CHECKED, url: "https://www.eci.gov.in/eci-backend/public/uploads/monthly_2019_03/PN-23_pdf.978cf90278cfd05f7119ca0ec6810f34" }],
+  },
+  {
+    id: "lok-sabha-2014",
+    body: "lok-sabha",
+    name: "General Election to Lok Sabha, 2014",
+    states: ["All states and union territories"],
+    seats: 543,
+    announcedOn: "2014-03-05",
+    polls: [
+      { date: "2014-04-07", covers: "Phase 1" },
+      { date: "2014-04-09", covers: "Phase 2" },
+      { date: "2014-04-10", covers: "Phase 3" },
+      { date: "2014-04-12", covers: "Phase 4" },
+      { date: "2014-04-17", covers: "Phase 5" },
+      { date: "2014-04-24", covers: "Phase 6" },
+      { date: "2014-04-30", covers: "Phase 7" },
+      { date: "2014-05-07", covers: "Phase 8" },
+      { date: "2014-05-12", covers: "Phase 9" },
+    ],
+    countingOn: "2014-05-16",
+    siteHref: "/elections/lok-sabha-2014",
+    note: "Assembly elections in Andhra Pradesh, Odisha and Sikkim were held alongside. ECI's detailed results file leaves out 32 seats in Chhattisgarh and Odisha; for those, this site shows the winner and margin only.",
+    sources: [{ title: "General Elections 2014: schedule of elections, ECI press note of 5 March 2014 (copy published by the Chief Electoral Officer, Assam)", publisher: ECI, checkedOn: CHECKED, url: "https://ceoassam.nic.in/as/ls2004/pdf/2014/Schedule&pressNote2014.pdf" }],
   },
   {
     id: "delhi-assembly-2025",

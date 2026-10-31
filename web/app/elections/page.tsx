@@ -44,7 +44,7 @@ function ElectionCard({ election, today }: { election: Election; today: string }
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#4c8063]">{BODY_LABEL[election.body]} · {election.states.join(", ")}</p>
-          <h3 id={`${election.id}-title`} className="mt-1 text-xl font-semibold tracking-[-0.03em] text-[#18372b]">{election.name}</h3>
+          <h3 id={`${election.id}-title`} className="mt-1 text-xl font-semibold tracking-[-0.03em] text-[#18372b]"><Link href={`/elections/${election.id}`} className="hover:underline">{election.name}</Link></h3>
           {election.seats ? <p className="mt-0.5 text-sm text-[#738276]">{election.seats} {election.seats === 1 ? "seat" : "seats"}</p> : null}
         </div>
         <span className={`shrink-0 rounded-full px-3 py-1 text-xs font-bold ${live ? "bg-[#1c6047] text-white" : status === "announced" ? "bg-[#e0f0e3] text-[#216146]" : "bg-[#eef3ed] text-[#526a59]"}`}>
@@ -54,7 +54,7 @@ function ElectionCard({ election, today }: { election: Election; today: string }
       <Dates election={election} />
       {election.note ? <p className="mt-4 text-sm leading-6 text-[#576c60]">{election.note}</p> : null}
       <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm">
-        {election.siteHref ? <Link href={election.siteHref} className="font-semibold text-[#1d6547] underline underline-offset-4">Results on this site →</Link> : null}
+        {election.siteHref ? <Link href={election.siteHref} className="font-semibold text-[#1d6547] underline underline-offset-4">Every seat&apos;s result →</Link> : <Link href={`/elections/${election.id}`} className="font-semibold text-[#1d6547] underline underline-offset-4">Details →</Link>}
         {election.resultsUrl ? <a href={election.resultsUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#1d6547] underline underline-offset-4">ECI results page ↗</a> : null}
       </div>
       <details className="mt-4 text-sm">

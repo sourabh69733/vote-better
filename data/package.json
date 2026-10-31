@@ -30,7 +30,8 @@
     "review:mp-links": "node --import tsx src/review-mp-links.ts",
     "review": "node --import tsx src/cli.ts",
     "export:jaipur": "node --import tsx src/export-jaipur.ts",
-    "export:lok-sabha-2024": "node --import tsx src/export-lok-sabha-2024.ts"
+    "export:lok-sabha-2024": "node --import tsx src/export-lok-sabha-2024.ts",
+    "export:elections": "node --import tsx src/export-elections.ts"
   },
   "devDependencies": {
     "@types/node": "^20",
