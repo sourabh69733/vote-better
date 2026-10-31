@@ -11,7 +11,7 @@ export interface ParliamentaryQuestion {
   sourceUrl: string;
 }
 
-interface QuestionArchive {
+export interface QuestionArchive {
   lokSabha: number;
   sessions: {
     session: number;

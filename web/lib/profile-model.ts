@@ -103,3 +103,16 @@ export function readableTitle(value: string) {
   if (value !== value.toUpperCase()) return value;
   return value.toLowerCase().split(" ").map((word, index) => (index && smallWords.has(word) ? word : word.charAt(0).toUpperCase() + word.slice(1))).join(" ");
 }
+
+type QuestionSummary = NonNullable<ReturnType<typeof import("./parliamentary-work").summarizeParliamentaryWork>>;
+
+// A member's questions in the shape the profile view draws.
+export function questionsForProfile(summary: QuestionSummary, day: (iso: string) => string): NonNullable<ProfileWork["questions"]> {
+  return {
+    total: summary.questions.length,
+    bySession: summary.sessions.map((session) => ({ label: `Session ${session.session}`, count: session.count })),
+    topMinistries: topCounts(summary.questions.map((question) => readableTitle(question.ministry)), 5),
+    latest: summary.questions.slice(0, 4).map((question) => ({ date: day(question.date), subject: question.subject, url: question.sourceUrl })),
+    directoryUrl: summary.directoryUrl, collectedOn: day(summary.collectedOn),
+  };
+}

@@ -5,7 +5,7 @@ import { findCandidacy2024 } from "@/lib/mp-seat-link";
 import { getParliamentaryDebates } from "@/lib/parliamentary-debates";
 import { getParliamentaryWork } from "@/lib/parliamentary-work";
 import { getJaipurVoteTraceId } from "@/lib/publication";
-import { eciChip, moneyStats, partyOf, readableTitle, resultStats, topCounts, type ProfileModel, type ProfileStat, type ProfileWork } from "@/lib/profile-model";
+import { eciChip, moneyStats, partyOf, questionsForProfile, readableTitle, resultStats, topCounts, type ProfileModel, type ProfileStat, type ProfileWork } from "@/lib/profile-model";
 import { sourceLabel } from "@/lib/source-label";
 import { formatTermDuration } from "@/lib/term-duration";
 import { getPersonProfile, getProfileSource, listPersonSlugs, type PersonProfile } from "@/lib/verified-profile";
@@ -71,13 +71,7 @@ export default async function PersonPage({ params }: PageProps) {
 
   const work: ProfileWork | undefined = office || questions || debates ? {
     ...(questions ? {
-      questions: {
-        total: questions.questions.length,
-        bySession: questions.sessions.map((session) => ({ label: `Session ${session.session}`, count: session.count })),
-        topMinistries: topCounts(questions.questions.map((question) => readableTitle(question.ministry)), 5),
-        latest: questions.questions.slice(0, 4).map((question) => ({ date: day(question.date), subject: question.subject, url: question.sourceUrl })),
-        directoryUrl: questions.directoryUrl, collectedOn: day(questions.collectedOn),
-      },
+      questions: questionsForProfile(questions, day),
     } : {}),
     ...(debates ? {
       debates: {

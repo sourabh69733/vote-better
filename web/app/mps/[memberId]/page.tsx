@@ -4,7 +4,8 @@ import { listAreaOverviews } from "@/lib/civic-area";
 import { formatShort, requireResults, seatHref, summaryOf } from "@/lib/results";
 import { sortableMpName } from "@/lib/mp-directory";
 import { linkMpToSeat } from "@/lib/mp-seat-link";
-import { eciChip, partyOf, resultStats, type ProfileModel, type ProfileStat } from "@/lib/profile-model";
+import { getMemberQuestions } from "@/lib/parliamentary-work-local";
+import { eciChip, partyOf, questionsForProfile, resultStats, type ProfileModel, type ProfileStat } from "@/lib/profile-model";
 import { getPublicMp, publicMpFact, type PublicMp, type PublicMpFact } from "@/lib/public-mps";
 import type { ChipSource } from "@/components/profile/SourceChip";
 import ProfileView from "@/components/profile/ProfileView";
@@ -60,6 +61,10 @@ export default async function MpProfilePage({ params }: PageProps) {
   const seatLine = `${profile.constituency}, ${profile.state}`;
   const terms = positions.filter((position) => lokSabhaTerm.test(position.title)).length;
   const educationText = text(education)?.replace(/^[\s;,.]+|[\s;,]+$/g, "") || undefined;
+  const questions = getMemberQuestions(profile.memberId);
+  const questionNote = questions && !questions.questions.length
+    ? "No questions are listed under this member's name. Ministers and the Speaker answer questions in the House rather than ask them."
+    : undefined;
 
   const summary = link.status === "won-2024"
     ? `Sitting MP for ${seatLine}. ${winner ? summaryOf(link.seat, winner, partyName) : "Elected unopposed in 2024."}`
@@ -88,7 +93,11 @@ export default async function MpProfilePage({ params }: PageProps) {
     breadcrumb: [{ label: "All MPs", href: "/mps" }, ...(seat ? [{ label: seat.name, href: seatHref(seat) }] : [])],
     ...(seat ? { contest: { seat, candidate: winner ?? undefined, ...(link.status === "by-election" ? { note: `${link.note} By-election results are not collected yet; this is the 2024 general election.` } : {}) } } : {}),
     stats,
-    work: positions.length ? { positions, note: curated ? undefined : "Attendance, questions and debates for this MP are not collected yet." } : undefined,
+    work: positions.length || questions ? {
+      positions,
+      ...(questions?.questions.length ? { questions: questionsForProfile(questions, day) } : {}),
+      note: questionNote ?? (questions ? "Attendance and debates for this MP are not collected yet." : curated ? undefined : "Attendance, questions and debates for this MP are not collected yet."),
+    } : undefined,
     timeline,
     timelineNote: "From the positions Digital Sansad lists for this member.",
     facts: [
