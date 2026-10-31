@@ -216,6 +216,10 @@ The import refuses the report unless every row adds up, every seat has one NOTA 
 
 Assembly seats are keyed by number and name, as ECI writes them ("42-Shahpura"), because Rajasthan has two Shahpuras. Each is placed in its Lok Sabha seat from ECI's GE 2024 report 15, collected with the 2024 references. Report 15 has no seat numbers, so rows are matched by name; five spellings that differ are listed in `SEGMENT_ALIASES`, and the two Shahpuras are settled by electors. The match is stored as `area.parent_id`.
 
+## Questions for every MP
+
+`npm --prefix data run import:sansad-questions-all` rebuilds every sitting MP's questions from the saved Sansad session pages in `raw/sansad-questions/`, with no new downloads. Members are matched by Sansad member number and the exact name Sansad lists on each question; a name shared by two members is left out and reported. The archive is written to `raw/sansad-questions/archive-all-members.json` and stays local while Digital Sansad reuse is under review; the local MP profiles read it. On 2026-11-01 it held 56,667 member-question listings for 544 members across 8 sessions. Members with none are mostly ministers and the Speaker, who answer questions rather than ask them.
+
 ## Rajasthan bye-elections since 2023
 
 Nine seats have voted again since 2023: Bagidora (April 2024), seven seats (November 2024) and Anta (November 2025). CEO Rajasthan publishes their returns (Form 21E) and Bagidora's result gazette only as scanned images, so they are transcribed by hand in `extractions/rajasthan-bye-elections-2024-2025.json`. Each entry records the PDF's SHA-256, page, every candidate row and the totals.
