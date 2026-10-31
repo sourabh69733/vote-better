@@ -124,6 +124,9 @@ export default async function MyAreaPage({ searchParams }: PageProps) {
             )}
           </div>
           <Cards chosen={chosen} />
+          <div>
+            <ButtonLink href={`/share/reps/${chosen.assembly.stateSlug}/${chosen.assembly.slug}`} variant="primary">Share who represents you</ButtonLink>
+          </div>
           <Card>
             <h3 className="text-base font-semibold text-ink">How this was worked out</h3>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-6 text-body">

@@ -57,3 +57,16 @@ test("unknown or malformed deck keys resolve to nothing", () => {
     assert.equal(resolveDeck(parts), null, parts.join("/"));
   }
 });
+
+test("the my-representatives deck names the MP and MLA for an assembly seat", () => {
+  const deck = resolveDeck(["reps", "rajasthan", "54-malviya-nagar"])!;
+  assert.deepEqual(deck.scenes.map((scene) => scene.kind), ["cover", "points", "cta"]);
+  const reps = deck.scenes[1];
+  assert.ok(reps.kind === "points");
+  assert.equal(reps.points[0].title, "MP · Manju Sharma (BJP)");
+  assert.equal(reps.points[1].title, "MLA · Kalicharan Saraf (BJP)");
+  assert.equal(reps.points[2].text, "Not on Vote Better yet.");
+  assert.equal(deck.link, "/elections/rajasthan-assembly-2023/rajasthan/54-malviya-nagar");
+  assert.equal(resolveDeck(["reps", "rajasthan"]), null);
+  assert.equal(resolveDeck(["reps", "rajasthan", "999-nowhere"]), null);
+});

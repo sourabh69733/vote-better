@@ -2,7 +2,8 @@
 // carousels and reels. Every template runs the same way for every seat and party, and every
 // frame carries its source. No photos, no predictions, no opinion about anyone.
 
-import { ELECTION_INFO, findSeat, formatNumber, formatShort, isResultElection, loadResults, type ElectionResults, marginsInState, ordinal, type ResultElectionId, type ResultSeat, seatHistory, seatWinner, turnout, yearOf } from "../results";
+import { formatDay } from "../elections";
+import { ELECTION_INFO, findSeat, latestResult, pendingByElections, formatNumber, formatShort, isResultElection, loadResults, type ElectionResults, marginsInState, ordinal, type ResultElectionId, type ResultSeat, seatHistory, seatHref, seatWinner, turnout, yearOf } from "../results";
 import { partyColor } from "../party-colors";
 import type { Scene, Story } from "../scenes";
 
@@ -15,7 +16,7 @@ export const FORMATS: Record<Format, { width: number; height: number; label: str
 // Share decks use the site's one scene format, so the same deck plays on the site and renders as images.
 export interface Deck extends Story {
   key: string;
-  template: "seat" | "quiz" | "closest" | "mp-role" | "first-time-voter";
+  template: "seat" | "quiz" | "closest" | "mp-role" | "first-time-voter" | "reps";
   title: string;
   // The page on this site the deck comes from; every frame and caption points there.
   link: string;
@@ -240,6 +241,39 @@ function firstTimeVoterDeck(): Deck {
   };
 }
 
+// "I know who represents me": the MP and MLA for one assembly seat, from the latest published results.
+function repsDeck(stateSlug: string, seatSlug: string): Deck | null {
+  const mla = latestResult(stateSlug, seatSlug, "assembly");
+  const mlaWinner = mla?.winner;
+  const general = mla && (mla.seat.parliament ? mla.seat : findSeat("rajasthan-assembly-2023", stateSlug, seatSlug));
+  const pcSeat = general?.parliament ? findSeat("lok-sabha-2024", stateSlug, general.parliament.slug) : undefined;
+  const mp = pcSeat && seatWinner(pcSeat);
+  if (!mla || !mlaWinner || !pcSeat || !mp) return null;
+  const pending = pendingByElections(mla.seat, mla.id);
+  const mlaNote = pending.length
+    ? `Elected in ${ELECTION_INFO[mla.id].label}. A bye-election was held on ${formatDay(pending[0].polls[0].date)}; its result is awaiting review.`
+    : `Represents ${mla.seat.name} in the Rajasthan Assembly. Won ${ELECTION_INFO[mla.id].label}.`;
+  const source = `Election Commission of India: Lok Sabha 2024, ${ELECTION_INFO[mla.id].label}`;
+  return {
+    key: `reps/${stateSlug}/${seatSlug}`, template: "reps", title: `My representatives: ${mla.seat.name}`, link: seatHref(mla.seat, mla.id),
+    name: mla.seat.name, color: partyColor(mlaWinner.party),
+    scenes: [
+      { kind: "cover", kicker: `MY AREA · ${mla.seat.state.toUpperCase()}`, title: "I know who represents me", subtitle: `${mla.seat.name}, in ${pcSeat.name}`, source },
+      { kind: "points", kicker: "MY REPRESENTATIVES", title: "Three people, three jobs", source, points: [
+        { title: `MP · ${mp.name} (${mp.party})`, text: `Represents ${pcSeat.name} in the Lok Sabha. Votes on Union laws and questions ministers.` },
+        { title: `MLA · ${mlaWinner.name} (${mlaWinner.party})`, text: mlaNote },
+        { title: "Ward councillor", text: "Not on Vote Better yet." },
+      ] },
+      cta("Do you know yours?", "Find your MP, MLA and councillor from your PIN code."),
+    ],
+    caption: {
+      en: `I know who represents me: ${mp.name} (MP, ${pcSeat.name}) and ${mlaWinner.name} (MLA, ${mla.seat.name}). Do you know yours? Find them on Vote Better. Every name comes from Election Commission of India results.`,
+      hi: `Mujhe pata hai mera pratinidhi kaun hai: ${mp.name} (MP, ${pcSeat.name}) aur ${mlaWinner.name} (MLA, ${mla.seat.name}). Aapko pata hai aapka kaun hai? Vote Better par dekho. Saare naam Election Commission of India ke results se.`,
+    },
+    hashtags: ["#VoteBetter", "#KnowYourMP", "#KnowYourMLA", tag(mla.seat.state)],
+  };
+}
+
 // Deck keys are path segments: seat/<election>/<state>/<seat>, quiz/<election>/<state>/<seat>,
 // closest/<election>/<state>, mp-role, first-time-voter.
 export function resolveDeck(parts: readonly string[]): Deck | null {
@@ -247,6 +281,7 @@ export function resolveDeck(parts: readonly string[]): Deck | null {
   if (rest.length) return null;
   if (template === "mp-role" && !id) return mpRoleDeck();
   if (template === "first-time-voter" && !id) return firstTimeVoterDeck();
+  if (template === "reps") return id && state && !seat ? repsDeck(id, state) : null;
   if (!id || !isResultElection(id) || !state) return null;
   if (template === "seat" && seat) return seatDeck(id, state, seat);
   if (template === "quiz" && seat) return quizDeck(id, state, seat);
