@@ -8,6 +8,7 @@ import { importInitialDelhiSources } from "./delhi/import.js";
 import { collectEciGe2024References, importEciGe2024 } from "./import-eci-2024.js";
 import { ECI_HISTORY, importEciHistory } from "./import-eci-history.js";
 import { importEciAssembly } from "./import-eci-assembly.js";
+import { importRajasthanByeElections } from "./import-rajasthan-bye-elections.js";
 import { ASSEMBLY_ELECTIONS, assemblyFiles } from "./normalize/eci-assembly-result.js";
 import type { HistoryYear } from "./normalize/eci-history-detailed-result.js";
 import { importJaipurForm21E } from "./import-jaipur.js";
@@ -48,7 +49,8 @@ export interface SourceDefinition {
   refreshDays: number | null;
   reuse: { status: ReuseStatus; note: string };
   supplies: string[];
-  review: "batch" | "per-fact" | "file-export";
+  // transcription: a person compares a hand transcription with its scanned document, one document at a time.
+  review: "batch" | "per-fact" | "file-export" | "transcription";
   dependsOn?: string[];
   // Longest a run may take before the sync runner logs it as failed and moves on (default 90).
   timeoutMinutes?: number;
@@ -122,6 +124,26 @@ export const registry: SourceDefinition[] = [
       return { outcome: "succeeded", items: result.observationIds.length, detail: `${result.seats} seats, ${result.observationIds.length} candidate rows; all reports agree; ${result.nameVariants} name spelling difference(s)` };
     },
   })),
+  {
+    id: "ceo-rajasthan-bye-election-returns",
+    title: "Rajasthan assembly bye-elections since 2023: transcribed returns and result gazette",
+    owner: "Chief Electoral Officer, Rajasthan",
+    url: "https://election.rajasthan.gov.in/Bye_Election%20Nov2024/Form20_21D_21E.aspx",
+    format: "pdf",
+    refreshDays: null,
+    reuse: { status: "to-confirm", note: "Statutory returns published by the CEO; scanned images, transcribed by hand." },
+    supplies: ["candidate.result"],
+    review: "transcription",
+    async run({ store }) {
+      const result = await importRajasthanByeElections(store, new LocalBlobStore(raw("rajasthan-bye-elections/blobs/")));
+      const failed = result.documents.filter((document) => document.status !== "drafts-saved");
+      return {
+        outcome: failed.length === result.documents.length ? "failed" : failed.length ? "partial" : "succeeded",
+        items: result.drafts,
+        detail: `${result.documents.length - failed.length}/${result.documents.length} documents match their transcription; ${result.drafts} drafts${failed.length ? `; ${failed.map((d) => `${d.url}: ${d.reason}`).join("; ")}` : ""}`,
+      };
+    },
+  },
   {
     id: "rajasthan-form21e-jaipur",
     title: "Jaipur 2024 return of election (Form 21E)",

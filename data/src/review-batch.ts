@@ -6,6 +6,7 @@ import { migrate } from "./migrate.js";
 import { ECI_GE2024_DETAILED_RESULT_NORMALIZER_VERSION, ECI_GE2024_DETAILED_RESULT_URL } from "./normalize/eci-ge2024-detailed-result.js";
 import { ECI_HISTORY_NORMALIZER_VERSION } from "./normalize/eci-history-detailed-result.js";
 import { ECI_HISTORY } from "./import-eci-history.js";
+import { FORM21E_TRANSCRIPTION_VERSION } from "./normalize/rajasthan-form21e-transcription.js";
 import { ASSEMBLY_ELECTIONS, assemblyFiles, ECI_ASSEMBLY_NORMALIZER_VERSION } from "./normalize/eci-assembly-result.js";
 
 // Only official structured datasets whose normalizer runs automatic consistency
@@ -26,12 +27,21 @@ export interface BatchReviewResult {
   reviewId: string | null;
 }
 
+// A hand transcription of a scanned document is approved one document at a time by a named person
+// who has compared it with the document; the automated checker can never approve one.
+export const TRANSCRIPTION_RULE = { normalizerVersion: FORM21E_TRANSCRIPTION_VERSION, predicate: "candidate.result" };
+
 export async function approveSnapshotBatch(
   pool: pg.Pool, sourceUrl: string, reviewerId: string, reason: string,
+  options: { transcription?: boolean; comparedWithDocument?: boolean } = {},
 ): Promise<BatchReviewResult> {
-  const rule = BATCH_REVIEW_SOURCES[sourceUrl];
+  const rule = options.transcription ? TRANSCRIPTION_RULE : BATCH_REVIEW_SOURCES[sourceUrl];
   if (!rule) throw new Error("source is not approved for batch review");
   if (!reviewerId.trim() || !reason.trim()) throw new Error("reviewer and reason are required");
+  if (options.transcription) {
+    if (reviewerId === "automated-batch-check") throw new Error("a person must review a transcription");
+    if (!options.comparedWithDocument) throw new Error("confirm with --compared-with-document that you checked the transcription against the document");
+  }
 
   const client = await pool.connect();
   try {
@@ -122,7 +132,9 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1
   });
   try {
     await migrate(pool);
-    const result = await approveSnapshotBatch(pool, sourceUrl, option("reviewer"), option("reason"));
+    const result = await approveSnapshotBatch(pool, sourceUrl, option("reviewer"), option("reason"), {
+      transcription: process.argv.includes("--transcription"), comparedWithDocument: process.argv.includes("--compared-with-document"),
+    });
     process.stdout.write(`${JSON.stringify(result)}\n`);
   } catch (error) {
     process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);

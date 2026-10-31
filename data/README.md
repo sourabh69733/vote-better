@@ -216,6 +216,19 @@ The import refuses the report unless every row adds up, every seat has one NOTA 
 
 Assembly seats are keyed by number and name, as ECI writes them ("42-Shahpura"), because Rajasthan has two Shahpuras. Each is placed in its Lok Sabha seat from ECI's GE 2024 report 15, collected with the 2024 references. Report 15 has no seat numbers, so rows are matched by name; five spellings that differ are listed in `SEGMENT_ALIASES`, and the two Shahpuras are settled by electors. The match is stored as `area.parent_id`.
 
+## Rajasthan bye-elections since 2023
+
+Nine seats have voted again since 2023: Bagidora (April 2024), seven seats (November 2024) and Anta (November 2025). CEO Rajasthan publishes their returns (Form 21E) and Bagidora's result gazette only as scanned images, so they are transcribed by hand in `extractions/rajasthan-bye-elections-2024-2025.json`. Each entry records the PDF's SHA-256, page, every candidate row and the totals.
+
+Before anyone reviews them, the import checks that candidate votes add up to the return's valid votes, that the declared winner is the named row and has the most votes, and that the downloaded PDF is the one that was transcribed. Namesakes in one seat, such as the two Anil Kumar Kataras in Chorasi, become separate people. Bagidora's gazette gives the winner only.
+
+```sh
+npm --prefix data run sync -- ceo-rajasthan-bye-election-returns
+npm --prefix data run review:batch -- <PDF URL> --transcription --compared-with-document --reviewer=<your name> "--reason=<what you compared>"
+```
+
+A transcription is approved one document at a time by a named person who compared it with the document; the automated checker cannot approve one. The CEO host needs legacy TLS renegotiation, so its fetcher accepts only the listed official URLs and keeps certificate checks on.
+
 ## Elections, seats and contests
 
 Results attach to an entity graph: election, contest (one per seat in one election), area (the seat) and candidacy (one person in one contest). The curated calendar in `web/records/elections.ts` is the list of elections; every election with published results must have a calendar record.
