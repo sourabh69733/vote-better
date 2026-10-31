@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import QuestMark from "@/components/quests/QuestMark";
 import { Breadcrumb, ButtonLink, Card, Eyebrow, NotCollected } from "@/components/ui";
 import { lookupMyArea, pinLookupAvailable, type AreaSeat } from "@/lib/my-area";
 import { formatDay } from "@/lib/elections";
@@ -123,6 +124,7 @@ export default async function MyAreaPage({ searchParams }: PageProps) {
               </div>
             )}
           </div>
+          <QuestMark quest="know-your-reps" detail={`/share/reps/${chosen.assembly.stateSlug}/${chosen.assembly.slug}`} />
           <Cards chosen={chosen} />
           <div>
             <ButtonLink href={`/share/reps/${chosen.assembly.stateSlug}/${chosen.assembly.slug}`} variant="primary">Share who represents you</ButtonLink>

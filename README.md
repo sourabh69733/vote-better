@@ -12,6 +12,7 @@ An open-source project to help people in India understand who represents them, w
 | `/elections/[id]/[state]/[seat]` | One seat in 2019 or 2014: winner, margin, how close it was in the state, every candidate, the seat's history across elections. 2024 seats redirect to `/seats` | Public |
 | `/share/[...deck]` | Share kit: Instagram story frames (9:16), carousel slides (4:5), an in-browser reel, and English and Hinglish captions. Decks: `seat/<election>/<state>/<seat>`, `quiz/...`, `closest/<election>/<state>`, `mp-role`, `first-time-voter` | Public, not indexed |
 | `/share/image/<format>/<frame>/<deck>` | One frame as a PNG, drawn on request from published facts | Public |
+| `/quests` | Five small things to do before voting (find your MP and MLA, read a result, open an official source, share a story, read the first-time voter guide). Progress stays in the browser | Public |
 | `/seats` | Search every Lok Sabha seat in 2024, 2019 and 2014 and every Rajasthan assembly seat in 2023, by seat, state or anyone who contested; browse 2024 by state | Public |
 | `/my-area` | Enter a PIN to see your MP, your MLA and your ward councillor (not collected yet). Rajasthan only | Preview: works only where the unpublished PIN boundary file exists; the boundary licence is being checked |
 | `/seats/[state]/[seat]` | Who won, the margin, every candidate's votes and share, NOTA, turnout, ECI source rows | Public |

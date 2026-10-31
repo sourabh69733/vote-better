@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import QuestMark from "@/components/quests/QuestMark";
 import ShareKit from "@/components/share/ShareKit";
 import { resolveDeck, type Deck } from "@/lib/share/decks";
 
@@ -34,6 +35,7 @@ export default async function SharePage({ params }: PageProps) {
   if (!deck) notFound();
   return (
     <div className="mx-auto w-full max-w-[1100px] px-4 pb-14 pt-8 sm:px-6 sm:pt-12 lg:px-8">
+      {deck.template === "first-time-voter" ? <QuestMark quest="first-time-voter" /> : null}
       <nav className="text-sm font-semibold text-link" aria-label="Breadcrumb">
         <Link href={deck.link} className="hover:underline">← Back to the page</Link>
       </nav>

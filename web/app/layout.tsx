@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import QuestListener from "@/components/quests/QuestListener";
 import { Inter } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
@@ -42,6 +43,7 @@ export default function RootLayout({
                 Seats
               </Link>
               <Link href="/elections" className="text-[#526a59] transition-colors hover:text-[#1e6b4d]">Elections</Link>
+              <Link href="/quests" className="text-[#526a59] transition-colors hover:text-[#1e6b4d]">Quests</Link>
               <Link
                 href="/constitution"
                 className="text-[#526a59] transition-colors hover:text-[#1e6b4d]"
@@ -61,6 +63,7 @@ export default function RootLayout({
         </header>
 
         {/* Main Content */}
+        <QuestListener />
         <main className="flex-1">{children}</main>
 
         {/* Footer */}

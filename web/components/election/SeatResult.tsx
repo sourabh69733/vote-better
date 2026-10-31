@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import QuestMark from "@/components/quests/QuestMark";
 import { Breadcrumb, Card, Eyebrow, NotCollected, SectionHeading, StatGrid } from "@/components/ui";
 import { formatDay } from "@/lib/elections";
 import { assemblySeatsIn, candidateHref, ELECTION_INFO, findSeat, formatNumber, latestResult, pendingByElections, marginsInState, ordinal, requireResults, seatHref, seatWinner, turnout, yearOf, type ResultElectionId, type ResultSeat } from "@/lib/results";
@@ -39,6 +40,7 @@ export default function SeatResult({ id, seat, actions, aside }: { id: ResultEle
 
   return (
     <div className="mx-auto w-full max-w-[1100px] px-4 pb-14 pt-8 sm:px-6 sm:pt-12 lg:px-8">
+      <QuestMark quest="read-a-result" />
       <Breadcrumb items={[{ href: "/elections", label: "Elections" }, { href: `/elections/${id}`, label: info.label }]} />
 
       <header className="mt-6">

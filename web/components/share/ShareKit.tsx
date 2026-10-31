@@ -2,6 +2,8 @@
 
 import { useMemo, useState } from "react";
 
+import { markQuest } from "@/lib/quests";
+
 type Format = "story" | "post";
 
 interface Props {
@@ -94,6 +96,7 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
       if (navigator.canShare?.({ files })) {
         await navigator.share({ files, title, text });
         setStatus("Shared.");
+        markQuest("share-a-story", deckKey);
       } else {
         setStatus("This browser cannot share images directly. Save them below, then post from your phone.");
       }
@@ -109,6 +112,7 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
     try {
       const file = await recordReel(deckKey, frames, setRecording);
       setReel({ url: URL.createObjectURL(file), file });
+      markQuest("share-a-story", deckKey);
       setStatus(file.type.startsWith("video/mp4") ? "Reel ready." : "Reel ready as WebM. Some apps need MP4; try Safari or a recent Chrome for MP4.");
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Could not make the reel.");
@@ -165,7 +169,7 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
             {/* eslint-disable-next-line @next/next/no-img-element -- generated PNGs, already sized */}
             <img src={imageUrl(format, index, deckKey)} alt={`Frame ${index + 1} of ${frames}`} width={size.width} height={size.height} loading={index < 3 ? "eager" : "lazy"}
               className="h-auto w-full rounded-2xl border border-line bg-story" />
-            <a href={imageUrl(format, index, deckKey)} download={fileName(deckKey, format, index)} className="mt-2 inline-block text-sm font-semibold text-link underline">Save frame {index + 1}</a>
+            <a href={imageUrl(format, index, deckKey)} download={fileName(deckKey, format, index)} onClick={() => markQuest("share-a-story", deckKey)} className="mt-2 inline-block text-sm font-semibold text-link underline">Save frame {index + 1}</a>
           </li>
         ))}
       </ol>
