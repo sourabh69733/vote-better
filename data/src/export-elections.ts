@@ -6,6 +6,9 @@ import pg from "pg";
 import { LocalBlobStore } from "./blob-store.js";
 import { linkElections, type CalendarElection, type ResultSource } from "./elections/link.js";
 import { assemblyTarget, buildAssemblyBundle, type PartyNames } from "./export-assembly.js";
+import { buildByElectionBundle, byElectionTarget, readBaseSeats } from "./export-bye-elections.js";
+import { BYE_ELECTION_TRANSCRIPTIONS } from "./import-rajasthan-bye-elections.js";
+import type { Transcriptions } from "./normalize/rajasthan-form21e-transcription.js";
 import { loadReferences, publishPendingResults } from "./export-lok-sabha-2024.js";
 import { ASSEMBLY_ELECTIONS, assemblyFiles } from "./normalize/eci-assembly-result.js";
 import { linkSegments, type SegmentLink } from "./normalize/eci-assembly-segments.js";
@@ -97,7 +100,23 @@ async function main(): Promise<void> {
       process.stdout.write(`${election.id}: ${bundle.seats.length} seats, ${bundle.seats.reduce((sum, seat) => sum + seat.candidates.length, 0)} candidates written, ${fresh} newly published; parties without a full name: ${unnamed.join(", ") || "none"}.\n`);
     }
 
-    const summary = await linkElections(pool, await loadCalendar(), published);
+    // Bye-elections from transcribed returns: written only once a person has approved them.
+    const transcriptions = JSON.parse(await readFile(BYE_ELECTION_TRANSCRIPTIONS, "utf8")) as Transcriptions;
+    const calendar = await loadCalendar();
+    const urlsBy = new Map<string, string[]>();
+    for (const item of [...transcriptions.returns, ...transcriptions.declarations]) urlsBy.set(item.electionId, [...(urlsBy.get(item.electionId) ?? []), item.sourceUrl]);
+    const baseSeats = await readBaseSeats();
+    for (const [electionId, urls] of urlsBy) {
+      for (const url of urls) await publishPendingResults(pool, url);
+      const publications = await Promise.all(urls.map((url) => loadPublication(pool, url)));
+      const name = calendar.find((election) => election.id === electionId)?.name ?? electionId;
+      const bundle = buildByElectionBundle(electionId, name, publications.filter((p) => p.facts.length), partyNames, baseSeats, []);
+      if (!bundle) { process.stdout.write(`${electionId}: waiting for review of ${urls.length} transcribed document(s).\n`); continue; }
+      await writeAtomic(byElectionTarget(electionId), bundle);
+      process.stdout.write(`${electionId}: ${bundle.seats.length} reviewed seat(s) written.\n`);
+    }
+
+    const summary = await linkElections(pool, calendar, published);
     for (const { state, links, childKey } of parents) {
       const updated = await pool.query(`
         UPDATE area child SET parent_id = parent.id

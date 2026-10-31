@@ -227,7 +227,7 @@ npm --prefix data run sync -- ceo-rajasthan-bye-election-returns
 npm --prefix data run review:batch -- <PDF URL> --transcription --compared-with-document --reviewer=<your name> "--reason=<what you compared>"
 ```
 
-A transcription is approved one document at a time by a named person who compared it with the document; the automated checker cannot approve one. The CEO host needs legacy TLS renegotiation, so its fetcher accepts only the listed official URLs and keeps certificate checks on.
+A transcription is approved one document at a time by a named person who compared it with the document; the automated checker cannot approve one. After approval, `export:elections` writes each round to `web/records/generated/<election id>.json` on the 2023 seat numbering; until then it reports the round as waiting for review and the site flags those seats. The CEO host needs legacy TLS renegotiation, so its fetcher accepts only the listed official URLs and keeps certificate checks on.
 
 ## Elections, seats and contests
 
