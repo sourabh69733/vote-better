@@ -1,11 +1,11 @@
 import Link from "next/link";
 
-import { seatHref, formatNumber, type ResultElectionId, seatHistory } from "@/lib/lok-sabha";
+import { ELECTION_INFO, formatNumber, type ResultElectionId, seatHistory, seatHref } from "@/lib/results";
 import { partyColor } from "@/lib/party-colors";
 
-// This seat in every Lok Sabha election on the site, newest first.
+// This seat in every election of the same body on the site, newest first.
 export default function SeatHistory({ stateSlug, seatSlug, current }: { stateSlug: string; seatSlug: string; current: ResultElectionId }) {
-  const history = seatHistory(stateSlug, seatSlug);
+  const history = seatHistory(stateSlug, seatSlug, ELECTION_INFO[current].body);
   if (history.length < 2) return null;
   return (
     <section className="mt-8" aria-labelledby="history-heading">

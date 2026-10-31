@@ -4,8 +4,17 @@ import { join } from "node:path";
 // Lok Sabha results for every election the site has published, in one shape:
 // loading and validation, seat and candidate lookups, links, margins, search and formatting.
 
-export const RESULT_ELECTIONS = ["lok-sabha-2024", "lok-sabha-2019", "lok-sabha-2014"] as const;
+// Newest first within each body.
+export const RESULT_ELECTIONS = ["lok-sabha-2024", "lok-sabha-2019", "lok-sabha-2014", "rajasthan-assembly-2023"] as const;
 export type ResultElectionId = (typeof RESULT_ELECTIONS)[number];
+export type ResultBody = "lok-sabha" | "assembly";
+
+export const ELECTION_INFO: Record<ResultElectionId, { body: ResultBody; label: string; seatLabel: string }> = {
+  "lok-sabha-2024": { body: "lok-sabha", label: "Lok Sabha 2024", seatLabel: "Lok Sabha seat" },
+  "lok-sabha-2019": { body: "lok-sabha", label: "Lok Sabha 2019", seatLabel: "Lok Sabha seat" },
+  "lok-sabha-2014": { body: "lok-sabha", label: "Lok Sabha 2014", seatLabel: "Lok Sabha seat" },
+  "rajasthan-assembly-2023": { body: "assembly", label: "Rajasthan Assembly 2023", seatLabel: "Assembly seat" },
+};
 
 export interface ResultCandidate {
   slug: string;
@@ -37,6 +46,8 @@ export interface ResultSeat {
   unopposed: null | { winner: string; party: string; nominated: number; rejected: number; withdrawn: number };
   // Seats ECI's detailed file leaves out: winner and margin from its winners list only.
   winnerOnly?: null | { winner: string; party: string; margin: number };
+  // Assembly seats: the Lok Sabha seat they lie in (ECI 2024 report 15).
+  parliament?: null | { slug: string; name: string };
   electors: number | null;
   votesPolled: number | null;
   validVotes: number | null;
@@ -46,7 +57,7 @@ export interface ResultSeat {
 
 export interface ResultFile { title: string; url: string; contentHash: string; capturedAt: string }
 
-export interface LokSabhaResults {
+export interface ElectionResults {
   election: { id: ResultElectionId; name: string; seats: number };
   parties: Record<string, { name: string; type: string }>;
   source: ResultFile & { authority: string; note: string; disclaimer: string };
@@ -63,8 +74,8 @@ export function isResultElection(id: string): id is ResultElectionId {
   return (RESULT_ELECTIONS as readonly string[]).includes(id);
 }
 
-export function validateResults(value: unknown, id: ResultElectionId): asserts value is LokSabhaResults {
-  const data = value as LokSabhaResults;
+export function validateResults(value: unknown, id: ResultElectionId): asserts value is ElectionResults {
+  const data = value as ElectionResults;
   if (data?.election?.id !== id || !Array.isArray(data.seats)) throw new Error(`not the ${id} publication`);
   if (data.seats.length !== data.election.seats) throw new Error(`${id}: seat count mismatch`);
   if (!data.source?.url?.startsWith("https://") || !sha256.test(data.source.contentHash)) throw new Error(`${id}: invalid source`);
@@ -88,10 +99,10 @@ export function validateResults(value: unknown, id: ResultElectionId): asserts v
   }
 }
 
-const cache = new Map<ResultElectionId, LokSabhaResults | null>();
+const cache = new Map<ResultElectionId, ElectionResults | null>();
 
 // Undefined when the election's results have not been published to this site.
-export function loadResults(id: ResultElectionId): LokSabhaResults | undefined {
+export function loadResults(id: ResultElectionId): ElectionResults | undefined {
   if (!cache.has(id)) {
     const file = join(process.cwd(), "records", "generated", `${id}.json`);
     if (!existsSync(file)) cache.set(id, null);
@@ -105,7 +116,7 @@ export function loadResults(id: ResultElectionId): LokSabhaResults | undefined {
 }
 
 // For pages that cannot render without the file, such as the 2024 seat pages.
-export function requireResults(id: ResultElectionId): LokSabhaResults {
+export function requireResults(id: ResultElectionId): ElectionResults {
   const results = loadResults(id);
   if (!results) throw new Error(`${id} results are not published; run the data export`);
   return results;
@@ -179,7 +190,7 @@ export function turnout(seat: Pick<ResultSeat, "electors" | "votesPolled">) {
 }
 
 // Every seat in a state with a known margin, widest first.
-export function marginsInState(results: LokSabhaResults, stateSlug: string) {
+export function marginsInState(results: ElectionResults, stateSlug: string) {
   return results.seats
     .filter((seat) => seat.stateSlug === stateSlug)
     .map((seat) => ({ seat, margin: seatWinner(seat)?.margin ?? null }))
@@ -196,10 +207,10 @@ export function marginRank(seat: Pick<ResultSeat, "stateSlug" | "slug">, id: Res
   return rank ? { rank, total: margins.length } : null;
 }
 
-// The same seat in every published election, matched by state and seat name.
+// The same seat in every published election of one body, matched by state and seat name.
 // Seats that were renamed, redrawn or moved state are not matched.
-export function seatHistory(stateSlug: string, seatSlug: string) {
-  return RESULT_ELECTIONS.flatMap((id) => {
+export function seatHistory(stateSlug: string, seatSlug: string, body: ResultBody = "lok-sabha") {
+  return RESULT_ELECTIONS.filter((id) => ELECTION_INFO[id].body === body).flatMap((id) => {
     const seat = findSeat(id, stateSlug, seatSlug);
     const results = loadResults(id);
     if (!seat || !results) return [];
@@ -208,7 +219,7 @@ export function seatHistory(stateSlug: string, seatSlug: string) {
   });
 }
 
-export function electionTotals(results: LokSabhaResults) {
+export function electionTotals(results: ElectionResults) {
   let electors = 0, polled = 0, candidates = 0;
   for (const seat of results.seats) {
     candidates += seat.candidates.length;
@@ -221,7 +232,7 @@ export function electionTotals(results: LokSabhaResults) {
   return { candidates, turnout: electors ? (polled / electors) * 100 : null, closest: contested[0] ?? null, widest: contested.at(-1) ?? null };
 }
 
-export function statesOf(results: LokSabhaResults) {
+export function statesOf(results: ElectionResults) {
   const states = new Map<string, { state: string; stateSlug: string; seats: ResultSeat[] }>();
   for (const seat of results.seats) {
     const entry = states.get(seat.stateSlug) ?? { state: seat.state, stateSlug: seat.stateSlug, seats: [] };
@@ -231,16 +242,12 @@ export function statesOf(results: LokSabhaResults) {
   return [...states.values()].sort((a, b) => a.state.localeCompare(b.state));
 }
 
-export function ordinal(n: number) {
-  const suffix = ["th", "st", "nd", "rd"];
-  const lastTwo = n % 100;
-  return n + (suffix[(lastTwo - 20) % 10] ?? suffix[lastTwo] ?? suffix[0]);
-}
 
 const plain = (value: string) => value.toLocaleLowerCase("en-IN").replace(/[^a-z0-9]+/g, " ").trim();
 
 export interface SeatMatch {
-  // The newest election this seat appears in, and that election's version of the seat.
+  body: ResultBody;
+  // The newest election of that body this seat appears in, and that election's version of the seat.
   id: ResultElectionId;
   seat: ResultSeat;
   years: ResultElectionId[];
@@ -249,12 +256,13 @@ export interface SeatMatch {
   score: number;
 }
 
-// Search seats by seat or state name, or by the name of anyone who contested, across every published election.
+// Search Lok Sabha and assembly seats by seat or state name, or by anyone who contested, across every published election.
 export function searchSeats(query: string, limit = 60): SeatMatch[] {
   const words = plain(query).split(" ").filter(Boolean);
   if (!words.length) return [];
-  const hits = new Map<string, { stateSlug: string; slug: string; people: SeatMatch["people"]; score: number }>();
+  const hits = new Map<string, { body: ResultBody; stateSlug: string; slug: string; people: SeatMatch["people"]; score: number }>();
   for (const id of RESULT_ELECTIONS) {
+    const body = ELECTION_INFO[id].body;
     for (const seat of loadResults(id)?.seats ?? []) {
       let score = 0;
       if (words.every((word) => plain(`${seat.name} ${seat.state}`).includes(word))) score = plain(seat.name).startsWith(words.join(" ")) ? 3 : 2;
@@ -263,17 +271,30 @@ export function searchSeats(query: string, limit = 60): SeatMatch[] {
       const winnerOnly = seat.unopposed ?? seat.winnerOnly;
       if (!score && winnerOnly && words.every((word) => plain(winnerOnly.winner).includes(word))) score = 1.5;
       if (!score) continue;
-      const key = `${seat.stateSlug}/${seat.slug}`;
-      const hit = hits.get(key) ?? { stateSlug: seat.stateSlug, slug: seat.slug, people: [], score: 0 };
+      const key = `${body}/${seat.stateSlug}/${seat.slug}`;
+      const hit = hits.get(key) ?? { body, stateSlug: seat.stateSlug, slug: seat.slug, people: [], score: 0 };
       hit.people.push(...people);
       hit.score = Math.max(hit.score, score);
       hits.set(key, hit);
     }
   }
   return [...hits.values()].map((hit) => {
-    const years = RESULT_ELECTIONS.filter((id) => findSeat(id, hit.stateSlug, hit.slug));
-    return { id: years[0], seat: findSeat(years[0], hit.stateSlug, hit.slug)!, years, people: hit.people, score: hit.score };
+    const years = RESULT_ELECTIONS.filter((id) => ELECTION_INFO[id].body === hit.body && findSeat(id, hit.stateSlug, hit.slug));
+    return { body: hit.body, id: years[0], seat: findSeat(years[0], hit.stateSlug, hit.slug)!, years, people: hit.people, score: hit.score };
   })
-    .sort((a, b) => b.score - a.score || a.seat.name.localeCompare(b.seat.name))
+    // Lok Sabha first on equal scores: it is the seat most people search for by place name.
+    .sort((a, b) => b.score - a.score || (a.body === b.body ? 0 : a.body === "lok-sabha" ? -1 : 1) || a.seat.name.localeCompare(b.seat.name))
     .slice(0, limit);
+}
+
+// The assembly seats inside a Lok Sabha seat, with their latest result.
+export function assemblySeatsIn(stateSlug: string, parliamentSlug: string) {
+  return RESULT_ELECTIONS.filter((id) => ELECTION_INFO[id].body === "assembly").flatMap((id) =>
+    (loadResults(id)?.seats ?? []).filter((seat) => seat.stateSlug === stateSlug && seat.parliament?.slug === parliamentSlug).map((seat) => ({ id, seat, winner: seatWinner(seat) })));
+}
+
+export function ordinal(n: number) {
+  const suffix = ["th", "st", "nd", "rd"];
+  const lastTwo = n % 100;
+  return n + (suffix[(lastTwo - 20) % 10] ?? suffix[lastTwo] ?? suffix[0]);
 }

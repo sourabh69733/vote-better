@@ -4,7 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import SeatResult from "@/components/election/SeatResult";
 import StoryLauncher from "@/components/story/StoryLauncher";
 import { ButtonLink } from "@/components/ui";
-import { findSeat, isResultElection, loadResults, RESULT_ELECTIONS, seatHref, seatWinner } from "@/lib/lok-sabha";
+import { ELECTION_INFO, findSeat, isResultElection, loadResults, RESULT_ELECTIONS, seatHref, seatWinner } from "@/lib/results";
 import { resolveDeck } from "@/lib/share/decks";
 
 interface PageProps { params: Promise<{ id: string; state: string; seat: string }> }
@@ -17,11 +17,12 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id, state, seat: slug } = await params;
-  const seat = isResultElection(id) ? findSeat(id, state, slug) : undefined;
+  if (!isResultElection(id)) return { title: "Seat not found" };
+  const seat = findSeat(id, state, slug);
   if (!seat) return { title: "Seat not found" };
   const year = id.slice(-4);
   return {
-    title: `${seat.name}, ${seat.state}: ${year} Lok Sabha result | Vote Better`,
+    title: `${seat.name}, ${seat.state}: ${ELECTION_INFO[id].label} result | Vote Better`,
     description: `${seatWinner(seat)?.name ?? "The winner"} won ${seat.name} in ${year}. Every candidate, their votes and the official ECI source.`,
   };
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { listAreaOverviews } from "@/lib/civic-area";
-import { requireResults } from "@/lib/lok-sabha";
+import { pinLookupAvailable } from "@/lib/my-area";
+import { requireResults } from "@/lib/results";
 
 export default function Home() {
   const areas = listAreaOverviews();
@@ -15,7 +16,17 @@ export default function Home() {
             Know who <span className="block text-[#43896a]">represents you.</span>
           </h1>
         </div>
-        <div className="lg:pb-2">
+        <div className="grid gap-3 lg:pb-2">
+          {pinLookupAvailable() && (
+            <form action="/my-area" method="get" role="search" className="rounded-[24px] border border-you bg-you-soft p-5">
+              <label htmlFor="home-pin" className="text-sm font-bold text-ink">Your MP and MLA from your PIN code <span className="font-normal text-muted">· preview, Rajasthan</span></label>
+              <div className="mt-3 flex gap-2">
+                <input id="home-pin" name="pin" inputMode="numeric" pattern="[0-9]{6}" maxLength={6} placeholder="e.g. 302017" autoComplete="postal-code"
+                  className="min-h-12 min-w-0 flex-1 rounded-xl border border-line-strong bg-surface px-4 text-base tracking-[0.08em] text-ink focus:border-link focus:outline-none focus:ring-4 focus:ring-link/10" />
+                <button type="submit" className="min-h-12 rounded-xl bg-you px-5 text-sm font-bold text-white hover:opacity-90">Show</button>
+              </div>
+            </form>
+          )}
           <form action="/seats" method="get" role="search" className="rounded-[24px] border border-[#dce6dc] bg-white p-5 shadow-[0_12px_36px_rgba(28,64,40,.07)]">
             <label htmlFor="home-seat-search" className="text-sm font-bold text-[#19372d]">Find your MP and everyone who contested</label>
             <div className="mt-3 flex gap-2">

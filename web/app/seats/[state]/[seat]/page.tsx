@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import SeatResult from "@/components/election/SeatResult";
 import { ButtonLink } from "@/components/ui";
 import { listAreaOverviews } from "@/lib/civic-area";
-import { candidateHref, findSeat, requireResults, seatWinner } from "@/lib/lok-sabha";
+import { candidateHref, findSeat, requireResults, seatWinner } from "@/lib/results";
 
 interface PageProps { params: Promise<{ state: string; seat: string }> }
 

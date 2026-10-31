@@ -1,4 +1,4 @@
-import { formatShort, marginOf, marginRank } from "./lok-sabha";
+import { formatShort, marginOf, marginRank } from "./results";
 import { partyColor } from "./party-colors";
 import type { ProfileModel } from "./profile-model";
 import type { Scene, Story } from "./scenes";

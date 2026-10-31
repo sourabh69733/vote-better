@@ -1,4 +1,4 @@
-import { requireResults, type ResultCandidate, type ResultSeat } from "./lok-sabha";
+import { requireResults, type ResultCandidate, type ResultSeat } from "./results";
 import { sortableMpName } from "./mp-directory";
 import { listPublicMps, type PublicMp } from "./public-mps";
 import { byElections, nameVariants, seatAliases } from "@/records/mp-seat-links";

@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { Breadcrumb, Card, Eyebrow, NotCollected, SectionHeading, StatGrid } from "@/components/ui";
-import { candidateHref, formatNumber, marginsInState, ordinal, requireResults, seatHref, seatWinner, turnout, yearOf, type ResultElectionId, type ResultSeat } from "@/lib/lok-sabha";
+import { assemblySeatsIn, candidateHref, ELECTION_INFO, findSeat, formatNumber, marginsInState, ordinal, requireResults, seatHref, seatWinner, turnout, yearOf, type ResultElectionId, type ResultSeat } from "@/lib/results";
 import { partyColor } from "@/lib/party-colors";
 import MarginStrip from "./MarginStrip";
 import SeatHistory from "./SeatHistory";
@@ -10,10 +10,13 @@ import SourceNote from "./SourceNote";
 
 const reservationLabel: Record<string, string> = { GEN: "General seat", SC: "Reserved for Scheduled Castes", ST: "Reserved for Scheduled Tribes" };
 
-// One seat in one Lok Sabha election. Used for every year; 2024 adds candidate pages and a comparison.
+// One seat in one election, Lok Sabha or assembly. 2024 Lok Sabha seats add candidate pages and a comparison.
 export default function SeatResult({ id, seat, actions, aside }: { id: ResultElectionId; seat: ResultSeat; actions?: ReactNode; aside?: ReactNode }) {
   const results = requireResults(id);
   const year = yearOf(id);
+  const info = ELECTION_INFO[id];
+  const parent = seat.parliament ? findSeat("lok-sabha-2024", seat.stateSlug, seat.parliament.slug) : undefined;
+  const segments = id === "lok-sabha-2024" ? assemblySeatsIn(seat.stateSlug, seat.slug) : [];
   const has2024Pages = id === "lok-sabha-2024";
   const party = (code: string) => results.parties[code]?.name ?? code;
   const winner = seatWinner(seat);
@@ -30,12 +33,17 @@ export default function SeatResult({ id, seat, actions, aside }: { id: ResultEle
 
   return (
     <div className="mx-auto w-full max-w-[1100px] px-4 pb-14 pt-8 sm:px-6 sm:pt-12 lg:px-8">
-      <Breadcrumb items={[{ href: "/elections", label: "Elections" }, { href: `/elections/${id}`, label: `Lok Sabha ${year}` }]} />
+      <Breadcrumb items={[{ href: "/elections", label: "Elections" }, { href: `/elections/${id}`, label: info.label }]} />
 
       <header className="mt-6">
-        <Eyebrow>Lok Sabha {year}{seat.number ? ` · seat ${seat.number}` : ""} · {seat.state}</Eyebrow>
+        <Eyebrow>{info.label}{seat.number ? ` · seat ${seat.number}` : ""}{info.body === "lok-sabha" ? ` · ${seat.state}` : ""}</Eyebrow>
         <h1 className="mt-3 text-[clamp(2.4rem,6vw,4.2rem)] font-semibold leading-[1.02] tracking-[-0.07em] text-ink">{seat.name}</h1>
         <p className="mt-3 text-sm text-muted">{reservationLabel[seat.reservation] ?? seat.reservation} · {results.election.name}</p>
+        {parent && (
+          <p className="mt-2 text-sm text-body">
+            Part of the <Link href={seatHref(parent)} className="font-semibold text-link underline underline-offset-4">{parent.name} Lok Sabha seat</Link>.
+          </p>
+        )}
       </header>
 
       {winner && (
@@ -90,6 +98,25 @@ export default function SeatResult({ id, seat, actions, aside }: { id: ResultEle
       )}
 
       {aside}
+
+      {segments.length > 0 && (
+        <section className="mt-8" aria-labelledby="segments-heading">
+          <SectionHeading id="segments-heading" title="Assembly seats in this Lok Sabha seat" lead="Each elects its own MLA to the state assembly. Winners from the latest assembly election." />
+          <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+            {segments.map(({ id: assemblyId, seat: segment, winner: mla }) => (
+              <li key={segment.slug}>
+                <Link href={seatHref(segment, assemblyId)} className="group flex items-center gap-3 rounded-2xl border border-line-soft bg-surface p-4 hover:border-line-strong">
+                  <span className="h-9 w-1.5 shrink-0 rounded-full" style={{ background: partyColor(mla?.party) }} aria-hidden="true" />
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-semibold text-ink group-hover:underline">{segment.name}</span>
+                    <span className="block truncate text-sm text-body">{mla ? `${mla.name}, ${mla.party} · ${ELECTION_INFO[assemblyId].label}` : "No result"}</span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {seat.candidates.length > 0 && (
         <section className="mt-8" aria-labelledby="candidates-heading">

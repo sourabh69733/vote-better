@@ -1,8 +1,14 @@
-import type { LokSabhaResults, ResultFile } from "@/lib/lok-sabha";
+import type { ElectionResults, ResultFile } from "@/lib/results";
 
 const day = (value: string) => new Date(value).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 
-const CHECKS: Record<"2024" | "older", string[]> = {
+const CHECKS: Record<"2024" | "older" | "assembly", string[]> = {
+  assembly: [
+    "Every candidate's general and postal votes add up to their total.",
+    "Every winner, runner-up and margin matches ECI's list of successful candidates.",
+    "Electors, NOTA and valid votes match ECI's seat-wise voters report.",
+    "Every party's seat count matches ECI's party performance report.",
+  ],
   "2024": [
     "Every candidate's general and postal votes add up to their total.",
     "Candidate votes in each seat add up to ECI's valid vote count.",
@@ -18,9 +24,9 @@ const CHECKS: Record<"2024" | "older", string[]> = {
 };
 
 // The source, the exact rows, when we captured it and how it was checked.
-export default function SourceNote({ data, rows, reviewedAt, file }: { data: LokSabhaResults; rows?: string; reviewedAt?: string; file?: ResultFile }) {
+export default function SourceNote({ data, rows, reviewedAt, file }: { data: ElectionResults; rows?: string; reviewedAt?: string; file?: ResultFile }) {
   const source = file ?? data.source;
-  const checks = CHECKS[data.election.id === "lok-sabha-2024" ? "2024" : "older"];
+  const checks = CHECKS[data.election.id === "lok-sabha-2024" ? "2024" : data.election.id.includes("assembly") ? "assembly" : "older"];
   return (
     <section className="rounded-[24px] border border-line bg-surface p-6 text-sm leading-6 text-body sm:p-8" aria-labelledby="source-heading">
       <h2 id="source-heading" className="text-lg font-semibold tracking-[-0.02em] text-ink">Where this comes from</h2>

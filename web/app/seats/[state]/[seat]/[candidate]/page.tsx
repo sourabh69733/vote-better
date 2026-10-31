@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { findCandidate, formatNumber, requireResults, seatHref, summaryOf } from "@/lib/lok-sabha";
+import { findCandidate, formatNumber, requireResults, seatHref, summaryOf } from "@/lib/results";
 import { findCandidacy2024, findMpForSeat } from "@/lib/mp-seat-link";
 import { eciChip, partyOf, resultStats, type ProfileModel } from "@/lib/profile-model";
 import { getPersonProfile, listPersonSlugs } from "@/lib/verified-profile";

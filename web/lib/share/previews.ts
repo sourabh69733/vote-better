@@ -1,5 +1,5 @@
 import { BODY_LABEL, type Election } from "../elections";
-import { electionTotals, findSeat, formatNumber, formatShort, isResultElection, loadResults, type ResultElectionId, seatWinner, yearOf } from "../lok-sabha";
+import { ELECTION_INFO, electionTotals, findSeat, formatNumber, formatShort, isResultElection, loadResults, type ResultElectionId, seatWinner } from "../results";
 import { partyColor } from "../party-colors";
 
 export interface Preview { kicker: string; title: string; line: string; stat?: string; statLabel?: string; color?: string }
@@ -11,7 +11,7 @@ export function seatPreview(id: ResultElectionId, stateSlug: string, seatSlug: s
   if (!results || !seat || !winner) return null;
   const party = results.parties[winner.party]?.name ?? winner.party;
   return {
-    kicker: `LOK SABHA ${yearOf(id)} · ${seat.state.toUpperCase()}`,
+    kicker: ELECTION_INFO[id].body === "lok-sabha" ? `${ELECTION_INFO[id].label.toUpperCase()} · ${seat.state.toUpperCase()}` : ELECTION_INFO[id].label.toUpperCase(),
     title: seat.name,
     line: `${winner.name}, ${party}${winner.how === "unopposed" ? ", elected unopposed" : ""}`,
     ...(winner.margin !== null ? { stat: formatNumber(winner.margin), statLabel: "votes, winning margin" } : {}),

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { requireResults, seatHref, summaryOf } from "@/lib/lok-sabha";
+import { requireResults, seatHref, summaryOf } from "@/lib/results";
 import { findCandidacy2024 } from "@/lib/mp-seat-link";
 import { getParliamentaryDebates } from "@/lib/parliamentary-debates";
 import { getParliamentaryWork } from "@/lib/parliamentary-work";

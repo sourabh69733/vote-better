@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { listAreaOverviews } from "@/lib/civic-area";
-import { formatShort, requireResults, seatHref, summaryOf } from "@/lib/lok-sabha";
+import { formatShort, requireResults, seatHref, summaryOf } from "@/lib/results";
 import { sortableMpName } from "@/lib/mp-directory";
 import { linkMpToSeat } from "@/lib/mp-seat-link";
 import { eciChip, partyOf, resultStats, type ProfileModel, type ProfileStat } from "@/lib/profile-model";

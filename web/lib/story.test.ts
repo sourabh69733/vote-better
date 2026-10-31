@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { findCandidate, findSeat, requireResults } from "./lok-sabha";
+import { findCandidate, findSeat, requireResults } from "./results";
 import type { ProfileModel } from "./profile-model";
 import { buildStory, storyBuilders } from "./story";
 

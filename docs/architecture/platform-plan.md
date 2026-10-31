@@ -146,7 +146,7 @@ Source chips everywhere. A coverage page per area and per person listing what is
 | --- | --- | --- |
 | A. Election as entity (done 2026-10-31) | `election`, `contest`, `seat` entities in the data layer; calendar records import into them; `/elections/[id]` page; 2024 results attached; 2019 and 2014 published | A Jaipur voter opens the 2024 election page and reaches their seat and winner |
 | B. Unattended sync | Scheduled `sync --due`, hosting, alerts, PR publish, single bundle exporter | A week passes with no manual run and the site shows updated "checked on" dates |
-| C. Area first | PIN and map to PC and AC; assembly seats for Rajasthan; area home with three cards and coverage | A Jaipur PIN shows the MP and MLA with sources |
+| C. Area first (built 2026-11-01 for Rajasthan; PIN search waits on decision 8) | PIN and map to PC and AC; assembly seats for Rajasthan; area home with three cards and coverage | A Jaipur PIN shows the MP and MLA with sources |
 | D. Deep profiles | Affidavit adapter for 2024 winners, then all 2024 candidates; Sansad work for all MPs; attendance; unified profile; office duties | Every sitting MP has a filing, work timeline and duties panel |
 | E. Candidates during a poll | Nomination adapter (ECI candidate lists), comparison page, poll-window scheduling | Tested end to end on the first announced election after launch (2027 round) |
 | F. Outcomes | MPLADS and MLALAD works, milestone badges, area timeline | Jaipur area page lists funded works with status and source |
@@ -202,3 +202,4 @@ These are targets, not commitments.
 5. Decide Digital Sansad reuse (still open from the national plan).
 6. Legal review of affidavit republication (public record, but personal data) before phase D publishes filings.
 7. Set up the Instagram account and a short web address, and get legal advice on posting rules during polls, before phase H1 goes live.
+8. Confirm the reuse terms of the assembly and PIN boundary maps (Bharat Maps through a public mirror, and data.gov.in) before PIN search goes public. Until then `/my-area` works only locally.

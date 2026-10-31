@@ -2,7 +2,7 @@
 // carousels and reels. Every template runs the same way for every seat and party, and every
 // frame carries its source. No photos, no predictions, no opinion about anyone.
 
-import { findSeat, formatNumber, formatShort, isResultElection, loadResults, type LokSabhaResults, marginsInState, ordinal, type ResultElectionId, type ResultSeat, seatHistory, seatWinner, turnout, yearOf } from "../lok-sabha";
+import { ELECTION_INFO, findSeat, formatNumber, formatShort, isResultElection, loadResults, type ElectionResults, marginsInState, ordinal, type ResultElectionId, type ResultSeat, seatHistory, seatWinner, turnout, yearOf } from "../results";
 import { partyColor } from "../party-colors";
 import type { Scene, Story } from "../scenes";
 
@@ -26,13 +26,13 @@ export interface Deck extends Story {
 const day = (iso: string) => new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 const tag = (value: string) => `#${value.replace(/[^A-Za-z0-9]/g, "")}`;
 
-function resultSource(results: LokSabhaResults, seat?: ResultSeat) {
+function resultSource(results: ElectionResults, seat?: ResultSeat) {
   const year = yearOf(results.election.id);
   const file = seat?.winnerOnly ? "list of successful candidates" : "statistical report";
   return `Election Commission of India, ${year} ${file} · checked ${day(results.publishedAt)}`;
 }
 
-function rankLine(results: LokSabhaResults, seat: ResultSeat) {
+function rankLine(results: ElectionResults, seat: ResultSeat) {
   const margins = marginsInState(results, seat.stateSlug);
   const rank = margins.findIndex((row) => row.seat.slug === seat.slug) + 1;
   const total = margins.length;
@@ -44,11 +44,15 @@ function rankLine(results: LokSabhaResults, seat: ResultSeat) {
     : `The ${ordinal(total - rank + 1)} closest result of ${total} seats in ${seat.state}.`;
 }
 
-function stateTurnout(results: LokSabhaResults, stateSlug: string) {
+function stateTurnout(results: ElectionResults, stateSlug: string) {
   let electors = 0, polled = 0;
   for (const seat of results.seats) if (seat.stateSlug === stateSlug && seat.electors && seat.votesPolled !== null) { electors += seat.electors; polled += seat.votesPolled; }
   return electors ? (polled / electors) * 100 : null;
 }
+
+// "LOK SABHA 2024 · RAJASTHAN" or "RAJASTHAN ASSEMBLY 2023": the state is already in an assembly label.
+const kickerOf = (id: ResultElectionId, state: string) => ELECTION_INFO[id].body === "lok-sabha" ? `${ELECTION_INFO[id].label.toUpperCase()} · ${state.toUpperCase()}` : ELECTION_INFO[id].label.toUpperCase();
+const chamber = (id: ResultElectionId) => ELECTION_INFO[id].body === "lok-sabha" ? { en: "Lok Sabha", hi: "Lok Sabha" } : { en: "assembly", hi: "Vidhan Sabha" };
 
 const pagePath = (id: ResultElectionId, seat: ResultSeat) => id === "lok-sabha-2024" ? `/seats/${seat.stateSlug}/${seat.slug}` : `/elections/${id}/${seat.stateSlug}/${seat.slug}`;
 
@@ -61,10 +65,10 @@ function seatDeck(id: ResultElectionId, stateSlug: string, seatSlug: string): De
   const seat = findSeat(id, stateSlug, seatSlug);
   const winner = seat && seatWinner(seat);
   if (!results || !seat || !winner) return null;
-  const year = yearOf(id);
   const party = (code: string) => results.parties[code]?.name ?? code;
   const source = resultSource(results, seat);
-  const kicker = `LOK SABHA ${year} · ${seat.state.toUpperCase()}`;
+  const label = ELECTION_INFO[id].label;
+  const kicker = kickerOf(id, seat.state);
   const scenes: Scene[] = [{ kind: "cover", kicker, title: seat.name, subtitle: "Your seat in 60 seconds", source }];
 
   if (winner.how === "contested" && seat.candidates.length > 1) {
@@ -99,11 +103,11 @@ function seatDeck(id: ResultElectionId, stateSlug: string, seatSlug: string): De
     });
   }
 
-  const history = seatHistory(seat.stateSlug, seat.slug);
+  const history = seatHistory(seat.stateSlug, seat.slug, ELECTION_INFO[id].body);
   if (history.length > 1) {
     const max = Math.max(...history.map((h) => h.winner.margin ?? 0), 1);
     scenes.push({
-      kind: "list", kicker: `${seat.name.toUpperCase()} · LOK SABHA`, title: "Over the years", note: "Winner and winning margin in votes",
+      kind: "list", kicker: `${seat.name.toUpperCase()} · ${chamber(id).en.toUpperCase()}`, title: "Over the years", note: "Winner and winning margin in votes",
       source: "Election Commission of India statistical reports",
       rows: history.map((h) => ({
         label: String(h.year), detail: `${h.winner.name} · ${h.winner.party}`,
@@ -111,17 +115,17 @@ function seatDeck(id: ResultElectionId, stateSlug: string, seatSlug: string): De
       })),
     });
   }
-  scenes.push(cta("How close was your seat?", "Every Lok Sabha seat, every candidate and every number, from the Election Commission of India."));
+  scenes.push(cta("How close was your seat?", "Every seat, every candidate and every number, from the Election Commission of India."));
 
   const rank = rankLine(results, seat);
   const marginText = winner.margin === null ? "" : ` by ${formatNumber(winner.margin)} votes`;
   return {
-    key: `seat/${id}/${seat.stateSlug}/${seat.slug}`, template: "seat", title: `${seat.name}, Lok Sabha ${year}`, link: pagePath(id, seat), name: seat.name, color: partyColor(winner.party), scenes,
+    key: `seat/${id}/${seat.stateSlug}/${seat.slug}`, template: "seat", title: `${seat.name}, ${label}`, link: pagePath(id, seat), name: seat.name, color: partyColor(winner.party), scenes,
     caption: {
-      en: `${seat.name}, Lok Sabha ${year}: ${winner.name} (${winner.party}) won${winner.how === "unopposed" ? " unopposed" : marginText}.${rank ? ` ${rank}` : ""}${share !== null ? ` Turnout was ${share.toFixed(1)}%.` : ""} How close was your seat? Check it yourself on Vote Better. Every number is from the Election Commission of India.`,
-      hi: `${seat.name}, Lok Sabha ${year}: ${winner.name} (${winner.party}) ne${winner.margin === null ? " bina muqable ke" : ` ${formatNumber(winner.margin)} votes se`} jeet haasil ki.${share !== null ? ` Turnout ${share.toFixed(1)}% raha.` : ""} Aapki seat kitni close thi? Vote Better par khud check karo. Saare numbers Election Commission of India se.`,
+      en: `${seat.name}, ${label}: ${winner.name} (${winner.party}) won${winner.how === "unopposed" ? " unopposed" : marginText}.${rank ? ` ${rank}` : ""}${share !== null ? ` Turnout was ${share.toFixed(1)}%.` : ""} How close was your seat? Check it yourself on Vote Better. Every number is from the Election Commission of India.`,
+      hi: `${seat.name}, ${label}: ${winner.name} (${winner.party}) ne${winner.margin === null ? " bina muqable ke" : ` ${formatNumber(winner.margin)} votes se`} jeet haasil ki.${share !== null ? ` Turnout ${share.toFixed(1)}% raha.` : ""} Aapki seat kitni close thi? Vote Better par khud check karo. Saare numbers Election Commission of India se.`,
     },
-    hashtags: ["#VoteBetter", `#LokSabha${year}`, tag(seat.state), tag(seat.name)],
+    hashtags: ["#VoteBetter", tag(label), tag(seat.state), tag(seat.name)],
   };
 }
 
@@ -146,16 +150,16 @@ function quizDeck(id: ResultElectionId, stateSlug: string, seatSlug: string): De
   return {
     key: `quiz/${id}/${seat.stateSlug}/${seat.slug}`, template: "quiz", title: `Guess the margin: ${seat.name}, ${year}`, link: pagePath(id, seat), name: seat.name, color: partyColor(winner.party),
     scenes: [
-      { kind: "quiz", kicker: "GUESS THE MARGIN", question: `${seat.name}, ${seat.state}. Lok Sabha ${year}. How many votes decided it?`, options: quizOptions(winner.margin), hint: "Answer on the next slide" },
+      { kind: "quiz", kicker: "GUESS THE MARGIN", question: `${seat.name}, ${seat.state}. ${ELECTION_INFO[id].label}. How many votes decided it?`, options: quizOptions(winner.margin), hint: "Answer on the next slide" },
       { kind: "big", kicker: "THE ANSWER", value: formatNumber(winner.margin), unit: "votes", highlight: true, source,
         line: `${winner.name} (${winner.party}) beat ${runnerUp.name} (${runnerUp.party})`, ...(rank ? { detail: rank } : {}) },
-      cta("Guess your own seat", "Find any Lok Sabha seat and see how close it was."),
+      cta("Guess your own seat", "Find any seat and see how close it was."),
     ],
     caption: {
       en: `Guess the margin: how many votes decided ${seat.name} in ${year}? Answer on the next slide. Then find your own seat on Vote Better. Source: Election Commission of India.`,
       hi: `Guess karo: ${year} mein ${seat.name} kitne votes se decide hua? Answer agli slide mein. Phir apni seat Vote Better par dekho. Source: Election Commission of India.`,
     },
-    hashtags: ["#VoteBetter", "#GuessTheMargin", `#LokSabha${year}`, tag(seat.state)],
+    hashtags: ["#VoteBetter", "#GuessTheMargin", tag(ELECTION_INFO[id].label), tag(seat.state)],
   };
 }
 
@@ -171,7 +175,7 @@ function closestDeck(id: ResultElectionId, stateSlug: string): Deck | null {
   return {
     key: `closest/${id}/${stateSlug}`, template: "closest", title: `Closest fights in ${state}, ${year}`, link: `/elections/${id}`, name: state, color: BRAND,
     scenes: [
-      { kind: "list", kicker: `${state.toUpperCase()} · LOK SABHA ${year}`, title: `The ${top.length} closest fights`, note: "Winning margin in votes", source: resultSource(results),
+      { kind: "list", kicker: kickerOf(id, state), title: `The ${top.length} closest fights`, note: "Winning margin in votes", source: resultSource(results),
         rows: top.map(({ seat, margin }) => {
           const winner = seatWinner(seat)!;
           return { label: seat.name, detail: `${winner.name} · ${winner.party}`, value: formatNumber(margin), width: Math.max((margin / max) * 100, 2), color: partyColor(winner.party) };
@@ -179,10 +183,10 @@ function closestDeck(id: ResultElectionId, stateSlug: string): Deck | null {
       cta("What about your seat?", `All ${margins.length} ${state} seats, every candidate and every number, from the Election Commission of India.`),
     ],
     caption: {
-      en: `The ${top.length} closest Lok Sabha fights in ${state}, ${year}. ${top[0].seat.name} was decided by just ${formatNumber(top[0].margin)} votes. How close was yours? Check it on Vote Better. Source: Election Commission of India.`,
-      hi: `${state} ki ${top.length} sabse kareebi takkar, Lok Sabha ${year}. ${top[0].seat.name} sirf ${formatNumber(top[0].margin)} votes se decide hua. Aapki seat kitni close thi? Vote Better par dekho. Source: Election Commission of India.`,
+      en: `The ${top.length} closest ${chamber(id).en} fights in ${state}, ${year}. ${top[0].seat.name} was decided by just ${formatNumber(top[0].margin)} votes. How close was yours? Check it on Vote Better. Source: Election Commission of India.`,
+      hi: `${state} ki ${top.length} sabse kareebi takkar, ${chamber(id).hi} ${year}. ${top[0].seat.name} sirf ${formatNumber(top[0].margin)} votes se decide hua. Aapki seat kitni close thi? Vote Better par dekho. Source: Election Commission of India.`,
     },
-    hashtags: ["#VoteBetter", `#LokSabha${year}`, tag(state), "#EveryVoteCounts"],
+    hashtags: ["#VoteBetter", tag(ELECTION_INFO[id].label), tag(state), "#EveryVoteCounts"],
   };
 }
 

@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Eyebrow } from "@/components/ui";
-import { candidateHref, ordinal, requireResults, RESULT_ELECTIONS, searchSeats, seatHref, seatWinner, statesOf, yearOf, type SeatMatch } from "@/lib/lok-sabha";
+import { candidateHref, ELECTION_INFO, ordinal, requireResults, RESULT_ELECTIONS, searchSeats, seatHref, seatWinner, statesOf, yearOf, type SeatMatch } from "@/lib/results";
 import { partyColor } from "@/lib/party-colors";
 
 export const metadata: Metadata = {
-  title: "Find your Lok Sabha seat | Vote Better",
-  description: "Every Lok Sabha seat in 2024, 2019 and 2014: who won, everyone who contested, and the official ECI source.",
+  title: "Find your seat | Vote Better",
+  description: "Every Lok Sabha seat in 2024, 2019 and 2014, and every Rajasthan assembly seat in 2023: who won, everyone who contested, and the official ECI source.",
 };
 
 interface PageProps { searchParams: Promise<{ q?: string | string[] }> }
@@ -29,7 +29,7 @@ function MatchRow({ match }: { match: SeatMatch }) {
       <Link href={seatHref(match.seat, match.id)} className="group flex items-start gap-3">
         <span className="mt-1 h-9 w-1.5 shrink-0 rounded-full" style={{ background: partyColor(winner?.party) }} aria-hidden="true" />
         <span className="min-w-0 flex-1">
-          <span className="block font-semibold text-ink group-hover:underline">{match.seat.name} <span className="text-sm font-normal text-subtle">· {match.seat.state}</span></span>
+          <span className="block font-semibold text-ink group-hover:underline">{match.seat.name} <span className="text-sm font-normal text-subtle">· {ELECTION_INFO[match.id].seatLabel} · {match.seat.state}</span></span>
           {winner && <span className="mt-0.5 block truncate text-sm text-body">{yearOf(match.id)}: {winner.name}, {party(match.id, winner.party)}{winner.how === "unopposed" ? " (unopposed)" : ""}</span>}
         </span>
       </Link>
@@ -40,7 +40,7 @@ function MatchRow({ match }: { match: SeatMatch }) {
       ))}
       <p className="mt-3 flex flex-wrap gap-2 pl-[18px]">
         {match.years.map((id) => (
-          <Link key={id} href={seatHref(match.seat, id)} className="rounded-full border border-line-strong px-2.5 py-0.5 text-xs font-bold text-link hover:bg-tint">{yearOf(id)}</Link>
+          <Link key={id} href={seatHref(match.seat, id)} className="rounded-full border border-line-strong px-2.5 py-0.5 text-xs font-bold text-link hover:bg-tint">{ELECTION_INFO[id].label}</Link>
         ))}
       </p>
     </li>
@@ -56,9 +56,9 @@ export default async function SeatsPage({ searchParams }: PageProps) {
   return (
     <div className="mx-auto w-full max-w-[1100px] px-4 pb-14 pt-10 sm:px-6 sm:pt-14 lg:px-8">
       <header className="border-b border-line pb-8">
-        <Eyebrow>Lok Sabha · 2024, 2019 and 2014</Eyebrow>
+        <Eyebrow>Lok Sabha 2024, 2019, 2014 · Rajasthan Assembly 2023</Eyebrow>
         <h1 className="mt-3 text-[clamp(2.4rem,5vw,3.8rem)] font-semibold leading-[1.04] tracking-[-0.06em] text-ink">Find your seat</h1>
-        <p className="mt-3 max-w-xl text-[15px] leading-7 text-body">Search your constituency, your state, or the name of anyone who contested in any of the last three Lok Sabha elections. Every result comes from the Election Commission of India.</p>
+        <p className="mt-3 max-w-xl text-[15px] leading-7 text-body">Search your constituency, your state, or the name of anyone who contested in the last three Lok Sabha elections or the 2023 Rajasthan assembly election. Every result comes from the Election Commission of India.</p>
         <form action="/seats" method="get" className="mt-6 flex max-w-2xl gap-2" role="search">
           <label htmlFor="seat-search" className="sr-only">Search seats, states or candidates</label>
           <input id="seat-search" name="q" defaultValue={query} placeholder="e.g. Jaipur, Kerala or a candidate's name" autoComplete="off"

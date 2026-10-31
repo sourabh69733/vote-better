@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { electionTotals, findCandidate, findSeat, formatShort, loadResults, marginOf, marginRank, marginsInState, ordinal, requireResults, searchSeats, seatHistory, seatHref, seatWinner, statesOf, summaryOf, validateResults, type ResultSeat } from "./lok-sabha";
+import { assemblySeatsIn, electionTotals, findCandidate, findSeat, formatShort, loadResults, marginOf, marginRank, marginsInState, ordinal, requireResults, searchSeats, seatHistory, seatHref, seatWinner, statesOf, summaryOf, validateResults, type ResultSeat } from "./results";
 
 test("all three Lok Sabha results files load and pass validation", () => {
   for (const id of ["lok-sabha-2024", "lok-sabha-2019", "lok-sabha-2014"] as const) {
@@ -99,4 +99,27 @@ test("short numbers and summaries read plainly", () => {
   assert.equal(summaryOf(won.seat, won.candidate, party), "Got 8.87 lakh votes (61% of valid votes) in Jaipur. Won by 3.32 lakh votes over Pratap Singh Khachariyawas (Indian National Congress).");
   const lost = findCandidate("lok-sabha-2024", "rajasthan", "jaipur", "pratap-singh-khachariyawas")!;
   assert.match(summaryOf(lost.seat, lost.candidate, party), /^Got 5\.55 lakh votes \(38% of valid votes\) in Jaipur\. Finished 2 of 13, 3\.32 lakh votes behind the winner, Manju Sharma \(Bharatiya Janata Party\)\.$/);
+});
+
+test("Rajasthan's 2023 assembly results load, each seat placed in its Lok Sabha seat", () => {
+  const results = requireResults("rajasthan-assembly-2023");
+  assert.equal(results.seats.length, 200);
+  assert.ok(results.seats.every((seat) => seat.parliament && seat.number));
+  const malviya = results.seats.find((seat) => seat.number === 54)!;
+  assert.equal(malviya.slug, "54-malviya-nagar");
+  assert.deepEqual(malviya.parliament, { slug: "jaipur", name: "Jaipur" });
+  assert.equal(seatWinner(malviya)?.name, "Kalicharan Saraf");
+  assert.equal(seatHref(malviya, "rajasthan-assembly-2023"), "/elections/rajasthan-assembly-2023/rajasthan/54-malviya-nagar");
+  const shahpuras = results.seats.filter((seat) => seat.name === "Shahpura").map((seat) => [seat.number, seat.parliament?.slug]);
+  assert.deepEqual(shahpuras, [[42, "jaipur-rural"], [181, "bhilwara"]]);
+});
+
+test("a Lok Sabha seat lists its assembly seats, and the two chambers never share a history", () => {
+  assert.deepEqual(assemblySeatsIn("rajasthan", "jaipur").map(({ seat }) => seat.name),
+    ["Hawa Mahal", "Vidhyadhar Nagar", "Civil Lines", "Kishan Pole", "Adarsh Nagar", "Malviya Nagar", "Sanganer", "Bagru"]);
+  const lokSabha = seatHistory("rajasthan", "jhunjhunu", "lok-sabha");
+  assert.ok(lokSabha.length >= 2 && lokSabha.every((entry) => entry.id.startsWith("lok-sabha")));
+  assert.deepEqual(seatHistory("rajasthan", "27-jhunjhunu", "assembly").map((entry) => entry.id), ["rajasthan-assembly-2023"]);
+  const matches = searchSeats("malviya nagar");
+  assert.ok(matches.some((match) => match.body === "assembly" && match.seat.number === 54));
 });

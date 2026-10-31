@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { candidateHref, formatShort, type LokSabhaResults, marginOf, seatHref } from "@/lib/lok-sabha";
+import { candidateHref, formatShort, type ElectionResults, marginOf, seatHref } from "@/lib/results";
 import { partyColor } from "@/lib/party-colors";
 import type { ProfileModel, ProfileStat } from "@/lib/profile-model";
 import SourceNote from "@/components/election/SourceNote";
@@ -66,7 +66,7 @@ function Section({ id, title, kicker, children }: { id: string; title: string; k
 
 const panel = "rounded-3xl border border-[#e2e9e2] bg-white p-5 sm:p-6";
 
-export default function ProfileView({ model, data }: { model: ProfileModel; data: LokSabhaResults }) {
+export default function ProfileView({ model, data }: { model: ProfileModel; data: ElectionResults }) {
   const color = model.party?.color ?? "#7d8a80";
   const contest = model.contest;
   const margin = contest?.candidate ? marginOf(contest.seat, contest.candidate) : null;

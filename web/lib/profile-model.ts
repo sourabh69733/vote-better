@@ -1,5 +1,5 @@
 import type { ChipSource } from "@/components/profile/SourceChip";
-import { formatShort, type LokSabhaResults, type ResultCandidate, type ResultSeat } from "./lok-sabha";
+import { formatShort, type ElectionResults, type ResultCandidate, type ResultSeat } from "./results";
 import { partyColor } from "./party-colors";
 
 // One shape for every profile page. A section exists only when its data does,
@@ -81,7 +81,7 @@ export function moneyStats(money: ProfileMoney | undefined): ProfileStat[] {
   return stats;
 }
 
-export function eciChip(data: LokSabhaResults, candidate: ResultCandidate, checkedOn: string): ChipSource {
+export function eciChip(data: ElectionResults, candidate: ResultCandidate, checkedOn: string): ChipSource {
   return { label: "ECI", title: "ECI 2024 results, report 33", url: data.source.url, locator: candidate.locator.toLowerCase(), checkedOn };
 }
 

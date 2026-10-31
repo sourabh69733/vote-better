@@ -7,7 +7,7 @@ import ScheduleTimeline from "@/components/election/ScheduleTimeline";
 import SeatFilter from "@/components/election/SeatFilter";
 import { Breadcrumb, Eyebrow, NotCollected } from "@/components/ui";
 import { BODY_LABEL, STATUS_LABEL, electionStatus, formatDay, todayIso, type Election } from "@/lib/elections";
-import { seatHref, electionTotals, formatNumber, formatShort, isResultElection, loadResults, type LokSabhaResults, marginsInState, seatWinner, statesOf } from "@/lib/lok-sabha";
+import { seatHref, electionTotals, formatNumber, formatShort, isResultElection, loadResults, type ElectionResults, marginsInState, seatWinner, statesOf } from "@/lib/results";
 import { partyColor } from "@/lib/party-colors";
 import { elections } from "@/records/elections";
 
@@ -46,7 +46,7 @@ function Sources({ election }: { election: Election }) {
   );
 }
 
-function Results({ election, results }: { election: Election; results: LokSabhaResults }) {
+function Results({ election, results }: { election: Election; results: ElectionResults }) {
   const totals = electionTotals(results);
   const party = (code: string) => results.parties[code]?.name ?? code;
   const states = statesOf(results);

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { candidateHref, findSeat, formatNumber, requireResults, type ResultCandidate, seatHref } from "@/lib/lok-sabha";
+import { candidateHref, findSeat, formatNumber, requireResults, type ResultCandidate, seatHref } from "@/lib/results";
 import SourceNote from "@/components/election/SourceNote";
 
 interface PageProps {
