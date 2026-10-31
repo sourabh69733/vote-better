@@ -59,7 +59,7 @@ test("the curated records are valid and cover the 2024 Lok Sabha election", () =
   const lokSabha = elections.find((e) => e.id === "lok-sabha-2024");
   assert.equal(lokSabha?.polls.length, 7);
   assert.equal(lokSabha?.siteHref, "/elections/lok-sabha-2024");
-  assert.equal(lastCheckedOn(elections), "2026-10-31");
+  assert.equal(lastCheckedOn(elections), "2026-11-01");
   const groups = groupElections(elections, "2026-10-31");
   assert.equal(groups.now.length, 0);
   assert.equal(groups.upcoming.length, 7);

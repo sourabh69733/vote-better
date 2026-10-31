@@ -11,6 +11,7 @@ import {
   ECI_GE2024_PARTY_LIST_URL, ECI_GE2024_SURAT_URL, ECI_GE2024_WINNERS_URL,
   parsePartyList, parseSuccessfulCandidates, parseSuratSummary, XLSX_DOCUMENT,
 } from "./normalize/eci-ge2024-reference.js";
+import { ECI_GE2024_SEGMENTS_URL, parseAssemblySegments } from "./normalize/eci-assembly-segments.js";
 import { collectDocument, type CollectionOptions, type DocumentKind } from "./sources/collect-document.js";
 import { CivicStore } from "./store.js";
 
@@ -26,6 +27,7 @@ export const ECI_GE2024_REFERENCES: { url: string; documentType: string; kind: D
   { url: ECI_GE2024_PARTY_LIST_URL, documentType: "GE 2024 statistical report 3, List of Political Parties Participated", kind: XLSX_DOCUMENT, parse: parsePartyList },
   { url: ECI_GE2024_WINNERS_URL, documentType: "GE 2024 statistical report 4, List of Successful Candidates", kind: XLS_DOCUMENT, parse: parseSuccessfulCandidates },
   { url: ECI_GE2024_SURAT_URL, documentType: "GE 2024 statistical report 2A, Constituency Data Summary for PC Surat", kind: XLS_DOCUMENT, parse: parseSuratSummary },
+  { url: ECI_GE2024_SEGMENTS_URL, documentType: "GE 2024 statistical report 15, Assembly Segment Wise Information of Electors", kind: XLS_DOCUMENT, parse: parseAssemblySegments },
 ];
 
 export async function collectEciGe2024References(

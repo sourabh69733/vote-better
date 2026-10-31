@@ -103,8 +103,11 @@ def _polygons(path: Path, field: str, kind: str, label_field=None, state_field=N
 
 
 def build_pin_lookup(pin_geojson, pc_geojson, output_file, sources, pin_field="pin_code", area_field="area_id",
-                     area_label_field=None, area_state_field=None):
-    """Return candidate constituency IDs for each PIN; never claim a voter match."""
+                     area_label_field=None, area_state_field=None, with_shares=False):
+    """Return candidate constituency IDs for each PIN; never claim a voter match.
+
+    With with_shares, each match also records the share of the PIN's area inside each constituency,
+    so a page can list the likeliest seat first. A share is about land, not people."""
     if bool(area_label_field) != bool(area_state_field):
         raise ValueError("area label and state fields must be provided together")
     pin_path, pc_path, output_path = map(Path, (pin_geojson, pc_geojson, output_file))
@@ -121,12 +124,14 @@ def build_pin_lookup(pin_geojson, pc_geojson, output_file, sources, pin_field="p
     tree = STRtree(area_shapes)
     matches = {}
     for pin, pin_shape in sorted(pins.items()):
-        possible = sorted(area_ids[int(index)] for index in tree.query(pin_shape)
-                          if pin_shape.intersection(area_shapes[int(index)]).area > 0)
+        overlaps = {area_ids[int(index)]: pin_shape.intersection(area_shapes[int(index)]).area for index in tree.query(pin_shape)}
+        possible = sorted(area_id for area_id, area in overlaps.items() if area > 0)
         matches[pin] = {
             "status": "no-match" if not possible else "single-possible" if len(possible) == 1 else "multiple-possible",
             "possibleAreaIds": possible,
         }
+        if with_shares and possible:
+            matches[pin]["areaShares"] = {area_id: round(overlaps[area_id] / pin_shape.area, 3) for area_id in possible}
         if pin in repaired_pins or any(area_id in repaired_areas for area_id in possible):
             matches[pin]["geometryReviewRequired"] = True
     result = {
@@ -158,10 +163,11 @@ def main():
     parser.add_argument("--area-field", default="area_id")
     parser.add_argument("--area-label-field")
     parser.add_argument("--area-state-field")
+    parser.add_argument("--with-shares", action="store_true", help="record the share of each PIN's area in each constituency")
     args = parser.parse_args()
     sources = json.loads(args.sources.read_text(encoding="utf-8"))
     result = build_pin_lookup(args.pins, args.areas, args.output, sources, args.pin_field, args.area_field,
-                              args.area_label_field, args.area_state_field)
+                              args.area_label_field, args.area_state_field, args.with_shares)
     counts = {status: sum(value["status"] == status for value in result["pins"].values())
               for status in ("single-possible", "multiple-possible", "no-match")}
     print(json.dumps({"pinCount": result["pinCount"], "areaCount": result["areaCount"], **counts}))

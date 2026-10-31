@@ -40,6 +40,15 @@ class PinLookupTests(unittest.TestCase):
     def run_build(self):
         return build_pin_lookup(self.pins, self.areas, self.output, self.sources)
 
+    def test_shares_record_how_much_of_the_pin_lies_in_each_area(self):
+        self.write([feature("pin_code", "302001", polygon(1, 1, 5, 3))], [
+            feature("area_id", "west", polygon(0, 0, 2, 4)),
+            feature("area_id", "east", polygon(2, 0, 6, 4)),
+        ])
+        result = build_pin_lookup(self.pins, self.areas, self.output, self.sources, with_shares=True)
+        self.assertEqual(result["pins"]["302001"]["areaShares"], {"east": 0.75, "west": 0.25})
+        self.assertNotIn("areaShares", self.run_build()["pins"]["302001"], "shares are only added when asked for")
+
     def test_pin_crossing_two_constituencies_returns_both(self):
         self.write([feature("pin_code", "302001", polygon(1, 1, 3, 3))], [
             feature("area_id", "jaipur", polygon(0, 0, 2, 4)),

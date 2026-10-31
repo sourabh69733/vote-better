@@ -128,6 +128,22 @@ data/.venv/bin/python data/src/geo/build_pin_lookup.py \
 
 The source manifest needs `pins` and `areas` objects with HTTPS `url`, ISO `checkedAt`, and optional `inputSha256` for the extracted local file. The local research run on 2026-10-06 mapped 19,312 PINs against 543 parliamentary polygons: 8,994 had one possible constituency, 10,314 crossed more than one, and four had no overlap. Three constituency geometries needed repair. These are mapping drafts, not verified voter assignments. The source `pc_id` values also need a reviewed crosswalk to Vote Better area IDs before the website can use them. Browser location needs a separate point-in-boundary lookup using reviewed polygons.
 
+### Rajasthan PIN to assembly seat (phase C)
+
+The same builder, with `--with-shares`, maps Rajasthan's 1,007 PIN areas to its 200 assembly seats using the mirror's `LGD_Assembly_Constituencies` layer (dated December 2023, from Bharat Maps layer 2). Each match records the share of the PIN's land inside each seat, so a page can list the likeliest seat first. On 2026-11-01, 102 PINs fell in one seat and 905 crossed more than one; none had no overlap.
+
+```sh
+grep '"st_name": "RAJASTHAN"' data/raw/maps/LGD_Assembly_Constituencies.geojsonl > rj_ac.geojsonl
+grep -E '"Pincode": "3[0-4][0-9]{4}"' data/raw/maps/Datagov_Pincode_Boundaries.geojsonl > rj_pins.geojsonl
+data/.venv/bin/python data/src/geo/build_pin_lookup.py --pins rj_pins.geojsonl --areas rj_ac.geojsonl \
+  --sources sources.json --output data/raw/maps/pin_assembly_rajasthan_draft.json \
+  --pin-field Pincode --area-field AC_ID --area-label-field ac_name --area-state-field st_name --with-shares
+```
+
+The site's `/my-area` page reads this file from `data/raw/maps` (or `PIN_LOOKUP_FILE`). It shows a seat only when the layer's seat name agrees with ECI's results for that seat number. Without the file, PIN search is switched off. The file is not committed or deployed until the boundary licence is confirmed.
+
+The layer's own Lok Sabha labels are wrong for four Alwar district seats (Alwar Rural, Alwar Urban, Ramgarh, Rajgarh-Laxmangarh), which it places in Bharatpur. The site does not use those labels: each assembly seat's Lok Sabha seat comes from ECI report 15, which gives every Rajasthan Lok Sabha seat exactly eight assembly seats.
+
 The development-only PIN preview has provisional links for source area IDs 806 (Jaipur Rural) and 807 (Jaipur). It checks the draft area name and state against the published area record before showing that area's MP profile. This does not verify the PIN boundary or identify a voter's MP.
 
 The same local preview reads the national crosswalk draft for other areas and links to source-labeled draft MP profiles. The draft directory includes all imported members, including those without an area match. The unreviewed PIN-to-area connections stay hidden in production. Source checked biographies are published separately in `/mps` without claiming a PIN-to-MP mapping.
@@ -185,6 +201,20 @@ The import saves a hashed snapshot and stores one `candidate.result` observation
 Batch review is allowed only for sources listed in `src/review-batch.ts`. It creates one person record per candidacy, keyed by election, state, seat and name (party is added for namesakes in the same seat), and records one approval for the snapshot. It stops if any result differs from an already published fact. These person records are not yet linked to Sansad members or other elections.
 
 The export publishes approved facts and writes `web/records/generated/lok-sabha-2024.json`, grouped by seat. Each candidate keeps its fact ID and worksheet row.
+
+## Rajasthan assembly 2023
+
+ECI publishes the final report, including Karanpur's adjourned January 2024 poll, as four spreadsheets: report 10 (detailed results), report 2 (successful candidates), report 12 (seat-wise voters information) and report 5 (party performance).
+
+```sh
+npm --prefix data run sync -- eci-rajasthan-assembly-2023-results
+npm --prefix data run review:batch -- <report 10 URL> --reviewer=automated-batch-check "--reason=<checks and approval>"
+npm --prefix data run export:elections
+```
+
+The import refuses the report unless every row adds up, every seat has one NOTA row and no tie, every winner, runner-up and margin matches report 2, electors, NOTA and valid votes match report 12, and every party's seat count matches report 5. It stores 1,875 candidate results for 200 seats. `export:elections` writes `web/records/generated/rajasthan-assembly-2023.json`. Full party names come from ECI's 2024 and 2019 party lists; 13 small parties are not in either and show their abbreviation.
+
+Assembly seats are keyed by number and name, as ECI writes them ("42-Shahpura"), because Rajasthan has two Shahpuras. Each is placed in its Lok Sabha seat from ECI's GE 2024 report 15, collected with the 2024 references. Report 15 has no seat numbers, so rows are matched by name; five spellings that differ are listed in `SEGMENT_ALIASES`, and the two Shahpuras are settled by electors. The match is stored as `area.parent_id`.
 
 ## Elections, seats and contests
 

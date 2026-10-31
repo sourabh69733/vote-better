@@ -7,6 +7,8 @@ import { runAllBiographyBatches, rosterIds, missingBiographyIds } from "./batch-
 import { importInitialDelhiSources } from "./delhi/import.js";
 import { collectEciGe2024References, importEciGe2024 } from "./import-eci-2024.js";
 import { ECI_HISTORY, importEciHistory } from "./import-eci-history.js";
+import { importEciAssembly } from "./import-eci-assembly.js";
+import { ASSEMBLY_ELECTIONS, assemblyFiles } from "./normalize/eci-assembly-result.js";
 import type { HistoryYear } from "./normalize/eci-history-detailed-result.js";
 import { importJaipurForm21E } from "./import-jaipur.js";
 import { importSansadBiography } from "./import-sansad-biography.js";
@@ -102,6 +104,22 @@ export const registry: SourceDefinition[] = [
         outcome: "succeeded", items: result.observationIds.length,
         detail: `${result.seats} seats with full results, ${result.winnerOnly} winner-only, ${result.notes} seats with small differences in ECI's own figures`,
       };
+    },
+  })),
+  ...Object.values(ASSEMBLY_ELECTIONS).map((election): SourceDefinition => ({
+    id: `eci-${election.id}-results`,
+    title: `${election.state} assembly ${election.id.slice(-4)} results: detailed results, winners, voters and parties`,
+    owner: "Election Commission of India",
+    url: assemblyFiles(election).detailed,
+    format: "xlsx",
+    refreshDays: null,
+    reuse: { status: "to-confirm", note: "Official statistical reports; ECI notes its statutory forms are final." },
+    supplies: ["candidate.result"],
+    review: "batch",
+    async run({ store }) {
+      const result = await importEciAssembly(store, new LocalBlobStore(raw(`${election.id}/blobs/`)), election.id);
+      if (result.status !== "drafts-saved") return { outcome: "failed", items: 0, detail: result.reason };
+      return { outcome: "succeeded", items: result.observationIds.length, detail: `${result.seats} seats, ${result.observationIds.length} candidate rows; all reports agree; ${result.nameVariants} name spelling difference(s)` };
     },
   })),
   {

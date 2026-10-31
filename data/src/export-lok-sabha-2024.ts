@@ -7,6 +7,7 @@ import { ECI_GE2024_DETAILED_RESULT_URL, slugify, type CandidateResult } from ".
 import { loadPublication, publishApproved, type Publication } from "./publish.js";
 import { LocalBlobStore, type BlobStore } from "./blob-store.js";
 import { ECI_GE2024_REFERENCES, ECI_GE2024_SOURCE } from "./import-eci-2024.js";
+import { ECI_GE2024_SEGMENTS_URL, parseAssemblySegments, type SegmentRow } from "./normalize/eci-assembly-segments.js";
 import {
   crossCheckWinners, ECI_GE2024_PARTY_LIST_URL, ECI_GE2024_SURAT_URL, ECI_GE2024_WINNERS_URL,
   parsePartyList, parseSuccessfulCandidates, parseSuratSummary,
@@ -39,6 +40,7 @@ export interface References {
   parties: Party[];
   winners: SeatSummary[];
   surat: UnopposedSeat;
+  segments: SegmentRow[];
   sources: { title: string; url: string; contentHash: string; capturedAt: string }[];
 }
 
@@ -59,6 +61,7 @@ export async function loadReferences(pool: pg.Pool, blobs: BlobStore): Promise<R
     parties: parsePartyList(bytes.get(ECI_GE2024_PARTY_LIST_URL)!),
     winners: parseSuccessfulCandidates(bytes.get(ECI_GE2024_WINNERS_URL)!),
     surat: parseSuratSummary(bytes.get(ECI_GE2024_SURAT_URL)!),
+    segments: parseAssemblySegments(bytes.get(ECI_GE2024_SEGMENTS_URL)!),
     sources,
   };
 }
