@@ -1,5 +1,7 @@
 # National plan: know your candidate, simply
 
+See [platform-plan.md](platform-plan.md) for the full-picture plan that extends this one, and [ui-plan.md](ui-plan.md) for how it is shown.
+
 ## Mission
 
 Anyone in India can find their area, see who represents it and who is contesting it, understand who each person is and how they got there, and open the source behind every fact. Then they can take a local problem to the right person.
