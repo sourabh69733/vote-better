@@ -151,7 +151,7 @@ Source chips everywhere. A coverage page per area and per person listing what is
 | E. Candidates during a poll | Nomination adapter (ECI candidate lists), comparison page, poll-window scheduling | Tested end to end on the first announced election after launch (2027 round) |
 | F. Outcomes | MPLADS and MLALAD works, milestone badges, area timeline | Jaipur area page lists funded works with status and source |
 | G. City | Rajasthan SEC results, Jaipur wards and councillors, municipal works | The third card on the Jaipur area page is filled |
-| H1. Share kit | Story scenes exported as Instagram carousels, story frames and reels; link previews; share button; Hinglish captions | A Jaipur seat story is posted as a carousel and a reel, and its link opens the seat page |
+| H1. Share kit (built 2026-10-31; first post waits on decision 7) | Story scenes exported as Instagram carousels, story frames and reels; link previews; share button; Hinglish captions | A Jaipur seat story is posted as a carousel and a reel, and its link opens the seat page |
 | H2. Engagement | Quests, personal share card, relationship map on real data, follow and digest, full Hindi | Jaipur voter test from `docs/research/jaipur-voter-test.md` passes with five residents |
 
 Phases A to D are sequential. E can start once A and B exist. H1 starts as soon as A ships, because stories are how young voters find the site; the 2024 Lok Sabha data is enough to start. F, G and H2 run alongside D and E.

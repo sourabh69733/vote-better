@@ -121,6 +121,8 @@ All built automatically from approved facts and applied the same way to every se
 - **Share button.** On phones the Web Share API sends the image straight to Instagram or WhatsApp. Elsewhere the voter saves the image.
 - **Batches.** When ECI announces a schedule, the pipeline makes a card set for every seat in that election and queues it for a person to post.
 
+**Built (2026-10-31).** Five decks: seat in 60 seconds, guess the margin, closest fights, what an MP does, and first-time voter. Each renders as 9:16 and 4:5 PNGs at `/share/image/...`, with a share page at `/share/...` that shares the images, records a reel in the browser and gives English and Hinglish captions. `npm run reel` makes an MP4 with ffmpeg. Seat and election pages have link preview images. Not built yet: then and now (needs affidavits), this session (needs work records for every MP), countdown (needs the next announced schedule), my card (phase H2) and the scheduled batch queue.
+
 ### From a post to the site, and back
 
 Post or reel, then the link in bio, story link sticker or WhatsApp link, then the seat page with "find your own seat", then the quest, then the voter's own card, shared to their friends.
