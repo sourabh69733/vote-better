@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { listAreaOverviews } from "@/lib/civic-area";
-import { formatShort, loadLokSabha2024, seatHref, summaryOf } from "@/lib/lok-sabha-2024";
+import { formatShort, requireResults, seatHref, summaryOf } from "@/lib/lok-sabha";
 import { sortableMpName } from "@/lib/mp-directory";
 import { linkMpToSeat } from "@/lib/mp-seat-link";
 import { eciChip, partyOf, resultStats, type ProfileModel, type ProfileStat } from "@/lib/profile-model";
@@ -44,7 +44,7 @@ export default async function MpProfilePage({ params }: PageProps) {
   const { memberId } = await params;
   const profile = /^\d+$/.test(memberId) ? await getPublicMp(Number(memberId)) : undefined;
   if (!profile) notFound();
-  const data = loadLokSabha2024();
+  const data = requireResults("lok-sabha-2024");
   const partyName = (code: string) => data.parties[code]?.name ?? code;
   const name = sortableMpName(profile.name);
   const birth = publicMpFact(profile, "person.birthDate");

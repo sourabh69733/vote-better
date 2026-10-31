@@ -1,6 +1,5 @@
 import { BODY_LABEL, type Election } from "../elections";
-import { electionTotals, findSeat, isResultElection, loadResults, seatWinner, yearOf, type ResultElectionId } from "../lok-sabha";
-import { formatNumber, formatShort } from "../lok-sabha-2024";
+import { electionTotals, findSeat, formatNumber, formatShort, isResultElection, loadResults, type ResultElectionId, seatWinner, yearOf } from "../lok-sabha";
 import { partyColor } from "../party-colors";
 
 export interface Preview { kicker: string; title: string; line: string; stat?: string; statLabel?: string; color?: string }

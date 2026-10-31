@@ -12,7 +12,7 @@ export async function GET(_request: Request, { params }: Context) {
   const { format, frame, deck: parts } = await params;
   const deck = resolveDeck(parts);
   const index = Number(frame) - 1;
-  if (!deck || !isFormat(format) || !Number.isInteger(index) || index < 0 || index >= deck.frames.length) {
+  if (!deck || !isFormat(format) || !Number.isInteger(index) || index < 0 || index >= deck.scenes.length) {
     return new Response("Not found", { status: 404 });
   }
   return new ImageResponse(<FrameImage deck={deck} index={index} format={format} />, {

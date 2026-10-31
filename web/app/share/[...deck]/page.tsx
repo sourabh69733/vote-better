@@ -34,28 +34,28 @@ export default async function SharePage({ params }: PageProps) {
   if (!deck) notFound();
   return (
     <div className="mx-auto w-full max-w-[1100px] px-4 pb-14 pt-8 sm:px-6 sm:pt-12 lg:px-8">
-      <nav className="text-sm font-semibold text-[#286b4e]" aria-label="Breadcrumb">
+      <nav className="text-sm font-semibold text-link" aria-label="Breadcrumb">
         <Link href={deck.link} className="hover:underline">← Back to the page</Link>
       </nav>
       <header className="mt-6 max-w-2xl">
-        <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#2a7658]">Share</p>
-        <h1 className="mt-3 text-[clamp(2rem,5vw,3.2rem)] font-semibold leading-[1.05] tracking-[-0.05em] text-[#19372d]">{deck.title}</h1>
-        <p className="mt-3 text-[15px] leading-7 text-[#576c60]">
+        <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-eyebrow">Share</p>
+        <h1 className="mt-3 text-[clamp(2rem,5vw,3.2rem)] font-semibold leading-[1.05] tracking-[-0.05em] text-ink">{deck.title}</h1>
+        <p className="mt-3 text-[15px] leading-7 text-body">
           Ready-made images for an Instagram story, carousel or reel. Every frame shows its source, and the caption links back to the page so anyone can check it.
         </p>
       </header>
       <div className="mt-8">
-        <ShareKit deckKey={deck.key} title={deck.title} frames={deck.frames.length} link={deck.link} caption={deck.caption} hashtags={deck.hashtags} />
+        <ShareKit deckKey={deck.key} title={deck.title} frames={deck.scenes.length} link={deck.link} caption={deck.caption} hashtags={deck.hashtags} />
       </div>
       <section className="mt-10" aria-labelledby="more-heading">
-        <h2 id="more-heading" className="text-lg font-semibold text-[#19372d]">More to share</h2>
+        <h2 id="more-heading" className="text-lg font-semibold text-ink">More to share</h2>
         <ul className="mt-3 flex flex-wrap gap-2">
           {related(deck).map((link) => (
-            <li key={link.href}><Link href={link.href} className="inline-flex min-h-10 items-center rounded-full border border-[#bed6c4] bg-white px-4 text-sm font-bold text-[#216146] hover:bg-[#eff7ef]">{link.label}</Link></li>
+            <li key={link.href}><Link href={link.href} className="inline-flex min-h-10 items-center rounded-full border border-line-strong bg-white px-4 text-sm font-bold text-link hover:bg-tint">{link.label}</Link></li>
           ))}
         </ul>
       </section>
-      <p className="mt-10 max-w-2xl text-xs leading-5 text-[#7a8c7e]">
+      <p className="mt-10 max-w-2xl text-xs leading-5 text-subtle">
         Templates run the same way for every seat and party. They show results and official facts only: no predictions, no photos, no opinions about anyone.
       </p>
     </div>

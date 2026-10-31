@@ -2,9 +2,9 @@
 // carousels and reels. Every template runs the same way for every seat and party, and every
 // frame carries its source. No photos, no predictions, no opinion about anyone.
 
-import { findSeat, isResultElection, loadResults, marginsInState, ordinal, seatHistory, seatWinner, turnout, yearOf, type LokSabhaResults, type ResultElectionId, type ResultSeat } from "../lok-sabha";
-import { formatNumber, formatShort } from "../lok-sabha-2024";
+import { findSeat, formatNumber, formatShort, isResultElection, loadResults, type LokSabhaResults, marginsInState, ordinal, type ResultElectionId, type ResultSeat, seatHistory, seatWinner, turnout, yearOf } from "../lok-sabha";
 import { partyColor } from "../party-colors";
+import type { Scene, Story } from "../scenes";
 
 export type Format = "story" | "post";
 export const FORMATS: Record<Format, { width: number; height: number; label: string }> = {
@@ -12,23 +12,13 @@ export const FORMATS: Record<Format, { width: number; height: number; label: str
   post: { width: 1080, height: 1350, label: "Carousel post, 4:5" },
 };
 
-export type Frame = { source?: string } & (
-  | { kind: "cover"; kicker: string; title: string; subtitle: string }
-  | { kind: "race"; kicker: string; title: string; rows: { name: string; party: string; color: string; share: number; votes: string }[]; others?: string }
-  | { kind: "big"; kicker: string; value: string; unit: string; line: string; detail?: string; highlight?: boolean }
-  | { kind: "list"; kicker: string; title: string; note?: string; rows: { label: string; detail: string; value: string; width: number; color: string }[] }
-  | { kind: "quiz"; kicker: string; question: string; options: string[]; hint: string }
-  | { kind: "points"; kicker: string; title: string; points: { title: string; text: string }[] }
-  | { kind: "cta"; kicker: string; title: string; text: string }
-);
-
-export interface Deck {
+// Share decks use the site's one scene format, so the same deck plays on the site and renders as images.
+export interface Deck extends Story {
   key: string;
   template: "seat" | "quiz" | "closest" | "mp-role" | "first-time-voter";
   title: string;
   // The page on this site the deck comes from; every frame and caption points there.
   link: string;
-  frames: Frame[];
   caption: { en: string; hi: string };
   hashtags: string[];
 }
@@ -62,7 +52,9 @@ function stateTurnout(results: LokSabhaResults, stateSlug: string) {
 
 const pagePath = (id: ResultElectionId, seat: ResultSeat) => id === "lok-sabha-2024" ? `/seats/${seat.stateSlug}/${seat.slug}` : `/elections/${id}/${seat.stateSlug}/${seat.slug}`;
 
-const cta = (title: string, text: string): Frame => ({ kind: "cta", kicker: "CHECK IT YOURSELF", title, text });
+const BRAND = "#1e6b4d";
+
+const cta = (title: string, text: string): Scene => ({ kind: "cta", kicker: "CHECK IT YOURSELF", title, text });
 
 function seatDeck(id: ResultElectionId, stateSlug: string, seatSlug: string): Deck | null {
   const results = loadResults(id);
@@ -73,24 +65,24 @@ function seatDeck(id: ResultElectionId, stateSlug: string, seatSlug: string): De
   const party = (code: string) => results.parties[code]?.name ?? code;
   const source = resultSource(results, seat);
   const kicker = `LOK SABHA ${year} · ${seat.state.toUpperCase()}`;
-  const frames: Frame[] = [{ kind: "cover", kicker, title: seat.name, subtitle: "Your seat in 60 seconds", source }];
+  const scenes: Scene[] = [{ kind: "cover", kicker, title: seat.name, subtitle: "Your seat in 60 seconds", source }];
 
   if (winner.how === "contested" && seat.candidates.length > 1) {
     const top = seat.candidates.slice(0, 2);
     const rest = seat.candidates.length - 2;
     const restShare = Math.max(100 - top.reduce((sum, c) => sum + c.shareOfValidVotes, 0), 0);
-    frames.push({
+    scenes.push({
       kind: "race", kicker, title: "Who won", source,
       rows: top.map((c) => ({ name: c.name, party: `${c.party} · ${party(c.party)}`, color: partyColor(c.party), share: c.shareOfValidVotes, votes: `${formatShort(c.votes)} votes` })),
       ...(rest > 0 ? { others: `${rest} other${rest === 1 ? "" : "s"} and NOTA · ${restShare.toFixed(1)}% together` } : {}),
     });
   } else if (winner.how === "unopposed") {
-    frames.push({ kind: "big", kicker, value: "0", unit: "votes cast", line: `${winner.name} (${winner.party}) was elected unopposed.`, detail: "Every other nomination was rejected or withdrawn.", source });
+    scenes.push({ kind: "big", kicker, value: "0", unit: "votes cast", line: `${winner.name} (${winner.party}) was elected unopposed.`, detail: "Every other nomination was rejected or withdrawn.", source });
   }
 
   if (winner.margin !== null) {
     const runnerUp = seat.candidates[1];
-    frames.push({
+    scenes.push({
       kind: "big", kicker, value: formatNumber(winner.margin), unit: "votes", highlight: true, source,
       line: runnerUp ? `between ${winner.name} (${winner.party}) and ${runnerUp.name} (${runnerUp.party})` : `${winner.name} (${winner.party}) won by this margin`,
       ...(rankLine(results, seat) ? { detail: rankLine(results, seat) } : {}),
@@ -100,7 +92,7 @@ function seatDeck(id: ResultElectionId, stateSlug: string, seatSlug: string): De
   const share = turnout(seat);
   if (share !== null && seat.electors && seat.votesPolled !== null) {
     const state = stateTurnout(results, seat.stateSlug);
-    frames.push({
+    scenes.push({
       kind: "big", kicker, value: `${share.toFixed(1)}%`, unit: "turnout", source,
       line: `${formatShort(seat.votesPolled)} of ${formatShort(seat.electors)} registered voters voted`,
       ...(state !== null ? { detail: `${state.toFixed(1)}% across ${seat.state}.` } : {}),
@@ -110,7 +102,7 @@ function seatDeck(id: ResultElectionId, stateSlug: string, seatSlug: string): De
   const history = seatHistory(seat.stateSlug, seat.slug);
   if (history.length > 1) {
     const max = Math.max(...history.map((h) => h.winner.margin ?? 0), 1);
-    frames.push({
+    scenes.push({
       kind: "list", kicker: `${seat.name.toUpperCase()} · LOK SABHA`, title: "Over the years", note: "Winner and winning margin in votes",
       source: "Election Commission of India statistical reports",
       rows: history.map((h) => ({
@@ -119,12 +111,12 @@ function seatDeck(id: ResultElectionId, stateSlug: string, seatSlug: string): De
       })),
     });
   }
-  frames.push(cta("How close was your seat?", "Every Lok Sabha seat, every candidate and every number, from the Election Commission of India."));
+  scenes.push(cta("How close was your seat?", "Every Lok Sabha seat, every candidate and every number, from the Election Commission of India."));
 
   const rank = rankLine(results, seat);
   const marginText = winner.margin === null ? "" : ` by ${formatNumber(winner.margin)} votes`;
   return {
-    key: `seat/${id}/${seat.stateSlug}/${seat.slug}`, template: "seat", title: `${seat.name}, Lok Sabha ${year}`, link: pagePath(id, seat), frames,
+    key: `seat/${id}/${seat.stateSlug}/${seat.slug}`, template: "seat", title: `${seat.name}, Lok Sabha ${year}`, link: pagePath(id, seat), name: seat.name, color: partyColor(winner.party), scenes,
     caption: {
       en: `${seat.name}, Lok Sabha ${year}: ${winner.name} (${winner.party}) won${winner.how === "unopposed" ? " unopposed" : marginText}.${rank ? ` ${rank}` : ""}${share !== null ? ` Turnout was ${share.toFixed(1)}%.` : ""} How close was your seat? Check it yourself on Vote Better. Every number is from the Election Commission of India.`,
       hi: `${seat.name}, Lok Sabha ${year}: ${winner.name} (${winner.party}) ne${winner.margin === null ? " bina muqable ke" : ` ${formatNumber(winner.margin)} votes se`} jeet haasil ki.${share !== null ? ` Turnout ${share.toFixed(1)}% raha.` : ""} Aapki seat kitni close thi? Vote Better par khud check karo. Saare numbers Election Commission of India se.`,
@@ -152,8 +144,8 @@ function quizDeck(id: ResultElectionId, stateSlug: string, seatSlug: string): De
   const source = resultSource(results, seat);
   const rank = rankLine(results, seat);
   return {
-    key: `quiz/${id}/${seat.stateSlug}/${seat.slug}`, template: "quiz", title: `Guess the margin: ${seat.name}, ${year}`, link: pagePath(id, seat),
-    frames: [
+    key: `quiz/${id}/${seat.stateSlug}/${seat.slug}`, template: "quiz", title: `Guess the margin: ${seat.name}, ${year}`, link: pagePath(id, seat), name: seat.name, color: partyColor(winner.party),
+    scenes: [
       { kind: "quiz", kicker: "GUESS THE MARGIN", question: `${seat.name}, ${seat.state}. Lok Sabha ${year}. How many votes decided it?`, options: quizOptions(winner.margin), hint: "Answer on the next slide" },
       { kind: "big", kicker: "THE ANSWER", value: formatNumber(winner.margin), unit: "votes", highlight: true, source,
         line: `${winner.name} (${winner.party}) beat ${runnerUp.name} (${runnerUp.party})`, ...(rank ? { detail: rank } : {}) },
@@ -177,8 +169,8 @@ function closestDeck(id: ResultElectionId, stateSlug: string): Deck | null {
   const year = yearOf(id);
   const max = top.at(-1)!.margin;
   return {
-    key: `closest/${id}/${stateSlug}`, template: "closest", title: `Closest fights in ${state}, ${year}`, link: `/elections/${id}`,
-    frames: [
+    key: `closest/${id}/${stateSlug}`, template: "closest", title: `Closest fights in ${state}, ${year}`, link: `/elections/${id}`, name: state, color: BRAND,
+    scenes: [
       { kind: "list", kicker: `${state.toUpperCase()} · LOK SABHA ${year}`, title: `The ${top.length} closest fights`, note: "Winning margin in votes", source: resultSource(results),
         rows: top.map(({ seat, margin }) => {
           const winner = seatWinner(seat)!;
@@ -198,8 +190,8 @@ const MP_SOURCE = "Constitution of India, Articles 75, 107 and 113 · MPLADS gui
 
 function mpRoleDeck(): Deck {
   return {
-    key: "mp-role", template: "mp-role", title: "What does an MP actually do?", link: "/constitution",
-    frames: [
+    key: "mp-role", template: "mp-role", title: "What does an MP actually do?", link: "/constitution", name: "Vote Better", color: BRAND,
+    scenes: [
       { kind: "cover", kicker: "EXPLAINED", title: "What does an MP actually do?", subtitle: "Four jobs, from the Constitution", source: MP_SOURCE },
       { kind: "points", kicker: "THE JOB · 1 OF 2", title: "In Parliament", source: MP_SOURCE, points: [
         { title: "Makes Union laws", text: "A bill becomes law only after both Houses of Parliament pass it. (Article 107)" },
@@ -223,8 +215,8 @@ const VOTER_SOURCE = "Election Commission of India · CEO Delhi press release, 1
 
 function firstTimeVoterDeck(): Deck {
   return {
-    key: "first-time-voter", template: "first-time-voter", title: "Voting for the first time?", link: "/elections",
-    frames: [
+    key: "first-time-voter", template: "first-time-voter", title: "Voting for the first time?", link: "/elections", name: "Vote Better", color: BRAND,
+    scenes: [
       { kind: "cover", kicker: "FIRST-TIME VOTER", title: "Voting for the first time?", subtitle: "Three things to do before poll day", source: VOTER_SOURCE },
       { kind: "points", kicker: "STEP 1 AND 2", title: "Get on the roll", source: VOTER_SOURCE, points: [
         { title: "Turning 18?", text: "You can enrol once you turn 18 on 1 January, 1 April, 1 July or 1 October. You can apply in advance." },

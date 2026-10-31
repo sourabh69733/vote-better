@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
-import type { Story } from "@/lib/story";
+import type { Story } from "@/lib/scenes";
 import Scene from "./Scene";
 
 const SCENE_MS = 4500;

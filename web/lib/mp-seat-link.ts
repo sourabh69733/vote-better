@@ -1,11 +1,11 @@
-import { loadLokSabha2024, type Candidate, type Seat } from "./lok-sabha-2024";
+import { requireResults, type ResultCandidate, type ResultSeat } from "./lok-sabha";
 import { sortableMpName } from "./mp-directory";
 import { listPublicMps, type PublicMp } from "./public-mps";
 import { byElections, nameVariants, seatAliases } from "@/records/mp-seat-links";
 
 export type MpSeatLink =
-  | { status: "won-2024"; seat: Seat; candidate: Candidate | null }
-  | { status: "by-election"; seat: Seat; note: string }
+  | { status: "won-2024"; seat: ResultSeat; candidate: ResultCandidate | null }
+  | { status: "by-election"; seat: ResultSeat; note: string }
   | { status: "unlinked" };
 
 const plain = (value: string) => value.toLowerCase().normalize("NFKD").replace(/&/g, " and ").replace(/[^a-z]+/g, " ").trim();
@@ -19,8 +19,8 @@ export function sameName(a: string, b: string) {
   return short.length >= 2 && short.every((token) => long.includes(token));
 }
 
-export function findSeat(state: string, constituency: string): Seat | undefined {
-  const seats = loadLokSabha2024().seats;
+export function findSeat(state: string, constituency: string): ResultSeat | undefined {
+  const seats = requireResults("lok-sabha-2024").seats;
   const alias = seatAliases[constituency];
   return seats.find((seat) => plain(seat.state) === plain(state) &&
     (alias ? seat.slug === alias : plain(seat.sourceName) === plain(constituency)));
@@ -40,7 +40,7 @@ export function linkMpToSeat(mp: Pick<PublicMp, "memberId" | "name" | "state" | 
 }
 
 // The sitting MP whose record links to this seat as its 2024 winner, if the MP export is available.
-export async function findMpForSeat(seat: Pick<Seat, "stateSlug" | "slug">): Promise<PublicMp | undefined> {
+export async function findMpForSeat(seat: Pick<ResultSeat, "stateSlug" | "slug">): Promise<PublicMp | undefined> {
   return (await listPublicMps()).find((mp) => {
     const link = linkMpToSeat(mp);
     return link.status === "won-2024" && link.seat.stateSlug === seat.stateSlug && link.seat.slug === seat.slug;
@@ -51,7 +51,7 @@ export async function findMpForSeat(seat: Pick<Seat, "stateSlug" | "slug">): Pro
 export function findCandidacy2024(name: string, electionLabel: string | undefined) {
   if (!electionLabel?.includes("2024")) return undefined;
   const label = electionLabel.toLowerCase();
-  const seats = loadLokSabha2024().seats
+  const seats = requireResults("lok-sabha-2024").seats
     .filter((seat) => label.startsWith(`${seat.name.toLowerCase()} lok sabha`))
     .sort((a, b) => b.name.length - a.name.length);
   const seat = seats[0];

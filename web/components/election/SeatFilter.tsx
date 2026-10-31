@@ -28,10 +28,10 @@ export default function SeatFilter({ target, placeholder }: { target: string; pl
 
   return (
     <div className="max-w-xl">
-      <label htmlFor={id} className="text-sm font-semibold text-[#19372d]">Find your seat</label>
+      <label htmlFor={id} className="text-sm font-semibold text-ink">Find your seat</label>
       <input id={id} type="search" placeholder={placeholder} autoComplete="off" onChange={(event) => filter(event.target.value)}
-        className="mt-2 min-h-12 w-full rounded-xl border border-[#bfd3c3] bg-white px-4 text-base text-[#18372b] focus:border-[#28724f] focus:outline-none focus:ring-4 focus:ring-[#2a7658]/10" />
-      <p className="mt-2 min-h-5 text-sm text-[#66796d]" aria-live="polite">{count === null ? "" : count ? `${count} ${count === 1 ? "seat matches" : "seats match"}` : "No seat, state or winner matches. Check the spelling."}</p>
+        className="mt-2 min-h-12 w-full rounded-xl border border-line-strong bg-white px-4 text-base text-ink focus:border-link focus:outline-none focus:ring-4 focus:ring-eyebrow/10" />
+      <p className="mt-2 min-h-5 text-sm text-muted" aria-live="polite">{count === null ? "" : count ? `${count} ${count === 1 ? "seat matches" : "seats match"}` : "No seat, state or winner matches. Check the spelling."}</p>
     </div>
   );
 }

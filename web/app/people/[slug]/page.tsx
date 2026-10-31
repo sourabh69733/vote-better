@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { loadLokSabha2024, seatHref, summaryOf } from "@/lib/lok-sabha-2024";
+import { requireResults, seatHref, summaryOf } from "@/lib/lok-sabha";
 import { findCandidacy2024 } from "@/lib/mp-seat-link";
 import { getParliamentaryDebates } from "@/lib/parliamentary-debates";
 import { getParliamentaryWork } from "@/lib/parliamentary-work";
@@ -41,7 +41,7 @@ export default async function PersonPage({ params }: PageProps) {
   const profile = getPersonProfile(slug);
   if (!profile) notFound();
 
-  const data = loadLokSabha2024();
+  const data = requireResults("lok-sabha-2024");
   const partyName = (code: string) => data.parties[code]?.name ?? code;
   const office = profile.officeTerms.find((term) => !term.endedOn);
   const election = profile.candidacies[0];

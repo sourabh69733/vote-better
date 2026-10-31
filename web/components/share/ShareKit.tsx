@@ -133,28 +133,28 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
   return (
     <div className="grid gap-8">
       <div className="flex flex-wrap items-center gap-3">
-        <div className="inline-flex rounded-full border border-[#cfe0d2] bg-white p-1" role="group" aria-label="Image size">
+        <div className="inline-flex rounded-full border border-line-strong bg-white p-1" role="group" aria-label="Image size">
           {(Object.keys(SIZE) as Format[]).map((option) => (
             <button key={option} type="button" onClick={() => setFormat(option)} aria-pressed={format === option}
-              className={`min-h-10 rounded-full px-4 text-sm font-bold ${format === option ? "bg-[#1c6047] text-white" : "text-[#216146]"}`}>{SIZE[option].label}</button>
+              className={`min-h-10 rounded-full px-4 text-sm font-bold ${format === option ? "bg-brand text-white" : "text-link"}`}>{SIZE[option].label}</button>
           ))}
         </div>
-        <button type="button" onClick={shareImages} className="min-h-11 rounded-full bg-[#1c6047] px-5 text-sm font-bold text-white hover:bg-[#154c38]">Share {frames} images</button>
+        <button type="button" onClick={shareImages} className="min-h-11 rounded-full bg-brand px-5 text-sm font-bold text-white hover:bg-brand-strong">Share {frames} images</button>
         {format === "story" && (
-          <button type="button" onClick={makeReel} disabled={recording !== null} className="min-h-11 rounded-full border border-[#bed6c4] bg-white px-5 text-sm font-bold text-[#216146] hover:bg-[#eff7ef] disabled:opacity-60">
+          <button type="button" onClick={makeReel} disabled={recording !== null} className="min-h-11 rounded-full border border-line-strong bg-white px-5 text-sm font-bold text-link hover:bg-tint disabled:opacity-60">
             {recording === null ? "Make a reel" : `Recording… ${Math.round(recording * 100)}%`}
           </button>
         )}
       </div>
-      <p className="-mt-4 min-h-5 text-sm text-[#2c6249]" aria-live="polite">{status}</p>
+      <p className="-mt-4 min-h-5 text-sm text-link" aria-live="polite">{status}</p>
 
       {reel && (
-        <div className="flex flex-wrap items-start gap-5 rounded-[22px] border border-[#dce6dc] bg-white p-5">
+        <div className="flex flex-wrap items-start gap-5 rounded-[22px] border border-line bg-white p-5">
           <video src={reel.url} controls playsInline className="w-40 rounded-xl" />
           <div className="grid gap-2">
-            <p className="font-semibold text-[#19372d]">Your reel</p>
-            <button type="button" onClick={shareReel} className="min-h-10 rounded-full bg-[#1c6047] px-4 text-sm font-bold text-white">Share reel</button>
-            <a href={reel.url} download={reel.file.name} className="text-sm font-semibold text-[#1d6547] underline">Save video</a>
+            <p className="font-semibold text-ink">Your reel</p>
+            <button type="button" onClick={shareReel} className="min-h-10 rounded-full bg-brand px-4 text-sm font-bold text-white">Share reel</button>
+            <a href={reel.url} download={reel.file.name} className="text-sm font-semibold text-link underline">Save video</a>
           </div>
         </div>
       )}
@@ -164,24 +164,24 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
           <li key={`${format}-${index}`} className="w-[180px] shrink-0 snap-start sm:w-[220px]">
             {/* eslint-disable-next-line @next/next/no-img-element -- generated PNGs, already sized */}
             <img src={imageUrl(format, index, deckKey)} alt={`Frame ${index + 1} of ${frames}`} width={size.width} height={size.height} loading={index < 3 ? "eager" : "lazy"}
-              className="h-auto w-full rounded-2xl border border-[#dce6dc] bg-[#163a34]" />
-            <a href={imageUrl(format, index, deckKey)} download={fileName(deckKey, format, index)} className="mt-2 inline-block text-sm font-semibold text-[#1d6547] underline">Save frame {index + 1}</a>
+              className="h-auto w-full rounded-2xl border border-line bg-story" />
+            <a href={imageUrl(format, index, deckKey)} download={fileName(deckKey, format, index)} className="mt-2 inline-block text-sm font-semibold text-link underline">Save frame {index + 1}</a>
           </li>
         ))}
       </ol>
 
-      <section className="rounded-[22px] border border-[#dce6dc] bg-white p-5 sm:p-6" aria-labelledby="caption-heading">
+      <section className="rounded-[22px] border border-line bg-white p-5 sm:p-6" aria-labelledby="caption-heading">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 id="caption-heading" className="text-lg font-semibold text-[#19372d]">Caption</h2>
-          <div className="inline-flex rounded-full border border-[#cfe0d2] p-1" role="group" aria-label="Caption language">
+          <h2 id="caption-heading" className="text-lg font-semibold text-ink">Caption</h2>
+          <div className="inline-flex rounded-full border border-line-strong p-1" role="group" aria-label="Caption language">
             {([["en", "English"], ["hi", "Hinglish"]] as const).map(([value, label]) => (
               <button key={value} type="button" onClick={() => setLanguage(value)} aria-pressed={language === value}
-                className={`min-h-9 rounded-full px-3 text-sm font-bold ${language === value ? "bg-[#1c6047] text-white" : "text-[#216146]"}`}>{label}</button>
+                className={`min-h-9 rounded-full px-3 text-sm font-bold ${language === value ? "bg-brand text-white" : "text-link"}`}>{label}</button>
             ))}
           </div>
         </div>
-        <textarea readOnly value={text} rows={7} aria-label="Caption text" className="mt-4 w-full rounded-xl border border-[#dce6dc] bg-[#f8faf7] p-4 text-sm leading-6 text-[#19372d]" />
-        <button type="button" onClick={copyCaption} className="mt-3 min-h-10 rounded-full border border-[#bed6c4] px-4 text-sm font-bold text-[#216146] hover:bg-[#eff7ef]">Copy caption</button>
+        <textarea readOnly value={text} rows={7} aria-label="Caption text" className="mt-4 w-full rounded-xl border border-line bg-surface-soft p-4 text-sm leading-6 text-ink" />
+        <button type="button" onClick={copyCaption} className="mt-3 min-h-10 rounded-full border border-line-strong px-4 text-sm font-bold text-link hover:bg-tint">Copy caption</button>
       </section>
     </div>
   );

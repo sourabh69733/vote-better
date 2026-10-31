@@ -1,5 +1,5 @@
 import type { ChipSource } from "@/components/profile/SourceChip";
-import { formatShort, type Candidate, type LokSabha2024, type Seat } from "./lok-sabha-2024";
+import { formatShort, type LokSabhaResults, type ResultCandidate, type ResultSeat } from "./lok-sabha";
 import { partyColor } from "./party-colors";
 
 // One shape for every profile page. A section exists only when its data does,
@@ -41,7 +41,7 @@ export interface ProfileModel {
   kicker: string;
   headline: string;
   breadcrumb: { label: string; href: string }[];
-  contest?: { seat: Seat; candidate?: Candidate; note?: string };
+  contest?: { seat: ResultSeat; candidate?: ResultCandidate; note?: string };
   stats: ProfileStat[];
   work?: ProfileWork;
   money?: ProfileMoney;
@@ -57,7 +57,7 @@ export interface ProfileModel {
 
 export const percent = (value: number) => `${value.toFixed(value >= 10 ? 0 : 1)}%`;
 
-export function resultStats(seat: Seat, candidate: Candidate, eci: ChipSource): ProfileStat[] {
+export function resultStats(seat: ResultSeat, candidate: ResultCandidate, eci: ChipSource): ProfileStat[] {
   return [
     { id: "share", label: "Vote share", value: percent(candidate.shareOfValidVotes), note: "of valid votes", source: eci, visual: { kind: "ring", percent: candidate.shareOfValidVotes } },
     { id: "votes", label: "Votes", value: formatShort(candidate.votes), note: `${candidate.postalVotes.toLocaleString("en-IN")} by post`, source: eci },
@@ -81,7 +81,7 @@ export function moneyStats(money: ProfileMoney | undefined): ProfileStat[] {
   return stats;
 }
 
-export function eciChip(data: LokSabha2024, candidate: Candidate, checkedOn: string): ChipSource {
+export function eciChip(data: LokSabhaResults, candidate: ResultCandidate, checkedOn: string): ChipSource {
   return { label: "ECI", title: "ECI 2024 results, report 33", url: data.source.url, locator: candidate.locator.toLowerCase(), checkedOn };
 }
 

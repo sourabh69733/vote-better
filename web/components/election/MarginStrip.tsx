@@ -1,4 +1,4 @@
-import { formatShort } from "@/lib/lok-sabha-2024";
+import { formatShort } from "@/lib/lok-sabha";
 
 export interface MarginDot { key: string; name: string; margin: number; href?: string }
 

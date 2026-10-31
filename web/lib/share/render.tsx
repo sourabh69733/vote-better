@@ -1,7 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
-import { FORMATS, type Deck, type Format, type Frame } from "./decks";
+import type { Scene } from "../scenes";
+import { FORMATS, type Deck, type Format } from "./decks";
 
 // Draws one frame for next/og (Satori). Satori lays out with flexbox only, so every
 // element with more than one child is a flex container.
@@ -29,9 +30,69 @@ function Mark({ size }: { size: number }) {
   );
 }
 
-function Body({ frame, s }: { frame: Frame; s: number }) {
-  const kicker = <div style={{ fontSize: 30 * s, fontWeight: 800, letterSpacing: 5 * s, color: C.mint }}>{frame.kicker}</div>;
+function Body({ frame, s }: { frame: Scene; s: number }) {
+  const kicker = <div style={{ fontSize: 30 * s, fontWeight: 800, letterSpacing: 5 * s, color: C.mint }}>{"kicker" in frame ? frame.kicker.toUpperCase() : ""}</div>;
   switch (frame.kind) {
+    case "person":
+      return (
+        <div style={{ display: "flex", flexDirection: "column", gap: 30 * s }}>
+          <div style={{ width: 220 * s, height: 220 * s, borderRadius: 999, background: C.card, border: `10px solid ${frame.color}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 84 * s, fontWeight: 800 }}>{frame.initials}</div>
+          {kicker}
+          <div style={{ fontSize: 110 * s, fontWeight: 800, letterSpacing: -4 * s, lineHeight: 1.02 }}>{frame.name}</div>
+          {frame.party ? <div style={{ display: "flex", alignItems: "center", gap: 18 * s, fontSize: 44 * s, color: C.soft }}><div style={{ width: 30 * s, height: 30 * s, borderRadius: 999, background: frame.color }} />{frame.party}</div> : null}
+          <div style={{ fontSize: 38 * s, color: C.soft }}>{frame.place}</div>
+          <div style={{ display: "flex", alignSelf: "flex-start", padding: `${16 * s}px ${30 * s}px`, borderRadius: 999, background: C.ink, color: C.bg, fontSize: 36 * s, fontWeight: 800 }}>{frame.role}</div>
+        </div>
+      );
+    case "money":
+      return (
+        <div style={{ display: "flex", flexDirection: "column", gap: 30 * s }}>
+          {kicker}
+          <div style={{ fontSize: 64 * s, fontWeight: 800, letterSpacing: -2 * s, lineHeight: 1.1 }}>{frame.title}</div>
+          {frame.assets ? <div style={{ display: "flex", flexDirection: "column" }}><div style={{ fontSize: 150 * s, fontWeight: 800, letterSpacing: -6 * s, color: C.violet }}>{frame.assets}</div><div style={{ fontSize: 40 * s, color: C.soft }}>declared assets</div></div> : null}
+          {frame.liabilities ? <div style={{ fontSize: 44 * s }}>{`Liabilities ${frame.liabilities}`}</div> : null}
+          {frame.cases !== undefined ? <div style={{ display: "flex", flexDirection: "column", gap: 8 * s }}><div style={{ fontSize: 96 * s, fontWeight: 800 }}>{String(frame.cases)}</div><div style={{ fontSize: 40 * s, color: C.soft }}>criminal cases declared. A declared case is not a conviction.</div></div> : null}
+        </div>
+      );
+    case "work":
+      return (
+        <div style={{ display: "flex", flexDirection: "column", gap: 36 * s }}>
+          {kicker}
+          <div style={{ fontSize: 96 * s, fontWeight: 800, letterSpacing: -4 * s }}>{frame.title}</div>
+          <div style={{ display: "flex", gap: 70 * s }}>
+            {frame.questions !== undefined ? <div style={{ display: "flex", flexDirection: "column" }}><div style={{ fontSize: 150 * s, fontWeight: 800, color: C.violet }}>{String(frame.questions)}</div><div style={{ fontSize: 38 * s, color: C.soft }}>questions asked</div></div> : null}
+            {frame.debates !== undefined ? <div style={{ display: "flex", flexDirection: "column" }}><div style={{ fontSize: 150 * s, fontWeight: 800 }}>{String(frame.debates)}</div><div style={{ fontSize: 38 * s, color: C.soft }}>debates</div></div> : null}
+          </div>
+          {frame.topics.map((topic) => (
+            <div key={topic.name} style={{ display: "flex", flexDirection: "column", gap: 10 * s }}>
+              <div style={{ fontSize: 40 * s }}>{topic.name}</div>
+              <div style={{ display: "flex", height: 18 * s, borderRadius: 9 * s, background: C.line }}><div style={{ width: `${topic.width}%`, height: "100%", borderRadius: 9 * s, background: C.mint }} /></div>
+            </div>
+          ))}
+        </div>
+      );
+    case "timeline":
+      return (
+        <div style={{ display: "flex", flexDirection: "column", gap: 36 * s }}>
+          {kicker}
+          <div style={{ fontSize: 96 * s, fontWeight: 800, letterSpacing: -4 * s }}>{frame.title}</div>
+          {frame.items.map((item) => (
+            <div key={item.when + item.text} style={{ display: "flex", flexDirection: "column", gap: 6 * s, paddingLeft: 36 * s, borderLeft: `6px solid ${C.mint}` }}>
+              <div style={{ fontSize: 34 * s, fontWeight: 800, color: C.mint }}>{item.when}</div>
+              <div style={{ fontSize: 48 * s, lineHeight: 1.25 }}>{item.text}</div>
+            </div>
+          ))}
+        </div>
+      );
+    case "sources":
+      return (
+        <div style={{ display: "flex", flexDirection: "column", gap: 36 * s }}>
+          <div style={{ fontSize: 100 * s, fontWeight: 800, letterSpacing: -4 * s, lineHeight: 1.05 }}>{frame.title}</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 18 * s }}>
+            {frame.labels.map((label) => <div key={label} style={{ display: "flex", padding: `${14 * s}px ${28 * s}px`, borderRadius: 999, border: `3px solid ${C.line}`, fontSize: 38 * s }}>{label}</div>)}
+          </div>
+        </div>
+      );
     case "cover":
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: 36 * s }}>
@@ -134,21 +195,21 @@ function Body({ frame, s }: { frame: Frame; s: number }) {
 }
 
 export function FrameImage({ deck, index, format }: { deck: Deck; index: number; format: Format }) {
-  const frame = deck.frames[index];
+  const frame = deck.scenes[index];
   const s = format === "story" ? 1 : 0.8;
   // Instagram draws its own buttons over roughly the top and bottom 250 px of a story.
   const pad = format === "story" ? { top: 230, bottom: 260, side: 84 } : { top: 76, bottom: 76, side: 66 };
   return (
     <div style={{ width: FORMATS[format].width, height: FORMATS[format].height, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: `${pad.top}px ${pad.side}px ${pad.bottom}px`, background: C.bg, color: C.ink, fontFamily: "Inter" }}>
       <div style={{ display: "flex", gap: 10 }}>
-        {deck.frames.map((_, i) => <div key={i} style={{ flex: 1, height: 8, borderRadius: 4, background: i <= index ? C.ink : C.line }} />)}
+        {deck.scenes.map((_, i) => <div key={i} style={{ flex: 1, height: 8, borderRadius: 4, background: i <= index ? C.ink : C.line }} />)}
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}><Body frame={frame} s={s} /></div>
       <div style={{ display: "flex", flexDirection: "column", gap: 22 * s }}>
         {frame.source ? <div style={{ fontSize: 26 * s, color: C.soft, lineHeight: 1.3 }}>{`Source: ${frame.source}`}</div> : null}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Mark size={64 * s} />
-          <div style={{ fontSize: 28 * s, color: C.soft }}>{index === deck.frames.length - 1 ? "Check it yourself" : `${index + 1} / ${deck.frames.length}`}</div>
+          <div style={{ fontSize: 28 * s, color: C.soft }}>{index === deck.scenes.length - 1 ? "Check it yourself" : `${index + 1} / ${deck.scenes.length}`}</div>
         </div>
       </div>
     </div>

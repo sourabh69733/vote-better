@@ -141,6 +141,8 @@ Measure it without cookies: tag each template's links, and count visits from Ins
 
 ## Design system
 
+In code: colour tokens live in `web/app/globals.css` (use `text-ink`, `bg-brand`, `border-line` and so on, not hex values), shared pieces such as the breadcrumb, card, stat grid and not-collected block in `web/components/ui.tsx`, and the one scene format for on-site stories and share images in `web/lib/scenes.ts`. Every Lok Sabha seat page, in any year, is `web/components/election/SeatResult.tsx`. Older pages (rights, Constitution, Delhi, profiles) still use hex values and move to the tokens as they are next changed.
+
 | Token | Value | Note |
 | --- | --- | --- |
 | Background | `#f5f7f2` | Existing |

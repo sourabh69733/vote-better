@@ -6,6 +6,31 @@
   --color-foreground: #0f172a;
 }
 
+/* Design tokens. Use these names (text-ink, bg-brand, border-line ...) instead of hex values.
+   Party colours come from lib/party-colors.ts and are only for telling parties apart. */
+@theme {
+  --color-canvas: #f5f7f2;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f8faf7;
+  --color-tint: #eff7ef;
+  --color-track: #eef3ed;
+  --color-ink: #19372d;
+  --color-body: #4f6455;
+  --color-muted: #66796d;
+  --color-subtle: #7a8c7e;
+  --color-eyebrow: #2a7658;
+  --color-link: #1d6547;
+  --color-brand: #1c6047;
+  --color-brand-strong: #154c38;
+  --color-line: #dce6dc;
+  --color-line-soft: #e3ebe3;
+  --color-line-strong: #bed6c4;
+  --color-you: #5b3f8f;
+  --color-you-soft: #f6f2fc;
+  --color-story: #163a34;
+  --color-warn: #8a6a1c;
+}
+
 body {
   background-color: #f5f7f2;
   color: #0f172a;

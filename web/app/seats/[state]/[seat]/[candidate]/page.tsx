@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { formatNumber, getCandidate, loadLokSabha2024, seatHref, summaryOf } from "@/lib/lok-sabha-2024";
+import { findCandidate, formatNumber, requireResults, seatHref, summaryOf } from "@/lib/lok-sabha";
 import { findCandidacy2024, findMpForSeat } from "@/lib/mp-seat-link";
 import { eciChip, partyOf, resultStats, type ProfileModel } from "@/lib/profile-model";
 import { getPersonProfile, listPersonSlugs } from "@/lib/verified-profile";
@@ -17,7 +17,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { state, seat, candidate } = await params;
-  const found = getCandidate(state, seat, candidate);
+  const found = findCandidate("lok-sabha-2024", state, seat, candidate);
   if (!found) return { title: "Candidate not found" };
   return {
     title: `${found.candidate.name}, ${found.seat.name} 2024 | Vote Better`,
@@ -31,10 +31,10 @@ const day = (value: string) => new Date(value).toLocaleDateString("en-IN", { day
 
 export default async function CandidatePage({ params }: PageProps) {
   const { state, seat: seatSlug, candidate: slug } = await params;
-  const found = getCandidate(state, seatSlug, slug);
+  const found = findCandidate("lok-sabha-2024", state, seatSlug, slug);
   if (!found) notFound();
   const { seat, candidate } = found;
-  const data = loadLokSabha2024();
+  const data = requireResults("lok-sabha-2024");
   const partyName = (code: string) => data.parties[code]?.name ?? code;
   const party = data.parties[candidate.party];
   const won = candidate.rank === 1;

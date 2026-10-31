@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { getCandidate, loadLokSabha2024, getSeat } from "./lok-sabha-2024";
+import { findCandidate, findSeat, requireResults } from "./lok-sabha";
 import type { ProfileModel } from "./profile-model";
 import { buildStory, storyBuilders } from "./story";
 
@@ -15,14 +15,14 @@ const base = (overrides: Partial<ProfileModel> = {}): ProfileModel => ({
 const kinds = (model: ProfileModel) => buildStory(model).scenes.map((scene) => scene.kind);
 
 test("a plain candidate gets who, the vote, the margin and sources", () => {
-  const { seat, candidate } = getCandidate("uttar-pradesh", "amethi", "smriti-irani")!;
-  assert.deepEqual(kinds(base({ contest: { seat, candidate } })), ["intro", "race", "margin", "sources"]);
+  const { seat, candidate } = findCandidate("lok-sabha-2024", "uttar-pradesh", "amethi", "smriti-irani")!;
+  assert.deepEqual(kinds(base({ contest: { seat, candidate } })), ["person", "race", "big", "sources"]);
   const race = buildStory(base({ contest: { seat, candidate } })).scenes[1];
   assert.equal(race.kind === "race" && race.rows.find((row) => row.self)?.name, "Smriti Irani");
 });
 
 test("a full profile adds money, work and career scenes, and a real state comparison", () => {
-  const { seat, candidate } = getCandidate("rajasthan", "jaipur", "manju-sharma")!;
+  const { seat, candidate } = findCandidate("lok-sabha-2024", "rajasthan", "jaipur", "manju-sharma")!;
   const story = buildStory(base({
     contest: { seat, candidate },
     money: { election: "2024", assets: 23661843, liabilities: 4169859, cases: 0 },
@@ -33,23 +33,23 @@ test("a full profile adds money, work and career scenes, and a real state compar
       { when: "1983 · Education", text: "M.A., Rajasthan University" },
     ],
   }));
-  assert.deepEqual(story.scenes.map((scene) => scene.kind), ["intro", "race", "margin", "money", "work", "career", "sources"]);
+  assert.deepEqual(story.scenes.map((scene) => scene.kind), ["person", "race", "big", "money", "work", "timeline", "sources"]);
   const margin = story.scenes[2];
-  assert.equal(margin.kind === "margin" && margin.comparison, "The 5th biggest margin of 25 seats in Rajasthan.");
+  assert.equal(margin.kind === "big" && margin.detail, "The 5th biggest margin of 25 seats in Rajasthan.");
   const career = story.scenes[5];
-  assert.ok(career.kind === "career" && career.items.every((item) => !item.when.includes("2024")));
+  assert.ok(career.kind === "timeline" && career.items.every((item) => !item.when.includes("2024")));
 });
 
 test("the closest result is named, and an unopposed seat has no vote scenes", () => {
-  const rural = getCandidate("rajasthan", "jaipur-rural", "rao-rajendra-singh")!;
+  const rural = findCandidate("lok-sabha-2024", "rajasthan", "jaipur-rural", "rao-rajendra-singh")!;
   const margin = buildStory(base({ contest: { seat: rural.seat, candidate: rural.candidate } })).scenes[2];
-  assert.equal(margin.kind === "margin" && margin.comparison, "The closest result of 25 seats in Rajasthan.");
-  assert.deepEqual(kinds(base({ contest: { seat: getSeat("gujarat", "surat")! } })), ["intro", "sources"]);
+  assert.equal(margin.kind === "big" && margin.detail, "The closest result of 25 seats in Rajasthan.");
+  assert.deepEqual(kinds(base({ contest: { seat: findSeat("lok-sabha-2024", "gujarat", "surat")! } })), ["person", "sources"]);
 });
 
 test("every builder skips missing data instead of making empty scenes", () => {
   const empty = base();
-  assert.deepEqual(kinds(empty), ["intro", "sources"]);
+  assert.deepEqual(kinds(empty), ["person", "sources"]);
   assert.equal(storyBuilders.length, 7);
-  assert.ok(loadLokSabha2024().seats.length > 0);
+  assert.ok(requireResults("lok-sabha-2024").seats.length > 0);
 });

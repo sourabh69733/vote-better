@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { listAreaOverviews } from "@/lib/civic-area";
-import { loadLokSabha2024 } from "@/lib/lok-sabha-2024";
+import { requireResults } from "@/lib/lok-sabha";
 
 export default function Home() {
   const areas = listAreaOverviews();
-  const seatCount = loadLokSabha2024().seats.length;
+  const seatCount = requireResults("lok-sabha-2024").seats.length;
 
   return (
     <div className="mx-auto w-full max-w-[1320px] px-4 pb-14 pt-10 sm:px-6 sm:pt-16 lg:px-8">

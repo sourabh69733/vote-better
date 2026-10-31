@@ -1,9 +1,9 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { candidateHref, formatShort, marginOf, seatHref, type LokSabha2024 } from "@/lib/lok-sabha-2024";
+import { candidateHref, formatShort, type LokSabhaResults, marginOf, seatHref } from "@/lib/lok-sabha";
 import { partyColor } from "@/lib/party-colors";
 import type { ProfileModel, ProfileStat } from "@/lib/profile-model";
-import SourceNote from "@/app/seats/SourceNote";
+import SourceNote from "@/components/election/SourceNote";
 import { buildStory } from "@/lib/story";
 import StoryLauncher from "@/components/story/StoryLauncher";
 import SourceChip from "./SourceChip";
@@ -66,7 +66,7 @@ function Section({ id, title, kicker, children }: { id: string; title: string; k
 
 const panel = "rounded-3xl border border-[#e2e9e2] bg-white p-5 sm:p-6";
 
-export default function ProfileView({ model, data }: { model: ProfileModel; data: LokSabha2024 }) {
+export default function ProfileView({ model, data }: { model: ProfileModel; data: LokSabhaResults }) {
   const color = model.party?.color ?? "#7d8a80";
   const contest = model.contest;
   const margin = contest?.candidate ? marginOf(contest.seat, contest.candidate) : null;

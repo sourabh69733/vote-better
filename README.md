@@ -12,7 +12,7 @@ An open-source project to help people in India understand who represents them, w
 | `/elections/[id]/[state]/[seat]` | One seat in 2019 or 2014: winner, margin, how close it was in the state, every candidate, the seat's history across elections. 2024 seats redirect to `/seats` | Public |
 | `/share/[...deck]` | Share kit: Instagram story frames (9:16), carousel slides (4:5), an in-browser reel, and English and Hinglish captions. Decks: `seat/<election>/<state>/<seat>`, `quiz/...`, `closest/<election>/<state>`, `mp-role`, `first-time-voter` | Public, not indexed |
 | `/share/image/<format>/<frame>/<deck>` | One frame as a PNG, drawn on request from published facts | Public |
-| `/seats` | All 543 Lok Sabha seats from 2024: search by seat, state or any candidate's name | Public |
+| `/seats` | Search every Lok Sabha seat in 2024, 2019 and 2014 by seat, state or anyone who contested; browse 2024 by state | Public |
 | `/seats/[state]/[seat]` | Who won, the margin, every candidate's votes and share, NOTA, turnout, ECI source rows | Public |
 | `/seats/[state]/[seat]/[candidate]` | Each of the 8,359 candidates: party, age, gender, category, votes, margin, rivals, source row | Public |
 | `/areas/[areaId]` | Jaipur and Jaipur Rural Lok Sabha: office holders, 2024 results, relationship map | Public |
