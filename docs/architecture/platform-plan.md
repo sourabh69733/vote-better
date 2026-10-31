@@ -33,7 +33,7 @@ Everything below serves these six screens. Nothing is published that cannot be t
 | Results | Lok Sabha 2024, 2019 and 2014 published and linked as contests and candidacies; each seat shows its history | Assembly results; reviewed aliases for renamed seats |
 | People | 8,359 candidate stubs, 540 MPs (local), 2 curated Jaipur profiles | MLAs, councillors; one profile system instead of two |
 | Declarations | Jaipur affidavits by hand | National affidavit adapter (PDF, OCR, review) |
-| Work | Questions and debates for 2 MPs | All MPs; attendance; MPLADS; committees; state assembly work |
+| Work | Questions for all 544 MPs (local until decision 5), debates for 2 MPs | Attendance; MPLADS; committees; state assembly work |
 | Outcomes | Nothing | Work records with milestones and evidence |
 | Pipeline | Registry, snapshots, observations, review, export, hardened runner, CI | Election entity, scheduled runs, alerting, hosting, PR publish |
 | UI | Seat pages, candidate pages, profile view, story player, graph mockup | Area home, candidate comparison, work timeline, outcome views, Hindi |
@@ -147,12 +147,12 @@ Source chips everywhere. A coverage page per area and per person listing what is
 | A. Election as entity (done 2026-10-31) | `election`, `contest`, `seat` entities in the data layer; calendar records import into them; `/elections/[id]` page; 2024 results attached; 2019 and 2014 published | A Jaipur voter opens the 2024 election page and reaches their seat and winner |
 | B. Unattended sync | Scheduled `sync --due`, hosting, alerts, PR publish, single bundle exporter | A week passes with no manual run and the site shows updated "checked on" dates |
 | C. Area first (built 2026-11-01 for Rajasthan; PIN search waits on decision 8) | PIN and map to PC and AC; assembly seats for Rajasthan; area home with three cards and coverage | A Jaipur PIN shows the MP and MLA with sources |
-| D. Deep profiles | Affidavit adapter for 2024 winners, then all 2024 candidates; Sansad work for all MPs; attendance; unified profile; office duties | Every sitting MP has a filing, work timeline and duties panel |
+| D. Deep profiles (questions for all MPs built 2026-11-01, local only) | Affidavit adapter for 2024 winners, then all 2024 candidates; Sansad work for all MPs; attendance; unified profile; office duties | Every sitting MP has a filing, work timeline and duties panel |
 | E. Candidates during a poll | Nomination adapter (ECI candidate lists), comparison page, poll-window scheduling | Tested end to end on the first announced election after launch (2027 round) |
 | F. Outcomes | MPLADS and MLALAD works, milestone badges, area timeline | Jaipur area page lists funded works with status and source |
 | G. City | Rajasthan SEC results, Jaipur wards and councillors, municipal works | The third card on the Jaipur area page is filled |
 | H1. Share kit (built 2026-10-31; first post waits on decision 7) | Story scenes exported as Instagram carousels, story frames and reels; link previews; share button; Hinglish captions | A Jaipur seat story is posted as a carousel and a reel, and its link opens the seat page |
-| H2. Engagement | Quests, personal share card, relationship map on real data, follow and digest, full Hindi | Jaipur voter test from `docs/research/jaipur-voter-test.md` passes with five residents |
+| H2. Engagement (quests and the my-representatives card built 2026-11-01) | Quests, personal share card, relationship map on real data, follow and digest, full Hindi | Jaipur voter test from `docs/research/jaipur-voter-test.md` passes with five residents |
 
 Phases A to D are sequential. E can start once A and B exist. H1 starts as soon as A ships, because stories are how young voters find the site; the 2024 Lok Sabha data is enough to start. F, G and H2 run alongside D and E.
 
@@ -203,3 +203,4 @@ These are targets, not commitments.
 6. Legal review of affidavit republication (public record, but personal data) before phase D publishes filings.
 7. Set up the Instagram account and a short web address, and get legal advice on posting rules during polls, before phase H1 goes live.
 8. Confirm the reuse terms of the assembly and PIN boundary maps (Bharat Maps through a public mirror, and data.gov.in) before PIN search goes public. Until then `/my-area` works only locally.
+9. Review the nine transcribed Rajasthan bye-election returns (one command each, after comparing with the PDF) so the current MLAs show.
