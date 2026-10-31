@@ -4,11 +4,15 @@ import pg from "pg";
 
 import { migrate } from "./migrate.js";
 import { ECI_GE2024_DETAILED_RESULT_NORMALIZER_VERSION, ECI_GE2024_DETAILED_RESULT_URL } from "./normalize/eci-ge2024-detailed-result.js";
+import { ECI_HISTORY_NORMALIZER_VERSION } from "./normalize/eci-history-detailed-result.js";
+import { ECI_HISTORY } from "./import-eci-history.js";
 
 // Only official structured datasets whose normalizer runs automatic consistency
 // checks may be approved as one batch. Everything else stays per-fact review.
 export const BATCH_REVIEW_SOURCES: Record<string, { normalizerVersion: string; predicate: string }> = {
   [ECI_GE2024_DETAILED_RESULT_URL]: { normalizerVersion: ECI_GE2024_DETAILED_RESULT_NORMALIZER_VERSION, predicate: "candidate.result" },
+  [ECI_HISTORY[2019].detailed]: { normalizerVersion: ECI_HISTORY_NORMALIZER_VERSION, predicate: "candidate.result" },
+  [ECI_HISTORY[2014].detailed]: { normalizerVersion: ECI_HISTORY_NORMALIZER_VERSION, predicate: "candidate.result" },
 };
 
 export interface BatchReviewResult {

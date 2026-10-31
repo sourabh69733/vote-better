@@ -6,6 +6,8 @@ import { LocalBlobStore } from "./blob-store.js";
 import { runAllBiographyBatches, rosterIds, missingBiographyIds } from "./batch-sansad-biographies.js";
 import { importInitialDelhiSources } from "./delhi/import.js";
 import { collectEciGe2024References, importEciGe2024 } from "./import-eci-2024.js";
+import { ECI_HISTORY, importEciHistory } from "./import-eci-history.js";
+import type { HistoryYear } from "./normalize/eci-history-detailed-result.js";
 import { importJaipurForm21E } from "./import-jaipur.js";
 import { importSansadBiography } from "./import-sansad-biography.js";
 import { importSansadMembers } from "./import-sansad-members.js";
@@ -46,6 +48,8 @@ export interface SourceDefinition {
   supplies: string[];
   review: "batch" | "per-fact" | "file-export";
   dependsOn?: string[];
+  // Longest a run may take before the sync runner logs it as failed and moves on (default 90).
+  timeoutMinutes?: number;
   run: (context: RunContext) => Promise<RunResult>;
 }
 
@@ -81,6 +85,25 @@ export const registry: SourceDefinition[] = [
       };
     },
   },
+  ...([2019, 2014] as HistoryYear[]).map((year): SourceDefinition => ({
+    id: `eci-ge${year}-results`,
+    title: `Lok Sabha ${year} results: detailed result, winners and parties`,
+    owner: "Election Commission of India",
+    url: ECI_HISTORY[year].detailed,
+    format: year === 2019 ? "xls" : "xlsx",
+    refreshDays: null,
+    reuse: { status: "to-confirm", note: "Archive download requires accepting ECI's note that statutory forms prevail; approved by the project owner." },
+    supplies: ["candidate.result"],
+    review: "batch",
+    async run({ store }) {
+      const result = await importEciHistory(store, new LocalBlobStore(raw(`eci-${year}/blobs/`)), year);
+      if (result.status !== "drafts-saved") return { outcome: "failed", items: 0, detail: result.reason };
+      return {
+        outcome: "succeeded", items: result.observationIds.length,
+        detail: `${result.seats} seats with full results, ${result.winnerOnly} winner-only, ${result.notes} seats with small differences in ECI's own figures`,
+      };
+    },
+  })),
   {
     id: "rajasthan-form21e-jaipur",
     title: "Jaipur 2024 return of election (Form 21E)",
@@ -124,6 +147,7 @@ export const registry: SourceDefinition[] = [
     supplies: ["person.birthDate", "person.educationStatement", "person.profession", "office.positionsHeld", "person.socialProfile"],
     review: "per-fact",
     dependsOn: ["sansad-ls-members"],
+    timeoutMinutes: 300,
     async run({ pool, store, log }) {
       const ids = await rosterIds(pool);
       const pending = missingBiographyIds(ids, await listCollectedBiographyIds(pool));
@@ -146,6 +170,7 @@ export const registry: SourceDefinition[] = [
     reuse: { status: "under-review", note: "Reuse decision pending." },
     supplies: ["activity.question"],
     review: "file-export",
+    timeoutMinutes: 180,
     async run() {
       const sessions = [1, 2, 3, 4, 5, 6, 7, 8];
       const archive = await collectQuestionArchive(sessions, webImport("lok-sabha-18-question-archive.json"), await questionTargets(), true);
@@ -199,6 +224,7 @@ export function validateRegistry(sources: readonly SourceDefinition[] = registry
     ids.add(source.id);
     if (!source.url.startsWith("https://")) throw new Error(`${source.id} needs an HTTPS URL`);
     if (source.refreshDays !== null && !(source.refreshDays > 0)) throw new Error(`${source.id} has an invalid refresh interval`);
+    if (source.timeoutMinutes !== undefined && !(source.timeoutMinutes > 0)) throw new Error(`${source.id} has an invalid timeout`);
     if (source.reuse.status === "restricted") throw new Error(`${source.id} is restricted and must not be collected automatically`);
     if (!source.supplies.length) throw new Error(`${source.id} must declare the fields it supplies`);
   }

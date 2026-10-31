@@ -166,7 +166,9 @@ npm --prefix data run sync -- eci-ge2024-results # run named sources
 npm --prefix data run sync -- --due --dry-run   # show what would run
 ```
 
-Each run, including a failed one, is written to the `sync_run` table and cannot be edited. A source is due when it has never succeeded or its refresh interval has passed; fixed archives are checked only until they first succeed. Unchanged files keep their original snapshot. Reuse status `under-review` means outputs stay local.
+Each run, including a failed one, is written to the `sync_run` table and cannot be edited. A source is due when it has never completed (succeeded or partial) or its refresh interval has passed since the last completed run; fixed archives are checked only until they first complete. After a failed run the source waits one hour, then two, four and so on up to a week, before it is due again, so a broken source is not refetched on every tick. The `--list` table shows the failure streak. Unchanged files keep their original snapshot. Reuse status `under-review` means outputs stay local.
+
+Each source runs under a database advisory lock, so two overlapping syncs skip rather than repeat a source. A run that passes its deadline (`timeoutMinutes` in the registry, 90 by default) is logged as failed and the runner moves to the next source; the process exits once the loop ends even if that run is still finishing. A run whose log row cannot be written still reports its result, with the write error appended.
 
 ## National Lok Sabha 2024 results
 

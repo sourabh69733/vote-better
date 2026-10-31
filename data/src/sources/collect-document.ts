@@ -106,7 +106,7 @@ export async function collectDocument(
         reason = error.message;
       } else {
         outcome = "unavailable";
-        reason = "network or storage error";
+        reason = `network or storage error: ${(error instanceof Error ? error.message : String(error)).slice(0, 500)}`;
       }
       await store.recordCollectionAttempt({ sourceId: source.id, attemptedAt, outcome, httpStatus, detail: reason });
       if (attempt < maxAttempts) await pause(retryDelayMs);
