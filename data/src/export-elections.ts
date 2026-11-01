@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import pg from "pg";
 
-import { LocalBlobStore } from "./blob-store.js";
+import { openBlobStore } from "./blob-store.js";
 import { linkElections, type CalendarElection, type ResultSource } from "./elections/link.js";
 import { assemblyTarget, buildAssemblyBundle, type PartyNames } from "./export-assembly.js";
 import { buildByElectionBundle, byElectionTarget, readBaseSeats } from "./export-bye-elections.js";
@@ -58,7 +58,7 @@ export async function exportElections(pool: pg.Pool, write = (text: string) => {
     const fresh = await publishPendingResults(pool, url);
     const publication = await loadPublication(pool, url);
     if (!publication.facts.length) { write(`${year}: nothing published yet, skipped.\n`); continue; }
-    const blobs = new LocalBlobStore(fileURLToPath(new URL(`../raw/eci-${year}/blobs/`, import.meta.url)));
+    const blobs = openBlobStore(`eci-${year}/blobs/`);
     const bundle = buildLokSabhaHistoryBundle(publication, year, await loadHistoryReferences(pool, blobs, year));
     await writeAtomic(historyTarget(year), bundle);
     published.push({ electionId: `lok-sabha-${year}`, url });
@@ -67,13 +67,13 @@ export async function exportElections(pool: pg.Pool, write = (text: string) => {
   }
   // Full party names, from ECI's 2024 and 2019 party lists.
   const partyNames: PartyNames = new Map();
-  const references2024 = await loadReferences(pool, new LocalBlobStore(fileURLToPath(new URL("../raw/eci-2024/blobs/", import.meta.url))));
+  const references2024 = await loadReferences(pool, openBlobStore("eci-2024/blobs/"));
   const lokSabha2024 = JSON.parse(await readFile(fileURLToPath(new URL("../../web/records/generated/lok-sabha-2024.json", import.meta.url)), "utf8")) as
     { seats: { state: string; sourceName: string; slug: string; name: string }[] };
   const parents: { state: string; links: SegmentLink[]; childKey: Map<number, string> }[] = [];
   const lists = [
     ...references2024.parties,
-    ...(await loadHistoryReferences(pool, new LocalBlobStore(fileURLToPath(new URL("../raw/eci-2019/blobs/", import.meta.url))), 2019)).parties,
+    ...(await loadHistoryReferences(pool, openBlobStore("eci-2019/blobs/"), 2019)).parties,
   ];
   for (const party of lists) if (!partyNames.has(party.abbreviation)) partyNames.set(party.abbreviation, { name: party.name, type: party.type });
 

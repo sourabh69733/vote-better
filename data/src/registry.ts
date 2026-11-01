@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import type pg from "pg";
 
-import { LocalBlobStore } from "./blob-store.js";
+import { openBlobStore } from "./blob-store.js";
 import { runAllBiographyBatches, rosterIds, missingBiographyIds } from "./batch-sansad-biographies.js";
 import { importInitialDelhiSources } from "./delhi/import.js";
 import { collectEciGe2024References, importEciGe2024 } from "./import-eci-2024.js";
@@ -78,7 +78,7 @@ export const registry: SourceDefinition[] = [
     supplies: ["candidate.result", "contest.number", "contest.reservation", "party.name"],
     review: "batch",
     async run({ store }) {
-      const blobs = new LocalBlobStore(raw("eci-2024/blobs/"));
+      const blobs = openBlobStore("eci-2024/blobs/");
       const result = await importEciGe2024(store, blobs);
       const references = await collectEciGe2024References(store, blobs);
       const failedReferences = references.filter((item) => item.status !== "succeeded");
@@ -101,7 +101,7 @@ export const registry: SourceDefinition[] = [
     supplies: ["candidate.result"],
     review: "batch",
     async run({ store }) {
-      const result = await importEciHistory(store, new LocalBlobStore(raw(`eci-${year}/blobs/`)), year);
+      const result = await importEciHistory(store, openBlobStore(`eci-${year}/blobs/`), year);
       if (result.status !== "drafts-saved") return { outcome: "failed", items: 0, detail: result.reason };
       return {
         outcome: "succeeded", items: result.observationIds.length,
@@ -120,7 +120,7 @@ export const registry: SourceDefinition[] = [
     supplies: ["candidate.result"],
     review: "batch",
     async run({ store }) {
-      const result = await importEciAssembly(store, new LocalBlobStore(raw(`${election.id}/blobs/`)), election.id);
+      const result = await importEciAssembly(store, openBlobStore(`${election.id}/blobs/`), election.id);
       if (result.status !== "drafts-saved") return { outcome: "failed", items: 0, detail: result.reason };
       return { outcome: "succeeded", items: result.observationIds.length, detail: `${result.seats} seats, ${result.observationIds.length} candidate rows; all reports agree; ${result.nameVariants} name spelling difference(s)` };
     },
@@ -136,7 +136,7 @@ export const registry: SourceDefinition[] = [
     supplies: ["candidate.result"],
     review: "transcription",
     async run({ store }) {
-      const result = await importRajasthanByeElections(store, new LocalBlobStore(raw("rajasthan-bye-elections/blobs/")));
+      const result = await importRajasthanByeElections(store, openBlobStore("rajasthan-bye-elections/blobs/"));
       const failed = result.documents.filter((document) => document.status !== "drafts-saved");
       return {
         outcome: failed.length === result.documents.length ? "failed" : failed.length ? "partial" : "succeeded",
@@ -193,7 +193,7 @@ export const registry: SourceDefinition[] = [
       const ids = await rosterIds(pool);
       const pending = missingBiographyIds(ids, await listCollectedBiographyIds(pool));
       if (!pending.length) return { outcome: "succeeded", items: 0, detail: `all ${ids.length} biographies already collected` };
-      const blobStore = new LocalBlobStore(raw("sansad-biography"));
+      const blobStore = openBlobStore("sansad-biography");
       const result = await runAllBiographyBatches(pending, {
         limit: 25, collect: (memberId) => importSansadBiography(store, memberId, { blobStore }),
         onBatch: (batch) => log(`biographies: ${batch.saved} saved, ${batch.remaining} remaining`),
@@ -263,7 +263,7 @@ export const registry: SourceDefinition[] = [
     supplies: ["delhi.office", "delhi.appointment"],
     review: "per-fact",
     async run({ pool, store }) {
-      const results = await importInitialDelhiSources(pool, store, new LocalBlobStore(raw("delhi/")));
+      const results = await importInitialDelhiSources(pool, store, openBlobStore("delhi/"));
       const failed = results.filter((item) => item.outcome !== "succeeded");
       return {
         outcome: failed.length === results.length ? "failed" : failed.length ? "partial" : "succeeded",

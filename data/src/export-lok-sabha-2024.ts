@@ -5,7 +5,7 @@ import pg from "pg";
 import { migrate } from "./migrate.js";
 import { ECI_GE2024_DETAILED_RESULT_URL, slugify, type CandidateResult } from "./normalize/eci-ge2024-detailed-result.js";
 import { loadPublication, publishApproved, type Publication } from "./publish.js";
-import { LocalBlobStore, type BlobStore } from "./blob-store.js";
+import { type BlobStore, openBlobStore } from "./blob-store.js";
 import { ECI_GE2024_REFERENCES, ECI_GE2024_SOURCE } from "./import-eci-2024.js";
 import { ECI_GE2024_SEGMENTS_URL, parseAssemblySegments, type SegmentRow } from "./normalize/eci-assembly-segments.js";
 import {
@@ -149,7 +149,7 @@ export function buildLokSabha2024Bundle(publication: Publication, references: Re
 
 export async function exportLokSabha2024(pool: pg.Pool): Promise<string> {
   const published = await publishPendingResults(pool);
-  const blobs = new LocalBlobStore(fileURLToPath(new URL("../raw/eci-2024/blobs/", import.meta.url)));
+  const blobs = openBlobStore("eci-2024/blobs/");
   const bundle = buildLokSabha2024Bundle(await loadPublication(pool, ECI_GE2024_DETAILED_RESULT_URL), await loadReferences(pool, blobs));
   const temporary = `${target}.tmp`;
   await writeFile(temporary, `${JSON.stringify(bundle)}\n`, { flag: "w" });

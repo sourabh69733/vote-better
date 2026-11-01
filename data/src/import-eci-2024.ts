@@ -2,7 +2,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
 
-import { type BlobStore, LocalBlobStore } from "./blob-store.js";
+import { type BlobStore, openBlobStore } from "./blob-store.js";
 import { migrate } from "./migrate.js";
 import {
   ECI_GE2024_DETAILED_RESULT_URL, normalizeEciGe2024DetailedResult, parseEciGe2024DetailedResult, XLS_DOCUMENT,
@@ -90,7 +90,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1
   });
   try {
     await migrate(pool);
-    const blobs = new LocalBlobStore(fileURLToPath(new URL("../raw/eci-2024/blobs/", import.meta.url)));
+    const blobs = openBlobStore("eci-2024/blobs/");
     const store = new CivicStore(pool);
     const result = await importEciGe2024(store, blobs);
     process.stdout.write(`${JSON.stringify(result.status === "drafts-saved"

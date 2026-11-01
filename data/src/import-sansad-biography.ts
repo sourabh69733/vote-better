@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
 
-import { LocalBlobStore, type BlobStore } from "./blob-store.js";
+import { type BlobStore, openBlobStore } from "./blob-store.js";
 import { migrate } from "./migrate.js";
 import { normalizeSansadBiography, normalizeSansadPositions } from "./normalize/sansad-biography.js";
 import { CivicStore, type CollectionOutcome, type ObservationDraft } from "./store.js";
@@ -99,7 +99,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1
       "postgres://vote_better:local_dev_only@127.0.0.1:55432/vote_better" });
     try {
       await migrate(pool);
-      const blobStore = new LocalBlobStore(fileURLToPath(new URL("../raw/sansad-biography", import.meta.url)));
+      const blobStore = openBlobStore("sansad-biography");
       const result = await importSansadBiography(new CivicStore(pool), Number(memberArg), { blobStore });
       process.stdout.write(`${JSON.stringify(result)}\n`);
       if (result.status !== "drafts-saved") process.exitCode = 1;

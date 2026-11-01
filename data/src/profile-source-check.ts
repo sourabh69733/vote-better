@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
 
-import { LocalBlobStore, type BlobStore } from "./blob-store.js";
+import { type BlobStore, openBlobStore } from "./blob-store.js";
 import { normalizeSansadBiography, normalizeSansadPositions } from "./normalize/sansad-biography.js";
 import { listCollectedBiographyIds } from "./profile-draft.js";
 import { loadProfileReview, type ProfileReviewReport } from "./profile-review.js";
@@ -100,7 +100,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1
   const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL ??
     "postgres://vote_better:local_dev_only@127.0.0.1:55432/vote_better" });
   try {
-    const blobs = new LocalBlobStore(fileURLToPath(new URL("../raw/sansad-biography/", import.meta.url)));
+    const blobs = openBlobStore("sansad-biography/");
     const index = await checkAllProfiles(pool, blobs);
     if (save) {
       const directory = fileURLToPath(new URL("../raw/profile-source-checks/", import.meta.url));

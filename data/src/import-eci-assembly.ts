@@ -2,7 +2,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
 
-import { type BlobStore, LocalBlobStore } from "./blob-store.js";
+import { type BlobStore, openBlobStore } from "./blob-store.js";
 import { migrate } from "./migrate.js";
 import {
   ASSEMBLY_ELECTIONS, assemblyFiles, crossCheckAssembly, normalizeAssemblyResult,
@@ -55,7 +55,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1
   const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL ?? "postgres://vote_better:local_dev_only@127.0.0.1:55432/vote_better" });
   try {
     await migrate(pool);
-    const blobs = new LocalBlobStore(fileURLToPath(new URL(`../raw/${electionId}/blobs/`, import.meta.url)));
+    const blobs = openBlobStore(`${electionId}/blobs/`);
     const result = await importEciAssembly(new CivicStore(pool), blobs, electionId);
     process.stdout.write(`${JSON.stringify(result.status === "drafts-saved" ? { ...result, observationIds: result.observationIds.length } : result)}\n`);
     if (result.status !== "drafts-saved") process.exitCode = 1;

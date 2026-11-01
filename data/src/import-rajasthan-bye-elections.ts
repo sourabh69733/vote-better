@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
 
-import { LocalBlobStore, type BlobStore } from "./blob-store.js";
+import { type BlobStore, openBlobStore } from "./blob-store.js";
 import { migrate } from "./migrate.js";
 import { checkTranscriptions, normalizeDeclaration, normalizeReturn, type Transcriptions } from "./normalize/rajasthan-form21e-transcription.js";
 import { collectDocument, PDF_DOCUMENT } from "./sources/collect-document.js";
@@ -46,7 +46,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1
   const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL ?? "postgres://vote_better:local_dev_only@127.0.0.1:55432/vote_better" });
   try {
     await migrate(pool);
-    const blobs = new LocalBlobStore(fileURLToPath(new URL("../raw/rajasthan-bye-elections/blobs/", import.meta.url)));
+    const blobs = openBlobStore("rajasthan-bye-elections/blobs/");
     const result = await importRajasthanByeElections(new CivicStore(pool), blobs);
     process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
     if (result.documents.some((document) => document.status !== "drafts-saved")) process.exitCode = 1;

@@ -2,7 +2,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
 
-import { LocalBlobStore } from "./blob-store.js";
+import { openBlobStore } from "./blob-store.js";
 import { importSansadBiography, type BiographyImportResult } from "./import-sansad-biography.js";
 import { listCollectedBiographyIds } from "./profile-draft.js";
 import { CivicStore } from "./store.js";
@@ -135,7 +135,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1
     const ids = await rosterIds(pool);
     const pending = args.missingOnly ? missingBiographyIds(ids, await listCollectedBiographyIds(pool)) : ids;
     const store = new CivicStore(pool);
-    const blobStore = new LocalBlobStore(fileURLToPath(new URL("../raw/sansad-biography", import.meta.url)));
+    const blobStore = openBlobStore("sansad-biography");
     const options = { ...args, collect: (memberId: number) => importSansadBiography(store, memberId, { blobStore }) };
     const result = args.allMissing
       ? await runAllBiographyBatches(pending, { ...options,
