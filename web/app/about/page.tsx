@@ -1,6 +1,18 @@
 import Link from "next/link";
 
+import { formatDay, todayIso } from "@/lib/elections";
+import { freshnessOf, sourceStatuses, type Freshness } from "@/lib/sync-status";
+
+export const revalidate = 3600;
+
+const FRESHNESS: Record<Exclude<Freshness, "current">, { label: string; className: string }> = {
+  overdue: { label: "Overdue", className: "bg-[#fdf1df] text-warn" },
+  retrying: { label: "Last check failed, retrying", className: "bg-[#fdf1df] text-warn" },
+  "not-checked": { label: "Not checked yet", className: "bg-track text-body" },
+};
+
 export default function AboutPage() {
+  const today = todayIso();
   return (
     <div className="mx-auto w-full max-w-[1320px] px-4 py-10 sm:px-6 lg:px-8">
       <h1 className="text-3xl font-bold text-slate-900">About Vote Better</h1>
@@ -35,6 +47,28 @@ export default function AboutPage() {
         </section>
       </div>
 
+      <section className="mt-5 rounded-2xl border border-slate-200 bg-white p-6" aria-labelledby="sources-heading">
+        <h2 id="sources-heading" className="text-xl font-bold text-slate-900">Sources and when we last checked them</h2>
+        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-700">A scheduled job checks each source for changes. New data reaches the site only after a person reviews it.</p>
+        <ul className="mt-4 divide-y divide-line">
+          {sourceStatuses.map((source) => {
+            const freshness = freshnessOf(source, today);
+            return (
+              <li key={source.id} className="flex flex-col gap-1 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+                <div className="min-w-0">
+                  <a href={source.url} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-link underline underline-offset-4">{source.title} ↗</a>
+                  <p className="text-xs text-subtle">{source.owner} · {source.refreshDays === null ? "fixed archive" : `checked every ${source.refreshDays === 1 ? "day" : `${source.refreshDays} days`}`}</p>
+                </div>
+                <div className="flex shrink-0 flex-wrap items-center gap-2 text-sm">
+                  {source.lastChecked && <span className="text-body">Last checked {formatDay(source.lastChecked)}</span>}
+                  {freshness !== "current" && <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${FRESHNESS[freshness].className}`}>{FRESHNESS[freshness].label}</span>}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
       <section className="mt-5 rounded-2xl border border-slate-200 bg-white p-6">
         <h2 className="text-xl font-bold text-slate-900">Other sources to connect</h2>
         <p className="mt-3 text-sm leading-relaxed text-slate-700">These sources are not connected to the 64 MP profiles. A few Jaipur candidate disclosures cite MyNeta manually. Its terms require written consent for automated collection, so there is no MyNeta scraper.</p>
@@ -50,7 +84,7 @@ export default function AboutPage() {
         Election Commission, Parliament or any political party.
       </p>
       <Link href="/" className="mt-6 inline-block text-sm font-semibold text-emerald-800 hover:underline">
-        ← Back to verified areas
+        ← Home
       </Link>
     </div>
   );

@@ -5,6 +5,7 @@ import pg from "pg";
 import { exportElections } from "./export-elections.js";
 import { exportJaipur } from "./export-jaipur.js";
 import { exportLokSabha2024 } from "./export-lok-sabha-2024.js";
+import { exportSyncStatus } from "./export-sync-status.js";
 import { migrate } from "./migrate.js";
 
 // Rebuilds every file the website reads from the database, in dependency order.
@@ -13,6 +14,7 @@ export async function exportAll(pool: pg.Pool, write = (text: string) => { proce
   write(`${await exportJaipur(pool)}\n`);
   write(`${await exportLokSabha2024(pool)}\n`);
   await exportElections(pool, write);
+  write(`${await exportSyncStatus(pool)}\n`);
 }
 
 async function main(): Promise<void> {
