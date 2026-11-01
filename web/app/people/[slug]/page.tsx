@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { requireResults, seatHref, summaryOf } from "@/lib/results";
 import { findCandidacy2024 } from "@/lib/mp-seat-link";
 import { getParliamentaryDebates } from "@/lib/parliamentary-debates";
+import { getMpFunds } from "@/lib/mp-funds";
 import { getParliamentaryWork } from "@/lib/parliamentary-work";
 import { getJaipurVoteTraceId } from "@/lib/publication";
 import { eciChip, moneyStats, partyOf, questionsForProfile, readableTitle, resultStats, topCounts, type ProfileModel, type ProfileStat, type ProfileWork } from "@/lib/profile-model";
@@ -51,6 +52,7 @@ export default async function PersonPage({ params }: PageProps) {
   const background = profile.background;
   const questions = getParliamentaryWork(slug);
   const debates = getParliamentaryDebates(slug);
+  const funds = getMpFunds(slug);
   const voteTrace = getJaipurVoteTraceId(profile.slug);
   const eci = row ? eciChip(data, row.candidate, day(row.candidate.reviewedAt.slice(0, 10))) : undefined;
   const partyText = office?.party ?? election?.party ?? (row ? partyName(row.candidate.party) : undefined);
@@ -109,6 +111,7 @@ export default async function PersonPage({ params }: PageProps) {
     ...(row ? { contest: { seat: row.seat, candidate: row.candidate } } : {}),
     stats,
     work,
+    ...(funds ? { funds } : {}),
     ...(hasMoney ? { money } : {}),
     timeline: [...profile.timeline].sort((a, b) => b.sortOn.localeCompare(a.sortOn)).map((event) => ({
       when: `${day(event.date)} · ${kindLabel[event.kind]}`,

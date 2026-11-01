@@ -6,6 +6,7 @@ import type { ProfileModel, ProfileStat } from "@/lib/profile-model";
 import SourceNote from "@/components/election/SourceNote";
 import { buildStory } from "@/lib/story";
 import StoryLauncher from "@/components/story/StoryLauncher";
+import FundWorks from "./FundWorks";
 import SourceChip from "./SourceChip";
 import { Bars, SectionNav, TugOfWar, VoteRace } from "./Visuals";
 
@@ -73,6 +74,7 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
   const sections = [
     ...(contest ? [{ id: "contest", label: "2024 contest" }] : []),
     ...(model.work ? [{ id: "work", label: "Work" }] : []),
+    ...(model.funds ? [{ id: "funds", label: "MP fund" }] : []),
     ...(model.money ? [{ id: "money", label: "Money and cases" }] : []),
     ...(model.timeline.length || model.facts.length ? [{ id: "story", label: "Story" }] : []),
     { id: "sources", label: "Sources" },
@@ -262,6 +264,12 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
             )}
           </div>
           {model.work.note && <p className="mt-3 text-sm text-[#6b7f71]">{model.work.note}</p>}
+        </Section>
+      )}
+
+      {model.funds && (
+        <Section id="funds" kicker="MP fund (MPLADS)" title="What their MP fund is paying for">
+          <FundWorks funds={model.funds} />
         </Section>
       )}
 

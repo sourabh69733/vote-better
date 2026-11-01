@@ -16,7 +16,7 @@ test("sitting MP profile leads with office, result and filled key facts", async 
   assert.match(html, /3\.32 lakh/);
   assert.match(html, /₹2\.37 crore/);
   assert.match(html, /Declared criminal cases/);
-  assert.deepEqual(sections(html), ["contest", "work", "money", "story", "sources"]);
+  assert.deepEqual(sections(html), ["contest", "work", "funds", "money", "story", "sources"]);
   assert.match(html, /Current party · checked 2 Oct 2026/);
   assert.match(html, /Member of Parliament, 18th Lok Sabha/);
   assert.match(html, /4 Jun 2024 to present/);

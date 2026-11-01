@@ -1,4 +1,5 @@
 import type { ChipSource } from "@/components/profile/SourceChip";
+import type { MpFunds } from "./mp-funds";
 import { formatShort, type ElectionResults, type ResultCandidate, type ResultSeat } from "./results";
 import { partyColor } from "./party-colors";
 
@@ -44,6 +45,7 @@ export interface ProfileModel {
   contest?: { seat: ResultSeat; candidate?: ResultCandidate; note?: string };
   stats: ProfileStat[];
   work?: ProfileWork;
+  funds?: MpFunds;
   money?: ProfileMoney;
   timeline: { when: string; text: string; source?: ChipSource; strong?: boolean }[];
   timelineNote?: string;
