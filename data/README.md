@@ -220,6 +220,12 @@ Assembly seats are keyed by number and name, as ECI writes them ("42-Shahpura"),
 
 `npm --prefix data run import:sansad-questions-all` rebuilds every sitting MP's questions from the saved Sansad session pages in `raw/sansad-questions/`, with no new downloads. Members are matched by Sansad member number and the exact name Sansad lists on each question; a name shared by two members is left out and reported. The archive is written to `raw/sansad-questions/archive-all-members.json` and stays local while Digital Sansad reuse is under review; the local MP profiles read it. On 2026-11-01 it held 56,667 member-question listings for 544 members across 8 sessions. Members with none are mostly ministers and the Speaker, who answer questions rather than ask them.
 
+## MP fund works (MPLADS)
+
+`npm --prefix data run import:mplads-works` collects the MP Local Area Development Scheme works of the MPs in `config/mplads-targets.json` (the two Jaipur MPs) from MoSPI's public eSAKSHI dashboard. It reads the same lists the dashboard opens from its tiles: allocation, works recommended, sanctioned and completed, and payments. Each list ends with a total row; the import refuses a list whose rows do not add up to it, whose count or amount differs from its tile, or which names another MP or seat. It joins the lists into one record per work and writes `web/records/imported/mplads-works.json`. Raw responses stay under ignored `data/raw/mplads/<date>/`.
+
+Each work gets the furthest step it reached: recommended (the MP asked for it), sanctioned (the district approved it) or completed (the implementing agency marked it done). No one has checked a work on the ground, so the site shows no such step. eSAKSHI began on 1 April 2023, so works before that are not in it. The feed is sent as Latin-1, so Hindi work descriptions arrive as question marks; those are dropped and the activity name is shown instead. On 2026-11-01 it held 70 works for Manju Sharma (17 completed) and 107 for Rao Rajendra Singh (10 completed). The sync source is `mospi-mplads-works`, refreshed weekly. MoSPI's reuse terms still need checking (decision 10).
+
 ## Rajasthan bye-elections since 2023
 
 Nine seats have voted again since 2023: Bagidora (April 2024), seven seats (November 2024) and Anta (November 2025). CEO Rajasthan publishes their returns (Form 21E) and Bagidora's result gazette only as scanned images, so they are transcribed by hand in `extractions/rajasthan-bye-elections-2024-2025.json`. Each entry records the PDF's SHA-256, page, every candidate row and the totals.
