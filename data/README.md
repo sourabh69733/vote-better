@@ -230,6 +230,12 @@ Assembly seats are keyed by number and name, as ECI writes them ("42-Shahpura"),
 
 Each work gets the furthest step it reached: recommended (the MP asked for it), sanctioned (the district approved it) or completed (the implementing agency marked it done). No one has checked a work on the ground, so the site shows no such step. eSAKSHI began on 1 April 2023, so works before that are not in it. The feed is sent as Latin-1, so Hindi work descriptions arrive as question marks; those are dropped and the activity name is shown instead. On 2026-11-01 it held 70 works for Manju Sharma (17 completed) and 107 for Rao Rajendra Singh (10 completed). The sync source is `mospi-mplads-works`, refreshed weekly. MoSPI's reuse terms still need checking (decision 10).
 
+## Candidates during a poll
+
+The `eci-nominations-<election>` sources read ECI's candidate affidavit portal (affidavit.eci.gov.in) for one election in the site calendar. For each seat they read every nomination paper with its status (filed, accepted, rejected, withdrawn) and the portal's final contesting list, which gives the ballot order. Papers with the same name and party are one candidate. A list whose card count differs from the portal's own counter, or that changes while it is read, fails the run. Each seat's file goes to `web/records/imported/nominations/<election>.json`; raw pages go to the blob store under `eci-nominations/`.
+
+To follow a new election, add it to `NOMINATION_TARGETS` in `src/eci-nominations.ts` with the codes from the portal's drop-downs, once ECI has announced it and the portal lists it. The source runs once, then every three hours from the election's announcement to its last poll day (the poll window, taken from `web/records/elections.ts`), so the hourly workflow picks it up. Only names, parties and status are published; affidavit contents wait on decision 6.
+
 ## Rajasthan bye-elections since 2023
 
 Nine seats have voted again since 2023: Bagidora (April 2024), seven seats (November 2024) and Anta (November 2025). CEO Rajasthan publishes their returns (Form 21E) and Bagidora's result gazette only as scanned images, so they are transcribed by hand in `extractions/rajasthan-bye-elections-2024-2025.json`. Each entry records the PDF's SHA-256, page, every candidate row and the totals.

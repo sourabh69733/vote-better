@@ -16,6 +16,7 @@ import { importSansadBiography } from "./import-sansad-biography.js";
 import { importSansadMembers } from "./import-sansad-members.js";
 import { listCollectedBiographyIds } from "./profile-draft.js";
 import { collectWorks } from "./mplads-works.js";
+import { buildPublication, collectNominations, NOMINATION_TARGETS, portalFetcher, writePublication } from "./eci-nominations.js";
 import { collectDebates } from "./sansad-debates.js";
 import { collectQuestionArchive } from "./sansad-question-archive.js";
 import { CivicStore } from "./store.js";
@@ -147,6 +148,27 @@ export const registry: SourceDefinition[] = [
       };
     },
   },
+  ...NOMINATION_TARGETS.map((target): SourceDefinition => ({
+    id: `eci-nominations-${target.electionId}`,
+    title: `Candidates and nominations: ${target.title}`,
+    owner: "Election Commission of India",
+    url: "https://affidavit.eci.gov.in/",
+    format: "html",
+    refreshDays: null,
+    pollWindow: { electionId: target.electionId, everyHours: 3 },
+    reuse: { status: "to-confirm", note: "ECI calls the portal's list tentative; the returning officer's list is final. Names, parties and status only; affidavit contents wait on decision 6." },
+    supplies: ["candidacy.nomination", "candidacy.status", "candidacy.ballotNumber"],
+    review: "file-export",
+    timeoutMinutes: 180,
+    async run({ log }) {
+      const seats = await collectNominations(portalFetcher(openBlobStore(`eci-nominations/${target.electionId}/`)), target);
+      const changed = await writePublication(buildPublication(target, seats, new Date().toISOString().slice(0, 10)));
+      const candidates = seats.reduce((sum, seat) => sum + seat.candidates.length, 0);
+      const contesting = seats.reduce((sum, seat) => sum + seat.candidates.filter((candidate) => candidate.status === "contesting").length, 0);
+      log(changed ? "list changed; file rewritten" : "no change since the last check");
+      return { outcome: "succeeded", items: candidates, detail: `${seats.length} seats, ${candidates} candidates, ${contesting} contesting` };
+    },
+  })),
   {
     id: "rajasthan-form21e-jaipur",
     title: "Jaipur 2024 return of election (Form 21E)",
