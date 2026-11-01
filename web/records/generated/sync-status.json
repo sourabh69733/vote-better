@@ -46,6 +46,15 @@
       "failing": false
     },
     {
+      "id": "eci-nominations-bye-elections-october-2026",
+      "title": "Candidates and nominations: bye-elections, October 2026",
+      "owner": "Election Commission of India",
+      "url": "https://affidavit.eci.gov.in/",
+      "refreshDays": null,
+      "lastChecked": "2026-11-01",
+      "failing": false
+    },
+    {
       "id": "rajasthan-form21e-jaipur",
       "title": "Jaipur 2024 return of election (Form 21E)",
       "owner": "Chief Electoral Officer, Rajasthan",
