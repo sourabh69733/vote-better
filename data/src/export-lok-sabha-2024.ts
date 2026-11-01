@@ -147,18 +147,22 @@ export function buildLokSabha2024Bundle(publication: Publication, references: Re
   };
 }
 
+export async function exportLokSabha2024(pool: pg.Pool): Promise<string> {
+  const published = await publishPendingResults(pool);
+  const blobs = new LocalBlobStore(fileURLToPath(new URL("../raw/eci-2024/blobs/", import.meta.url)));
+  const bundle = buildLokSabha2024Bundle(await loadPublication(pool, ECI_GE2024_DETAILED_RESULT_URL), await loadReferences(pool, blobs));
+  const temporary = `${target}.tmp`;
+  await writeFile(temporary, `${JSON.stringify(bundle)}\n`, { flag: "w" });
+  await rename(temporary, target);
+  const candidates = bundle.seats.reduce((sum, seat) => sum + seat.candidates.length, 0);
+  return `Lok Sabha 2024 written: ${bundle.seats.length} seats, ${candidates} candidates, ${published} newly published, ${bundle.checks.runnerUpNameVariants.length} runner-up name variant(s).`;
+}
+
 async function main(): Promise<void> {
   const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL ?? "postgres://vote_better:local_dev_only@127.0.0.1:55432/vote_better" });
   try {
     await migrate(pool);
-    const published = await publishPendingResults(pool);
-    const blobs = new LocalBlobStore(fileURLToPath(new URL("../raw/eci-2024/blobs/", import.meta.url)));
-    const bundle = buildLokSabha2024Bundle(await loadPublication(pool, ECI_GE2024_DETAILED_RESULT_URL), await loadReferences(pool, blobs));
-    const temporary = `${target}.tmp`;
-    await writeFile(temporary, `${JSON.stringify(bundle)}\n`, { flag: "w" });
-    await rename(temporary, target);
-    const candidates = bundle.seats.reduce((sum, seat) => sum + seat.candidates.length, 0);
-    process.stdout.write(`Lok Sabha 2024 written: ${bundle.seats.length} seats, ${candidates} candidates, ${published} newly published, ${bundle.checks.runnerUpNameVariants.length} runner-up name variant(s).\n`);
+    process.stdout.write(`${await exportLokSabha2024(pool)}\n`);
   } finally {
     await pool.end();
   }

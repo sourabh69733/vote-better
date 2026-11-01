@@ -32,6 +32,7 @@
     "export:jaipur": "node --import tsx src/export-jaipur.ts",
     "export:lok-sabha-2024": "node --import tsx src/export-lok-sabha-2024.ts",
     "export:elections": "node --import tsx src/export-elections.ts",
+    "export:all": "node --import tsx src/export-all.ts",
     "import:sansad-questions-all": "node --import tsx src/sansad-all-members-archive.ts",
     "import:mplads-works": "node --import tsx src/mplads-works.ts"
   },
