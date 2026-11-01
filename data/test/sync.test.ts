@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { after, before, test } from "node:test";
 
 import { registry, validateRegistry, type SourceDefinition } from "../src/registry.js";
-import { backoffMs, inDependencyOrder, isDue, lastRuns, runSource } from "../src/sync.js";
+import { backoffMs, inDependencyOrder, isDue, lastRuns, openPollWindows, runSource } from "../src/sync.js";
 import { createTestPool, prepareTestDatabase } from "./db.js";
 
 const pool = createTestPool();
@@ -29,6 +29,26 @@ test("a source is due until it completes, then again after its interval", () => 
   assert.equal(isDue({ refreshDays: 7 }, completed("2026-10-20T12:00:00.000Z"), now), false);
   assert.equal(isDue({ refreshDays: 7 }, completed("2026-10-18T12:00:00.000Z"), now), true);
   assert.equal(isDue({ refreshDays: null }, completed("2020-01-01T00:00:00.000Z"), now), false);
+});
+
+test("an election's sources are checked every few hours from its announcement to its last poll day", () => {
+  const calendar = [
+    { id: "open", name: "Open", body: "assembly" as const, announcedOn: "2027-01-10", lastPollOn: "2027-02-15" },
+    { id: "due", name: "Due", body: "assembly" as const },
+    { id: "polled", name: "Polled", body: "assembly" as const, announcedOn: "2026-09-07", lastPollOn: "2026-10-06" },
+  ];
+  // 20:00 UTC on 9 January is already 10 January in India.
+  assert.deepEqual([...openPollWindows(calendar, new Date("2027-01-09T20:00:00.000Z"))], ["open"]);
+  assert.deepEqual([...openPollWindows(calendar, new Date("2027-02-16T00:00:00.000Z"))], []);
+
+  const source = { refreshDays: null, pollWindow: { electionId: "open", everyHours: 3 } };
+  const now = new Date("2027-01-20T12:00:00.000Z");
+  const open = new Set(["open"]);
+  assert.equal(isDue(source, completed("2027-01-20T10:00:00.000Z"), now, open), false);
+  assert.equal(isDue(source, completed("2027-01-20T08:00:00.000Z"), now, open), true);
+  // Outside the window the archive rule applies: checked once, then only on request.
+  assert.equal(isDue(source, completed("2027-01-20T08:00:00.000Z"), now), false);
+  assert.throws(() => validateRegistry([fake("a", async () => ({ outcome: "succeeded", items: 0, detail: "" }), { pollWindow: { electionId: "x", everyHours: 0 } })]), /poll window/);
 });
 
 test("a failing source waits out a growing backoff before it is due again", () => {

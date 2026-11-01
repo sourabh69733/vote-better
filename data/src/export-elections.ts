@@ -35,11 +35,16 @@ export async function loadCalendar(path = calendarFile): Promise<CalendarElectio
   const module = await import(pathToFileURL(path).href) as { elections?: unknown };
   if (!Array.isArray(module.elections)) throw new Error("calendar file has no elections list");
   return module.elections.map((value: unknown) => {
-    const { id, name, body } = value as Record<string, unknown>;
-    if (typeof id !== "string" || typeof name !== "string" || (body !== "lok-sabha" && body !== "assembly" && body !== "bye-election")) {
+    const { id, name, body, announcedOn, polls } = value as Record<string, unknown>;
+    if (typeof id !== "string" || typeof name !== "string" || (body !== "lok-sabha" && body !== "assembly" && body !== "bye-election") || !Array.isArray(polls)) {
       throw new Error(`calendar record is malformed: ${JSON.stringify(value).slice(0, 120)}`);
     }
-    return { id, name, body };
+    const lastPollOn = (polls.at(-1) as { date?: unknown } | undefined)?.date;
+    return {
+      id, name, body,
+      ...(typeof announcedOn === "string" ? { announcedOn } : {}),
+      ...(typeof lastPollOn === "string" ? { lastPollOn } : {}),
+    };
   });
 }
 

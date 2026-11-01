@@ -5,7 +5,9 @@ name: Data sync
 
 on:
   schedule:
-    - cron: "30 1 * * *" # 07:00 IST daily; each source's refresh interval decides whether it runs
+    # Hourly; each source's refresh interval decides whether it runs. Most sources run daily or
+    # weekly; candidate lists run every few hours while an election is between announcement and polling.
+    - cron: "15 * * * *"
   workflow_dispatch:
 
 concurrency:
@@ -53,10 +55,18 @@ jobs:
         continue-on-error: true
         run: npm run sync -- --due 2>&1 | tee "$RUNNER_TEMP/sync.log"
 
+      # Most hours nothing is due; then there is nothing to export or report.
+      - name: Check whether anything ran
+        id: ran
+        run: |
+          if grep -q '^Nothing is due' "$RUNNER_TEMP/sync.log"; then echo "any=false" >> "$GITHUB_OUTPUT"; else echo "any=true" >> "$GITHUB_OUTPUT"; fi
+
       - name: Rebuild site data
+        if: steps.ran.outputs.any == 'true'
         run: npm run export:all 2>&1 | tee "$RUNNER_TEMP/export.log"
 
       - name: Write the pull request summary
+        if: steps.ran.outputs.any == 'true'
         run: |
           {
             echo "Changes found by the scheduled sync on $(date -u +%F). Check them before merging; merging publishes them."
@@ -72,6 +82,7 @@ jobs:
           } > "$RUNNER_TEMP/pr-body.md"
 
       - name: Open or update the data pull request
+        if: steps.ran.outputs.any == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
           # A token other than GITHUB_TOKEN lets CI run on the pull request; GITHUB_TOKEN works without it.
@@ -104,7 +115,7 @@ jobs:
           else gh issue create --title "Scheduled data sync failed" --label sync-failure --body-file "$RUNNER_TEMP/alert.md"; fi
 
       - name: Close the alert after a clean run
-        if: steps.sync.outcome == 'success' && success()
+        if: steps.sync.outcome == 'success' && steps.ran.outputs.any == 'true' && success()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |

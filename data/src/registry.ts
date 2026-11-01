@@ -55,6 +55,8 @@ export interface SourceDefinition {
   dependsOn?: string[];
   // Longest a run may take before the sync runner logs it as failed and moves on (default 90).
   timeoutMinutes?: number;
+  // From the election's announcement to its last poll day, check this often instead of refreshDays.
+  pollWindow?: { electionId: string; everyHours: number };
   run: (context: RunContext) => Promise<RunResult>;
 }
 
@@ -283,6 +285,7 @@ export function validateRegistry(sources: readonly SourceDefinition[] = registry
     if (!source.url.startsWith("https://")) throw new Error(`${source.id} needs an HTTPS URL`);
     if (source.refreshDays !== null && !(source.refreshDays > 0)) throw new Error(`${source.id} has an invalid refresh interval`);
     if (source.timeoutMinutes !== undefined && !(source.timeoutMinutes > 0)) throw new Error(`${source.id} has an invalid timeout`);
+    if (source.pollWindow && !(source.pollWindow.everyHours > 0)) throw new Error(`${source.id} has an invalid poll window interval`);
     if (source.reuse.status === "restricted") throw new Error(`${source.id} is restricted and must not be collected automatically`);
     if (!source.supplies.length) throw new Error(`${source.id} must declare the fields it supplies`);
   }

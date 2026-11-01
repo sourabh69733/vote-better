@@ -7,7 +7,7 @@ The production setup has four parts. None of them is a server we maintain.
 | Website | Vercel | Builds `web/` from `main`. Pages read JSON files committed under `web/records/`; there is no database call per page view. |
 | Database | Neon (Postgres) | Holds sources, snapshots, observations, review decisions, published facts and the sync run log. |
 | Raw files | Cloudflare R2 | Holds the hashed source files (`data/raw/`), so a sync on a fresh machine can read what earlier runs saved. |
-| Sync | GitHub Actions | `.github/workflows/sync.yml` runs daily: `sync --due`, then `export:all`, then one pull request with the changes. |
+| Sync | GitHub Actions | `.github/workflows/sync.yml` runs hourly: `sync --due`, then, if anything ran, `export:all` and one pull request with the changes. |
 
 Nothing reaches the site until a person merges the data pull request.
 
@@ -51,7 +51,7 @@ Under **Settings → Secrets and variables → Actions**, add:
 
 Under **Settings → Actions → General**, turn on **Allow GitHub Actions to create and approve pull requests**.
 
-Scheduled workflows run only from the default branch, so the daily sync starts once `sync.yml` is on `main`. To try it before then, open **Actions → Data sync → Run workflow**.
+Scheduled workflows run only from the default branch, so the scheduled sync starts once `sync.yml` is on `main`. To try it before then, open **Actions → Data sync → Run workflow**.
 
 ## 4. Website (Vercel)
 

@@ -2,6 +2,8 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
 
+import type { CalendarElection } from "./elections/link.js";
+import { loadCalendar } from "./export-elections.js";
 import { migrate } from "./migrate.js";
 import { registry, validateRegistry, type RunResult, type SourceDefinition } from "./registry.js";
 import { CivicStore } from "./store.js";
@@ -17,6 +19,7 @@ export type RunOutcome = (RunResult & { timedOut?: boolean }) | { outcome: "skip
 
 const HOUR_MS = 3_600_000;
 const DAY_MS = 86_400_000;
+const IST_OFFSET_MS = 5.5 * HOUR_MS;
 export const DEFAULT_TIMEOUT_MINUTES = 90;
 export const MAX_BACKOFF_MS = 7 * DAY_MS;
 
@@ -45,14 +48,27 @@ export function backoffMs(consecutiveFailures: number): number {
   return Math.min(2 ** (consecutiveFailures - 1) * HOUR_MS, MAX_BACKOFF_MS);
 }
 
+// Elections between their announcement and their last poll day (India time), when candidate lists change.
+export function openPollWindows(calendar: readonly CalendarElection[], now = new Date()): Set<string> {
+  const today = new Date(now.getTime() + IST_OFFSET_MS).toISOString().slice(0, 10);
+  return new Set(calendar
+    .filter((election) => election.announcedOn && election.lastPollOn && election.announcedOn <= today && today <= election.lastPollOn)
+    .map((election) => election.id));
+}
+
 // A source is due when it has never completed, or when its refresh interval has passed since
 // the last completed run. Fixed archives (no interval) are due only until they first complete.
+// A source tied to an election uses its shorter poll window interval while that window is open.
 // A source whose recent runs failed waits out its backoff before it is due again.
-export function isDue(source: Pick<SourceDefinition, "refreshDays">, history: RunHistory | undefined, now = new Date()): boolean {
+export function isDue(
+  source: Pick<SourceDefinition, "refreshDays" | "pollWindow">, history: RunHistory | undefined, now = new Date(), openWindows: ReadonlySet<string> = new Set(),
+): boolean {
   if (history?.last?.outcome === "failed" && now.getTime() - Date.parse(history.last.finishedAt) < backoffMs(history.consecutiveFailures)) return false;
   if (!history?.lastCompleted) return true;
+  const since = now.getTime() - Date.parse(history.lastCompleted);
+  if (source.pollWindow && openWindows.has(source.pollWindow.electionId)) return since >= source.pollWindow.everyHours * HOUR_MS;
   if (source.refreshDays === null) return false;
-  return now.getTime() - Date.parse(history.lastCompleted) >= source.refreshDays * DAY_MS;
+  return since >= source.refreshDays * DAY_MS;
 }
 
 // Sources come before anything that depends on them.
@@ -134,6 +150,7 @@ async function main(args: string[]): Promise<void> {
   try {
     await migrate(pool);
     const runs = await lastRuns(pool);
+    const windows = openPollWindows(await loadCalendar());
     const dryRun = args.includes("--dry-run");
     const names = args.filter((arg) => !arg.startsWith("--"));
 
@@ -142,9 +159,9 @@ async function main(args: string[]): Promise<void> {
         ["SOURCE", "EVERY", "REUSE", "REVIEW", "LAST RUN", "LAST OK", "FAILS", "DUE"],
         ...registry.map((source) => {
           const run = runs.get(source.id);
-          return [source.id, source.refreshDays === null ? "archive" : `${source.refreshDays}d`, source.reuse.status, source.review,
+          return [source.id, `${source.refreshDays === null ? "archive" : `${source.refreshDays}d`}${source.pollWindow ? (windows.has(source.pollWindow.electionId) ? ` (poll: ${source.pollWindow.everyHours}h)` : " (poll)") : ""}`, source.reuse.status, source.review,
             run?.last ? `${run.last.finishedAt.slice(0, 16)} ${run.last.outcome}` : "never", run?.lastCompleted?.slice(0, 10) ?? "-",
-            String(run?.consecutiveFailures ?? 0), isDue(source, run) ? "yes" : "no"];
+            String(run?.consecutiveFailures ?? 0), isDue(source, run, new Date(), windows) ? "yes" : "no"];
         }),
       ])}\n\nRun: npm run sync -- --due   or   npm run sync -- <source-id> ...\n`);
       return;
@@ -154,7 +171,7 @@ async function main(args: string[]): Promise<void> {
     if (unknown.length) throw new Error(`unknown source: ${unknown.join(", ")}`);
     const selected = names.length
       ? registry.filter((source) => names.includes(source.id))
-      : registry.filter((source) => isDue(source, runs.get(source.id)));
+      : registry.filter((source) => isDue(source, runs.get(source.id), new Date(), windows));
     const ordered = inDependencyOrder(selected, registry);
     if (!ordered.length) { process.stdout.write("Nothing is due.\n"); return; }
 

@@ -99,7 +99,7 @@ Rules: no MyNeta or PRS scraping without written consent; every adapter declares
 ## Sync: from source to screen
 
 ```
-registry ──sync --due (daily cron, hourly in poll window)──> snapshots ──adapters──> observations
+registry ──sync --due (hourly cron; every 3 hours in a poll window)──> snapshots ──adapters──> observations
    ──batch or per-fact review──> approved facts ──export──> web/records/generated/*.json
    ──pull request with diff──> merge ──> build ──> site (ISR 1h; counting day: 1 min)
 ```

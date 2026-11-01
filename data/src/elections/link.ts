@@ -8,7 +8,14 @@ import { slugify } from "../normalize/eci-ge2024-detailed-result.js";
 // Lok Sabha and assembly seats are separate areas even when they share a name, such as Jhunjhunu.
 
 export type ElectionBody = "lok-sabha" | "assembly" | "bye-election";
-export interface CalendarElection { id: string; name: string; body: ElectionBody }
+export interface CalendarElection {
+  id: string;
+  name: string;
+  body: ElectionBody;
+  // YYYY-MM-DD; absent until ECI announces the schedule.
+  announcedOn?: string;
+  lastPollOn?: string;
+}
 export interface ResultSource { electionId: string; url: string }
 
 export interface LinkSummary {
