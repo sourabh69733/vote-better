@@ -145,7 +145,7 @@ Source chips everywhere. A coverage page per area and per person listing what is
 | Phase | Build | Done when |
 | --- | --- | --- |
 | A. Election as entity (done 2026-10-31) | `election`, `contest`, `seat` entities in the data layer; calendar records import into them; `/elections/[id]` page; 2024 results attached; 2019 and 2014 published | A Jaipur voter opens the 2024 election page and reaches their seat and winner |
-| B. Unattended sync | Scheduled `sync --due`, hosting, alerts, PR publish, single bundle exporter | A week passes with no manual run and the site shows updated "checked on" dates |
+| B. Unattended sync (scheduled sync, export, data PR and alerts built 2026-11-01; waits on Neon, R2 and Vercel setup, see `docs/operations/deploy.md`) | Scheduled `sync --due`, hosting, alerts, PR publish, single bundle exporter | A week passes with no manual run and the site shows updated "checked on" dates |
 | C. Area first (built 2026-11-01 for Rajasthan; PIN search waits on decision 8) | PIN and map to PC and AC; assembly seats for Rajasthan; area home with three cards and coverage | A Jaipur PIN shows the MP and MLA with sources |
 | D. Deep profiles (questions for all MPs built 2026-11-01, local only) | Affidavit adapter for 2024 winners, then all 2024 candidates; Sansad work for all MPs; attendance; unified profile; office duties | Every sitting MP has a filing, work timeline and duties panel |
 | E. Candidates during a poll | Nomination adapter (ECI candidate lists), comparison page, poll-window scheduling | Tested end to end on the first announced election after launch (2027 round) |
@@ -198,7 +198,7 @@ These are targets, not commitments.
 1. Confirm Rajasthan and Jaipur as the first state and city.
 2. Approve the badge vocabulary for outcomes. MPLADS uses recommended, sanctioned and completed, each naming who acted; a verified step waits for real ground checks.
 3. Approve quests as the only gamification, with no scores for people.
-4. Pick a host for Postgres, blobs and the site before phase B.
+4. Hosts picked 2026-11-01: Vercel for the site, Neon for Postgres, Cloudflare R2 for raw files, GitHub Actions for the sync. Data reaches the site through a pull request a person merges. Accounts still need creating.
 5. Decide Digital Sansad reuse (still open from the national plan).
 6. Legal review of affidavit republication (public record, but personal data) before phase D publishes filings.
 7. Set up the Instagram account and a short web address, and get legal advice on posting rules during polls, before phase H1 goes live.
