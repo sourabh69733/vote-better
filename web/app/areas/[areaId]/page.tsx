@@ -5,6 +5,8 @@ import { getAreaOverview, listAreaOverviews } from "@/lib/civic-area";
 import { ResultCoverage } from "@/components/ResultCoverage";
 import { ElectionResult } from "@/components/ElectionResult";
 import { getAreaElectionResult } from "@/lib/publication";
+import { FundSummary } from "@/components/profile/FundWorks";
+import { firstWithFunds } from "@/lib/mp-funds";
 
 interface PageProps {
   params: Promise<{ areaId: string }>;
@@ -25,11 +27,12 @@ export default async function AreaPage({ params }: PageProps) {
   const overview = getAreaOverview(areaId);
   if (!overview) notFound();
   const hasElectionResult = getAreaElectionResult(overview.area.id) !== null;
+  const fund = firstWithFunds(overview.links.map((link) => link.person));
 
   return (
     <div className="mx-auto w-full max-w-[1320px] px-4 pb-14 pt-8 sm:px-6 sm:pt-12 lg:px-8">
       <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-[#687c6e]">
-        <Link href="/" className="font-semibold text-[#277050] hover:underline">Areas</Link>
+        <Link href="/" className="font-semibold text-[#277050] hover:underline">Home</Link>
         <span aria-hidden="true">/</span>
         <span>{overview.area.name}</span>
       </nav>
@@ -95,6 +98,8 @@ export default async function AreaPage({ params }: PageProps) {
           </Link>
         </aside>
       </div>
+
+      {fund && <FundSummary funds={fund.funds} name={fund.person.name} className="mt-10" />}
 
       <div className={`mt-10 grid items-start gap-6 ${hasElectionResult ? "lg:grid-cols-[minmax(0,1fr)_340px]" : ""}`}>
         <ElectionResult areaId={overview.area.id} />

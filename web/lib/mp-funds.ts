@@ -66,3 +66,12 @@ export type MpFunds = NonNullable<ReturnType<typeof summarizeFunds>>;
 export function getMpFunds(personId: string) {
   return summarizeFunds(imported as FundPublication, personId);
 }
+
+// The first of an area's office holders whose fund works have been collected.
+export function firstWithFunds<P extends { slug: string }>(people: P[]) {
+  for (const person of people) {
+    const funds = getMpFunds(person.slug);
+    if (funds) return { person, funds };
+  }
+  return null;
+}

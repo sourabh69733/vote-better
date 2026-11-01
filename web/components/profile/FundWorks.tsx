@@ -42,6 +42,33 @@ function WorkItem({ work }: { work: FundWork }) {
   );
 }
 
+// A short version for seat and area pages; the full list stays on the MP's profile.
+export function FundSummary({ funds, name, className = "" }: { funds: MpFunds; name: string; className?: string }) {
+  return (
+    <section className={`rounded-[24px] border border-line bg-surface p-5 sm:p-6 ${className}`} aria-labelledby="fund-summary-heading">
+      <p className="text-[11px] font-extrabold uppercase tracking-[0.14em] text-eyebrow">MP fund (MPLADS)</p>
+      <h2 id="fund-summary-heading" className="mt-2 text-xl font-semibold tracking-[-0.03em] text-ink">What {name}&apos;s MP fund is paying for</h2>
+      <dl className="mt-4 grid grid-cols-3 gap-4">
+        {[
+          ["Asked for", String(funds.totals.recommended.count), rupees(funds.totals.recommended.amount)],
+          ["Marked done", String(funds.reached.completed), "by the agency"],
+          ["Paid out", rupees(funds.paid), `of ${rupees(funds.allocated)}`],
+        ].map(([label, value, note]) => (
+          <div key={label}>
+            <dt className="text-[13px] text-muted">{label}</dt>
+            <dd className="whitespace-nowrap text-xl font-semibold tabular-nums tracking-[-0.03em] text-ink sm:text-2xl">{value}</dd>
+            <dd className="text-xs text-subtle">{note}</dd>
+          </div>
+        ))}
+      </dl>
+      <p className="mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-sm">
+        <a href={`/people/${funds.personId}#funds`} className="font-semibold text-link underline underline-offset-4">See every work and its status →</a>
+        <span className="text-xs text-subtle">{funds.source.title} · collected {formatDay(funds.collectedOn)}</span>
+      </p>
+    </section>
+  );
+}
+
 // Works paid for from the MP's local area fund, shown as steps: each badge says who acted.
 export default function FundWorks({ funds }: { funds: MpFunds }) {
   const total = funds.works.length;

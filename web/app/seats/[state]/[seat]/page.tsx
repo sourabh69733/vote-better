@@ -3,8 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import SeatResult from "@/components/election/SeatResult";
+import { FundSummary } from "@/components/profile/FundWorks";
 import { ButtonLink } from "@/components/ui";
 import { listAreaOverviews } from "@/lib/civic-area";
+import { firstWithFunds } from "@/lib/mp-funds";
 import { candidateHref, findSeat, requireResults, seatWinner } from "@/lib/results";
 
 interface PageProps { params: Promise<{ state: string; seat: string }> }
@@ -30,6 +32,7 @@ export default async function SeatPage({ params }: PageProps) {
   const winner = seat.candidates[0];
   // Curated areas add the office holder's work. Match them by seat name and state.
   const curated = listAreaOverviews().find(({ area }) => area.name.toLowerCase() === seat.name.toLowerCase() && area.state === seat.state);
+  const fund = curated && firstWithFunds(curated.links.map((link) => link.person));
 
   return (
     <SeatResult
@@ -40,12 +43,13 @@ export default async function SeatPage({ params }: PageProps) {
         {winner && <ButtonLink href={candidateHref(seat, winner)}>See profile <span aria-hidden="true">→</span></ButtonLink>}
         <ButtonLink href={`/share/seat/lok-sabha-2024/${seat.stateSlug}/${seat.slug}`}>Share on Instagram</ButtonLink>
       </>}
-      aside={curated && (
+      aside={curated && (<>
         <Link href={`/areas/${curated.area.id}`} className="mt-4 flex items-center justify-between gap-4 rounded-2xl border border-line-strong bg-tint p-5 text-sm font-semibold text-link hover:bg-track">
           <span>See checked records for {seat.name}: office holder, parliamentary work and filings.</span>
           <span aria-hidden="true">→</span>
         </Link>
-      )}
+        {fund && <FundSummary funds={fund.funds} name={fund.person.name} className="mt-4" />}
+      </>)}
     />
   );
 }
