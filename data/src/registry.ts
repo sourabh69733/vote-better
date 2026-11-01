@@ -15,6 +15,7 @@ import { importJaipurForm21E } from "./import-jaipur.js";
 import { importSansadBiography } from "./import-sansad-biography.js";
 import { importSansadMembers } from "./import-sansad-members.js";
 import { listCollectedBiographyIds } from "./profile-draft.js";
+import { collectWorks } from "./mplads-works.js";
 import { collectDebates } from "./sansad-debates.js";
 import { collectQuestionArchive } from "./sansad-question-archive.js";
 import { CivicStore } from "./store.js";
@@ -232,6 +233,23 @@ export const registry: SourceDefinition[] = [
       const publication = await collectDebates(webImport("lok-sabha-18-debates.json"), await questionTargets());
       const records = publication.members.reduce((sum, member) => sum + member.totalRecords, 0);
       return { outcome: "succeeded", items: records, detail: `${publication.members.length} members, ${records} records` };
+    },
+  },
+  {
+    id: "mospi-mplads-works",
+    title: "MP Local Area Development Scheme works for tracked members",
+    owner: "Ministry of Statistics and Programme Implementation, eSAKSHI",
+    url: "https://mplads.mospi.gov.in/digigov/dashboard.html",
+    format: "json",
+    refreshDays: 7,
+    reuse: { status: "to-confirm", note: "Content owned by MoSPI; its reuse policy is not linked from the dashboard and still needs checking." },
+    supplies: ["outcome.fundWork"],
+    review: "file-export",
+    async run() {
+      const targets = JSON.parse(await readFile(config("mplads-targets.json"), "utf8"));
+      const publication = await collectWorks(targets, webImport("mplads-works.json"), raw("mplads"));
+      const works = publication.members.reduce((sum, member) => sum + member.works.length, 0);
+      return { outcome: "succeeded", items: works, detail: `${publication.members.length} members, ${works} works` };
     },
   },
   {
