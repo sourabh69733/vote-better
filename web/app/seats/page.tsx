@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { Eyebrow } from "@/components/ui";
 import { candidateHref, ELECTION_INFO, ordinal, requireResults, RESULT_ELECTIONS, searchSeats, seatHref, seatWinner, statesOf, yearOf, type SeatMatch } from "@/lib/results";
+import { pinLookupAvailable } from "@/lib/my-area";
 import { partyColor } from "@/lib/party-colors";
 
 export const metadata: Metadata = {
@@ -50,6 +52,9 @@ function MatchRow({ match }: { match: SeatMatch }) {
 export default async function SeatsPage({ searchParams }: PageProps) {
   const params = await searchParams;
   const query = typeof params.q === "string" ? params.q.trim().slice(0, 80) : "";
+  // The home search box takes a PIN too; send it to the my-area page when PIN lookup is available.
+  const isPin = /^\d{6}$/.test(query);
+  if (isPin && pinLookupAvailable()) redirect(`/my-area?pin=${query}`);
   const latest = requireResults("lok-sabha-2024");
   const matches = query ? searchSeats(query) : [];
 
@@ -69,7 +74,7 @@ export default async function SeatsPage({ searchParams }: PageProps) {
 
       {query ? (
         <section className="mt-8" aria-live="polite">
-          <p className="text-sm text-muted">{matches.length ? `${matches.length} ${matches.length === 1 ? "seat matches" : "seats match"} "${query}"` : `No seat, state or candidate matches "${query}". Check the spelling or try part of the name.`}</p>
+          <p className="text-sm text-muted">{matches.length ? `${matches.length} ${matches.length === 1 ? "seat matches" : "seats match"} "${query}"` : isPin ? "Search by PIN code is not available yet. Type your constituency or town instead." : `No seat, state or candidate matches "${query}". Check the spelling or try part of the name.`}</p>
           <ul className="mt-4 grid gap-2 sm:grid-cols-2">
             {matches.map((match) => <MatchRow key={`${match.seat.stateSlug}/${match.seat.slug}`} match={match} />)}
           </ul>

@@ -6,6 +6,7 @@ import { requireResults } from "@/lib/results";
 export default function Home() {
   const areas = listAreaOverviews();
   const seatCount = requireResults("lok-sabha-2024").seats.length;
+  const pin = pinLookupAvailable();
 
   return (
     <div className="mx-auto w-full max-w-[1320px] px-4 pb-14 pt-10 sm:px-6 sm:pt-16 lg:px-8">
@@ -17,31 +18,18 @@ export default function Home() {
           </h1>
         </div>
         <div className="grid gap-3 lg:pb-2">
-          {pinLookupAvailable() && (
-            <form action="/my-area" method="get" role="search" className="rounded-[24px] border border-you bg-you-soft p-5">
-              <label htmlFor="home-pin" className="text-sm font-bold text-ink">Your MP and MLA from your PIN code <span className="font-normal text-muted">· preview, Rajasthan</span></label>
-              <div className="mt-3 flex gap-2">
-                <input id="home-pin" name="pin" inputMode="numeric" pattern="[0-9]{6}" maxLength={6} placeholder="e.g. 302017" autoComplete="postal-code"
-                  className="min-h-12 min-w-0 flex-1 rounded-xl border border-line-strong bg-surface px-4 text-base tracking-[0.08em] text-ink focus:border-link focus:outline-none focus:ring-4 focus:ring-link/10" />
-                <button type="submit" className="min-h-12 rounded-xl bg-you px-5 text-sm font-bold text-white hover:opacity-90">Show</button>
-              </div>
-            </form>
-          )}
+          {/* One box: a six-digit PIN goes on to the my-area page, anything else searches seats and people. */}
           <form action="/seats" method="get" role="search" className="rounded-[24px] border border-[#dce6dc] bg-white p-5 shadow-[0_12px_36px_rgba(28,64,40,.07)]">
-            <label htmlFor="home-seat-search" className="text-sm font-bold text-[#19372d]">Find your MP and everyone who contested</label>
+            <label htmlFor="home-seat-search" className="text-sm font-bold text-[#19372d]">{pin ? "Find your MP and MLA" : "Find your MP and everyone who contested"}</label>
             <div className="mt-3 flex gap-2">
-              <input id="home-seat-search" name="q" placeholder="Your constituency, state or a name" autoComplete="off"
+              <input id="home-seat-search" name="q" placeholder={pin ? "PIN, constituency or name" : "Your constituency, state or a name"} autoComplete="off"
                 className="min-h-12 min-w-0 flex-1 rounded-xl border border-[#bfd3c3] bg-white px-4 text-base text-[#18372b] focus:border-[#28724f] focus:outline-none focus:ring-4 focus:ring-[#2a7658]/10" />
               <button type="submit" className="min-h-12 rounded-xl bg-[#1c6047] px-5 text-sm font-bold text-white hover:bg-[#154c38]">Search</button>
             </div>
             <p className="mt-3 text-sm text-[#66796d]">
-              All {seatCount} Lok Sabha seats from the 2024 election, from official ECI records. <Link href="/seats" className="font-semibold text-[#286b4e] underline underline-offset-4">Browse by state</Link> or see <Link href="/elections" className="font-semibold text-[#286b4e] underline underline-offset-4">which elections are coming up</Link>.
+              All {seatCount} Lok Sabha seats from the 2024 election, from official ECI records{pin ? ". PIN codes work for Rajasthan, as a preview" : ""}. <Link href="/seats" className="font-semibold text-[#286b4e] underline underline-offset-4">Browse by state</Link> or see <Link href="/elections" className="font-semibold text-[#286b4e] underline underline-offset-4">which elections are coming up</Link>.
             </p>
           </form>
-          {process.env.NODE_ENV === "development" && <Link href="/mps" className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-[#286b4e] underline underline-offset-4">Browse MP profiles</Link>}
-          {process.env.NODE_ENV === "development" && <Link href="/research/pin" className="ml-4 mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-[#286b4e] underline underline-offset-4">
-            Try PIN research preview
-          </Link>}
         </div>
       </header>
 
