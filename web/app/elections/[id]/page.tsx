@@ -3,11 +3,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import MarginStrip from "@/components/election/MarginStrip";
+import { NominationSeats } from "@/components/election/NominationSeat";
 import ScheduleTimeline from "@/components/election/ScheduleTimeline";
 import SeatFilter from "@/components/election/SeatFilter";
 import { Breadcrumb, Eyebrow, NotCollected } from "@/components/ui";
 import { BODY_LABEL, STATUS_LABEL, electionStatus, formatDay, todayIso, type Election } from "@/lib/elections";
 import { seatHref, electionTotals, formatNumber, formatShort, isResultElection, loadResults, type ElectionResults, marginsInState, seatWinner, statesOf } from "@/lib/results";
+import { loadNominations } from "@/lib/nominations";
 import { partyColor } from "@/lib/party-colors";
 import { elections } from "@/records/elections";
 
@@ -127,6 +129,7 @@ export default async function ElectionPage({ params }: PageProps) {
   const today = todayIso();
   const status = electionStatus(election, today);
   const results = isResultElection(election.id) ? loadResults(election.id) : undefined;
+  const nominations = results ? undefined : loadNominations(election.id);
 
   return (
     <div className="mx-auto w-full max-w-[1100px] px-4 pb-14 pt-8 sm:px-6 sm:pt-12 lg:px-8">
@@ -159,6 +162,7 @@ export default async function ElectionPage({ params }: PageProps) {
         {election.note && <p className="mt-4 text-sm leading-6 text-body">{election.note}</p>}
       </section>
 
+      {nominations && <NominationSeats electionId={election.id} nominations={nominations} />}
       {results ? <Results election={election} results={results} /> : status === "counted" && (
         <NotCollected title="Results not collected on this site yet." className="mt-8">
           {election.resultsUrl ? <a href={election.resultsUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-link underline">See them on the ECI results site ↗</a> : "They are on the Election Commission's results site."}
