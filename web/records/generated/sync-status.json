@@ -55,6 +55,15 @@
       "failing": false
     },
     {
+      "id": "eci-affidavits-jaipur-2024",
+      "title": "Candidate affidavits: Jaipur and Jaipur Rural, 2024",
+      "owner": "Election Commission of India",
+      "url": "https://affidavit.eci.gov.in/",
+      "refreshDays": null,
+      "lastChecked": "2026-11-02",
+      "failing": false
+    },
+    {
       "id": "rajasthan-form21e-jaipur",
       "title": "Jaipur 2024 return of election (Form 21E)",
       "owner": "Chief Electoral Officer, Rajasthan",

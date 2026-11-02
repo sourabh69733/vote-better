@@ -236,6 +236,27 @@ The `eci-nominations-<election>` sources read ECI's candidate affidavit portal (
 
 To follow a new election, add it to `NOMINATION_TARGETS` in `src/eci-nominations.ts` with the codes from the portal's drop-downs, once ECI has announced it and the portal lists it. The source runs once, then every three hours from the election's announcement to its last poll day (the poll window, taken from `web/records/elections.ts`), so the hourly workflow picks it up. Only names, parties and status are published; affidavit contents wait on decision 6.
 
+## Candidate affidavits
+
+`npm --prefix data run sync -- eci-affidavits-jaipur-2024` collects the Form 26 affidavits of every candidate in the seats listed in `AFFIDAVIT_SEATS` in `src/eci-affidavits.ts`. It runs only when named, never on the schedule. For each candidate it:
+
+- keeps the scan in the private blob store under `eci-affidavits/`;
+- saves the age typed on the portal as a `filing.age` draft for review;
+- finds the page where the abstract (Part B) starts, and lists it in a worklist under ignored `data/raw/affidavits/`.
+
+It needs `pdfinfo` and `pdftoppm` (`brew install poppler`), `tesseract`, and Tesseract's Hindi model, because most Rajasthan filings are in Hindi:
+
+```sh
+mkdir -p data/tessdata
+for language in hin eng; do curl -L -o "data/tessdata/$language.traineddata" "https://github.com/tesseract-ocr/tessdata_fast/raw/main/$language.traineddata"; done
+```
+
+OCR only finds the page. It reads no figure as a value. In a test on the 13 Jaipur 2024 filings, on 2 November 2026, assets read by Tesseract from the abstract's table matched the hand-checked totals in none of 10 cases, and it proposed false zeros and false criminal case counts. Hand-checked assets equal movable plus immovable current value across self, spouse and dependents, and liabilities equal the undisputed rows.
+
+On 28 filings from Jaipur and Jaipur Rural, OCR found the abstract in 25; a person looks through the other 3. A filing whose heading is unreadable is found by its asset table and starts one page early. Portal age matched the hand-checked age in 11 of 12 Jaipur filings; Shashank Singh Arya is 34 on the portal and 36 in the hand-checked record, which still needs checking against the affidavit.
+
+Scans average about 6 MB. Nothing here reaches the site until decision 6.
+
 ## Rajasthan bye-elections since 2023
 
 Nine seats have voted again since 2023: Bagidora (April 2024), seven seats (November 2024) and Anta (November 2025). CEO Rajasthan publishes their returns (Form 21E) and Bagidora's result gazette only as scanned images, so they are transcribed by hand in `extractions/rajasthan-bye-elections-2024-2025.json`. Each entry records the PDF's SHA-256, page, every candidate row and the totals.

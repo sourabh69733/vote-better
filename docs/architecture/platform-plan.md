@@ -32,7 +32,7 @@ Everything below serves these six screens. Nothing is published that cannot be t
 | Seats and areas | 543 Lok Sabha seats, 2 Jaipur areas, PIN preview | Assembly seats, wards, boundaries, "find my area" |
 | Results | Lok Sabha 2024, 2019 and 2014 published and linked as contests and candidacies; each seat shows its history | Assembly results; reviewed aliases for renamed seats |
 | People | 8,359 candidate stubs, 540 MPs (local), 2 curated Jaipur profiles | MLAs, councillors; one profile system instead of two |
-| Declarations | Jaipur affidavits by hand | National affidavit adapter (PDF, OCR, review) |
+| Declarations | Jaipur affidavits by hand; scans, portal age and abstract page for Jaipur and Jaipur Rural 2024 (local) | A way to read the figures: OCR failed the Jaipur test, see `data/README.md` |
 | Work | Questions for all 544 MPs (local until decision 5), debates for 2 MPs | Attendance; committees; state assembly work |
 | Outcomes | MPLADS works with milestone badges for the 2 Jaipur MPs, on their profiles, seat pages and area pages | All MPs; MLALAD; ground checks; area timeline |
 | Pipeline | Registry, snapshots, observations, review, export, hardened runner, CI | Election entity, scheduled runs, alerting, hosting, PR publish |
@@ -84,7 +84,7 @@ All collection goes through the registry and the sync runner. Each row below bec
 | --- | --- | --- | --- | --- | --- |
 | 1 | ECI press notes (via PIB and eci.gov.in) | Election schedules | HTML/PDF | Daily; hourly during a poll | Curated, then adapter |
 | 1 | ECI results site and statistical reports | Contests, candidacies, votes | HTML, XLS | Archive per election; live on counting day | Batch per snapshot with totals check |
-| 1 | ECI affidavit portal (affidavit.eci.gov.in) | Filings per candidate | PDF, often scanned | Archive per election | OCR, then per-field review for winners first |
+| 1 | ECI affidavit portal (affidavit.eci.gov.in) | Filings per candidate | PDF, often scanned, often in Hindi | Archive per election | OCR locates the abstract page only; figures read from that page, then per-field review, winners first |
 | 2 | Digital Sansad members, biographies, questions, debates | MP identity, work | JSON | Daily in session, weekly otherwise | Batch; identity link review |
 | 2 | Lok Sabha attendance and committee lists | Attendance, committee roles | PDF/HTML | Per session | Batch |
 | 2 | MPLADS portal | Fund releases, works, status | Web tables | Monthly | Batch; outcomes per work review |
@@ -147,7 +147,7 @@ Source chips everywhere. A coverage page per area and per person listing what is
 | A. Election as entity (done 2026-10-31) | `election`, `contest`, `seat` entities in the data layer; calendar records import into them; `/elections/[id]` page; 2024 results attached; 2019 and 2014 published | A Jaipur voter opens the 2024 election page and reaches their seat and winner |
 | B. Unattended sync (scheduled sync, export, data PR and alerts built 2026-11-01; waits on Neon, R2 and Vercel setup, see `docs/operations/deploy.md`) | Scheduled `sync --due`, hosting, alerts, PR publish, single bundle exporter | A week passes with no manual run and the site shows updated "checked on" dates |
 | C. Area first (built 2026-11-01 for Rajasthan; PIN search waits on decision 8) | PIN and map to PC and AC; assembly seats for Rajasthan; area home with three cards and coverage | A Jaipur PIN shows the MP and MLA with sources |
-| D. Deep profiles (questions for all MPs built 2026-11-01, local only) | Affidavit adapter for 2024 winners, then all 2024 candidates; Sansad work for all MPs; attendance; unified profile; office duties | Every sitting MP has a filing, work timeline and duties panel |
+| D. Deep profiles (questions for all MPs built 2026-11-01, local only; affidavit scans, portal age and abstract pages collected for the two Jaipur seats 2026-11-02, reading the figures still open) | Affidavit adapter for 2024 winners, then all 2024 candidates; Sansad work for all MPs; attendance; unified profile; office duties | Every sitting MP has a filing, work timeline and duties panel |
 | E. Candidates during a poll (nomination adapter, seat candidate page and poll-window schedule built 2026-11-01, tried on the October 2026 bye-elections; affidavit fields wait on decision 6) | Nomination adapter (ECI candidate lists), comparison page, poll-window scheduling | Tested end to end on the first announced election after launch (2027 round) |
 | F. Outcomes (MPLADS for the Jaipur MPs built 2026-11-01, shown on the Jaipur seat and area pages) | MPLADS and MLALAD works, milestone badges, area timeline | Jaipur area page lists funded works with status and source |
 | G. City | Rajasthan SEC results, Jaipur wards and councillors, municipal works | The third card on the Jaipur area page is filled |
@@ -179,7 +179,7 @@ These are targets, not commitments.
 | Risk | Guard |
 | --- | --- |
 | Wrong person matched | Official ids only; doubtful matches held back |
-| OCR misreads an affidavit | Every value reviewed against the page image before publishing |
+| OCR misreads an affidavit | OCR values are not used: it matched 0 of 10 asset totals in the Jaipur test. Every value is read from the page and reviewed against it before publishing |
 | Source site changes or goes down | Adapter fails loudly, alert fires, old facts marked stale, not deleted |
 | Reuse terms or personal data | Decisions 5 and 6 settled before phase D publishes |
 | Seen as taking sides | Same fields for every candidate, no scores, sources on every line |

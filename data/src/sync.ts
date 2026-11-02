@@ -61,8 +61,9 @@ export function openPollWindows(calendar: readonly CalendarElection[], now = new
 // A source tied to an election uses its shorter poll window interval while that window is open.
 // A source whose recent runs failed waits out its backoff before it is due again.
 export function isDue(
-  source: Pick<SourceDefinition, "refreshDays" | "pollWindow">, history: RunHistory | undefined, now = new Date(), openWindows: ReadonlySet<string> = new Set(),
+  source: Pick<SourceDefinition, "refreshDays" | "pollWindow" | "onRequestOnly">, history: RunHistory | undefined, now = new Date(), openWindows: ReadonlySet<string> = new Set(),
 ): boolean {
+  if (source.onRequestOnly) return false;
   if (history?.last?.outcome === "failed" && now.getTime() - Date.parse(history.last.finishedAt) < backoffMs(history.consecutiveFailures)) return false;
   if (!history?.lastCompleted) return true;
   const since = now.getTime() - Date.parse(history.lastCompleted);

@@ -16,6 +16,7 @@ import { importSansadBiography } from "./import-sansad-biography.js";
 import { importSansadMembers } from "./import-sansad-members.js";
 import { listCollectedBiographyIds } from "./profile-draft.js";
 import { collectWorks } from "./mplads-works.js";
+import { AFFIDAVIT_SEATS, collectSeatAffidavits, writeWorklist } from "./eci-affidavits.js";
 import { buildPublication, collectNominations, NOMINATION_TARGETS, portalFetcher, writePublication } from "./eci-nominations.js";
 import { collectDebates } from "./sansad-debates.js";
 import { collectQuestionArchive } from "./sansad-question-archive.js";
@@ -58,6 +59,8 @@ export interface SourceDefinition {
   timeoutMinutes?: number;
   // From the election's announcement to its last poll day, check this often instead of refreshDays.
   pollWindow?: { electionId: string; everyHours: number };
+  // Runs only when named: it needs OCR tools the scheduled job does not install, and people to check what it reads.
+  onRequestOnly?: boolean;
   run: (context: RunContext) => Promise<RunResult>;
 }
 
@@ -169,6 +172,34 @@ export const registry: SourceDefinition[] = [
       return { outcome: "succeeded", items: candidates, detail: `${seats.length} seats, ${candidates} candidates, ${contesting} contesting` };
     },
   })),
+  {
+    id: "eci-affidavits-jaipur-2024",
+    title: "Candidate affidavits: Jaipur and Jaipur Rural, 2024",
+    owner: "Election Commission of India",
+    url: "https://affidavit.eci.gov.in/",
+    format: "pdf",
+    refreshDays: null,
+    onRequestOnly: true,
+    reuse: { status: "under-review", note: "Public record holding personal data; nothing is published until decision 6. Only the portal's typed age is saved as a draft; the scans stay in the private bucket." },
+    supplies: ["filing.age"],
+    review: "per-fact",
+    timeoutMinutes: 180,
+    async run({ store, log }) {
+      const blobs = openBlobStore("eci-affidavits/");
+      const results = [];
+      for (const seat of AFFIDAVIT_SEATS) {
+        const result = await collectSeatAffidavits(store, seat, { fetchPage: portalFetcher(), blobs, log });
+        log(`worklist: ${await writeWorklist(result, seat)}`);
+        results.push(result);
+      }
+      const scans = results.flatMap((item) => item.worklist);
+      const failed = results.reduce((sum, item) => sum + item.failed.length, 0);
+      return {
+        outcome: !scans.length ? "failed" : failed ? "partial" : "succeeded", items: scans.length,
+        detail: `${scans.length} affidavits kept, abstract found in ${scans.filter((item) => item.abstractPage).length}, ${failed} failed, ${results.reduce((sum, item) => sum + item.drafts, 0)} age drafts`,
+      };
+    },
+  },
   {
     id: "rajasthan-form21e-jaipur",
     title: "Jaipur 2024 return of election (Form 21E)",

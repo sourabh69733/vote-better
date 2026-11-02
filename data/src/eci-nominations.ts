@@ -158,8 +158,8 @@ export async function writePublication(publication: NominationPublication, direc
   return true;
 }
 
-// Fetches politely, keeps every page in the blob store and retries a failed request twice.
-export function portalFetcher(blobs: BlobStore, request: typeof fetch = fetch, pauseMs = 300): Fetcher {
+// Fetches politely, keeps every page in the blob store if one is given and retries a failed request twice.
+export function portalFetcher(blobs?: BlobStore, request: typeof fetch = fetch, pauseMs = 300): Fetcher {
   return async (url) => {
     for (let attempt = 1; ; attempt++) {
       try {
@@ -167,7 +167,7 @@ export function portalFetcher(blobs: BlobStore, request: typeof fetch = fetch, p
         const response = await request(url, { headers: { "User-Agent": "VoteBetter/0.1 (public civic research)" }, signal: AbortSignal.timeout(45_000) });
         if (!response.ok) throw new Error(`HTTP ${response.status} for ${url}`);
         const body = Buffer.from(await response.arrayBuffer());
-        await blobs.put(body);
+        await blobs?.put(body);
         return body.toString("utf8");
       } catch (error) {
         if (attempt === 3) throw error;

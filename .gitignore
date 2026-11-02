@@ -1,6 +1,7 @@
 node_modules/
 .
 data/raw/
+data/tessdata/
 __pycache__/
 *.pyc
 .venv/

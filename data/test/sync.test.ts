@@ -29,6 +29,7 @@ test("a source is due until it completes, then again after its interval", () => 
   assert.equal(isDue({ refreshDays: 7 }, completed("2026-10-20T12:00:00.000Z"), now), false);
   assert.equal(isDue({ refreshDays: 7 }, completed("2026-10-18T12:00:00.000Z"), now), true);
   assert.equal(isDue({ refreshDays: null }, completed("2020-01-01T00:00:00.000Z"), now), false);
+  assert.equal(isDue({ refreshDays: 1, onRequestOnly: true }, undefined, now), false);
 });
 
 test("an election's sources are checked every few hours from its announcement to its last poll day", () => {
