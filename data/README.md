@@ -236,6 +236,14 @@ The `eci-nominations-<election>` sources read ECI's candidate affidavit portal (
 
 To follow a new election, add it to `NOMINATION_TARGETS` in `src/eci-nominations.ts` with the codes from the portal's drop-downs, once ECI has announced it and the portal lists it. The source runs once, then every three hours from the election's announcement to its last poll day (the poll window, taken from `web/records/elections.ts`), so the hourly workflow picks it up. Only names, parties and status are published; affidavit contents wait on decision 6.
 
+## ADR figures for sitting MPs (local only)
+
+`npm --prefix data run export:adr-winners` writes the ignored `data/raw/public-profiles/adr-winners-2024.json`, which the local MP pages read for declared cases, assets and liabilities. Without the file, those pages show none of these figures.
+
+It needs three ignored files in `data/raw/myneta-dashboard/`: `candidates.csv` from [myneta-dashboard](https://github.com/AandK1412/myneta-dashboard), `source.json` naming that commit, and `winners-page.html`, one saved copy of MyNeta's 2024 winners page. Each copy leaves different rows blank. MyNeta replaces every ninth row of the page with a script; do not decode it. A blank stays blank and a disagreement between the copies drops the figure.
+
+Do not commit or deploy this data until ADR has answered; see `docs/data-sources/rights-audit.md`.
+
 ## Candidate affidavits
 
 `npm --prefix data run sync -- eci-affidavits-jaipur-2024` collects the Form 26 affidavits of every candidate in the seats listed in `AFFIDAVIT_SEATS` in `src/eci-affidavits.ts`. It runs only when named, never on the schedule. For each candidate it:

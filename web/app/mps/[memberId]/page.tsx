@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { findAdrWinner, readAdrWinners } from "@/lib/adr-winners";
 import { listAreaOverviews } from "@/lib/civic-area";
 import { formatShort, requireResults, seatHref, summaryOf } from "@/lib/results";
 import { sortableMpName } from "@/lib/mp-directory";
 import { linkMpToSeat } from "@/lib/mp-seat-link";
 import { getMemberQuestions } from "@/lib/parliamentary-work-local";
-import { eciChip, partyOf, questionsForProfile, resultStats, type ProfileModel, type ProfileStat } from "@/lib/profile-model";
+import { eciChip, moneyStats, partyOf, questionsForProfile, resultStats, type ProfileModel, type ProfileMoney, type ProfileStat } from "@/lib/profile-model";
 import { getPublicMp, publicMpFact, type PublicMp, type PublicMpFact } from "@/lib/public-mps";
 import type { ChipSource } from "@/components/profile/SourceChip";
 import ProfileView from "@/components/profile/ProfileView";
@@ -65,6 +66,21 @@ export default async function MpProfilePage({ params }: PageProps) {
   const questionNote = questions && !questions.questions.length
     ? "No questions are listed under this member's name. Ministers and the Speaker answer questions in the House rather than ask them."
     : undefined;
+  const adr = await readAdrWinners();
+  const declared = adr && findAdrWinner(adr.winners, profile);
+  const adrSource = declared && adr ? {
+    label: "ADR", title: `ADR / MyNeta summary of ${declared.name}'s 2024 affidavit`, url: declared.sourceUrl,
+    locator: "Self-declared figures compiled by ADR from the ECI affidavit. ECI's filing is the record if they differ.", checkedOn: day(adr.checkedOn),
+  } : undefined;
+  const money: ProfileMoney | undefined = declared ? {
+    election: declared.byElection ? "2024 bye-election" : "2024",
+    ...(declared.assets !== null ? { assets: declared.assets } : {}),
+    ...(declared.liabilities !== null ? { liabilities: declared.liabilities } : {}),
+    ...(declared.cases !== null ? { cases: declared.cases } : {}),
+    ...(declared.education ? { education: declared.education } : {}),
+    ...(declared.age !== null ? { age: declared.age } : {}),
+    source: adrSource,
+  } : undefined;
 
   const summary = link.status === "won-2024"
     ? `Sitting MP for ${seatLine}. ${winner ? summaryOf(link.seat, winner, partyName) : "Elected unopposed in 2024."}`
@@ -72,6 +88,7 @@ export default async function MpProfilePage({ params }: PageProps) {
 
   const stats: ProfileStat[] = [
     ...(winner && eci && seat ? resultStats(seat, winner, eci).filter((stat) => stat.id !== "rank") : []),
+    ...moneyStats(money),
     ...(terms ? [{ id: "terms", label: "Lok Sabha terms", value: String(terms), note: terms > 1 ? "including this one" : "first term", source: sansad(profile, positionsFact) }] : []),
     ...(text(birth) ? [{ id: "age", label: "Age", value: String(ageOn(text(birth)!)), note: `Born ${day(text(birth)!)}`, source: sansad(profile, birth) }] : []),
   ];
@@ -98,6 +115,7 @@ export default async function MpProfilePage({ params }: PageProps) {
       ...(questions?.questions.length ? { questions: questionsForProfile(questions, day) } : {}),
       note: questionNote ?? (questions ? "Attendance and debates for this MP are not collected yet." : curated ? undefined : "Attendance, questions and debates for this MP are not collected yet."),
     } : undefined,
+    money,
     timeline,
     timelineNote: "From the positions Digital Sansad lists for this member.",
     facts: [
@@ -111,8 +129,12 @@ export default async function MpProfilePage({ params }: PageProps) {
     sources: [
       { title: "Lok Sabha member list, Digital Sansad", url: `https://sansad.in/ls/members/biography/${profile.memberId}`, checkedOn: day(profile.rosterSource.capturedAt) },
       { title: "Member biography fields, Digital Sansad", url: `https://sansad.in/ls/members/biography/${profile.memberId}`, checkedOn: day(profile.sourceCheckedAt) },
+      ...(adrSource ? [
+        { title: adrSource.title, url: adrSource.url, checkedOn: adrSource.checkedOn },
+        { title: "Candidate affidavit portal, Election Commission of India", url: "https://affidavit.eci.gov.in/", checkedOn: adrSource.checkedOn },
+      ] : []),
     ],
-    coming: ["declared assets and cases", ...(curated ? [] : ["questions, debates and attendance"])],
+    coming: [...(money?.assets === undefined ? ["declared assets"] : []), ...(money?.cases === undefined ? ["declared cases"] : []), ...(curated ? [] : ["questions, debates and attendance"])],
   };
 
   return <ProfileView model={model} data={data} />;
