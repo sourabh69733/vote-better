@@ -2,6 +2,8 @@ import { formatDay, type Election } from "@/lib/elections";
 
 const DAY = 86_400_000;
 const time = (day: string) => Date.parse(`${day}T00:00:00Z`);
+// Where the "n polling days" label may sit, centred, so it clears "Announced" on the left and "Counting" on the right.
+const POLL_LABEL = { min: 122, max: 302 };
 
 // The schedule on one line: announcement, each polling day, counting, and today when it falls inside.
 export default function ScheduleTimeline({ election, today }: { election: Election; today: string }) {
@@ -30,7 +32,7 @@ export default function ScheduleTimeline({ election, today }: { election: Electi
         )}
         {election.polls.map((poll) => <circle key={poll.date} cx={x(poll.date)} cy={48} r={5} fill="#1e6b4d" stroke="#fff" strokeWidth={1.5}><title>{`${poll.covers ? `${poll.covers}: ` : ""}${formatDay(poll.date)}`}</title></circle>)}
         {pollStart && (
-          <text x={(x(pollStart) + x(pollEnd ?? pollStart)) / 2} y={24} fontSize={12} fill="#66796d" textAnchor="middle">
+          <text x={Math.min(Math.max((x(pollStart) + x(pollEnd ?? pollStart)) / 2, POLL_LABEL.min), POLL_LABEL.max)} y={24} fontSize={12} fill="#66796d" textAnchor="middle">
             {election.polls.length} polling {election.polls.length === 1 ? "day" : "days"}
           </text>
         )}

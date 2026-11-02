@@ -17,10 +17,10 @@ export default function AboutPage() {
     <div className="mx-auto w-full max-w-[1320px] px-4 py-10 sm:px-6 lg:px-8">
       <h1 className="text-3xl font-bold text-slate-900">About Vote Better</h1>
       <p className="mt-4 max-w-3xl leading-relaxed text-slate-700">
-        Vote Better aims to help people understand who represents them and who
-        contests their elections. Each area, office and person is added with
-        checked public records. Jaipur and Jaipur Rural Lok Sabha constituencies
-        are the first areas in this growing directory.
+        Vote Better helps people understand who represents them and who contests
+        their elections. Each area, office and person is added with checked public
+        records. Results cover the whole country; Jaipur and Jaipur Rural are the
+        first areas with full profiles.
       </p>
 
       <div className="mt-8 grid items-start gap-5 lg:grid-cols-2">
@@ -38,12 +38,14 @@ export default function AboutPage() {
 
         <section className="rounded-2xl border border-slate-200 bg-white p-6">
           <h2 className="text-xl font-bold text-slate-900">Current scope</h2>
-          <p className="mt-3 text-sm leading-relaxed text-slate-700">
-            Current verified area coverage includes Jaipur and Jaipur Rural parliamentary
-            constituencies. The MP directory can show 64 source checked Digital Sansad profiles across India when its private export is installed. Source reuse permission is still pending. We have not verified assembly-area mapping, other
-            representatives, candidate social accounts, or a complete record
-            of constituency work. Each profile shows when its sources were checked.
-          </p>
+          <ul className="mt-4 list-disc space-y-3 pl-5 text-sm leading-relaxed text-slate-700">
+            <li>Results: every Lok Sabha seat in 2024, 2019 and 2014, and every Rajasthan assembly seat in 2023.</li>
+            <li>Candidate lists: who filed and who was on the ballot in the October 2026 bye-elections. New elections are added once they are announced.</li>
+            <li>Full profiles and MP fund works: the MPs for Jaipur and Jaipur Rural.</li>
+            <li>Not covered yet: assembly results outside Rajasthan, city wards and councillors, affidavit details outside Jaipur, and a complete record of constituency work.</li>
+            <li>Switched off until reuse terms are confirmed: finding your seat by PIN, and the Digital Sansad MP directory.</li>
+          </ul>
+          <p className="mt-3 text-sm leading-relaxed text-slate-700">Each page shows when its sources were checked.</p>
         </section>
       </div>
 
@@ -71,7 +73,7 @@ export default function AboutPage() {
 
       <section className="mt-5 rounded-2xl border border-slate-200 bg-white p-6">
         <h2 className="text-xl font-bold text-slate-900">Other sources to connect</h2>
-        <p className="mt-3 text-sm leading-relaxed text-slate-700">These sources are not connected to the 64 MP profiles. A few Jaipur candidate disclosures cite MyNeta manually. Its terms require written consent for automated collection, so there is no MyNeta scraper.</p>
+        <p className="mt-3 text-sm leading-relaxed text-slate-700">These sources are not connected to the MP profiles. A few Jaipur candidate disclosures cite MyNeta manually. Its terms require written consent for automated collection, so there is no MyNeta scraper.</p>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-emerald-800">
           <li><a href="https://www.eci.gov.in/affidavit-portal" target="_blank" rel="noopener noreferrer" className="underline">Election Commission affidavits</a> for candidates&apos; filed disclosures</li>
           <li><a href="https://prsindia.org/mptrack" target="_blank" rel="noopener noreferrer" className="underline">PRS MP Track</a> for parliamentary participation</li>
