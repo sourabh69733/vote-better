@@ -305,6 +305,26 @@ export function searchSeats(query: string, limit = 60): SeatMatch[] {
     .slice(0, limit);
 }
 
+// The last general election to the same house, for a page about the next one: its seat tally by party.
+export function previousResult(election: Pick<Election, "id" | "body" | "states">) {
+  const same = (other: Election) => other.id !== election.id && other.body === election.body && other.states.join() === election.states.join();
+  const earlier = calendar.filter((other) => same(other) && isResultElection(other.id) && other.countingOn)
+    .sort((a, b) => b.countingOn!.localeCompare(a.countingOn!));
+  for (const other of earlier) {
+    const results = loadResults(other.id as ResultElectionId);
+    if (!results) continue;
+    const won = new Map<string, number>();
+    for (const seat of results.seats) {
+      const winner = seatWinner(seat);
+      if (winner) won.set(winner.party, (won.get(winner.party) ?? 0) + 1);
+    }
+    const parties = [...won].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .map(([code, seats]) => ({ code, name: results.parties[code]?.name ?? code, seats }));
+    return { election: other, results, parties };
+  }
+  return undefined;
+}
+
 // The newest published result for a seat within one body: a reviewed bye-election beats the general election.
 export function latestResult(stateSlug: string, seatSlug: string, body: ResultBody) {
   for (const id of RESULT_ELECTIONS) {

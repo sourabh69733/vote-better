@@ -144,7 +144,7 @@ Source chips everywhere. A coverage page per area and per person listing what is
 
 | Phase | Build | Done when |
 | --- | --- | --- |
-| A. Election as entity (done 2026-10-31) | `election`, `contest`, `seat` entities in the data layer; calendar records import into them; `/elections/[id]` page; 2024 results attached; 2019 and 2014 published | A Jaipur voter opens the 2024 election page and reaches their seat and winner |
+| A. Election as entity (done 2026-10-31; 2022 results for Goa, Manipur, Punjab, Uttarakhand and Uttar Pradesh, which vote in 2027, added 2026-11-06) | `election`, `contest`, `seat` entities in the data layer; calendar records import into them; `/elections/[id]` page; 2024 results attached; 2019 and 2014 published | A Jaipur voter opens the 2024 election page and reaches their seat and winner |
 | B. Unattended sync (scheduled sync, export, data PR and alerts built 2026-11-01; waits on Neon, R2 and Vercel setup, see `docs/operations/deploy.md`) | Scheduled `sync --due`, hosting, alerts, PR publish, single bundle exporter | A week passes with no manual run and the site shows updated "checked on" dates |
 | C. Area first (built 2026-11-01 for Rajasthan; PIN search waits on decision 8) | PIN and map to PC and AC; assembly seats for Rajasthan; area home with three cards and coverage | A Jaipur PIN shows the MP and MLA with sources |
 | D. Deep profiles (questions for all MPs built 2026-11-01, local only; affidavit scans, portal age and abstract pages collected for the two Jaipur seats 2026-11-02, reading the figures still open) | Affidavit adapter for 2024 winners, then all 2024 candidates; Sansad work for all MPs; attendance; unified profile; office duties | Every sitting MP has a filing, work timeline and duties panel |

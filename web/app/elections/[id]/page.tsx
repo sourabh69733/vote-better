@@ -8,7 +8,7 @@ import ScheduleTimeline from "@/components/election/ScheduleTimeline";
 import SeatFilter from "@/components/election/SeatFilter";
 import { Breadcrumb, Eyebrow, NotCollected } from "@/components/ui";
 import { BODY_LABEL, STATUS_LABEL, electionStatus, formatDay, todayIso, type Election } from "@/lib/elections";
-import { seatHref, electionTotals, formatNumber, formatShort, isResultElection, loadResults, type ElectionResults, marginsInState, seatWinner, statesOf } from "@/lib/results";
+import { seatHref, electionTotals, formatNumber, formatShort, isResultElection, loadResults, type ElectionResults, marginsInState, previousResult, seatWinner, statesOf } from "@/lib/results";
 import { loadNominations } from "@/lib/nominations";
 import { partyColor } from "@/lib/party-colors";
 import { elections } from "@/records/elections";
@@ -45,6 +45,32 @@ function Sources({ election }: { election: Election }) {
         ))}
       </ul>
     </details>
+  );
+}
+
+// For an election not yet held: who won the last one, so a voter can see what is at stake.
+function LastTime({ election }: { election: Election }) {
+  const last = previousResult(election);
+  if (!last) return null;
+  const top = last.parties.slice(0, 4);
+  const rest = last.parties.slice(4).reduce((sum, party) => sum + party.seats, 0);
+  const href = last.election.siteHref ?? `/elections/${last.election.id}`;
+  return (
+    <section className="mt-8 rounded-[24px] border border-line bg-white p-5 sm:p-7" aria-labelledby="last-time-heading">
+      <h2 id="last-time-heading" className="text-lg font-semibold tracking-[-0.02em] text-ink">Last time</h2>
+      <p className="mt-1 text-sm text-muted">Seats won in {last.election.name.replace(/^General Election to /, "the ")}, counted {formatDay(last.election.countingOn!)}.</p>
+      <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+        {top.map((party) => (
+          <li key={party.code} className="flex items-center gap-3 rounded-2xl border border-line-soft p-3">
+            <span className="h-8 w-1.5 shrink-0 rounded-full" style={{ background: partyColor(party.code) }} aria-hidden="true" />
+            <span className="min-w-0 flex-1 truncate text-sm text-body">{party.name}</span>
+            <span className="font-semibold tabular-nums text-ink">{party.seats}</span>
+          </li>
+        ))}
+        {rest > 0 && <li className="flex items-center gap-3 rounded-2xl border border-line-soft p-3 text-sm text-body"><span className="flex-1">Others</span><span className="font-semibold tabular-nums text-ink">{rest}</span></li>}
+      </ul>
+      <p className="mt-4 text-sm"><Link href={href} className="font-semibold text-link underline underline-offset-4">Every seat&apos;s result, with its ECI source</Link></p>
+    </section>
   );
 }
 
@@ -162,6 +188,7 @@ export default async function ElectionPage({ params }: PageProps) {
         {election.note && <p className="mt-4 text-sm leading-6 text-body">{election.note}</p>}
       </section>
 
+      {!results && status !== "counted" && <LastTime election={election} />}
       {nominations && <NominationSeats electionId={election.id} nominations={nominations} />}
       {results ? <Results election={election} results={results} /> : status === "counted" && (
         <NotCollected title="Results not collected on this site yet." className="mt-8">
