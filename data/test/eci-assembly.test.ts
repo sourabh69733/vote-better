@@ -3,7 +3,7 @@ import test from "node:test";
 import * as XLSX from "xlsx";
 
 import {
-  crossCheckAssembly, normalizeAssemblyResult, parseAssemblyDetailedResult, parseAssemblyVoters, parseAssemblyWinners, parsePartyWins, type AssemblyElection,
+  ARCHIVE_FILES, assemblyFiles, crossCheckAssembly, normalizeAssemblyResult, parseAssemblyDetailedResult, parseAssemblyVoters, parseAssemblyWinners, parsePartyWins, type AssemblyElection,
 } from "../src/normalize/eci-assembly-result.js";
 import { linkSegments, type SegmentRow } from "../src/normalize/eci-assembly-segments.js";
 
@@ -46,6 +46,28 @@ test("a state assembly report is parsed, cross-checked against three other repor
   assert.equal(asha.rank, 1);
   assert.equal(asha.shareOfValidVotes, 62.5);
   assert.deepEqual(asha.contest, { electors: 2000, votesPolled: 1660, validVotes: 1600, notaVotes: 50, candidates: 2 });
+});
+
+test("a 2022 winners list with seat names only is matched by name", () => {
+  const report = parseAssemblyDetailedResult(book(detailedRows()), election);
+  const turnout = parseAssemblyVoters(voters);
+  const named = (party: string) => book([["2 - List of Successful Candidates"], ["STATE/UT", "CONSTITUENCY", "WINNER", "SEX", "PARTY", "SYMBOL"],
+    ["Test", "Alpha", "Asha", "F", party, "Lotus"], ["Test", "Beta (SC)", "Chand", "M", "INC", "Hand"]]);
+  const winners2022 = parseAssemblyWinners(named("BJP"));
+  assert.deepEqual(winners2022.map((winner) => [winner.number, winner.seat, winner.votes]), [[null, "Alpha", null], [null, "Beta (SC)", null]]);
+  assert.deepEqual(crossCheckAssembly(report, winners2022, turnout, parsePartyWins(parties)).nameVariants, []);
+  assert.throws(() => crossCheckAssembly(report, parseAssemblyWinners(named("INC")), turnout, parsePartyWins(parties)), /winner differs/);
+  const rows = detailedRows().map((row) => (row[2] === "Beta (SC)" ? [...row.slice(0, 2), "Alpha", ...row.slice(3)] : row));
+  assert.throws(() => crossCheckAssembly(parseAssemblyDetailedResult(book(rows), election), winners2022, turnout, parsePartyWins(parties)), /share a name/);
+});
+
+test("an archive page gives one address per report", () => {
+  const files = assemblyFiles({ id: "test-assembly-2022", state: "Test", seats: 2, archive: "https://old.eci.gov.in/files/file/1-test/" });
+  assert.equal(files.detailed, "https://old.eci.gov.in/files/file/1-test/#detailed");
+  assert.equal(new Set(Object.values(files)).size, 4);
+  for (const name of ["10-Detailed Results (9).xlsx", "10.Detailed Results.xlsx"]) assert.match(name, ARCHIVE_FILES.detailed);
+  assert.doesNotMatch("10.Detailed Results.pdf", ARCHIVE_FILES.detailed);
+  for (const name of ["12 - AC Wise Voters Information.xlsx", "12.AC Wise Voters Information.xlsx"]) assert.match(name, ARCHIVE_FILES.voters);
 });
 
 test("the import stops when the reports disagree", () => {

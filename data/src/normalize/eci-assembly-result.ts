@@ -4,7 +4,7 @@ import { isUtcInstant, type JsonValue } from "../contracts.js";
 import type { ObservationDraft } from "../store.js";
 import { slugify } from "./eci-ge2024-detailed-result.js";
 
-// ECI statistical reports for a state assembly election, in the format ECI has used since 2023:
+// ECI statistical reports for a state assembly election, as ECI has published them since 2022:
 // report 10 (detailed results) is checked against report 2 (successful candidates),
 // report 12 (AC-wise voters information) and report 5 (performance of political parties).
 
@@ -16,20 +16,50 @@ export interface AssemblyElection {
   id: string;
   state: string;
   seats: number;
-  base: string;
+  // Where the four reports are: a folder of spreadsheets, or one ECI archive page that lists them all.
+  base?: string;
+  archive?: string;
+  // Anything a reader needs to know about this report, shown with its source.
+  note?: string;
 }
+
+const OLD_ECI = "https://old.eci.gov.in/files/file";
 
 // "2023_Including" is ECI's final report including Karanpur, whose poll was adjourned to January 2024.
 export const ASSEMBLY_ELECTIONS: Record<string, AssemblyElection> = {
-  "rajasthan-assembly-2023": { id: "rajasthan-assembly-2023", state: "Rajasthan", seats: 200, base: `${REPORTS}/rajasthan/2023_Including` },
+  "rajasthan-assembly-2023": {
+    id: "rajasthan-assembly-2023", state: "Rajasthan", seats: 200, base: `${REPORTS}/rajasthan/2023_Including`,
+    note: "ECI's final report, including Karanpur, whose poll was adjourned to January 2024 after a candidate died.",
+  },
+  // The states whose assemblies end in 2027, from ECI's archive of the 2022 reports.
+  "goa-assembly-2022": { id: "goa-assembly-2022", state: "Goa", seats: 40, archive: `${OLD_ECI}/14168-goa-general-legislative-election-2022/` },
+  "manipur-assembly-2022": { id: "manipur-assembly-2022", state: "Manipur", seats: 60, archive: `${OLD_ECI}/14166-manipur-general-legislative-election-2022/` },
+  "punjab-assembly-2022": { id: "punjab-assembly-2022", state: "Punjab", seats: 117, archive: `${OLD_ECI}/14165-punjab-general-legislative-election-2022/` },
+  "uttarakhand-assembly-2022": { id: "uttarakhand-assembly-2022", state: "Uttarakhand", seats: 70, archive: `${OLD_ECI}/14169-uttarakhand-general-legislative-election-2022/` },
+  "uttar-pradesh-assembly-2022": { id: "uttar-pradesh-assembly-2022", state: "Uttar Pradesh", seats: 403, archive: `${OLD_ECI}/14185-uttar-pradesh-general-legislative-election-2022/` },
 };
 
-export const assemblyFiles = (election: AssemblyElection) => ({
-  detailed: `${election.base}/Detailed_Results.xlsx`,
-  winners: `${election.base}/List_of_Successful_Candidates.xlsx`,
-  voters: `${election.base}/AC_Wise_Voters_Information.xlsx`,
-  parties: `${election.base}/Performance_of_Political_Parties.xlsx`,
-});
+// File names on an archive page, which vary in their numbering and punctuation from state to state.
+export const ARCHIVE_FILES = {
+  detailed: /^10\s*[-.]\s*detailed results[^/]*\.xlsx$/i,
+  winners: /^2\s*[-.]\s*list of successful candidates\.xlsx$/i,
+  voters: /^12\s*[-.]\s*ac wise voters information\.xlsx$/i,
+  parties: /^5\s*[-.]\s*performance of political parties\.xlsx$/i,
+} as const;
+
+// One address per report. An archive page holds all four, so each is told apart by a fragment.
+export function assemblyFiles(election: AssemblyElection) {
+  if (election.archive) {
+    const at = (part: keyof typeof ARCHIVE_FILES) => `${election.archive}#${part}`;
+    return { detailed: at("detailed"), winners: at("winners"), voters: at("voters"), parties: at("parties") };
+  }
+  return {
+    detailed: `${election.base}/Detailed_Results.xlsx`,
+    winners: `${election.base}/List_of_Successful_Candidates.xlsx`,
+    voters: `${election.base}/AC_Wise_Voters_Information.xlsx`,
+    parties: `${election.base}/Performance_of_Political_Parties.xlsx`,
+  };
+}
 
 type Cell = string | number | null;
 
@@ -123,15 +153,26 @@ export function parseAssemblyDetailedResult(bytes: Buffer, election: AssemblyEle
   return { seats: ordered };
 }
 
-export interface AssemblyWinner { number: number; seat: string; name: string; party: string; votes: number; runnerUp: string; runnerUpParty: string; runnerUpVotes: number; margin: number }
+// The 2022 lists name the seat and winner only, so their number, votes, runner-up and margin are null.
+export interface AssemblyWinner {
+  number: number | null; seat: string; name: string; party: string;
+  votes: number | null; runnerUp: string | null; runnerUpParty: string | null; runnerUpVotes: number | null; margin: number | null;
+}
 
 // Report 2.
 export function parseAssemblyWinners(bytes: Buffer): AssemblyWinner[] {
   const rows = rowsOf(bytes);
   title(rows, /^2 - list of successful candidates$/i, "successful candidates");
-  return rows.flatMap((row, index) => {
-    if (typeof row[1] !== "number" || typeof row[0] !== "string") return [];
+  return rows.flatMap((row, index): AssemblyWinner[] => {
+    if (typeof row[0] !== "string") return [];
     const at = `winners row ${index + 1}`;
+    if (typeof row[1] === "string" && plain(row[0]) !== "state ut") {
+      return [{
+        number: null, seat: text(row[1], `${at} seat`), name: text(row[2], `${at} name`), party: text(row[4], `${at} party`),
+        votes: null, runnerUp: null, runnerUpParty: null, runnerUpVotes: null, margin: null,
+      }];
+    }
+    if (typeof row[1] !== "number") return [];
     return [{
       number: row[1], seat: text(row[2], `${at} seat`), name: text(row[3], `${at} name`), party: text(row[5], `${at} party`),
       votes: count(row[9], `${at} votes`), runnerUp: text(row[10], `${at} runner-up`), runnerUpParty: text(row[12], `${at} runner-up party`),
@@ -165,10 +206,14 @@ export function parsePartyWins(bytes: Buffer): Map<string, number> {
 
 export interface AssemblyCheck { nameVariants: string[] }
 
-// Every seat must agree with the winners list (party, votes, runner-up votes, margin) and the voters report
-// (electors, NOTA, valid votes), and every party's seat count must match report 5.
+// Every seat must agree with the winners list (party, and where given votes, runner-up votes and margin) and
+// the voters report (electors, NOTA, valid votes), and every party's seat count must match report 5.
+// A 2022 winners list has no seat numbers, so it is matched by seat name, which must then be unique.
 export function crossCheckAssembly(report: ParsedAssembly, winners: AssemblyWinner[], turnout: AssemblyTurnout[], partyWins: Map<string, number>): AssemblyCheck {
-  const winnerOf = new Map(winners.map((winner) => [winner.number, winner]));
+  const byName = winners.length > 0 && winners.every((winner) => winner.number === null);
+  if (!byName && winners.some((winner) => winner.number === null)) throw new Error("winners list mixes numbered and unnumbered rows");
+  if (byName && new Set(report.seats.map((seat) => plain(seat.name))).size !== report.seats.length) throw new Error("two seats share a name, so the winners list cannot be matched");
+  const winnerOf = new Map(winners.map((winner) => [byName ? plain(winner.seat) : winner.number, winner]));
   const turnoutOf = new Map(turnout.map((row) => [row.number, row]));
   if (winnerOf.size !== report.seats.length || turnoutOf.size !== report.seats.length) throw new Error("reference reports do not cover every seat");
   const nameVariants: string[] = [];
@@ -177,13 +222,13 @@ export function crossCheckAssembly(report: ParsedAssembly, winners: AssemblyWinn
     const at = `${seat.number} ${seat.name}`;
     const people = seat.rows.filter((row) => !row.nota).sort((a, b) => (b.raw[11] as number) - (a.raw[11] as number));
     const [first, second] = people;
-    const winner = winnerOf.get(seat.number);
+    const winner = winnerOf.get(byName ? plain(seat.name) : seat.number);
     const votes = turnoutOf.get(seat.number);
     if (!winner || !votes) throw new Error(`${at}: missing from a reference report`);
     if (plain(winner.seat) !== plain(seat.name) || plain(votes.seat) !== plain(seat.name)) throw new Error(`${at}: seat name differs between reports`);
-    if (winner.party !== first.raw[7] || winner.votes !== first.raw[11]) throw new Error(`${at}: winner differs from the winners list`);
-    if (winner.runnerUpParty !== second.raw[7] || winner.runnerUpVotes !== second.raw[11]) throw new Error(`${at}: runner-up differs from the winners list`);
-    if (winner.margin !== (first.raw[11] as number) - (second.raw[11] as number)) throw new Error(`${at}: margin differs from the winners list`);
+    if (winner.party !== first.raw[7] || (winner.votes !== null && winner.votes !== first.raw[11])) throw new Error(`${at}: winner differs from the winners list`);
+    if (winner.runnerUpVotes !== null && (winner.runnerUpParty !== second.raw[7] || winner.runnerUpVotes !== second.raw[11])) throw new Error(`${at}: runner-up differs from the winners list`);
+    if (winner.margin !== null && winner.margin !== (first.raw[11] as number) - (second.raw[11] as number)) throw new Error(`${at}: margin differs from the winners list`);
     if (plain(winner.name) !== plain(first.name)) nameVariants.push(`${at}: "${first.name}" / "${winner.name}"`);
     if (votes.electors !== seat.electors) throw new Error(`${at}: electors differ from the voters report`);
     const nota = seat.rows.find((row) => row.nota)!;

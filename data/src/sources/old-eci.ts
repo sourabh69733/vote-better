@@ -34,6 +34,8 @@ function cookieJar() {
 const unescape = (value: string) => value.replace(/&amp;/g, "&");
 
 // Returns a fetcher for collectDocument: given a report's file page, it responds with the spreadsheet itself.
+// Some pages hold many reports; `extension` is then a full file-name pattern that picks one of them.
+// Pages from 2022 on list their files with no terms to accept; any terms that are shown must be approved.
 export function oldEciFetcher(options: { request?: Fetch; countdownMs?: number; extension: RegExp } = { extension: /\.xlsx?$/i }): Fetch {
   const request = options.request ?? fetch;
   const countdownMs = options.countdownMs ?? 11_000;
@@ -47,10 +49,14 @@ export function oldEciFetcher(options: { request?: Fetch; countdownMs?: number; 
       return response;
     };
     const disclaimer = await (await get(`${page}?do=download`)).text();
-    const key = /confirm=1&amp;csrfKey=([0-9a-f]+)/.exec(disclaimer)?.[1];
-    const terms = disclaimerText(disclaimer);
-    if (!key || !terms || !APPROVED_DISCLAIMERS.includes(terms)) throw new Error(`unapproved terms, not accepted: ${terms ?? "none found"}`);
-    const list = await (await get(`${page}?do=download&confirm=1&csrfKey=${key}`)).text();
+    const listed = !/you must agree to the following terms/i.test(disclaimer) && disclaimer.includes("ipsType_break ipsContained");
+    let list = disclaimer;
+    if (!listed) {
+      const key = /confirm=1&amp;csrfKey=([0-9a-f]+)/.exec(disclaimer)?.[1];
+      const terms = disclaimerText(disclaimer);
+      if (!key || !terms || !APPROVED_DISCLAIMERS.includes(terms)) throw new Error(`unapproved terms, not accepted: ${terms ?? "none found"}`);
+      list = await (await get(`${page}?do=download&confirm=1&csrfKey=${key}`)).text();
+    }
     const files = [...list.matchAll(/ipsType_break ipsContained'>([^<]+)<[\s\S]*?(do=download&amp;r=\d+&amp;confirm=1&amp;t=1&amp;csrfKey=[0-9a-f]+)/g)];
     const wanted = files.find(([, name]) => options.extension.test(name.trim()));
     if (!wanted) throw new Error(`no matching file among: ${files.map(([, name]) => name.trim()).join(", ") || "none"}`);

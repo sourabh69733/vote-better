@@ -5,11 +5,12 @@ import pg from "pg";
 import { type BlobStore, openBlobStore } from "./blob-store.js";
 import { migrate } from "./migrate.js";
 import {
-  ASSEMBLY_ELECTIONS, assemblyFiles, crossCheckAssembly, normalizeAssemblyResult,
+  ARCHIVE_FILES, ASSEMBLY_ELECTIONS, assemblyFiles, crossCheckAssembly, normalizeAssemblyResult,
   parseAssemblyDetailedResult, parseAssemblyVoters, parseAssemblyWinners, parsePartyWins,
 } from "./normalize/eci-assembly-result.js";
 import { XLSX_DOCUMENT } from "./normalize/eci-ge2024-reference.js";
 import { collectDocument } from "./sources/collect-document.js";
+import { oldEciFetcher } from "./sources/old-eci.js";
 import { CivicStore } from "./store.js";
 
 const TITLES = {
@@ -24,7 +25,7 @@ export type AssemblyImportResult =
   | { status: "source-failed" | "invalid-report"; reason: string };
 
 // Collects the four reports, checks them against each other, and saves one draft per candidate.
-export async function importEciAssembly(store: CivicStore, blobs: BlobStore, electionId: string): Promise<AssemblyImportResult> {
+export async function importEciAssembly(store: CivicStore, blobs: BlobStore, electionId: string, options: { request?: typeof fetch; countdownMs?: number } = {}): Promise<AssemblyImportResult> {
   const election = ASSEMBLY_ELECTIONS[electionId];
   if (!election) throw new Error(`unknown assembly election ${electionId}`);
   const files = assemblyFiles(election);
@@ -32,7 +33,12 @@ export async function importEciAssembly(store: CivicStore, blobs: BlobStore, ele
   let detailed: { snapshotId: string; sourceId: string } | undefined;
   for (const part of Object.keys(files) as (keyof typeof files)[]) {
     const source = await store.saveSource({ authority: "Election Commission of India", documentType: `${election.state} assembly ${electionId.slice(-4)} statistical report ${TITLES[part]}`, url: files[part] });
-    const collected = await collectDocument(source, store, XLSX_DOCUMENT, { blobStore: blobs, timeoutMs: 60_000, maxBytes: 10_000_000, minIntervalMs: 2_000 });
+    // An archive page lists every report; its fetcher picks this one by file name.
+    const archive = election.archive && oldEciFetcher({ extension: ARCHIVE_FILES[part], ...options });
+    const collected = await collectDocument(source, store, XLSX_DOCUMENT, {
+      blobStore: blobs, timeoutMs: 120_000, maxBytes: 10_000_000, minIntervalMs: 2_000,
+      ...(archive ? { fetcher: (_url: string | URL | Request, init?: RequestInit) => archive(election.archive!, init) } : options.request ? { fetcher: options.request } : {}),
+    });
     if (collected.status === "failed") return { status: "source-failed", reason: `${part}: ${collected.reason}` };
     bytes[part] = await blobs.get(collected.snapshot.blobRef!);
     if (part === "detailed") detailed = { snapshotId: collected.snapshot.id, sourceId: source.id };

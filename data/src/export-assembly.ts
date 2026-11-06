@@ -64,7 +64,7 @@ export function buildAssemblyBundle(publication: Publication, election: Assembly
     source: {
       authority: "Election Commission of India", title: `${election.state} assembly ${year} statistical report 10, Detailed Results`,
       url: first.url, contentHash: first.contentHash, capturedAt: first.capturedAt,
-      note: "ECI's final report, including Karanpur, whose poll was adjourned to January 2024 after a candidate died.",
+      ...(election.note ? { note: election.note } : {}),
       disclaimer: "ECI prepares these statistical reports from index cards. In case of dispute, the statutory forms kept by Returning Officers prevail. Vote share is calculated from ECI's valid votes.",
     },
     references,

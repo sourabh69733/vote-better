@@ -220,6 +220,20 @@ The import refuses the report unless every row adds up, every seat has one NOTA 
 
 Assembly seats are keyed by number and name, as ECI writes them ("42-Shahpura"), because Rajasthan has two Shahpuras. Each is placed in its Lok Sabha seat from ECI's GE 2024 report 15, collected with the 2024 references. Report 15 has no seat numbers, so rows are matched by name; five spellings that differ are listed in `SEGMENT_ALIASES`, and the two Shahpuras are settled by electors. The match is stored as `area.parent_id`.
 
+## Assembly elections of 2022 (the states that vote in 2027)
+
+Goa, Manipur, Punjab and Uttarakhand vote in early 2027 and Uttar Pradesh in May 2027. Their last results come from ECI's archive, one page per state that lists every report:
+
+```sh
+npm --prefix data run sync -- eci-goa-assembly-2022-results
+npm --prefix data run review:batch -- <report 10 address> --reviewer=automated-batch-check "--reason=<checks and approval>"
+npm --prefix data run export:elections
+```
+
+The same source ids exist for `manipur`, `punjab`, `uttarakhand` and `uttar-pradesh`. Each report's address is the archive page with `#detailed`, `#winners`, `#voters` or `#parties`; the fetcher picks the file by name from the page's list. These pages show no terms to accept; if ECI adds any, the fetcher stops until they are approved in `src/sources/old-eci.ts`.
+
+The 2022 winners list names each seat and winner only, with no seat number, votes, runner-up or margin. Winners are therefore matched by seat name, which must be unique in the state, and checked by party; seats, votes, NOTA and party totals are checked as for 2023.
+
 ## Questions for every MP
 
 `npm --prefix data run import:sansad-questions-all` rebuilds every sitting MP's questions from the saved Sansad session pages in `raw/sansad-questions/`, with no new downloads. Members are matched by Sansad member number and the exact name Sansad lists on each question; a name shared by two members is left out and reported. The archive is written to `raw/sansad-questions/archive-all-members.json` and stays local while Digital Sansad reuse is under review; the local MP profiles read it. On 2026-11-01 it held 56,667 member-question listings for 544 members across 8 sessions. Members with none are mostly ministers and the Speaker, who answer questions rather than ask them.

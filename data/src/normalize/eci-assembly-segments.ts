@@ -28,6 +28,13 @@ export function parseAssemblySegments(bytes: Buffer): SegmentRow[] {
 // and the Lok Sabha seat each belongs to. Keys are report 15's spelling; values are assembly seat numbers.
 export const SEGMENT_ALIASES: Record<string, Record<string, number>> = {
   Rajasthan: { LACHMANGARH: 33, KHINVSAR: 110, "MARWAR JUNCITON": 119, GUDAMALANI: 139, VALLABNAGAR: 155 },
+  // Against the 2022 results; each pair also has electors within 5 percent and the same Lok Sabha seat.
+  Manipur: { "Naoria Pakhanglakpa": 21, Khangabok: 35 },
+  Uttarakhand: {
+    Karanprayag: 6, "Ghansali (S.C.)": 9, Devprayag: 10, Dharmpur: 18, "Dehradun Cantonment": 21,
+    Haridwar: 25, Manglore: 33, "Haridwar Rural": 35, Lalkuan: 56,
+  },
+  "Uttar Pradesh": { Dholana: 58, Kishani: 109, Sawaijpur: 154, Doomariyaganj: 306 },
 };
 
 export interface AssemblySeatRef { number: number; sourceName: string; electors: number | null }
@@ -40,7 +47,9 @@ const key = (value: string) => value.toLowerCase().replace(/\((sc|st)\)/g, "").r
 // two Shahpuras) is settled by electors: each report 15 row goes to the seat whose 2023 electors are closest,
 // within 5 percent, and the pairing must be one to one.
 export function linkSegments(state: string, rows: SegmentRow[], assembly: AssemblySeatRef[], parliament: ParliamentSeatRef[]): SegmentLink[] {
-  const stateRows = rows.filter((row) => row.state === state);
+  // Manipur's 2024 report adds a row per Lok Sabha seat for the special polling stations set up for
+  // displaced voters ("SPS Inner Manipur"). They are not assembly seats.
+  const stateRows = rows.filter((row) => row.state === state && !/^SPS\s/.test(row.assembly));
   if (stateRows.length !== assembly.length) throw new Error(`${state}: report 15 has ${stateRows.length} segments, the assembly results ${assembly.length}`);
   const byName = new Map<string, AssemblySeatRef[]>();
   for (const seat of assembly) byName.set(key(seat.sourceName), [...(byName.get(key(seat.sourceName)) ?? []), seat]);
