@@ -1,6 +1,7 @@
 import * as XLSX from "xlsx";
 
 import type { HistoryYear, ParsedHistory } from "./eci-history-detailed-result.js";
+import { PARTY_TYPES } from "./eci-ge2024-reference.js";
 
 // Winners and party lists for 2019 and 2014. The winners list covers every seat,
 // including seats missing from ECI's detailed result file.
@@ -17,6 +18,13 @@ function sheet(bytes: Buffer): Cell[][] {
 
 export interface HistoryParty { abbreviation: string; name: string; type: string; symbol: string | null }
 
+// The lists give a one-letter party type (N, S, U, Z); pages show the words.
+function typeLabel(code: string) {
+  const label = PARTY_TYPES[code];
+  if (!label) throw new Error(`unknown party type ${code}`);
+  return label;
+}
+
 export function parseHistoryPartyList(bytes: Buffer): HistoryParty[] {
   const rows = sheet(bytes);
   if (!rows.slice(0, 3).some((row) => row.some((cell) => typeof cell === "string" && /list of political parties participated/i.test(cell)))) {
@@ -27,7 +35,7 @@ export function parseHistoryPartyList(bytes: Buffer): HistoryParty[] {
   const parties = rows.slice(header + 1)
     .filter((row) => typeof row[0] === "number" && typeof clean(row[2]) === "string" && typeof clean(row[4]) === "string")
     .map((row) => ({
-      abbreviation: clean(row[2]) as string, name: clean(row[4]) as string, type: String(clean(row[1]) ?? ""),
+      abbreviation: clean(row[2]) as string, name: clean(row[4]) as string, type: typeLabel(String(clean(row[1]) ?? "")),
       symbol: typeof clean(row[3]) === "string" ? clean(row[3]) as string : null,
     }));
   if (parties.length < 100) throw new Error("party list incomplete");

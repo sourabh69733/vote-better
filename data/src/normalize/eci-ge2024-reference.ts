@@ -30,7 +30,7 @@ function count(value: Cell, label: string): number {
 
 export interface Party { abbreviation: string; name: string; type: string; symbol: string | null; excelRow: number }
 
-const PARTY_TYPES: Record<string, string> = {
+export const PARTY_TYPES: Record<string, string> = {
   N: "National party", S: "State party", U: "Registered (unrecognised) party", Z: "Independent", Z1: "None of the above",
 };
 
