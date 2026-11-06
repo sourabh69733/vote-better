@@ -11,6 +11,7 @@ import { byElectionsFor, type Election } from "./elections";
 export const RESULT_ELECTIONS = [
   "lok-sabha-2024", "lok-sabha-2019", "lok-sabha-2014",
   "rajasthan-bye-election-anta-2025", "rajasthan-bye-elections-november-2024", "rajasthan-bye-election-bagidora-2024", "rajasthan-assembly-2023",
+  "goa-assembly-2022", "manipur-assembly-2022", "punjab-assembly-2022", "uttarakhand-assembly-2022", "uttar-pradesh-assembly-2022",
 ] as const;
 export type ResultElectionId = (typeof RESULT_ELECTIONS)[number];
 export type ResultBody = "lok-sabha" | "assembly";
@@ -20,6 +21,11 @@ export const ELECTION_INFO: Record<ResultElectionId, { body: ResultBody; label: 
   "lok-sabha-2019": { body: "lok-sabha", label: "Lok Sabha 2019", seatLabel: "Lok Sabha seat" },
   "lok-sabha-2014": { body: "lok-sabha", label: "Lok Sabha 2014", seatLabel: "Lok Sabha seat" },
   "rajasthan-assembly-2023": { body: "assembly", label: "Rajasthan Assembly 2023", seatLabel: "Assembly seat" },
+  "goa-assembly-2022": { body: "assembly", label: "Goa Assembly 2022", seatLabel: "Assembly seat" },
+  "manipur-assembly-2022": { body: "assembly", label: "Manipur Assembly 2022", seatLabel: "Assembly seat" },
+  "punjab-assembly-2022": { body: "assembly", label: "Punjab Assembly 2022", seatLabel: "Assembly seat" },
+  "uttarakhand-assembly-2022": { body: "assembly", label: "Uttarakhand Assembly 2022", seatLabel: "Assembly seat" },
+  "uttar-pradesh-assembly-2022": { body: "assembly", label: "Uttar Pradesh Assembly 2022", seatLabel: "Assembly seat" },
   // Bye-elections are published only after a person has reviewed the transcribed returns.
   "rajasthan-bye-election-anta-2025": { body: "assembly", label: "Rajasthan bye-election 2025", seatLabel: "Assembly seat" },
   "rajasthan-bye-elections-november-2024": { body: "assembly", label: "Rajasthan bye-election 2024", seatLabel: "Assembly seat" },
@@ -71,7 +77,7 @@ export interface ResultFile { title: string; url: string; contentHash: string; c
 export interface ElectionResults {
   election: { id: ResultElectionId; name: string; seats: number };
   parties: Record<string, { name: string; type: string }>;
-  source: ResultFile & { authority: string; note: string; disclaimer: string };
+  source: ResultFile & { authority: string; note?: string; disclaimer: string };
   references: ResultFile[];
   checks: { winnersMatchReport4: boolean; runnerUpNameVariants: string[] };
   revisionId: string;

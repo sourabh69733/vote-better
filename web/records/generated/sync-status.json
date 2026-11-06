@@ -37,6 +37,51 @@
       "failing": false
     },
     {
+      "id": "eci-goa-assembly-2022-results",
+      "title": "Goa assembly 2022 results: detailed results, winners, voters and parties",
+      "owner": "Election Commission of India",
+      "url": "https://old.eci.gov.in/files/file/14168-goa-general-legislative-election-2022/#detailed",
+      "refreshDays": null,
+      "lastChecked": "2026-11-06",
+      "failing": false
+    },
+    {
+      "id": "eci-manipur-assembly-2022-results",
+      "title": "Manipur assembly 2022 results: detailed results, winners, voters and parties",
+      "owner": "Election Commission of India",
+      "url": "https://old.eci.gov.in/files/file/14166-manipur-general-legislative-election-2022/#detailed",
+      "refreshDays": null,
+      "lastChecked": "2026-11-06",
+      "failing": false
+    },
+    {
+      "id": "eci-punjab-assembly-2022-results",
+      "title": "Punjab assembly 2022 results: detailed results, winners, voters and parties",
+      "owner": "Election Commission of India",
+      "url": "https://old.eci.gov.in/files/file/14165-punjab-general-legislative-election-2022/#detailed",
+      "refreshDays": null,
+      "lastChecked": "2026-11-06",
+      "failing": false
+    },
+    {
+      "id": "eci-uttarakhand-assembly-2022-results",
+      "title": "Uttarakhand assembly 2022 results: detailed results, winners, voters and parties",
+      "owner": "Election Commission of India",
+      "url": "https://old.eci.gov.in/files/file/14169-uttarakhand-general-legislative-election-2022/#detailed",
+      "refreshDays": null,
+      "lastChecked": "2026-11-06",
+      "failing": false
+    },
+    {
+      "id": "eci-uttar-pradesh-assembly-2022-results",
+      "title": "Uttar Pradesh assembly 2022 results: detailed results, winners, voters and parties",
+      "owner": "Election Commission of India",
+      "url": "https://old.eci.gov.in/files/file/14185-uttar-pradesh-general-legislative-election-2022/#detailed",
+      "refreshDays": null,
+      "lastChecked": "2026-11-06",
+      "failing": false
+    },
+    {
       "id": "ceo-rajasthan-bye-election-returns",
       "title": "Rajasthan assembly bye-elections since 2023: transcribed returns and result gazette",
       "owner": "Chief Electoral Officer, Rajasthan",
