@@ -16,7 +16,7 @@ export interface AssemblyElection {
   id: string;
   state: string;
   seats: number;
-  // Where the four reports are: a folder of spreadsheets, or one ECI archive page that lists them all.
+  // Where the reports are: a folder of spreadsheets, or one ECI archive page that lists them all.
   base?: string;
   archive?: string;
   // Anything a reader needs to know about this report, shown with its source.
@@ -45,19 +45,21 @@ export const ARCHIVE_FILES = {
   winners: /^2\s*[-.]\s*list of successful candidates\.xlsx$/i,
   voters: /^12\s*[-.]\s*ac wise voters information\.xlsx$/i,
   parties: /^5\s*[-.]\s*performance of political parties\.xlsx$/i,
+  partyList: /^3\s*[-.]\s*list of political parties participated\.xlsx$/i,
 } as const;
 
-// One address per report. An archive page holds all four, so each is told apart by a fragment.
+// One address per report. An archive page holds all of them, so each is told apart by a fragment.
 export function assemblyFiles(election: AssemblyElection) {
   if (election.archive) {
     const at = (part: keyof typeof ARCHIVE_FILES) => `${election.archive}#${part}`;
-    return { detailed: at("detailed"), winners: at("winners"), voters: at("voters"), parties: at("parties") };
+    return { detailed: at("detailed"), winners: at("winners"), voters: at("voters"), parties: at("parties"), partyList: at("partyList") };
   }
   return {
     detailed: `${election.base}/Detailed_Results.xlsx`,
     winners: `${election.base}/List_of_Successful_Candidates.xlsx`,
     voters: `${election.base}/AC_Wise_Voters_Information.xlsx`,
     parties: `${election.base}/Performance_of_Political_Parties.xlsx`,
+    partyList: `${election.base}/List_Of_Political_Parties_Participated.xlsx`,
   };
 }
 
@@ -204,12 +206,62 @@ export function parsePartyWins(bytes: Buffer): Map<string, number> {
   return wins;
 }
 
+export interface AssemblyParty { abbreviation: string; name: string; type: string }
+
+const PARTY_SECTIONS: Record<string, string> = {
+  "national parties": "National party", "state parties": "State party", "state parties other states": "State party",
+  "registered unrecognised parties": "Registered (unrecognised) party", independents: "Independent",
+};
+
+// Report 3. Section rows give the party type; numbered rows give each party's code and full name. NOTA is
+// left out. Older files end with a summary table, whose counts must then match.
+export function parseAssemblyPartyList(bytes: Buffer): AssemblyParty[] {
+  const rows = rowsOf(bytes);
+  const header = rows.findIndex((row) => plain(String(row[0] ?? "")) === "party type" && plain(String(row[1] ?? "")) === "abbreviation");
+  if (header < 0 || header > 2 || plain(String(rows[header][2] ?? "")) !== "party") throw new Error("not an ECI party list report");
+  if (!rows.some((row) => clean(row[0]) === DISCLAIMER)) throw new Error("party list: ECI disclaimer missing or changed");
+  const parties: AssemblyParty[] = [];
+  const sections = new Map<string, number>();
+  let type: string | null = null;
+  let section = "";
+  for (const [index, row] of rows.slice(header + 1).entries()) {
+    const at = `party list row ${header + index + 2}`;
+    if (typeof row[0] === "string" && row[1] === null && row[2] === null) {
+      if (/^summary table$/i.test(clean(row[0]) as string)) break;
+      if (clean(row[0]) === DISCLAIMER || /^disclaimer$/i.test(clean(row[0]) as string)) continue;
+      section = plain(row[0]);
+      type = PARTY_SECTIONS[section] ?? null;
+      if (!type) throw new Error(`${at}: unknown section ${row[0]}`);
+      continue;
+    }
+    if (typeof row[0] !== "number") continue;
+    // NOTA is numbered last, right after the parties.
+    if (row[0] !== parties.length + 1) throw new Error(`${at}: numbering skips`);
+    if (!type) throw new Error(`${at}: party before any section`);
+    const abbreviation = text(row[1], `${at} abbreviation`);
+    if (abbreviation === "NOTA") continue;
+    parties.push({ abbreviation, name: text(row[2], `${at} name`), type });
+    sections.set(section, (sections.get(section) ?? 0) + 1);
+  }
+  if (!parties.length) throw new Error("party list has no parties");
+  if (new Set(parties.map((party) => party.abbreviation)).size !== parties.length) throw new Error("party list repeats a code");
+  const summary = rows.findIndex((row) => typeof row[0] === "string" && /^summary table$/i.test(clean(row[0]) as string));
+  if (summary >= 0) {
+    for (const row of rows.slice(summary + 1)) {
+      const label = typeof row[0] === "string" ? plain(row[0]) : "";
+      if (PARTY_SECTIONS[label] && row[2] !== (sections.get(label) ?? 0)) throw new Error(`party list: ${row[0]} count differs from the summary`);
+    }
+  }
+  return parties;
+}
+
 export interface AssemblyCheck { nameVariants: string[] }
 
 // Every seat must agree with the winners list (party, and where given votes, runner-up votes and margin) and
-// the voters report (electors, NOTA, valid votes), and every party's seat count must match report 5.
+// the voters report (electors, NOTA, valid votes), every party's seat count must match report 5, and every
+// party must be on the list of parties in report 3.
 // A 2022 winners list has no seat numbers, so it is matched by seat name, which must then be unique.
-export function crossCheckAssembly(report: ParsedAssembly, winners: AssemblyWinner[], turnout: AssemblyTurnout[], partyWins: Map<string, number>): AssemblyCheck {
+export function crossCheckAssembly(report: ParsedAssembly, winners: AssemblyWinner[], turnout: AssemblyTurnout[], partyWins: Map<string, number>, partyList: AssemblyParty[]): AssemblyCheck {
   const byName = winners.length > 0 && winners.every((winner) => winner.number === null);
   if (!byName && winners.some((winner) => winner.number === null)) throw new Error("winners list mixes numbered and unnumbered rows");
   if (byName && new Set(report.seats.map((seat) => plain(seat.name))).size !== report.seats.length) throw new Error("two seats share a name, so the winners list cannot be matched");
@@ -238,6 +290,10 @@ export function crossCheckAssembly(report: ParsedAssembly, winners: AssemblyWinn
   }
   for (const [party, seats] of partyWins) if ((won.get(party) ?? 0) !== seats) throw new Error(`${party}: ${won.get(party) ?? 0} wins in the results, ${seats} in report 5`);
   for (const [party, seats] of won) if (partyWins.get(party) !== seats) throw new Error(`${party} is missing from report 5`);
+  // Older lists have no row for independents.
+  const listed = new Set(["IND", ...partyList.map((party) => party.abbreviation)]);
+  const unlisted = new Set(report.seats.flatMap((seat) => seat.rows.filter((row) => !row.nota && !listed.has(row.raw[7] as string)).map((row) => row.raw[7])));
+  if (unlisted.size) throw new Error(`not in the list of parties: ${[...unlisted].join(", ")}`);
   return { nameVariants };
 }
 

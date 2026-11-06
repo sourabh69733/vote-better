@@ -5,12 +5,12 @@ import pg from "pg";
 
 import { openBlobStore } from "./blob-store.js";
 import { linkElections, type CalendarElection, type ResultSource } from "./elections/link.js";
-import { assemblyTarget, buildAssemblyBundle, type PartyNames } from "./export-assembly.js";
+import { assemblyTarget, buildAssemblyBundle, electionPartyNames, type PartyNames } from "./export-assembly.js";
 import { buildByElectionBundle, byElectionTarget, readBaseSeats } from "./export-bye-elections.js";
 import { BYE_ELECTION_TRANSCRIPTIONS } from "./import-rajasthan-bye-elections.js";
 import type { Transcriptions } from "./normalize/rajasthan-form21e-transcription.js";
 import { loadReferences, publishPendingResults } from "./export-lok-sabha-2024.js";
-import { ASSEMBLY_ELECTIONS, assemblyFiles } from "./normalize/eci-assembly-result.js";
+import { ASSEMBLY_ELECTIONS, assemblyFiles, parseAssemblyPartyList } from "./normalize/eci-assembly-result.js";
 import { linkSegments, type SegmentLink } from "./normalize/eci-assembly-segments.js";
 import { readFile } from "node:fs/promises";
 import { seatKey } from "./elections/link.js";
@@ -70,7 +70,7 @@ export async function exportElections(pool: pg.Pool, write = (text: string) => {
     const candidates = bundle.seats.reduce((sum, seat) => sum + seat.candidates.length, 0);
     write(`${year}: ${bundle.seats.length} seats, ${candidates} candidates written, ${fresh} newly published, ${bundle.checks.winnerOnlySeats} winner-only, ${bundle.checks.overCountedSeats.length} noted.\n`);
   }
-  // Full party names, from ECI's 2024 and 2019 party lists.
+  // Full party names from ECI's 2024 and 2019 party lists, for bye-elections and for spelling.
   const partyNames: PartyNames = new Map();
   const references2024 = await loadReferences(pool, openBlobStore("eci-2024/blobs/"));
   const lokSabha2024 = JSON.parse(await readFile(fileURLToPath(new URL("../../web/records/generated/lok-sabha-2024.json", import.meta.url)), "utf8")) as
@@ -87,17 +87,20 @@ export async function exportElections(pool: pg.Pool, write = (text: string) => {
     const fresh = await publishPendingResults(pool, url);
     const publication = await loadPublication(pool, url);
     if (!publication.facts.length) { write(`${election.id}: nothing published yet, skipped.\n`); continue; }
-    const references = (await pool.query(`
-      SELECT DISTINCT ON (src.url) src.document_type AS title, src.url, s.content_hash, s.captured_at FROM snapshot s JOIN source src ON src.id = s.source_id
-      WHERE src.url = ANY($1) ORDER BY src.url, s.captured_at DESC`, [Object.values(assemblyFiles(election)).filter((file) => file !== url)])).rows
-      .map((row) => ({ title: row.title, url: row.url, contentHash: row.content_hash, capturedAt: (row.captured_at as Date).toISOString() }));
-    const bundle0 = buildAssemblyBundle(publication, election, partyNames, references, []).seats;
+    const rows = (await pool.query(`
+      SELECT DISTINCT ON (src.url) src.document_type AS title, src.url, s.content_hash, s.captured_at, s.blob_ref FROM snapshot s JOIN source src ON src.id = s.source_id
+      WHERE src.url = ANY($1) ORDER BY src.url, s.captured_at DESC`, [Object.values(assemblyFiles(election)).filter((file) => file !== url)])).rows;
+    const references = rows.map((row) => ({ title: row.title, url: row.url, contentHash: row.content_hash, capturedAt: (row.captured_at as Date).toISOString() }));
+    const listRow = rows.find((row) => row.url === assemblyFiles(election).partyList);
+    if (!listRow?.blob_ref) throw new Error(`${election.id}: no saved list of parties (report 3); run sync for this election`);
+    const names = electionPartyNames(parseAssemblyPartyList(await openBlobStore(`${election.id}/blobs/`).get(listRow.blob_ref)), partyNames);
+    const bundle0 = buildAssemblyBundle(publication, election, names, references, []).seats;
     const segments = linkSegments(election.state, references2024.segments,
       bundle0.map((seat) => ({ number: seat.number, sourceName: seat.sourceName, electors: seat.electors })),
       lokSabha2024.seats.filter((seat) => seat.state === election.state));
     parents.push({ state: election.state, links: segments, childKey: new Map(bundle0.map((seat) => [seat.number, seatKey(seat.state, seat.sourceName, "assembly-seat", seat.number)])) });
     const segmentRef = references2024.sources.find((source) => source.url.includes("15-Assembly"))!;
-    const bundle = buildAssemblyBundle(publication, election, partyNames, [...references, segmentRef], segments);
+    const bundle = buildAssemblyBundle(publication, election, names, [...references, segmentRef], segments);
     await writeAtomic(assemblyTarget(election.id), bundle);
     published.push({ electionId: election.id, url });
     const unnamed = Object.entries(bundle.parties).filter(([, party]) => party.type === "not listed").map(([code]) => code);

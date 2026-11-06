@@ -6,7 +6,7 @@ import { type BlobStore, openBlobStore } from "./blob-store.js";
 import { migrate } from "./migrate.js";
 import {
   ARCHIVE_FILES, ASSEMBLY_ELECTIONS, assemblyFiles, crossCheckAssembly, normalizeAssemblyResult,
-  parseAssemblyDetailedResult, parseAssemblyVoters, parseAssemblyWinners, parsePartyWins,
+  parseAssemblyDetailedResult, parseAssemblyPartyList, parseAssemblyVoters, parseAssemblyWinners, parsePartyWins,
 } from "./normalize/eci-assembly-result.js";
 import { XLSX_DOCUMENT } from "./normalize/eci-ge2024-reference.js";
 import { collectDocument } from "./sources/collect-document.js";
@@ -18,13 +18,14 @@ const TITLES = {
   winners: "2 - List of Successful Candidates",
   voters: "12 - AC Wise Voters Information",
   parties: "5 - Performance of Political Parties",
+  partyList: "3 - List of Political Parties Participated",
 } as const;
 
 export type AssemblyImportResult =
   | { status: "drafts-saved"; seats: number; observationIds: string[]; nameVariants: number }
   | { status: "source-failed" | "invalid-report"; reason: string };
 
-// Collects the four reports, checks them against each other, and saves one draft per candidate.
+// Collects the five reports, checks them against each other, and saves one draft per candidate.
 export async function importEciAssembly(store: CivicStore, blobs: BlobStore, electionId: string, options: { request?: typeof fetch; countdownMs?: number } = {}): Promise<AssemblyImportResult> {
   const election = ASSEMBLY_ELECTIONS[electionId];
   if (!election) throw new Error(`unknown assembly election ${electionId}`);
@@ -46,7 +47,7 @@ export async function importEciAssembly(store: CivicStore, blobs: BlobStore, ele
   try {
     const report = parseAssemblyDetailedResult(bytes.detailed!, election);
     const turnout = parseAssemblyVoters(bytes.voters!);
-    const check = crossCheckAssembly(report, parseAssemblyWinners(bytes.winners!), turnout, parsePartyWins(bytes.parties!));
+    const check = crossCheckAssembly(report, parseAssemblyWinners(bytes.winners!), turnout, parsePartyWins(bytes.parties!), parseAssemblyPartyList(bytes.partyList!));
     const observations = await store.saveObservations(detailed!.snapshotId, normalizeAssemblyResult(report, turnout, election, new Date().toISOString()));
     return { status: "drafts-saved", seats: report.seats.length, observationIds: observations.map((item) => item.id), nameVariants: check.nameVariants.length };
   } catch (error) {

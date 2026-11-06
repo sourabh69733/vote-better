@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url";
 import { seatName, seatSlug } from "./elections/link.js";
 import { readableName } from "./export-lok-sabha-2024.js";
 import { slugify } from "./normalize/eci-ge2024-detailed-result.js";
-import type { AssemblyCandidateResult, AssemblyElection } from "./normalize/eci-assembly-result.js";
+import type { AssemblyCandidateResult, AssemblyElection, AssemblyParty } from "./normalize/eci-assembly-result.js";
 import type { SegmentLink } from "./normalize/eci-assembly-segments.js";
 import type { Publication } from "./publish.js";
 
@@ -11,8 +11,20 @@ import type { Publication } from "./publish.js";
 
 export const assemblyTarget = (id: string) => fileURLToPath(new URL(`../../web/records/generated/${id}.json`, import.meta.url));
 
-// ECI's assembly reports give party abbreviations only; full names come from its national party lists.
+// ECI's results give party abbreviations only; full names come from its lists of parties.
 export type PartyNames = Map<string, { name: string; type: string }>;
+
+const sameName = (a: string, b: string) => a.toLowerCase().replace(/[^a-z0-9]+/g, "") === b.toLowerCase().replace(/[^a-z0-9]+/g, "");
+
+// Each party's name and type as the election's own report 3 gives them, so a party shows the status it had
+// then. Where a national list has the same name, its capitalisation is kept ("Of India (marxist)" is not).
+export function electionPartyNames(list: readonly AssemblyParty[], national: PartyNames): PartyNames {
+  const independent: AssemblyParty = { abbreviation: "IND", name: "Independent", type: "Independent" };
+  return new Map([independent, ...list].map((party) => {
+    const known = national.get(party.abbreviation);
+    return [party.abbreviation, { name: known && sameName(known.name, party.name) ? known.name : party.name, type: party.type }];
+  }));
+}
 
 export function buildAssemblyBundle(publication: Publication, election: AssemblyElection, partyNames: PartyNames, references: { title: string; url: string; contentHash: string; capturedAt: string }[], segments: SegmentLink[]) {
   const latest = new Map<string, Publication["facts"][number]>();

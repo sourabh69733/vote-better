@@ -208,7 +208,7 @@ The export publishes approved facts and writes `web/records/generated/lok-sabha-
 
 ## Rajasthan assembly 2023
 
-ECI publishes the final report, including Karanpur's adjourned January 2024 poll, as four spreadsheets: report 10 (detailed results), report 2 (successful candidates), report 12 (seat-wise voters information) and report 5 (party performance).
+ECI publishes the final report, including Karanpur's adjourned January 2024 poll, as five spreadsheets: report 10 (detailed results), report 2 (successful candidates), report 12 (seat-wise voters information), report 5 (party performance) and report 3 (list of parties).
 
 ```sh
 npm --prefix data run sync -- eci-rajasthan-assembly-2023-results
@@ -216,7 +216,7 @@ npm --prefix data run review:batch -- <report 10 URL> --reviewer=automated-batch
 npm --prefix data run export:elections
 ```
 
-The import refuses the report unless every row adds up, every seat has one NOTA row and no tie, every winner, runner-up and margin matches report 2, electors, NOTA and valid votes match report 12, and every party's seat count matches report 5. It stores 1,875 candidate results for 200 seats. `export:elections` writes `web/records/generated/rajasthan-assembly-2023.json`. Full party names come from ECI's 2024 and 2019 party lists; 13 small parties are not in either and show their abbreviation.
+The import refuses the report unless every row adds up, every seat has one NOTA row and no tie, every winner, runner-up and margin matches report 2, electors, NOTA and valid votes match report 12, every party's seat count matches report 5, and every party is in report 3. It stores 1,875 candidate results for 200 seats. `export:elections` writes `web/records/generated/rajasthan-assembly-2023.json`. Each party's full name and type come from that election's report 3, so a party shows the status it had then. Where ECI's 2024 or 2019 list gives the same name, its capitalisation is used.
 
 Assembly seats are keyed by number and name, as ECI writes them ("42-Shahpura"), because Rajasthan has two Shahpuras. Each is placed in its Lok Sabha seat from ECI's GE 2024 report 15, collected with the 2024 references. Report 15 has no seat numbers, so rows are matched by name; five spellings that differ are listed in `SEGMENT_ALIASES`, and the two Shahpuras are settled by electors. The match is stored as `area.parent_id`.
 
@@ -230,7 +230,7 @@ npm --prefix data run review:batch -- <report 10 address> --reviewer=automated-b
 npm --prefix data run export:elections
 ```
 
-The same source ids exist for `manipur`, `punjab`, `uttarakhand` and `uttar-pradesh`. Each report's address is the archive page with `#detailed`, `#winners`, `#voters` or `#parties`; the fetcher picks the file by name from the page's list. These pages show no terms to accept; if ECI adds any, the fetcher stops until they are approved in `src/sources/old-eci.ts`.
+The same source ids exist for `manipur`, `punjab`, `uttarakhand` and `uttar-pradesh`. Each report's address is the archive page with `#detailed`, `#winners`, `#voters`, `#parties` or `#partyList`; the fetcher picks the file by name from the page's list. These pages show no terms to accept; if ECI adds any, the fetcher stops until they are approved in `src/sources/old-eci.ts`.
 
 The 2022 winners list names each seat and winner only, with no seat number, votes, runner-up or margin. Winners are therefore matched by seat name, which must be unique in the state, and checked by party; seats, votes, NOTA and party totals are checked as for 2023.
 
