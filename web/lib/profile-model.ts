@@ -132,6 +132,16 @@ export function attendanceForProfile(summary: import("./attendance").MemberAtten
   };
 }
 
+// A member's debate records in the shape the profile view draws.
+export function debatesForProfile(debates: { totalRecords: number; collectedOn: string; records: { date: string; title: string; category: string; sourceUrl: string }[] }, day: (iso: string) => string): NonNullable<ProfileWork["debates"]> {
+  return {
+    total: debates.totalRecords,
+    byCategory: topCounts(debates.records.map((record) => readableTitle(record.category)), 4),
+    latest: [...debates.records].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3).map((record) => ({ date: day(record.date), title: record.title, url: record.sourceUrl })),
+    collectedOn: day(debates.collectedOn),
+  };
+}
+
 type QuestionSummary = NonNullable<ReturnType<typeof import("./parliamentary-work").summarizeParliamentaryWork>>;
 
 // A member's questions in the shape the profile view draws.

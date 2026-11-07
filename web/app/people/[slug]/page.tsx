@@ -6,7 +6,7 @@ import { getParliamentaryDebates } from "@/lib/parliamentary-debates";
 import { getMpFunds } from "@/lib/mp-funds";
 import { getParliamentaryWork } from "@/lib/parliamentary-work";
 import { getJaipurVoteTraceId } from "@/lib/publication";
-import { eciChip, moneyStats, partyOf, questionsForProfile, readableTitle, resultStats, topCounts, type ProfileModel, type ProfileStat, type ProfileWork } from "@/lib/profile-model";
+import { debatesForProfile, eciChip, moneyStats, partyOf, questionsForProfile, resultStats, type ProfileModel, type ProfileStat, type ProfileWork } from "@/lib/profile-model";
 import { sourceLabel } from "@/lib/source-label";
 import { formatTermDuration } from "@/lib/term-duration";
 import { getPersonProfile, getProfileSource, listPersonSlugs, type PersonProfile } from "@/lib/verified-profile";
@@ -75,14 +75,7 @@ export default async function PersonPage({ params }: PageProps) {
     ...(questions ? {
       questions: questionsForProfile(questions, day),
     } : {}),
-    ...(debates ? {
-      debates: {
-        total: debates.totalRecords,
-        byCategory: topCounts(debates.records.map((record) => readableTitle(record.category)), 4),
-        latest: [...debates.records].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3).map((record) => ({ date: day(record.date), title: record.title, url: record.sourceUrl })),
-        collectedOn: day(debates.collectedOn),
-      },
-    } : {}),
+    ...(debates ? { debates: debatesForProfile(debates, day) } : {}),
     offices: profile.officeTerms.map((term) => ({
       title: term.title, current: !term.endedOn, source: chip(profile, term.statusSourceId),
       detail: `${term.constituency} · ${term.party} · ${day(term.startedOn)} to ${term.endedOn ? day(term.endedOn) : "present"}, checked ${day(term.reviewedOn)}`,
