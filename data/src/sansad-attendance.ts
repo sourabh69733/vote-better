@@ -94,37 +94,46 @@ export function buildAttendanceArchive(records: { session: number; memberId: num
   return { schemaVersion: 1, sourceLabel: "Digital Sansad", collectedAt, sessions };
 }
 
-// Saves each record once; a saved record is not fetched again, so an interrupted run resumes.
-export async function collectAttendance(sessions: number[], memberIds: number[], options: { pauseMs?: number; request?: typeof fetch; log?: (line: string) => void } = {}) {
+// Saves each record once; a saved record is not fetched again, so an interrupted run resumes. An empty
+// record (a session not yet held, or not a member then) is never saved, so it is asked for again next run.
+// `refresh` lists sessions to fetch again in full, for a session still sitting.
+export async function collectAttendance(sessions: number[], memberIds: number[], options: { pauseMs?: number; request?: typeof fetch; log?: (line: string) => void; refresh?: number[]; directory?: string } = {}) {
+  const directory = options.directory ?? raw();
   const pause = options.pauseMs ?? 700;
   const records: { session: number; memberId: number; record: SessionAttendance | null }[] = [];
   let latest = 0;
   for (const session of sessions) {
-    await mkdir(raw(`ls18-s${session}`), { recursive: true });
+    await mkdir(path.join(directory, `ls18-s${session}`), { recursive: true });
     let fetched = 0;
     for (const memberId of memberIds) {
-      const file = raw(`ls18-s${session}`, `${memberId}.json`);
-      let body = await readFile(file, "utf8").catch(() => null);
+      const file = path.join(directory, `ls18-s${session}`, `${memberId}.json`);
+      let body = options.refresh?.includes(session) ? null : await readFile(file, "utf8").catch(() => null);
       if (body === null) {
         body = await fetchText(attendanceUrl(session, memberId), options.request);
-        parseAttendance(body);
-        await writeFile(`${file}.tmp`, body);
-        await rename(`${file}.tmp`, file);
         fetched++;
+        if (parseAttendance(body)) {
+          await writeFile(`${file}.tmp`, body);
+          await rename(`${file}.tmp`, file);
+        }
         await new Promise((done) => setTimeout(done, pause));
       }
-      latest = Math.max(latest, (await stat(file)).mtimeMs);
-      records.push({ session, memberId, record: parseAttendance(body) });
+      const record = parseAttendance(body);
+      if (record) latest = Math.max(latest, (await stat(file)).mtimeMs);
+      records.push({ session, memberId, record });
     }
-    options.log?.(`session ${session}: ${fetched} fetched, ${memberIds.length - fetched} already saved`);
+    const empty = records.filter((item) => item.session === session && !item.record).length;
+    options.log?.(`session ${session}: ${fetched} fetched, ${memberIds.length - fetched} already saved, ${empty} with no days`);
   }
+  if (!latest) throw new Error("no attendance records saved for these sessions");
   return { records, collectedAt: new Date(latest).toISOString() };
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
-  const sessions = (process.argv[2] ?? "1,2,3,4,5,6,7,8").split(",").map(Number);
+  const args = process.argv.slice(2);
+  const sessions = (args.find((arg) => !arg.startsWith("--")) ?? "1,2,3,4,5,6,7,8").split(",").map(Number);
+  const refresh = args.find((arg) => arg.startsWith("--refresh="))?.slice("--refresh=".length).split(",").map(Number) ?? [];
   const members = JSON.parse(await readFile(MEMBERS, "utf8")) as { mpNo: number }[];
-  const { records, collectedAt } = await collectAttendance(sessions, members.map((member) => member.mpNo), { log: console.log });
+  const { records, collectedAt } = await collectAttendance(sessions, members.map((member) => member.mpNo), { log: console.log, refresh });
   const archive = buildAttendanceArchive(records, collectedAt);
   await writeFile(`${ATTENDANCE_ARCHIVE}.tmp`, `${JSON.stringify(archive)}\n`);
   await rename(`${ATTENDANCE_ARCHIVE}.tmp`, ATTENDANCE_ARCHIVE);

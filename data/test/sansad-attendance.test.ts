@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
+import { mkdtemp, readdir } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import test from "node:test";
 
-import { buildAttendanceArchive, parseAttendance } from "../src/sansad-attendance.js";
+import { buildAttendanceArchive, collectAttendance, parseAttendance } from "../src/sansad-attendance.js";
 
 const record = (marks: Record<string, string[]>) => JSON.stringify(
   ["S", "NR", "NS", "S*", "S#", "NS@"].map((type) => ({ attendanceType: type, dates: (marks[type] ?? []).map((day) => `${day} 00:00:00`) })));
@@ -29,4 +32,22 @@ test("a session's median leaves out members who did not have to sign every day",
   assert.equal(session.medianPercent, 75, "members 1 and 2 only: member 3 need not sign and member 4's record lists 9 days");
   assert.deepEqual(session.differentDays, [4]);
   assert.deepEqual(Object.keys(session.members), ["1", "2", "3", "4"]);
+});
+
+test("an empty record is not saved, so the next run asks again; a refreshed session is fetched again", async () => {
+  const directory = await mkdtemp(path.join(tmpdir(), "attendance-"));
+  const asked: string[] = [];
+  const request = (async (url: string | URL | Request) => {
+    asked.push(String(url));
+    return new Response(String(url).includes("session=9") ? record({}) : record({ S: days(1, 2) }));
+  }) as typeof fetch;
+  const run = (refresh: number[] = []) => collectAttendance([8, 9], [1], { directory, request, pauseMs: 0, refresh });
+  const first = await run();
+  assert.deepEqual(first.records.map((item) => [item.session, item.record?.signed ?? null]), [[8, 2], [9, null]]);
+  assert.deepEqual(await readdir(path.join(directory, "ls18-s9")), [], "session 9 has not sat, so nothing is saved");
+  await run();
+  assert.equal(asked.filter((url) => url.includes("session=8")).length, 1, "a saved record is not fetched again");
+  assert.equal(asked.filter((url) => url.includes("session=9")).length, 2, "an empty record is asked for again");
+  await run([8]);
+  assert.equal(asked.filter((url) => url.includes("session=8")).length, 2);
 });
