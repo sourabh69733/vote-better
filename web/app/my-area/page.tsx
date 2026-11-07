@@ -76,7 +76,7 @@ export default async function MyAreaPage({ searchParams }: PageProps) {
       <Breadcrumb items={[{ href: "/", label: "Home" }]} />
       <header className="mt-6 max-w-2xl">
         <Eyebrow>My area{available ? " · preview, Rajasthan only" : ""}</Eyebrow>
-        <h1 className="mt-3 text-[clamp(2.2rem,5vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.06em] text-ink">Who represents you</h1>
+        <h1 className="mt-3 text-[clamp(2.2rem,5vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.035em] text-ink">Who represents you</h1>
         <p className="mt-3 text-[15px] leading-7 text-body">Your MP, your MLA and your ward councillor, each with the official result behind them.</p>
       </header>
 
@@ -104,7 +104,7 @@ export default async function MyAreaPage({ searchParams }: PageProps) {
       {result?.status === "found" && chosen && (
         <section className="mt-8 grid gap-6" aria-labelledby="area-heading">
           <div>
-            <h2 id="area-heading" className="text-2xl font-semibold tracking-[-0.04em] text-ink">PIN {result.pin}: {chosen.assembly.name}{chosen.parliament ? `, in ${chosen.parliament.name}` : ""}</h2>
+            <h2 id="area-heading" className="text-2xl font-semibold tracking-[-0.025em] text-ink">PIN {result.pin}: {chosen.assembly.name}{chosen.parliament ? `, in ${chosen.parliament.name}` : ""}</h2>
             {result.seats.length > 1 && (
               <div className="mt-3">
                 <p className="text-sm text-body">This PIN area covers parts of {result.seats.length} assembly seats. The one covering most of its land is shown first. Pick yours if it is different:</p>

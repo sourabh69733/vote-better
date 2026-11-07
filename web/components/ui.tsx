@@ -27,7 +27,7 @@ export function Card({ children, className = "", labelledBy }: { children: React
 export function SectionHeading({ id, title, lead }: { id: string; title: string; lead?: ReactNode }) {
   return (
     <div>
-      <h2 id={id} className="text-2xl font-semibold tracking-[-0.04em] text-ink">{title}</h2>
+      <h2 id={id} className="text-2xl font-semibold tracking-[-0.025em] text-ink">{title}</h2>
       {lead ? <p className="mt-1 text-sm text-muted">{lead}</p> : null}
     </div>
   );

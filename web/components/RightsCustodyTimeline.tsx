@@ -8,8 +8,8 @@ const points = [
 ];
 
 export default function RightsCustodyTimeline() {
-  return <section aria-labelledby="custody-heading" className="rounded-[28px] border border-[#d7e3d8] bg-white p-5 sm:p-8">
-    <h2 id="custody-heading" className="text-2xl font-semibold tracking-[-0.04em] text-[#193b2f]">How the ordinary custody timeline works</h2>
+  return <section aria-labelledby="custody-heading" className="rounded-[28px] border border-line bg-white p-5 sm:p-8">
+    <h2 id="custody-heading" className="text-2xl font-semibold tracking-[-0.025em] text-ink">How the ordinary custody timeline works</h2>
     <p className="mt-3 max-w-3xl text-base leading-7 text-[#52685a]">Timing and court oversight are different from a guarantee of release.</p>
     <ol className="mt-6 grid gap-5 lg:grid-cols-4">
       {points.map((point, index) => <li key={point.title} className="border-l-2 border-[#b7d3be] pl-4">

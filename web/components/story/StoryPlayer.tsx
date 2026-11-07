@@ -98,7 +98,7 @@ export default function StoryPlayer({ story, onClose }: { story: Story; onClose:
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
         onPointerCancel={() => { clearTimeout(holdTimer.current); press.current = null; setPaused(false); }}
-        className="relative flex h-full w-full touch-none select-none flex-col overflow-hidden bg-[#122a20] text-white outline-none sm:h-[min(760px,92vh)] sm:w-[min(430px,92vw)] sm:rounded-[28px] sm:shadow-2xl"
+        className="relative flex h-full w-full touch-none select-none flex-col overflow-hidden bg-ink text-white outline-none sm:h-[min(760px,92vh)] sm:w-[min(430px,92vw)] sm:rounded-[28px] sm:shadow-2xl"
       >
         <div className="absolute inset-x-0 top-0 h-1" style={{ background: story.color }} aria-hidden="true" />
         <div className="relative z-10 flex gap-1 px-4 pt-4">

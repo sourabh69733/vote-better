@@ -34,17 +34,17 @@ function Ring({ percent, color }: { percent: number; color: string }) {
 function StatCard({ stat, color }: { stat: ProfileStat; color: string }) {
   const visual = stat.visual;
   return (
-    <div className="flex min-w-0 flex-col justify-between rounded-3xl border border-[#e2e9e2] bg-white p-4 sm:p-5">
+    <div className="flex min-w-0 flex-col justify-between rounded-3xl border border-line bg-white p-4 sm:p-5">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-[13px] font-medium text-[#6b7f71]">{stat.label}</p>
-          <p className="mt-1 text-[1.65rem] font-semibold leading-tight tracking-[-0.03em] text-[#122a20]">{stat.value}</p>
-          {stat.note && <p className="mt-0.5 text-xs text-[#6b7f71]">{stat.note}</p>}
+          <p className="text-[13px] font-medium text-muted">{stat.label}</p>
+          <p className="mt-1 text-[1.65rem] font-semibold leading-tight tracking-[-0.03em] text-ink">{stat.value}</p>
+          {stat.note && <p className="mt-0.5 text-xs text-muted">{stat.note}</p>}
         </div>
         {visual?.kind === "ring" && <Ring percent={visual.percent} color={color} />}
       </div>
       {visual?.kind === "split" && (
-        <div className="mt-3 flex h-2 overflow-hidden rounded-full bg-[#edf2ec]" aria-hidden="true">
+        <div className="mt-3 flex h-2 overflow-hidden rounded-full bg-track" aria-hidden="true">
           {visual.parts.map((part) => (
             <span key={part.label} style={{ flexGrow: Math.max(part.value, 1), background: part.tone === "good" ? "#2f8a5b" : "#d9822b" }} />
           ))}
@@ -59,13 +59,13 @@ function Section({ id, title, kicker, children }: { id: string; title: string; k
   return (
     <section id={id} className="scroll-reveal scroll-mt-36 pt-10" aria-labelledby={`${id}-title`}>
       {kicker && <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#5b8a6c]">{kicker}</p>}
-      <h2 id={`${id}-title`} className="mt-1 text-2xl font-semibold tracking-[-0.04em] text-[#122a20] sm:text-3xl">{title}</h2>
+      <h2 id={`${id}-title`} className="mt-1 text-2xl font-semibold tracking-[-0.025em] text-ink sm:text-3xl">{title}</h2>
       <div className="mt-4">{children}</div>
     </section>
   );
 }
 
-const panel = "rounded-3xl border border-[#e2e9e2] bg-white p-5 sm:p-6";
+const panel = "rounded-3xl border border-line bg-white p-5 sm:p-6";
 
 export default function ProfileView({ model, data }: { model: ProfileModel; data: ElectionResults }) {
   const color = model.party?.color ?? "#7d8a80";
@@ -99,7 +99,7 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
         ))}
       </nav>
 
-      <header className="relative mt-4 overflow-hidden rounded-[32px] bg-[#122a20] text-white">
+      <header className="relative mt-4 overflow-hidden rounded-[32px] bg-ink text-white">
         <div className="h-1.5" style={{ background: color }} aria-hidden="true" />
         <div className="relative grid gap-6 p-6 sm:p-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-10 lg:p-10">
           <div className="min-w-0">
@@ -107,10 +107,10 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
               <div className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-white/10 text-xl font-bold sm:h-20 sm:w-20 sm:text-2xl" style={{ boxShadow: `0 0 0 3px ${color}` }} aria-hidden="true">{initials(model.name)}</div>
               <div className="min-w-0">
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/60">{model.kicker}</p>
-                <span className={`mt-1.5 inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold ${model.role.tone === "lost" ? "bg-white/15 text-white" : "bg-white text-[#122a20]"}`}>{model.role.label}</span>
+                <span className={`mt-1.5 inline-flex rounded-full px-2.5 py-0.5 text-xs font-bold ${model.role.tone === "lost" ? "bg-white/15 text-white" : "bg-white text-ink"}`}>{model.role.label}</span>
               </div>
             </div>
-            <h1 className="mt-5 text-[clamp(2.2rem,6vw,4rem)] font-semibold leading-[1.02] tracking-[-0.05em]">{model.name}</h1>
+            <h1 className="mt-5 text-[clamp(2.2rem,6vw,4rem)] font-semibold leading-[1.02] tracking-[-0.03em]">{model.name}</h1>
             {model.party && (
               <p className="mt-2 flex flex-wrap items-center gap-x-2 text-white/80">
                 <span className="h-2.5 w-2.5 rounded-full" style={{ background: color }} aria-hidden="true" />
@@ -122,7 +122,7 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
           {margin && (
             <div className="md:text-right">
               <p className="text-sm text-white/65">{margin.kind === "won" ? "Won by" : "Lost by"}</p>
-              <p className="text-[clamp(2.6rem,7vw,4.5rem)] font-semibold leading-none tracking-[-0.05em]">
+              <p className="text-[clamp(2.6rem,7vw,4.5rem)] font-semibold leading-none tracking-[-0.03em]">
                 <Figure>{formatShort(margin.votes)}</Figure>
               </p>
               <p className="mt-1 text-sm text-white/65">votes {margin.kind === "won" ? "over" : "to"} {margin.other.name}</p>
@@ -164,9 +164,9 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
       {contest && (
         <Section id="contest" kicker={`${contest.seat.name}, ${contest.seat.state}`} title="How the 2024 vote went">
           <div className={panel}>
-            {contest.note && <p className="mb-4 text-sm text-[#4f6455]">{contest.note}</p>}
+            {contest.note && <p className="mb-4 text-sm text-body">{contest.note}</p>}
             {contest.seat.unopposed ? (
-              <p className="text-[15px] text-[#2c4436]">Elected unopposed. {contest.seat.unopposed.nominated} filed nominations, {contest.seat.unopposed.rejected} were rejected and {contest.seat.unopposed.withdrawn} withdrew.</p>
+              <p className="text-[15px] text-ink">Elected unopposed. {contest.seat.unopposed.nominated} filed nominations, {contest.seat.unopposed.rejected} were rejected and {contest.seat.unopposed.withdrawn} withdrew.</p>
             ) : (
               <VoteRace
                 nota={contest.seat.notaVotes}
@@ -177,13 +177,13 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
                 }))}
               />
             )}
-            <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-[#eef3ed] pt-4 text-sm font-bold">
+            <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-track pt-4 text-sm font-bold">
               {contest.seat.electors && contest.seat.votesPolled && (
-                <span className="font-normal text-[#4f6455]">Turnout {((contest.seat.votesPolled / contest.seat.electors) * 100).toFixed(1)}% of {formatShort(contest.seat.electors)} voters</span>
+                <span className="font-normal text-body">Turnout {((contest.seat.votesPolled / contest.seat.electors) * 100).toFixed(1)}% of {formatShort(contest.seat.electors)} voters</span>
               )}
-              <Link href={seatHref(contest.seat)} className="text-[#1d6547] underline decoration-[#9ec9a8] underline-offset-4">Seat page</Link>
+              <Link href={seatHref(contest.seat)} className="text-link underline decoration-[#9ec9a8] underline-offset-4">Seat page</Link>
               {contest.candidate && contest.seat.candidates.length > 1 && (
-                <Link href={`${seatHref(contest.seat)}/compare?a=${contest.candidate.slug}&b=${(contest.candidate.rank === 1 ? contest.seat.candidates[1] : contest.seat.candidates[0]).slug}`} className="text-[#1d6547] underline decoration-[#9ec9a8] underline-offset-4">Compare side by side</Link>
+                <Link href={`${seatHref(contest.seat)}/compare?a=${contest.candidate.slug}&b=${(contest.candidate.rank === 1 ? contest.seat.candidates[1] : contest.seat.candidates[0]).slug}`} className="text-link underline decoration-[#9ec9a8] underline-offset-4">Compare side by side</Link>
               )}
             </div>
           </div>
@@ -195,17 +195,17 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
           <div className="grid gap-3 md:grid-cols-2">
             {model.work.attendance && (
               <div className={panel}>
-                <p className="flex items-center justify-between gap-2 text-[13px] font-medium text-[#6b7f71]">Attendance register <SourceChip source={model.work.attendance.source} /></p>
+                <p className="flex items-center justify-between gap-2 text-[13px] font-medium text-muted">Attendance register <SourceChip source={model.work.attendance.source} /></p>
                 {model.work.attendance.percent === null ? (
-                  <p className="mt-1 text-sm text-[#4f6455]">Not required to sign in any session so far. Ministers, the Speaker and the Leader of the Opposition do not sign the register.</p>
+                  <p className="mt-1 text-sm text-body">Not required to sign in any session so far. Ministers, the Speaker and the Leader of the Opposition do not sign the register.</p>
                 ) : (
                   <>
-                    <p className="text-4xl font-semibold tracking-[-0.04em] text-[#122a20]"><Figure>{`${Math.round(model.work.attendance.percent)}%`}</Figure></p>
-                    <p className="text-sm text-[#4f6455]">Signed on {model.work.attendance.signed} of {model.work.attendance.required} days they had to sign.</p>
+                    <p className="text-4xl font-semibold tracking-[-0.025em] text-ink"><Figure>{`${Math.round(model.work.attendance.percent)}%`}</Figure></p>
+                    <p className="text-sm text-body">Signed on {model.work.attendance.signed} of {model.work.attendance.required} days they had to sign.</p>
                   </>
                 )}
                 <div className="mt-4"><AttendanceBars data={model.work.attendance.bySession} color={color} /></div>
-                <p className="mt-3 text-xs text-[#8a9b8e]">
+                <p className="mt-3 text-xs text-subtle">
                   Dark line: the median MP that session. Signing shows the MP came to Parliament, not that they spoke or voted.
                   {model.work.attendance.exemptSessions > 0 && model.work.attendance.percent !== null && " Ministers, the Speaker and the Leader of the Opposition do not sign, so those days are left out."} Collected {model.work.attendance.collectedOn}. Tap a bar.
                 </p>
@@ -213,20 +213,20 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
             )}
             {model.work.questions && (
               <div className={panel}>
-                <p className="text-[13px] font-medium text-[#6b7f71]">Questions asked</p>
-                <p className="text-4xl font-semibold tracking-[-0.04em] text-[#122a20]"><Figure>{model.work.questions.total}</Figure></p>
+                <p className="text-[13px] font-medium text-muted">Questions asked</p>
+                <p className="text-4xl font-semibold tracking-[-0.025em] text-ink"><Figure>{model.work.questions.total}</Figure></p>
                 <div className="mt-4"><Bars data={model.work.questions.bySession} color={color} unit="questions" /></div>
-                <p className="mt-3 text-xs text-[#8a9b8e]">Lok Sabha records, collected {model.work.questions.collectedOn}. Tap a bar.</p>
+                <p className="mt-3 text-xs text-subtle">Lok Sabha records, collected {model.work.questions.collectedOn}. Tap a bar.</p>
               </div>
             )}
             {model.work.questions && model.work.questions.topMinistries.length > 0 && (
               <div className={panel}>
-                <p className="text-[13px] font-medium text-[#6b7f71]">What they asked about most</p>
+                <p className="text-[13px] font-medium text-muted">What they asked about most</p>
                 <ul className="mt-3 grid gap-2.5">
                   {model.work.questions.topMinistries.map((item) => (
                     <li key={item.name}>
-                      <div className="flex justify-between gap-3 text-sm"><span className="truncate text-[#2c4436]">{item.name}</span><span className="tabular-nums text-[#6b7f71]">{item.count}</span></div>
-                      <div className="mt-1 h-2 rounded-full bg-[#edf2ec]"><div className="h-full rounded-full" style={{ width: `${(item.count / model.work!.questions!.topMinistries[0].count) * 100}%`, background: color, opacity: 0.8 }} /></div>
+                      <div className="flex justify-between gap-3 text-sm"><span className="truncate text-ink">{item.name}</span><span className="tabular-nums text-muted">{item.count}</span></div>
+                      <div className="mt-1 h-2 rounded-full bg-track"><div className="h-full rounded-full" style={{ width: `${(item.count / model.work!.questions!.topMinistries[0].count) * 100}%`, background: color, opacity: 0.8 }} /></div>
                     </li>
                   ))}
                 </ul>
@@ -234,54 +234,54 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
             )}
             {model.work.debates && (
               <div className={panel}>
-                <p className="text-[13px] font-medium text-[#6b7f71]">Debates and matters raised</p>
-                <p className="text-4xl font-semibold tracking-[-0.04em] text-[#122a20]"><Figure>{model.work.debates.total}</Figure></p>
+                <p className="text-[13px] font-medium text-muted">Debates and matters raised</p>
+                <p className="text-4xl font-semibold tracking-[-0.025em] text-ink"><Figure>{model.work.debates.total}</Figure></p>
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   {model.work.debates.byCategory.map((item) => (
-                    <span key={item.name} className="rounded-full bg-[#eef3ed] px-2.5 py-1 text-xs font-semibold text-[#3c5a47]">{item.name} · {item.count}</span>
+                    <span key={item.name} className="rounded-full bg-track px-2.5 py-1 text-xs font-semibold text-body">{item.name} · {item.count}</span>
                   ))}
                 </div>
                 <ul className="mt-4 grid gap-2 text-sm">
                   {model.work.debates.latest.map((item) => (
-                    <li key={item.url + item.date}><a href={item.url} target="_blank" rel="noopener noreferrer" className="text-[#2c4436] hover:underline"><span className="text-[#8a9b8e]">{item.date} · </span>{item.title}</a></li>
+                    <li key={item.url + item.date}><a href={item.url} target="_blank" rel="noopener noreferrer" className="text-ink hover:underline"><span className="text-subtle">{item.date} · </span>{item.title}</a></li>
                   ))}
                 </ul>
               </div>
             )}
             {model.work.questions && model.work.questions.latest.length > 0 && (
               <div className={panel}>
-                <p className="text-[13px] font-medium text-[#6b7f71]">Latest questions</p>
+                <p className="text-[13px] font-medium text-muted">Latest questions</p>
                 <ul className="mt-3 grid gap-2.5 text-sm">
                   {model.work.questions.latest.map((item) => (
-                    <li key={item.url + item.subject}><a href={item.url} target="_blank" rel="noopener noreferrer" className="text-[#2c4436] hover:underline"><span className="text-[#8a9b8e]">{item.date} · </span>{item.subject}</a></li>
+                    <li key={item.url + item.subject}><a href={item.url} target="_blank" rel="noopener noreferrer" className="text-ink hover:underline"><span className="text-subtle">{item.date} · </span>{item.subject}</a></li>
                   ))}
                 </ul>
-                <a href={model.work.questions.directoryUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-sm font-bold text-[#1d6547] underline decoration-[#9ec9a8] underline-offset-4">All questions on Digital Sansad ↗</a>
+                <a href={model.work.questions.directoryUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-sm font-bold text-link underline decoration-[#9ec9a8] underline-offset-4">All questions on Digital Sansad ↗</a>
               </div>
             )}
             {model.work.offices && model.work.offices.map((office) => (
               <div key={office.title + office.detail} className={panel}>
-                <p className="text-[13px] font-medium text-[#6b7f71]">{office.current ? "Current office" : "Past office"}</p>
-                <p className="mt-1 font-semibold text-[#122a20]">{office.title}</p>
-                <p className="text-sm text-[#4f6455]">{office.detail}</p>
+                <p className="text-[13px] font-medium text-muted">{office.current ? "Current office" : "Past office"}</p>
+                <p className="mt-1 font-semibold text-ink">{office.title}</p>
+                <p className="text-sm text-body">{office.detail}</p>
                 {office.source && <div className="mt-2"><SourceChip source={office.source} /></div>}
               </div>
             ))}
             {model.work.positions && model.work.positions.length > 0 && (
               <details className={`${panel} md:col-span-2`}>
-                <summary className="cursor-pointer text-sm font-bold text-[#1d6547]">Committees and positions ({model.work.positions.length})</summary>
+                <summary className="cursor-pointer text-sm font-bold text-link">Committees and positions ({model.work.positions.length})</summary>
                 <ol className="mt-3 grid gap-2">
                   {model.work.positions.map((position, index) => (
-                    <li key={`${position.title}-${index}`} className="flex flex-col justify-between gap-0.5 border-b border-[#eef3ed] pb-2 text-sm last:border-0 sm:flex-row sm:gap-4">
-                      <span className="text-[#2c4436]">{position.title}</span>
-                      <span className="shrink-0 text-[#8a9b8e]">{position.period ?? "Date not stated"}</span>
+                    <li key={`${position.title}-${index}`} className="flex flex-col justify-between gap-0.5 border-b border-track pb-2 text-sm last:border-0 sm:flex-row sm:gap-4">
+                      <span className="text-ink">{position.title}</span>
+                      <span className="shrink-0 text-subtle">{position.period ?? "Date not stated"}</span>
                     </li>
                   ))}
                 </ol>
               </details>
             )}
           </div>
-          {model.work.note && <p className="mt-3 text-sm text-[#6b7f71]">{model.work.note}</p>}
+          {model.work.note && <p className="mt-3 text-sm text-muted">{model.work.note}</p>}
         </Section>
       )}
 
@@ -298,8 +298,8 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
               {model.money.assets !== undefined && (
                 <>
                   <div className="flex flex-wrap items-end gap-x-6 gap-y-2">
-                    <div><p className="text-[13px] text-[#6b7f71]">Assets</p><p className="text-3xl font-semibold tracking-[-0.03em] text-[#122a20]">₹{formatShort(model.money.assets)}</p></div>
-                    {model.money.liabilities !== undefined && <div><p className="text-[13px] text-[#6b7f71]">Liabilities</p><p className="text-3xl font-semibold tracking-[-0.03em] text-[#9a5b17]">₹{formatShort(model.money.liabilities)}</p></div>}
+                    <div><p className="text-[13px] text-muted">Assets</p><p className="text-3xl font-semibold tracking-[-0.03em] text-ink">₹{formatShort(model.money.assets)}</p></div>
+                    {model.money.liabilities !== undefined && <div><p className="text-[13px] text-muted">Liabilities</p><p className="text-3xl font-semibold tracking-[-0.03em] text-[#9a5b17]">₹{formatShort(model.money.liabilities)}</p></div>}
                   </div>
                   {model.money.liabilities !== undefined && (
                     <div className="mt-4 flex h-3 overflow-hidden rounded-full" aria-hidden="true">
@@ -307,14 +307,14 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
                       <span style={{ flexGrow: Math.max(model.money.liabilities, 1), background: "#d9822b" }} />
                     </div>
                   )}
-                  <p className="mt-2 text-xs text-[#8a9b8e]">Values on the filing date, as declared. Not today&apos;s wealth.</p>
+                  <p className="mt-2 text-xs text-subtle">Values on the filing date, as declared. Not today&apos;s wealth.</p>
                 </>
               )}
             </div>
             <dl className="grid content-start gap-3">
-              {model.money.cases !== undefined && <div><dt className="text-[13px] text-[#6b7f71]">Criminal cases declared</dt><dd className="text-3xl font-semibold text-[#122a20]">{model.money.cases}</dd><dd className="text-xs text-[#8a9b8e]">A declared case is not a conviction.</dd></div>}
-              {model.money.education && <div><dt className="text-[13px] text-[#6b7f71]">Education declared</dt><dd className="font-semibold text-[#122a20]">{model.money.education}</dd></div>}
-              {model.money.age !== undefined && <div><dt className="text-[13px] text-[#6b7f71]">Age at filing</dt><dd className="font-semibold text-[#122a20]">{model.money.age}</dd></div>}
+              {model.money.cases !== undefined && <div><dt className="text-[13px] text-muted">Criminal cases declared</dt><dd className="text-3xl font-semibold text-ink">{model.money.cases}</dd><dd className="text-xs text-subtle">A declared case is not a conviction.</dd></div>}
+              {model.money.education && <div><dt className="text-[13px] text-muted">Education declared</dt><dd className="font-semibold text-ink">{model.money.education}</dd></div>}
+              {model.money.age !== undefined && <div><dt className="text-[13px] text-muted">Age at filing</dt><dd className="font-semibold text-ink">{model.money.age}</dd></div>}
             </dl>
             {model.money.source && <div className="md:col-span-2"><SourceChip source={model.money.source} /></div>}
           </div>
@@ -326,7 +326,7 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
           <div className="grid gap-3 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
             {model.timeline.length > 0 && (
               <div className={panel}>
-                <ol className="relative ml-2 border-l-2 border-[#e2e9e2]">
+                <ol className="relative ml-2 border-l-2 border-line">
                   {model.timeline.map((item, index) => (
                     <li key={`${item.when}-${index}`} className={`relative pl-6 ${index ? "mt-5" : ""}`}>
                       <span className="absolute -left-[7px] top-1.5 h-3 w-3 rounded-full ring-4 ring-white" style={{ background: item.strong ? color : "#b9cbbd" }} aria-hidden="true" />
@@ -336,14 +336,14 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
                     </li>
                   ))}
                 </ol>
-                {model.timelineNote && <p className="mt-5 text-xs text-[#8a9b8e]">{model.timelineNote}</p>}
+                {model.timelineNote && <p className="mt-5 text-xs text-subtle">{model.timelineNote}</p>}
               </div>
             )}
             {model.facts.length > 0 && (
               <div className={panel}>
                 <dl className="grid gap-3">
                   {model.facts.map(([label, value]) => (
-                    <div key={label}><dt className="text-[13px] text-[#6b7f71]">{label}</dt><dd className="font-semibold text-[#122a20]">{value}</dd></div>
+                    <div key={label}><dt className="text-[13px] text-muted">{label}</dt><dd className="font-semibold text-ink">{value}</dd></div>
                   ))}
                 </dl>
                 {model.links.length > 0 && (
@@ -364,16 +364,16 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
           {model.sources.length > 0 && (
             <ul className={`${panel} grid gap-2`}>
               {model.sources.map((source) => (
-                <li key={source.url + source.title} className="flex flex-col justify-between gap-0.5 border-b border-[#eef3ed] pb-2 text-sm last:border-0 sm:flex-row sm:gap-4">
-                  <a href={source.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#1d6547] underline decoration-[#9ec9a8] underline-offset-4">{source.title} ↗</a>
-                  <span className="shrink-0 text-[#8a9b8e]">Checked {source.checkedOn}</span>
+                <li key={source.url + source.title} className="flex flex-col justify-between gap-0.5 border-b border-track pb-2 text-sm last:border-0 sm:flex-row sm:gap-4">
+                  <a href={source.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-link underline decoration-[#9ec9a8] underline-offset-4">{source.title} ↗</a>
+                  <span className="shrink-0 text-subtle">Checked {source.checkedOn}</span>
                 </li>
               ))}
             </ul>
           )}
           {contest && <SourceNote data={data} rows={contest.candidate?.locator.toLowerCase()} reviewedAt={contest.candidate?.reviewedAt} file={contest.seat.unopposed ? data.references.find((file) => file.title.includes("report 2A")) : undefined} />}
           {model.coming.length > 0 && (
-            <p className="text-sm text-[#6b7f71]"><span className="font-semibold text-[#3c5a47]">Coming to this profile:</span> {model.coming.join(", ")}. We add each only after checking the original record.</p>
+            <p className="text-sm text-muted"><span className="font-semibold text-body">Coming to this profile:</span> {model.coming.join(", ")}. We add each only after checking the original record.</p>
           )}
         </div>
       </Section>

@@ -112,7 +112,7 @@ function Results({ election, results }: { election: Election; results: ElectionR
       {results.source.note && <p className="mt-3 text-sm text-muted">{results.source.note}</p>}
 
       <section className="mt-10" aria-labelledby="seats-heading">
-        <h2 id="seats-heading" className="text-2xl font-semibold tracking-[-0.04em] text-ink">Every seat</h2>
+        <h2 id="seats-heading" className="text-2xl font-semibold tracking-[-0.025em] text-ink">Every seat</h2>
         <p className="mt-1 mb-5 text-sm text-muted">Grouped by state. The line under each state shows how close its seats were: each dot is a seat, further right is a wider win.</p>
         <SeatFilter target="seat-list" placeholder="Type a seat, state or winner, e.g. Jaipur" />
         <div id="seat-list" className="mt-4 grid gap-3">
@@ -178,7 +178,7 @@ export default async function ElectionPage({ params }: PageProps) {
       <Breadcrumb items={[{ href: "/elections", label: "Elections" }]} />
       <header className="mt-6">
         <Eyebrow>{BODY_LABEL[election.body]} · {election.states.join(", ")}</Eyebrow>
-        <h1 className="mt-3 text-[clamp(2.2rem,5vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.06em] text-ink">{election.name}</h1>
+        <h1 className="mt-3 text-[clamp(2.2rem,5vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.035em] text-ink">{election.name}</h1>
         <p className="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted">
           <span className={`rounded-full px-3 py-1 text-xs font-bold ${status === "polling" || status === "counting" ? "bg-brand text-white" : "bg-track text-body"}`}>{STATUS_LABEL[status]}</span>
           {election.seats ? <span>{formatNumber(election.seats)} {election.seats === 1 ? "seat" : "seats"}</span> : null}

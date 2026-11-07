@@ -47,7 +47,7 @@ export default function NominationSeat({ election, nominations, seat }: { electi
 
       <header className="mt-6">
         <Eyebrow>{BODY_LABEL[election.body]} · {KIND_LABEL[seat.kind]} {seat.number} · {seat.state}</Eyebrow>
-        <h1 className="mt-3 text-[clamp(2.4rem,6vw,4.2rem)] font-semibold leading-[1.02] tracking-[-0.07em] text-ink">{seat.name}</h1>
+        <h1 className="mt-3 text-[clamp(2.4rem,6vw,4.2rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-ink">{seat.name}</h1>
         <p className="mt-3 max-w-2xl text-[15px] leading-7 text-body">
           <strong className="text-ink">
             {ballot.length ? `${ballot.length} ${ballot.length === 1 ? "candidate" : "candidates"} ${voted ? (ballot.length === 1 ? "was" : "were") : (ballot.length === 1 ? "is" : "are")} on the ballot.` : "No candidate is on the ballot yet."}

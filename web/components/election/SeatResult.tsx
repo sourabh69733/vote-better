@@ -45,7 +45,7 @@ export default function SeatResult({ id, seat, actions, aside }: { id: ResultEle
 
       <header className="mt-6">
         <Eyebrow>{info.label}{seat.number ? ` · seat ${seat.number}` : ""}{info.body === "lok-sabha" ? ` · ${seat.state}` : ""}</Eyebrow>
-        <h1 className="mt-3 text-[clamp(2.4rem,6vw,4.2rem)] font-semibold leading-[1.02] tracking-[-0.07em] text-ink">{seat.name}</h1>
+        <h1 className="mt-3 text-[clamp(2.4rem,6vw,4.2rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-ink">{seat.name}</h1>
         <p className="mt-3 text-sm text-muted">{reservationLabel[seat.reservation] ?? seat.reservation} · {results.election.name}</p>
         {parent && (
           <p className="mt-2 text-sm text-body">
@@ -74,7 +74,7 @@ export default function SeatResult({ id, seat, actions, aside }: { id: ResultEle
               <span className="w-2 shrink-0 rounded-full" style={{ background: partyColor(winner.party) }} aria-hidden="true" />
               <div>
                 <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-eyebrow">{winner.how === "unopposed" ? "Elected unopposed" : "Won the seat"}</p>
-                <h2 id="winner-heading" className="mt-2 text-3xl font-semibold tracking-[-0.04em] text-ink">{winner.name}</h2>
+                <h2 id="winner-heading" className="mt-2 text-3xl font-semibold tracking-[-0.025em] text-ink">{winner.name}</h2>
                 <p className="mt-1 text-body">{party(winner.party)}</p>
                 {winner.margin !== null && (
                   <p className="mt-4 text-[15px] leading-7 text-body">

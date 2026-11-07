@@ -9,7 +9,7 @@ export default function SeatHistory({ stateSlug, seatSlug, current }: { stateSlu
   if (history.length < 2) return null;
   return (
     <section className="mt-8" aria-labelledby="history-heading">
-      <h2 id="history-heading" className="text-2xl font-semibold tracking-[-0.04em] text-ink">This seat over the years</h2>
+      <h2 id="history-heading" className="text-2xl font-semibold tracking-[-0.025em] text-ink">This seat over the years</h2>
       <p className="mt-1 text-sm text-muted">Matched by state and seat name. Seats that were renamed or redrawn are not linked.</p>
       <ol className="mt-4 grid gap-2">
         {history.map(({ id, year, seat, winner, partyName }) => {

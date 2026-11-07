@@ -77,7 +77,7 @@ function Section({ id, eyebrow, title, lead, children }: { id: string; eyebrow: 
     <section className="grid gap-6 py-10 lg:grid-cols-[230px_minmax(0,1fr)] lg:gap-12" aria-labelledby={`${id}-heading`}>
       <div>
         <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-eyebrow">{eyebrow}</p>
-        <h2 id={`${id}-heading`} className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-ink">{title}</h2>
+        <h2 id={`${id}-heading`} className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-ink">{title}</h2>
         <p className="mt-3 max-w-xs text-sm leading-6 text-muted">{lead}</p>
       </div>
       <div className="grid gap-4">{children}</div>
@@ -94,7 +94,7 @@ export default function ElectionsPage() {
     <div className="mx-auto w-full max-w-[1100px] px-4 pb-14 pt-10 sm:px-6 sm:pt-14 lg:px-8">
       <header className="border-b border-line pb-8">
         <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-eyebrow">Election calendar{checked ? ` · checked ${formatDay(checked)}` : ""}</p>
-        <h1 className="mt-3 text-[clamp(2.4rem,5vw,3.8rem)] font-semibold leading-[1.04] tracking-[-0.06em] text-ink">What is being voted on</h1>
+        <h1 className="mt-3 text-[clamp(2.4rem,5vw,3.8rem)] font-semibold leading-[1.04] tracking-[-0.035em] text-ink">What is being voted on</h1>
         <p className="mt-3 max-w-xl text-[15px] leading-7 text-body">
           Voting for the first time? <Link href="/share/first-time-voter" className="font-semibold text-link underline underline-offset-4">Share the three steps</Link>. Elections underway now, the ones due next, and the ones counted recently. Every date comes from an Election Commission of India press note; dates ECI has not announced are left blank.
         </p>

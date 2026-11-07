@@ -62,7 +62,7 @@ export default async function SeatsPage({ searchParams }: PageProps) {
     <div className="mx-auto w-full max-w-[1100px] px-4 pb-14 pt-10 sm:px-6 sm:pt-14 lg:px-8">
       <header className="border-b border-line pb-8">
         <Eyebrow>Lok Sabha 2024, 2019, 2014 · Rajasthan Assembly 2023</Eyebrow>
-        <h1 className="mt-3 text-[clamp(2.4rem,5vw,3.8rem)] font-semibold leading-[1.04] tracking-[-0.06em] text-ink">Find your seat</h1>
+        <h1 className="mt-3 text-[clamp(2.4rem,5vw,3.8rem)] font-semibold leading-[1.04] tracking-[-0.035em] text-ink">Find your seat</h1>
         <p className="mt-3 max-w-xl text-[15px] leading-7 text-body">Search your constituency, your state, or the name of anyone who contested in the last three Lok Sabha elections or the 2023 Rajasthan assembly election. Every result comes from the Election Commission of India.</p>
         <form action="/seats" method="get" className="mt-6 flex max-w-2xl gap-2" role="search">
           <label htmlFor="seat-search" className="sr-only">Search seats, states or candidates</label>

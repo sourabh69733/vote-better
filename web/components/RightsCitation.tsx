@@ -9,7 +9,7 @@ export default function RightsCitation({ ids }: { ids: readonly string[] }) {
         return (
           <a key={id} href={reference.url} target="_blank" rel="noopener noreferrer"
             title={reference.locator + ". Source checked " + reference.checkedAt}
-            className="min-h-11 content-center font-semibold text-[#176447] underline decoration-[#aac9b3] underline-offset-4 hover:decoration-[#176447] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#176447]">
+            className="min-h-11 content-center font-semibold text-brand underline decoration-[#aac9b3] underline-offset-4 hover:decoration-brand focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">
             {reference.label} <span aria-hidden="true">↗</span>
           </a>
         );

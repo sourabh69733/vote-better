@@ -24,14 +24,14 @@ export default function Scene({ scene, color, onClose }: { scene: SceneData; col
         <Frame>
           <div className={`grid h-24 w-24 place-items-center rounded-full bg-white/10 text-3xl font-bold animate-[popIn_.6s_ease-out_both] motion-reduce:animate-none`} style={{ boxShadow: `0 0 0 4px ${scene.color}` }} aria-hidden="true">{scene.initials}</div>
           <div className="mt-7"><Kicker order={1}>{scene.kicker}</Kicker></div>
-          <h2 className={`mt-1 text-[2.6rem] font-semibold leading-[1.05] tracking-[-0.04em] ${enter}`} style={step(2)}>{scene.name}</h2>
+          <h2 className={`mt-1 text-[2.6rem] font-semibold leading-[1.05] tracking-[-0.025em] ${enter}`} style={step(2)}>{scene.name}</h2>
           {scene.party && (
             <p className={`mt-3 flex items-center gap-2 text-white/85 ${enter}`} style={step(3)}>
               <span className="h-3 w-3 rounded-full" style={{ background: scene.color }} aria-hidden="true" />{scene.party}
             </p>
           )}
           <p className={`mt-1 text-sm text-white/60 ${enter}`} style={step(4)}>{scene.place}</p>
-          <span className={`mt-5 self-start rounded-full bg-white px-3 py-1 text-sm font-bold text-[#122a20] ${enter}`} style={step(5)}>{scene.role}</span>
+          <span className={`mt-5 self-start rounded-full bg-white px-3 py-1 text-sm font-bold text-ink ${enter}`} style={step(5)}>{scene.role}</span>
         </Frame>
       );
     case "race":
@@ -60,7 +60,7 @@ export default function Scene({ scene, color, onClose }: { scene: SceneData; col
       return (
         <Frame center>
           <Kicker>{scene.kicker}</Kicker>
-          <p className="mt-2 text-[clamp(3.2rem,16vw,5rem)] font-semibold leading-none tracking-[-0.05em] tabular-nums animate-[popIn_.7s_ease-out_both] motion-reduce:animate-none" style={{ animationDelay: "150ms", color: scene.highlight ? "#cdb8ff" : undefined }}>{scene.value}</p>
+          <p className="mt-2 text-[clamp(3.2rem,16vw,5rem)] font-semibold leading-none tracking-[-0.03em] tabular-nums animate-[popIn_.7s_ease-out_both] motion-reduce:animate-none" style={{ animationDelay: "150ms", color: scene.highlight ? "#cdb8ff" : undefined }}>{scene.value}</p>
           <p className={`mt-2 text-xl text-white/85 ${enter}`} style={step(3)}>{scene.unit}</p>
           <p className={`mt-1 text-sm text-white/60 ${enter}`} style={step(4)}>{scene.line}</p>
           {scene.detail && (
@@ -151,7 +151,7 @@ export default function Scene({ scene, color, onClose }: { scene: SceneData; col
               <span key={label} className={`rounded-full border border-white/25 px-3 py-1 text-sm ${enter}`} style={step(index + 1)}>{label}</span>
             ))}
           </div>
-          <button type="button" onClick={onClose} className={`mt-10 rounded-full bg-white px-6 py-3 text-sm font-bold text-[#122a20] ${enter}`} style={step(6)}>
+          <button type="button" onClick={onClose} className={`mt-10 rounded-full bg-white px-6 py-3 text-sm font-bold text-ink ${enter}`} style={step(6)}>
             See the full profile
           </button>
         </Frame>
@@ -160,7 +160,7 @@ export default function Scene({ scene, color, onClose }: { scene: SceneData; col
       return (
         <Frame>
           <Kicker>{scene.kicker}</Kicker>
-          <h2 className={`mt-2 text-[3.2rem] font-semibold leading-[1.02] tracking-[-0.05em] ${enter}`} style={step(1)}>{scene.title}</h2>
+          <h2 className={`mt-2 text-[3.2rem] font-semibold leading-[1.02] tracking-[-0.03em] ${enter}`} style={step(1)}>{scene.title}</h2>
           <p className={`mt-4 text-xl font-semibold text-[#cdb8ff] ${enter}`} style={step(2)}>{scene.subtitle}</p>
         </Frame>
       );
@@ -217,9 +217,9 @@ export default function Scene({ scene, color, onClose }: { scene: SceneData; col
       return (
         <Frame center>
           <Kicker>{scene.kicker}</Kicker>
-          <h2 className={`mt-2 text-[2.6rem] font-semibold leading-[1.05] tracking-[-0.04em] ${enter}`} style={step(1)}>{scene.title}</h2>
+          <h2 className={`mt-2 text-[2.6rem] font-semibold leading-[1.05] tracking-[-0.025em] ${enter}`} style={step(1)}>{scene.title}</h2>
           <p className={`mt-4 text-[15px] leading-6 text-white/75 ${enter}`} style={step(2)}>{scene.text}</p>
-          <button type="button" onClick={onClose} className={`mt-8 rounded-full bg-white px-6 py-3 text-sm font-bold text-[#122a20] ${enter}`} style={step(3)}>
+          <button type="button" onClick={onClose} className={`mt-8 rounded-full bg-white px-6 py-3 text-sm font-bold text-ink ${enter}`} style={step(3)}>
             Back to the page
           </button>
         </Frame>

@@ -30,11 +30,11 @@ export default function WhoDoesWhat() {
   const issue = issues[selected];
 
   return (
-    <div className="rounded-[24px] border border-[#dce6dc] bg-white p-5 sm:p-8">
-      <p className="text-sm font-bold text-[#19372d]">Pick an everyday issue</p>
+    <div className="rounded-[24px] border border-line bg-white p-5 sm:p-8">
+      <p className="text-sm font-bold text-ink">Pick an everyday issue</p>
       <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Everyday issues">
         {issues.map((item, i) => (
-          <button key={item.label} type="button" onClick={() => setSelected(i)} aria-pressed={i === selected} className={`rounded-full border px-3.5 py-2 text-sm font-semibold ${i === selected ? "border-[#1c6047] bg-[#1c6047] text-white" : "border-[#d5e3d7] bg-[#f6faf5] text-[#2c6249] hover:bg-[#e8f2e9]"}`}>
+          <button key={item.label} type="button" onClick={() => setSelected(i)} aria-pressed={i === selected} className={`rounded-full border px-3.5 py-2 text-sm font-semibold ${i === selected ? "border-brand bg-brand text-white" : "border-[#d5e3d7] bg-[#f6faf5] text-brand hover:bg-[#e8f2e9]"}`}>
             {item.label}
           </button>
         ))}
@@ -44,20 +44,20 @@ export default function WhoDoesWhat() {
         {levels.map((level) => {
           const active = issue.levels.includes(level.id);
           return (
-            <div key={level.id} className={`rounded-2xl border-2 p-5 transition-[transform,opacity,border-color,background-color] duration-300 motion-reduce:transition-none ${active ? "-translate-y-1 border-[#43896a] bg-[#eff7ef] opacity-100" : "border-[#e6ede6] bg-white opacity-50"}`}>
-              <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-[#4c8063]">{level.name}</p>
-              <p className="mt-2 text-lg font-semibold tracking-[-0.02em] text-[#18372b]">{level.body}</p>
+            <div key={level.id} className={`rounded-2xl border-2 p-5 transition-[transform,opacity,border-color,background-color] duration-300 motion-reduce:transition-none ${active ? "-translate-y-1 border-[#43896a] bg-tint opacity-100" : "border-[#e6ede6] bg-white opacity-50"}`}>
+              <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-eyebrow">{level.name}</p>
+              <p className="mt-2 text-lg font-semibold tracking-[-0.02em] text-ink">{level.body}</p>
               <p className="mt-1 text-sm text-[#5f7465]">{level.list}</p>
-              <p className={`mt-4 text-sm font-bold ${active ? "text-[#1c6047]" : "text-[#8a9b8e]"}`}>{active ? "✓ " : ""}{level.person}</p>
+              <p className={`mt-4 text-sm font-bold ${active ? "text-brand" : "text-subtle"}`}>{active ? "✓ " : ""}{level.person}</p>
             </div>
           );
         })}
       </div>
 
       <p key={selected} className="mt-5 rounded-2xl bg-[#f6faf5] p-4 text-[15px] leading-7 text-[#43594a] animate-[fadeUp_.35s_ease-out] motion-reduce:animate-none" aria-live="polite">
-        <strong className="text-[#19372d]">{issue.label}:</strong> {issue.note}
+        <strong className="text-ink">{issue.label}:</strong> {issue.note}
       </p>
-      <p className="mt-3 text-xs leading-5 text-[#7a8c7e]">Article 246 and the Seventh Schedule split subjects between Union and State. Articles 243G and 243W let states hand local subjects to panchayats and municipalities, so the exact split varies by state.</p>
+      <p className="mt-3 text-xs leading-5 text-subtle">Article 246 and the Seventh Schedule split subjects between Union and State. Articles 243G and 243W let states hand local subjects to panchayats and municipalities, so the exact split varies by state.</p>
     </div>
   );
 }

@@ -63,7 +63,7 @@ export default async function ComparePage({ params, searchParams }: PageProps) {
         <span className="mx-2 text-subtle" aria-hidden="true">/</span>
         <Link href={seatHref(seat)} className="hover:underline">{seat.name}</Link>
       </nav>
-      <h1 className="mt-6 text-[clamp(2rem,5vw,3.2rem)] font-semibold leading-[1.05] tracking-[-0.06em] text-ink">Compare candidates in {seat.name}</h1>
+      <h1 className="mt-6 text-[clamp(2rem,5vw,3.2rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-ink">Compare candidates in {seat.name}</h1>
       <p className="mt-2 text-sm text-muted">Lok Sabha 2024 · {seat.state} · Only checked facts are shown.</p>
 
       <form method="get" className="mt-6 grid gap-3 rounded-[24px] border border-line bg-white p-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end sm:p-5">

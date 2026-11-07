@@ -25,7 +25,7 @@ export default function StoryLauncher({ story, className = "", variant = "light"
   return (
     <>
       <button type="button" onClick={() => setOpen(true)}
-        className={`inline-flex min-h-11 items-center gap-2 rounded-full px-5 text-sm font-bold ${variant === "light" ? "bg-white text-[#122a20] hover:bg-white/90" : "bg-brand text-white hover:bg-brand-strong"} ${className}`}>
+        className={`inline-flex min-h-11 items-center gap-2 rounded-full px-5 text-sm font-bold ${variant === "light" ? "bg-white text-ink hover:bg-white/90" : "bg-brand text-white hover:bg-brand-strong"} ${className}`}>
         <span aria-hidden="true">▶</span> Play story · {story.scenes.length} scenes
       </button>
       {open && <StoryPlayer story={story} onClose={() => setOpen(false)} />}

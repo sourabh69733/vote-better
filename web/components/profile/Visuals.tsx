@@ -11,10 +11,10 @@ export function TugOfWar({ left, right, focus }: { left: Side; right: Side; focu
   const leftShare = (left.votes / total) * 100;
   const side = (item: Side, align: "left" | "right") => (
     <div className={`min-w-0 ${align === "right" ? "text-right" : ""}`}>
-      <p className={`truncate text-sm font-bold ${focus === align ? "text-[#122a20]" : "text-[#5f7465]"}`}>
+      <p className={`truncate text-sm font-bold ${focus === align ? "text-ink" : "text-[#5f7465]"}`}>
         {item.href ? <Link href={item.href} className="hover:underline">{item.name}</Link> : item.name}
       </p>
-      <p className="text-xs text-[#6b7f71]">{item.party} · {item.label}</p>
+      <p className="text-xs text-muted">{item.party} · {item.label}</p>
     </div>
   );
   return (
@@ -42,12 +42,12 @@ export function VoteRace({ rows, nota, initial = 5 }: { rows: RaceRow[]; nota?: 
           <li key={row.key}>
             <Link href={row.href} className={`group block rounded-xl px-3 py-2 ${row.self ? "bg-[#f1f6f1] ring-1 ring-[#cfe0d2]" : "hover:bg-[#f6f9f5]"}`}>
               <div className="flex items-baseline justify-between gap-3 text-sm">
-                <span className={`min-w-0 truncate ${row.self ? "font-bold text-[#122a20]" : "text-[#2c4436]"}`}>
-                  <span className="mr-1.5 tabular-nums text-[#8a9b8e]">{row.rank}</span>{row.name} <span className="text-[#6b7f71]">· {row.party}</span>
+                <span className={`min-w-0 truncate ${row.self ? "font-bold text-ink" : "text-ink"}`}>
+                  <span className="mr-1.5 tabular-nums text-subtle">{row.rank}</span>{row.name} <span className="text-muted">· {row.party}</span>
                 </span>
-                <span className="shrink-0 tabular-nums text-[#4f6455]">{row.share.toFixed(1)}%</span>
+                <span className="shrink-0 tabular-nums text-body">{row.share.toFixed(1)}%</span>
               </div>
-              <div className="mt-1.5 h-2.5 rounded-full bg-[#edf2ec]">
+              <div className="mt-1.5 h-2.5 rounded-full bg-track">
                 <div className="h-full origin-left rounded-full animate-[growX_.7s_ease-out] motion-reduce:animate-none" style={{ width: `${Math.max((row.share / max) * 100, 0.8)}%`, background: row.color, opacity: row.self || row.rank === 1 ? 1 : 0.55 }} />
               </div>
             </Link>
@@ -56,11 +56,11 @@ export function VoteRace({ rows, nota, initial = 5 }: { rows: RaceRow[]; nota?: 
       </ol>
       <div className="mt-3 flex flex-wrap items-center justify-between gap-2 px-3 text-sm">
         {rows.length > initial ? (
-          <button type="button" onClick={() => setAll(!all)} className="font-bold text-[#1d6547] underline decoration-[#9ec9a8] underline-offset-4">
+          <button type="button" onClick={() => setAll(!all)} className="font-bold text-link underline decoration-[#9ec9a8] underline-offset-4">
             {all ? "Show fewer" : `Show all ${rows.length} candidates`}
           </button>
         ) : <span />}
-        {nota !== undefined && nota !== null && <span className="text-[#6b7f71]">NOTA: {nota.toLocaleString("en-IN")} votes</span>}
+        {nota !== undefined && nota !== null && <span className="text-muted">NOTA: {nota.toLocaleString("en-IN")} votes</span>}
       </div>
       {self && self.rank > initial && !all && <p className="sr-only">Highlighted candidate finished {self.rank}.</p>}
     </div>
@@ -74,7 +74,7 @@ export function Bars({ data, color, unit }: { data: { label: string; count: numb
   const current = active ?? data.length - 1;
   return (
     <div>
-      <p className="text-sm text-[#4f6455]"><span className="text-lg font-semibold text-[#122a20]">{data[current]?.count}</span> {unit} · {data[current]?.label}</p>
+      <p className="text-sm text-body"><span className="text-lg font-semibold text-ink">{data[current]?.count}</span> {unit} · {data[current]?.label}</p>
       <div className="mt-3 flex h-28 items-end gap-1.5">
         {data.map((item, index) => (
           <button
@@ -90,7 +90,7 @@ export function Bars({ data, color, unit }: { data: { label: string; count: numb
           </button>
         ))}
       </div>
-      <div className="mt-1 flex gap-1.5 text-[10px] text-[#8a9b8e]">
+      <div className="mt-1 flex gap-1.5 text-[10px] text-subtle">
         {data.map((item) => <span key={item.label} className="flex-1 truncate text-center">{item.label.replace("Session ", "S")}</span>)}
       </div>
     </div>
@@ -106,10 +106,10 @@ export function AttendanceBars({ data, color }: { data: { label: string; period:
   const share = (value: number) => `${Math.round(value)}%`;
   return (
     <div>
-      <p className="text-sm text-[#4f6455]">
-        <span className="text-lg font-semibold text-[#122a20]">{item?.percent === null ? "Not required" : share(item.percent)}</span> · {item?.label}, {item?.period}
+      <p className="text-sm text-body">
+        <span className="text-lg font-semibold text-ink">{item?.percent === null ? "Not required" : share(item.percent)}</span> · {item?.label}, {item?.period}
       </p>
-      <p className="text-xs text-[#6b7f71]">{item?.detail}{item?.median !== null && item?.median !== undefined ? ` · house median ${share(item.median)}` : ""}</p>
+      <p className="text-xs text-muted">{item?.detail}{item?.median !== null && item?.median !== undefined ? ` · house median ${share(item.median)}` : ""}</p>
       <div className="mt-3 flex h-28 items-end gap-1.5">
         {data.map((entry, index) => (
           <button
@@ -124,11 +124,11 @@ export function AttendanceBars({ data, color }: { data: { label: string; period:
             {entry.percent !== null && (
               <span className="block w-full origin-bottom rounded-t-md animate-[growY_.7s_ease-out] transition-opacity motion-reduce:animate-none" style={{ height: `${Math.max(entry.percent, 2)}%`, background: color, opacity: index === current ? 1 : 0.45 }} />
             )}
-            {entry.median !== null && <span aria-hidden className="absolute inset-x-0 h-0.5 bg-[#122a20]" style={{ bottom: `${entry.median}%` }} />}
+            {entry.median !== null && <span aria-hidden className="absolute inset-x-0 h-0.5 bg-ink" style={{ bottom: `${entry.median}%` }} />}
           </button>
         ))}
       </div>
-      <div className="mt-1 flex gap-1.5 text-[10px] text-[#8a9b8e]">
+      <div className="mt-1 flex gap-1.5 text-[10px] text-subtle">
         {data.map((entry) => <span key={entry.label} className="flex-1 truncate text-center">{entry.label.replace("Session ", "S")}</span>)}
       </div>
     </div>
@@ -150,12 +150,12 @@ export function SectionNav({ sections }: { sections: { id: string; label: string
     return () => observer.disconnect();
   }, [sections]);
   return (
-    <nav aria-label="Profile sections" className="sticky top-[72px] z-20 -mx-4 overflow-x-auto bg-[#f5f7f2]/90 px-4 py-3 backdrop-blur [scrollbar-width:none] sm:mx-0 sm:rounded-full sm:px-2">
+    <nav aria-label="Profile sections" className="sticky top-[72px] z-20 -mx-4 overflow-x-auto bg-canvas/90 px-4 py-3 backdrop-blur [scrollbar-width:none] sm:mx-0 sm:rounded-full sm:px-2">
       <ul className="flex gap-1.5">
         {sections.map((section) => (
           <li key={section.id}>
             <a href={`#${section.id}`} aria-current={active === section.id ? "true" : undefined}
-              className={`inline-flex min-h-9 items-center whitespace-nowrap rounded-full px-3.5 text-sm font-semibold transition-colors ${active === section.id ? "bg-[#122a20] text-white" : "text-[#3c5a47] hover:bg-white"}`}>
+              className={`inline-flex min-h-9 items-center whitespace-nowrap rounded-full px-3.5 text-sm font-semibold transition-colors ${active === section.id ? "bg-ink text-white" : "text-body hover:bg-white"}`}>
               {section.label}
             </a>
           </li>

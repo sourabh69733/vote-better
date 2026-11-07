@@ -52,43 +52,43 @@ export default function BillToLaw() {
   }
 
   return (
-    <div className="rounded-[24px] border border-[#dce6dc] bg-white p-5 sm:p-8">
+    <div className="rounded-[24px] border border-line bg-white p-5 sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="inline-flex rounded-full bg-[#eef3ed] p-1 text-sm font-bold" role="group" aria-label="Type of bill">
+        <div className="inline-flex rounded-full bg-track p-1 text-sm font-bold" role="group" aria-label="Type of bill">
           {[false, true].map((option) => (
-            <button key={String(option)} type="button" onClick={() => switchMode(option)} aria-pressed={money === option} className={`rounded-full px-4 py-2 ${money === option ? "bg-white text-[#19372d] shadow-sm" : "text-[#64806c]"}`}>
+            <button key={String(option)} type="button" onClick={() => switchMode(option)} aria-pressed={money === option} className={`rounded-full px-4 py-2 ${money === option ? "bg-white text-ink shadow-sm" : "text-[#64806c]"}`}>
               {option ? "Money bill" : "Ordinary bill"}
             </button>
           ))}
         </div>
         <div className="flex gap-2">
-          <button type="button" onClick={() => { setPlaying(false); setIndex(Math.max(0, index - 1)); }} disabled={index === 0} className="min-h-10 rounded-full border border-[#cfdccf] px-4 text-sm font-bold text-[#2c6249] disabled:opacity-40">← Back</button>
-          <button type="button" onClick={play} className="min-h-10 rounded-full bg-[#1c6047] px-5 text-sm font-bold text-white hover:bg-[#154c38]">
+          <button type="button" onClick={() => { setPlaying(false); setIndex(Math.max(0, index - 1)); }} disabled={index === 0} className="min-h-10 rounded-full border border-[#cfdccf] px-4 text-sm font-bold text-brand disabled:opacity-40">← Back</button>
+          <button type="button" onClick={play} className="min-h-10 rounded-full bg-brand px-5 text-sm font-bold text-white hover:bg-[#154c38]">
             {playing ? "Pause" : index >= last ? "Replay" : "▶ Play"}
           </button>
-          <button type="button" onClick={() => { setPlaying(false); setIndex(Math.min(last, index + 1)); }} disabled={index === last} className="min-h-10 rounded-full border border-[#cfdccf] px-4 text-sm font-bold text-[#2c6249] disabled:opacity-40">Next →</button>
+          <button type="button" onClick={() => { setPlaying(false); setIndex(Math.min(last, index + 1)); }} disabled={index === last} className="min-h-10 rounded-full border border-[#cfdccf] px-4 text-sm font-bold text-brand disabled:opacity-40">Next →</button>
         </div>
       </div>
 
       <div className="relative mt-10 px-3 sm:px-6">
         <div className="absolute left-3 right-3 top-5 h-1 rounded-full bg-[#e3ebe3] sm:left-6 sm:right-6" />
         <div className="absolute left-3 top-5 h-1 rounded-full bg-[#43896a] transition-[width] duration-700 ease-out motion-reduce:transition-none sm:left-6" style={{ width: `calc((100% - 3rem) * ${progress / 100})` }} />
-        <div className="absolute top-0 z-10 -ml-5 grid h-11 w-10 place-items-center rounded-lg border-2 border-[#1c6047] bg-[#fffdf5] text-[10px] font-extrabold text-[#1c6047] shadow-md transition-[left] duration-700 ease-out motion-reduce:transition-none" style={{ left: `calc(0.75rem + (100% - 1.5rem) * ${progress / 100})` }} aria-hidden="true">
+        <div className="absolute top-0 z-10 -ml-5 grid h-11 w-10 place-items-center rounded-lg border-2 border-brand bg-[#fffdf5] text-[10px] font-extrabold text-brand shadow-md transition-[left] duration-700 ease-out motion-reduce:transition-none" style={{ left: `calc(0.75rem + (100% - 1.5rem) * ${progress / 100})` }} aria-hidden="true">
           {index === last ? "ACT" : "BILL"}
         </div>
         <ol className="relative flex justify-between">
           {steps.map((item, i) => (
             <li key={item.short} className="flex w-0 flex-col items-center">
-              <button type="button" onClick={() => { setPlaying(false); setIndex(i); }} aria-label={`Step ${i + 1}: ${item.title}`} aria-current={i === index ? "step" : undefined} className={`mt-[14px] h-4 w-4 rounded-full border-2 ${i <= index ? "border-[#1c6047] bg-[#43896a]" : "border-[#c5d4c7] bg-white"}`} />
-              <span className={`mt-6 whitespace-nowrap text-[11px] font-bold sm:text-xs ${i === index ? "text-[#19372d]" : "hidden text-[#8a9b8e] sm:inline"}`}>{item.short}</span>
+              <button type="button" onClick={() => { setPlaying(false); setIndex(i); }} aria-label={`Step ${i + 1}: ${item.title}`} aria-current={i === index ? "step" : undefined} className={`mt-[14px] h-4 w-4 rounded-full border-2 ${i <= index ? "border-brand bg-[#43896a]" : "border-[#c5d4c7] bg-white"}`} />
+              <span className={`mt-6 whitespace-nowrap text-[11px] font-bold sm:text-xs ${i === index ? "text-ink" : "hidden text-subtle sm:inline"}`}>{item.short}</span>
             </li>
           ))}
         </ol>
       </div>
 
       <div key={`${money}-${index}`} className="mt-8 rounded-2xl bg-[#f6faf5] p-5 animate-[fadeUp_.35s_ease-out] motion-reduce:animate-none sm:p-6" aria-live="polite">
-        <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-[#4c8063]">Step {index + 1} of {steps.length} · {step.articles}</p>
-        <h3 className="mt-2 text-xl font-semibold tracking-[-0.03em] text-[#18372b]">{step.title}</h3>
+        <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-eyebrow">Step {index + 1} of {steps.length} · {step.articles}</p>
+        <h3 className="mt-2 text-xl font-semibold tracking-[-0.03em] text-ink">{step.title}</h3>
         <p className="mt-2 max-w-2xl text-[15px] leading-7 text-[#43594a]">{step.detail}</p>
       </div>
     </div>

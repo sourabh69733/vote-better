@@ -41,7 +41,7 @@ export default async function SharePage({ params }: PageProps) {
       </nav>
       <header className="mt-6 max-w-2xl">
         <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-eyebrow">Share</p>
-        <h1 className="mt-3 text-[clamp(2rem,5vw,3.2rem)] font-semibold leading-[1.05] tracking-[-0.05em] text-ink">{deck.title}</h1>
+        <h1 className="mt-3 text-[clamp(2rem,5vw,3.2rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-ink">{deck.title}</h1>
         <p className="mt-3 text-[15px] leading-7 text-body">
           Ready-made images for an Instagram story, carousel or reel. Every frame shows its source, and the caption links back to the page so anyone can check it.
         </p>

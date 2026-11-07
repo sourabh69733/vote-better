@@ -23,12 +23,12 @@ export default async function RightsSituationPage({ params }: Props) {
   const helpline = currentDslsaHelpline();
   const showTimeline = ["detained", "arrested", "injured", "family-member-missing"].includes(situation);
   return <div className="mx-auto w-full max-w-[1160px] px-4 pb-16 pt-8 sm:px-6 lg:px-8">
-    <Link href="/rights" className="inline-flex min-h-11 items-center text-sm font-semibold text-[#1e6b4d] hover:underline">← Protest and rights guide</Link>
-    <header className="mt-5 border-b border-[#d9e3da] pb-8">
-      <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#2a7658]">India&apos;s laws / Delhi legal help</p>
-      <h1 className="mt-4 text-[clamp(2.3rem,5vw,3.8rem)] font-semibold leading-[1.1] tracking-[-0.05em] text-[#19372d]">{path.title}</h1>
+    <Link href="/rights" className="inline-flex min-h-11 items-center text-sm font-semibold text-brand hover:underline">← Protest and rights guide</Link>
+    <header className="mt-5 border-b border-line pb-8">
+      <p className="text-xs font-bold uppercase tracking-[0.16em] text-eyebrow">India&apos;s laws / Delhi legal help</p>
+      <h1 className="mt-4 text-[clamp(2.3rem,5vw,3.8rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-ink">{path.title}</h1>
       <div className="mt-6 rounded-[22px] border border-[#cbded0] bg-[#edf5ed] p-5 sm:p-6">
-        <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#2a7658]">Start here</p>
+        <p className="text-xs font-bold uppercase tracking-[0.14em] text-eyebrow">Start here</p>
         <p className="mt-2 max-w-3xl text-lg leading-8 text-[#254b37]">{topics[0].summary}</p>
         <RightsCitation ids={[...new Set(topics[0].paragraphs.flatMap((paragraph) => paragraph.references))]} />
       </div>
@@ -36,8 +36,8 @@ export default async function RightsSituationPage({ params }: Props) {
     </header>
     <div className="grid items-start gap-8 pt-8 lg:grid-cols-[minmax(0,1fr)_250px]">
       <div className="min-w-0 space-y-8">
-        <section className="rounded-[24px] border border-[#d7e3d8] bg-white px-5 py-5 sm:px-8" aria-labelledby="detail-heading">
-          <h2 id="detail-heading" className="text-2xl font-semibold text-[#193b2f]">Understand the details</h2>
+        <section className="rounded-[24px] border border-line bg-white px-5 py-5 sm:px-8" aria-labelledby="detail-heading">
+          <h2 id="detail-heading" className="text-2xl font-semibold text-ink">Understand the details</h2>
           <p className="mt-2 text-base leading-7 text-[#586d5f]">The relevant topics are open below. Collapse a topic to keep only its summary.</p>
           <RightsReading topics={topics} expanded />
         </section>
@@ -56,9 +56,9 @@ export default async function RightsSituationPage({ params }: Props) {
           <p className="mt-2 text-xs leading-6 text-[#d7e8dc]">Contact checked 10 Oct 2026.</p>
           <a href={rightsSources.dslsaAbout.url} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-11 items-center rounded-full bg-white px-4 text-sm font-bold text-[#174b35]">Official DSLSA contacts ↗</a>
         </section>
-        <nav aria-label="Other rights situations" className="rounded-2xl border border-[#d7e3d8] bg-white p-5">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-[#397558]">Other situations</h2>
-          <ul className="mt-3">{rightsPaths.filter((item) => item.id !== situation).map((item) => <li key={item.id}><Link href={"/rights/" + item.id} className="flex min-h-11 items-center border-b border-[#e6ece5] py-2 text-sm font-semibold text-[#345a41] hover:underline">{item.title}</Link></li>)}</ul>
+        <nav aria-label="Other rights situations" className="rounded-2xl border border-line bg-white p-5">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-eyebrow">Other situations</h2>
+          <ul className="mt-3">{rightsPaths.filter((item) => item.id !== situation).map((item) => <li key={item.id}><Link href={"/rights/" + item.id} className="flex min-h-11 items-center border-b border-[#e6ece5] py-2 text-sm font-semibold text-body hover:underline">{item.title}</Link></li>)}</ul>
         </nav>
       </aside>
     </div>

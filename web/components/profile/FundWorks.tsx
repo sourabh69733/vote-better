@@ -2,11 +2,11 @@ import { formatDay } from "@/lib/elections";
 import { MILESTONES, type FundWork, type Milestone, type MpFunds } from "@/lib/mp-funds";
 import { formatShort } from "@/lib/results";
 
-const panel = "rounded-3xl border border-[#e2e9e2] bg-white p-5 sm:p-6";
+const panel = "rounded-3xl border border-line bg-white p-5 sm:p-6";
 const rupees = (value: number) => `₹${formatShort(value)}`;
 
 const BADGE: Record<Milestone, string> = {
-  recommended: "bg-[#eef3ed] text-[#3c5a47]",
+  recommended: "bg-track text-body",
   sanctioned: "bg-[#fdf1df] text-[#8a5212]",
   completed: "bg-[#2f8a5b] text-white",
 };
@@ -26,14 +26,14 @@ function WorkItem({ work }: { work: FundWork }) {
     work.completed && `completed ${formatDay(work.completed.on)}`,
   ].filter(Boolean).join(" · ");
   return (
-    <li className="border-b border-[#eef3ed] pb-3 last:border-0 last:pb-0">
+    <li className="border-b border-track pb-3 last:border-0 last:pb-0">
       <div className="flex items-start justify-between gap-3">
-        <p className="font-semibold text-[#122a20]">{work.activity}</p>
+        <p className="font-semibold text-ink">{work.activity}</p>
         <Badge milestone={work.milestone} />
       </div>
-      <p className="mt-0.5 text-sm text-[#2c4436]">{work.description ?? "Description is in Hindi, which the public dashboard does not send intact."}</p>
-      <p className="mt-1 text-xs text-[#6b7f71]">
-        {amount !== undefined && <span className="font-semibold tabular-nums text-[#2c4436]">{rupees(amount)}</span>}
+      <p className="mt-0.5 text-sm text-ink">{work.description ?? "Description is in Hindi, which the public dashboard does not send intact."}</p>
+      <p className="mt-1 text-xs text-muted">
+        {amount !== undefined && <span className="font-semibold tabular-nums text-ink">{rupees(amount)}</span>}
         {dates && ` · ${dates}`}
         {work.paid > 0 && ` · ${rupees(work.paid)} paid`}
         {work.stage && ` · portal stage: ${work.stage}`}
@@ -83,16 +83,16 @@ export default function FundWorks({ funds }: { funds: MpFunds }) {
           ["Paid out", rupees(funds.paid), "to agencies and vendors"],
         ].map(([label, value, note]) => (
           <div key={label}>
-            <dt className="text-[13px] text-[#6b7f71]">{label}</dt>
-            <dd className="text-2xl font-semibold tracking-[-0.03em] text-[#122a20]">{value}</dd>
-            <dd className="text-xs text-[#8a9b8e]">{note}</dd>
+            <dt className="text-[13px] text-muted">{label}</dt>
+            <dd className="text-2xl font-semibold tracking-[-0.03em] text-ink">{value}</dd>
+            <dd className="text-xs text-subtle">{note}</dd>
           </div>
         ))}
       </dl>
 
       <div className={panel}>
-        <p className="text-[13px] font-medium text-[#6b7f71]">How far each of the {total} works has got</p>
-        <div className="mt-3 flex h-3 overflow-hidden rounded-full bg-[#edf2ec]" role="img" aria-label={`${funds.reached.recommended} recommended only, ${funds.reached.sanctioned} sanctioned, ${funds.reached.completed} completed`}>
+        <p className="text-[13px] font-medium text-muted">How far each of the {total} works has got</p>
+        <div className="mt-3 flex h-3 overflow-hidden rounded-full bg-track" role="img" aria-label={`${funds.reached.recommended} recommended only, ${funds.reached.sanctioned} sanctioned, ${funds.reached.completed} completed`}>
           {(["completed", "sanctioned", "recommended"] as const).map((step) => (
             <span key={step} style={{ flexGrow: funds.reached[step], background: BAR[step] }} />
           ))}
@@ -101,25 +101,25 @@ export default function FundWorks({ funds }: { funds: MpFunds }) {
           {MILESTONES.map((step) => (
             <li key={step.id} className="text-sm">
               <span className={`inline-block rounded-full px-2.5 py-1 text-xs font-bold ${BADGE[step.id]}`}>{step.label}</span>
-              <p className="mt-1.5 text-2xl font-semibold tabular-nums text-[#122a20]">{funds.reached[step.id]}</p>
-              <p className="text-xs text-[#6b7f71]">{step.who}</p>
+              <p className="mt-1.5 text-2xl font-semibold tabular-nums text-ink">{funds.reached[step.id]}</p>
+              <p className="text-xs text-muted">{step.who}</p>
             </li>
           ))}
         </ol>
       </div>
 
       <div className={panel}>
-        <p className="text-[13px] font-medium text-[#6b7f71]">Latest works</p>
+        <p className="text-[13px] font-medium text-muted">Latest works</p>
         <ul className="mt-3 grid gap-3">{latest.map((work) => <WorkItem key={work.id} work={work} />)}</ul>
         {rest.length > 0 && (
           <details className="mt-3">
-            <summary className="cursor-pointer text-sm font-bold text-[#1d6547]">All {total} works</summary>
+            <summary className="cursor-pointer text-sm font-bold text-link">All {total} works</summary>
             <ul className="mt-3 grid gap-3">{rest.map((work) => <WorkItem key={work.id} work={work} />)}</ul>
           </details>
         )}
       </div>
 
-      <p className="text-xs leading-5 text-[#8a9b8e]">
+      <p className="text-xs leading-5 text-subtle">
         From the <a href={funds.source.url} target="_blank" rel="noopener noreferrer" className="underline">{funds.source.title} ↗</a> ({funds.source.publisher}), collected {formatDay(funds.collectedOn)}.
         It holds works entered on eSAKSHI, which began on 1 April 2023. &quot;Completed&quot; means the implementing agency marked the work done; this site has not checked any work on the ground.
       </p>
