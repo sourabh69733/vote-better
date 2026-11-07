@@ -281,7 +281,7 @@ for language in hin eng; do curl -L -o "data/tessdata/$language.traineddata" "ht
 
 OCR only finds the page. It reads no figure as a value. In a test on the 13 Jaipur 2024 filings, on 2 November 2026, assets read by Tesseract from the abstract's table matched the hand-checked totals in none of 10 cases, and it proposed false zeros and false criminal case counts. Hand-checked assets equal movable plus immovable current value across self, spouse and dependents, and liabilities equal the undisputed rows.
 
-On 28 filings from Jaipur and Jaipur Rural, OCR found the abstract in 25; a person looks through the other 3. A filing whose heading is unreadable is found by its asset table and starts one page early. Portal age matched the hand-checked age in 11 of 12 Jaipur filings; Shashank Singh Arya is 34 on the portal and 36 in the hand-checked record, which still needs checking against the affidavit.
+On 28 filings from Jaipur and Jaipur Rural, OCR found the abstract in 25; a person looks through the other 3. A filing whose heading is unreadable is found by its asset table and starts one page early. Portal age matched the hand-checked age in 11 of 12 Jaipur filings; Shashank Singh Arya is 34 on the portal, but his affidavit says 36, as the hand-checked record does (checked 2026-11-07). The portal's typed age can be wrong, so the affidavit decides. Pradeep Verma's affidavit gives his full name, Pradeep Kumar Duchaniya; party and age match ECI's results, and the Viratnagar it names is where he is enrolled as a voter, not his seat.
 
 Scans average about 6 MB. Nothing here reaches the site until decision 6.
 
