@@ -8,7 +8,7 @@ import { buildStory } from "@/lib/story";
 import StoryLauncher from "@/components/story/StoryLauncher";
 import FundWorks from "./FundWorks";
 import SourceChip from "./SourceChip";
-import { Bars, SectionNav, TugOfWar, VoteRace } from "./Visuals";
+import { AttendanceBars, Bars, SectionNav, TugOfWar, VoteRace } from "./Visuals";
 
 function initials(name: string) {
   const parts = name.replace(/[^A-Za-z ]/g, " ").split(/\s+/).filter(Boolean);
@@ -193,6 +193,24 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
       {model.work && (
         <Section id="work" kicker="In office" title="What they did in Parliament">
           <div className="grid gap-3 md:grid-cols-2">
+            {model.work.attendance && (
+              <div className={panel}>
+                <p className="flex items-center justify-between gap-2 text-[13px] font-medium text-[#6b7f71]">Attendance register <SourceChip source={model.work.attendance.source} /></p>
+                {model.work.attendance.percent === null ? (
+                  <p className="mt-1 text-sm text-[#4f6455]">Not required to sign in any session so far. Ministers, the Speaker and the Leader of the Opposition do not sign the register.</p>
+                ) : (
+                  <>
+                    <p className="text-4xl font-semibold tracking-[-0.04em] text-[#122a20]"><Figure>{`${Math.round(model.work.attendance.percent)}%`}</Figure></p>
+                    <p className="text-sm text-[#4f6455]">Signed on {model.work.attendance.signed} of {model.work.attendance.required} days they had to sign.</p>
+                  </>
+                )}
+                <div className="mt-4"><AttendanceBars data={model.work.attendance.bySession} color={color} /></div>
+                <p className="mt-3 text-xs text-[#8a9b8e]">
+                  Dark line: the median MP that session. Signing shows the MP came to Parliament, not that they spoke or voted.
+                  {model.work.attendance.exemptSessions > 0 && model.work.attendance.percent !== null && " Ministers, the Speaker and the Leader of the Opposition do not sign, so those days are left out."} Collected {model.work.attendance.collectedOn}. Tap a bar.
+                </p>
+              </div>
+            )}
             {model.work.questions && (
               <div className={panel}>
                 <p className="text-[13px] font-medium text-[#6b7f71]">Questions asked</p>

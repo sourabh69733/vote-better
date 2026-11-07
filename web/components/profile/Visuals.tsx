@@ -97,6 +97,44 @@ export function Bars({ data, color, unit }: { data: { label: string; count: numb
   );
 }
 
+// One bar per session on a 0 to 100 scale, with a tick at the house median. A session with no required
+// days has no bar.
+export function AttendanceBars({ data, color }: { data: { label: string; period: string; percent: number | null; median: number | null; detail: string }[]; color: string }) {
+  const [active, setActive] = useState<number | null>(null);
+  const current = active ?? data.length - 1;
+  const item = data[current];
+  const share = (value: number) => `${Math.round(value)}%`;
+  return (
+    <div>
+      <p className="text-sm text-[#4f6455]">
+        <span className="text-lg font-semibold text-[#122a20]">{item?.percent === null ? "Not required" : share(item.percent)}</span> · {item?.label}, {item?.period}
+      </p>
+      <p className="text-xs text-[#6b7f71]">{item?.detail}{item?.median !== null && item?.median !== undefined ? ` · house median ${share(item.median)}` : ""}</p>
+      <div className="mt-3 flex h-28 items-end gap-1.5">
+        {data.map((entry, index) => (
+          <button
+            key={entry.label}
+            type="button"
+            onMouseEnter={() => setActive(index)}
+            onFocus={() => setActive(index)}
+            onClick={() => setActive(index)}
+            aria-label={`${entry.label}, ${entry.period}: ${entry.percent === null ? "not required to sign" : share(entry.percent)}${entry.median !== null ? `, house median ${share(entry.median)}` : ""}`}
+            className="relative flex h-full flex-1 flex-col justify-end rounded-t-md bg-[#f2f5f1]"
+          >
+            {entry.percent !== null && (
+              <span className="block w-full origin-bottom rounded-t-md animate-[growY_.7s_ease-out] transition-opacity motion-reduce:animate-none" style={{ height: `${Math.max(entry.percent, 2)}%`, background: color, opacity: index === current ? 1 : 0.45 }} />
+            )}
+            {entry.median !== null && <span aria-hidden className="absolute inset-x-0 h-0.5 bg-[#122a20]" style={{ bottom: `${entry.median}%` }} />}
+          </button>
+        ))}
+      </div>
+      <div className="mt-1 flex gap-1.5 text-[10px] text-[#8a9b8e]">
+        {data.map((entry) => <span key={entry.label} className="flex-1 truncate text-center">{entry.label.replace("Session ", "S")}</span>)}
+      </div>
+    </div>
+  );
+}
+
 // Sticky section menu that follows the reader's scroll position.
 export function SectionNav({ sections }: { sections: { id: string; label: string }[] }) {
   const [active, setActive] = useState(sections[0]?.id);

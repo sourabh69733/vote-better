@@ -17,6 +17,11 @@ export interface ProfileStat {
 
 export interface ProfileWork {
   questions?: { total: number; bySession: { label: string; count: number }[]; topMinistries: { name: string; count: number }[]; latest: { date: string; subject: string; url: string }[]; directoryUrl: string; collectedOn: string };
+  attendance?: {
+    percent: number | null; signed: number; required: number; exemptSessions: number;
+    bySession: { label: string; period: string; percent: number | null; median: number | null; detail: string }[];
+    collectedOn: string; source: ChipSource;
+  };
   debates?: { total: number; byCategory: { name: string; count: number }[]; latest: { date: string; title: string; url: string }[]; collectedOn: string };
   positions?: { title: string; period?: string }[];
   offices?: { title: string; detail: string; current: boolean; source?: ChipSource }[];
@@ -104,6 +109,27 @@ const smallWords = new Set(["and", "of", "the", "for", "in", "on", "to"]);
 export function readableTitle(value: string) {
   if (value !== value.toUpperCase()) return value;
   return value.toLowerCase().split(" ").map((word, index) => (index && smallWords.has(word) ? word : word.charAt(0).toUpperCase() + word.slice(1))).join(" ");
+}
+
+const monthYear = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-IN", { month: "short", year: "numeric", timeZone: "UTC" });
+
+// A member's attendance register, one bar per session against the house median.
+export function attendanceForProfile(summary: import("./attendance").MemberAttendance, day: (iso: string) => string): NonNullable<ProfileWork["attendance"]> {
+  return {
+    percent: summary.percent, signed: summary.signed, required: summary.required, exemptSessions: summary.exemptSessions,
+    bySession: summary.sessions.map((session) => {
+      const [from, to] = [monthYear(session.firstDay), monthYear(session.lastDay)];
+      return {
+        label: `Session ${session.session}`, period: from === to ? from : `${from} to ${to}`,
+        percent: session.percent, median: session.medianPercent,
+        detail: session.required
+          ? `signed on ${session.signed} of ${session.required} days${session.required < session.days ? `; not required on ${session.days - session.required}` : ""}`
+          : "not required to sign",
+      };
+    }),
+    collectedOn: day(summary.collectedAt),
+    source: { label: "Sansad", title: "Member attendance, Digital Sansad", url: summary.sourceUrl, locator: "Attendance tab, Lok Sabha 18", checkedOn: day(summary.collectedAt) },
+  };
 }
 
 type QuestionSummary = NonNullable<ReturnType<typeof import("./parliamentary-work").summarizeParliamentaryWork>>;

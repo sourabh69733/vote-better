@@ -5,8 +5,9 @@ import { listAreaOverviews } from "@/lib/civic-area";
 import { formatShort, requireResults, seatHref, summaryOf } from "@/lib/results";
 import { sortableMpName } from "@/lib/mp-directory";
 import { linkMpToSeat } from "@/lib/mp-seat-link";
+import { getMemberAttendance } from "@/lib/attendance";
 import { getMemberQuestions } from "@/lib/parliamentary-work-local";
-import { eciChip, moneyStats, partyOf, questionsForProfile, resultStats, type ProfileModel, type ProfileMoney, type ProfileStat } from "@/lib/profile-model";
+import { attendanceForProfile, eciChip, moneyStats, partyOf, questionsForProfile, resultStats, type ProfileModel, type ProfileMoney, type ProfileStat } from "@/lib/profile-model";
 import { getPublicMp, publicMpFact, type PublicMp, type PublicMpFact } from "@/lib/public-mps";
 import type { ChipSource } from "@/components/profile/SourceChip";
 import ProfileView from "@/components/profile/ProfileView";
@@ -66,6 +67,10 @@ export default async function MpProfilePage({ params }: PageProps) {
   const questionNote = questions && !questions.questions.length
     ? "No questions are listed under this member's name. Ministers and the Speaker answer questions in the House rather than ask them."
     : undefined;
+  const attendance = getMemberAttendance(profile.memberId);
+  // What is not collected yet for this MP, for the work note and the "coming" list.
+  const missing = [...(attendance ? [] : ["attendance"]), ...(questions ? [] : ["questions"]), "debates"];
+  const missingText = missing.length > 1 ? `${missing.slice(0, -1).join(", ")} and ${missing.at(-1)}` : missing[0];
   const adr = await readAdrWinners();
   const declared = adr && findAdrWinner(adr.winners, profile);
   const adrSource = declared && adr ? {
@@ -110,10 +115,11 @@ export default async function MpProfilePage({ params }: PageProps) {
     breadcrumb: [{ label: "All MPs", href: "/mps" }, ...(seat ? [{ label: seat.name, href: seatHref(seat) }] : [])],
     ...(seat ? { contest: { seat, candidate: winner ?? undefined, ...(link.status === "by-election" ? { note: `${link.note} By-election results are not collected yet; this is the 2024 general election.` } : {}) } } : {}),
     stats,
-    work: positions.length || questions ? {
+    work: positions.length || questions || attendance ? {
       positions,
+      ...(attendance ? { attendance: attendanceForProfile(attendance, day) } : {}),
       ...(questions?.questions.length ? { questions: questionsForProfile(questions, day) } : {}),
-      note: questionNote ?? (questions ? "Attendance and debates for this MP are not collected yet." : curated ? undefined : "Attendance, questions and debates for this MP are not collected yet."),
+      note: questionNote ?? (curated && !questions && !attendance ? undefined : `${missingText.charAt(0).toUpperCase()}${missingText.slice(1)} for this MP ${missing.length > 1 ? "are" : "is"} not collected yet.`),
     } : undefined,
     money,
     timeline,
@@ -129,12 +135,13 @@ export default async function MpProfilePage({ params }: PageProps) {
     sources: [
       { title: "Lok Sabha member list, Digital Sansad", url: `https://sansad.in/ls/members/biography/${profile.memberId}`, checkedOn: day(profile.rosterSource.capturedAt) },
       { title: "Member biography fields, Digital Sansad", url: `https://sansad.in/ls/members/biography/${profile.memberId}`, checkedOn: day(profile.sourceCheckedAt) },
+      ...(attendance ? [{ title: "Member attendance, Digital Sansad", url: attendance.sourceUrl, checkedOn: day(attendance.collectedAt) }] : []),
       ...(adrSource ? [
         { title: adrSource.title, url: adrSource.url, checkedOn: adrSource.checkedOn },
         { title: "Candidate affidavit portal, Election Commission of India", url: "https://affidavit.eci.gov.in/", checkedOn: adrSource.checkedOn },
       ] : []),
     ],
-    coming: [...(money?.assets === undefined ? ["declared assets"] : []), ...(money?.cases === undefined ? ["declared cases"] : []), ...(curated ? [] : ["questions, debates and attendance"])],
+    coming: [...(money?.assets === undefined ? ["declared assets"] : []), ...(money?.cases === undefined ? ["declared cases"] : []), ...(curated ? [] : [missingText])],
   };
 
   return <ProfileView model={model} data={data} />;
