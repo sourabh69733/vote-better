@@ -1,142 +1,143 @@
-"use client";
+import Link from "next/link";
+import { BODY_LABEL, STATUS_LABEL, electionStatus, formatDay, groupElections, todayIso, type Election } from "@/lib/elections";
+import { pinLookupAvailable } from "@/lib/my-area";
+import { electionTotals, formatNumber, requireResults, seatHref } from "@/lib/results";
+import { elections } from "@/records/elections";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+export const revalidate = 3600;
+
+// The home page speaks to every voter in India. Area pages such as Jaipur are reached through search, not listed here.
+
+const LEARN = [
+  { kicker: "First-time voter", title: "Voting for the first time?", text: "Three steps, from getting on the roll to poll day.", href: "/share/first-time-voter" },
+  { kicker: "Explained", title: "What does an MP actually do?", text: "Four jobs, straight from the Constitution.", href: "/share/mp-role" },
+  { kicker: "Constitution", title: "Who does what", text: "Union, state and local government, and how a bill becomes law.", href: "/constitution" },
+  { kicker: "Quests", title: "Five small things to try", text: "Find your MLA, read a result, check a source yourself.", href: "/quests" },
+];
+
+function Section({ id, eyebrow, title, lead, children }: { id: string; eyebrow: string; title: string; lead: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <section className="grid gap-6 border-b border-line py-12 lg:grid-cols-[230px_minmax(0,1fr)] lg:gap-12" aria-labelledby={`${id}-heading`}>
+      <div>
+        <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-eyebrow">{eyebrow}</p>
+        <h2 id={`${id}-heading`} className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-ink">{title}</h2>
+        <p className="mt-3 max-w-xs text-sm leading-6 text-muted">{lead}</p>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function ElectionTile({ election, today }: { election: Election; today: string }) {
+  const status = electionStatus(election, today);
+  const live = status === "polling" || status === "counting";
+  const when = election.polls.length ? `Polling from ${formatDay(election.polls[0].date)}`
+    : election.termEndsOn ? `Term ends ${formatDay(election.termEndsOn)}` : null;
+  return (
+    <Link href={`/elections/${election.id}`} className={`group flex flex-col rounded-[20px] border bg-surface p-5 hover:border-line-strong ${live ? "border-eyebrow" : "border-line"}`}>
+      <div className="flex items-start justify-between gap-3">
+        <p className="text-[11px] font-extrabold uppercase tracking-[0.14em] text-eyebrow">{BODY_LABEL[election.body]}</p>
+        {/* A due election says so in its term-end line; only announced or live ones get a badge. */}
+        {status !== "due" && <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${live ? "bg-brand text-white" : "bg-track text-body"}`}>{STATUS_LABEL[status]}</span>}
+      </div>
+      <p className="mt-2 text-lg font-semibold tracking-[-0.03em] text-ink group-hover:underline">{election.states.join(", ")}</p>
+      <p className="mt-auto pt-2 text-sm text-muted">
+        {election.seats ? `${election.seats} seats` : null}{election.seats && when ? " · " : null}{when}
+      </p>
+    </Link>
+  );
+}
 
 export default function Home() {
-  const [pincode, setPincode] = useState("");
-  const [error, setError] = useState("");
-  const router = useRouter();
+  const today = todayIso();
+  const groups = groupElections(elections, today);
+  const next = [...groups.now, ...groups.upcoming].slice(0, 4);
+  const results = requireResults("lok-sabha-2024");
+  const totals = electionTotals(results);
+  const pin = pinLookupAvailable();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    if (!/^\d{6}$/.test(pincode)) {
-      setError("Please enter a valid 6-digit PIN code");
-      return;
-    }
-
-    router.push(`/area/${pincode}`);
-  };
+  const stats = [
+    { label: "Seats", value: formatNumber(results.seats.length) },
+    { label: "Candidates", value: formatNumber(totals.candidates) },
+    ...(totals.turnout !== null ? [{ label: "Turnout", value: `${totals.turnout.toFixed(1)}%` }] : []),
+  ];
+  const fights = [
+    totals.closest && { label: "Closest fight", ...totals.closest },
+    totals.widest && { label: "Widest win", ...totals.widest },
+  ].filter((fight) => !!fight);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[82vh] px-4">
-      {/* Hero */}
-      <div className="text-center max-w-md mb-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-medium mb-5">
-          🇮🇳 Open Source · Facts Only · No Ads
+    <div className="mx-auto w-full max-w-[1320px] px-4 pb-14 pt-10 sm:px-6 sm:pt-16 lg:px-8">
+      <header className="grid gap-7 border-b border-line pb-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,.9fr)] lg:items-end lg:gap-16 lg:pb-16">
+        <div>
+          <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-eyebrow">Civic information, made clear</p>
+          <h1 className="mt-5 max-w-4xl text-[clamp(2.7rem,5vw,4.8rem)] font-semibold leading-[1.02] tracking-[-0.075em] text-ink">
+            Know who <span className="block text-[#43896a]">represents you.</span>
+          </h1>
+          <p className="mt-5 max-w-xl text-[15px] leading-7 text-body">Who won your seat, what they have done since, and which election is next. Every fact links to its official source.</p>
         </div>
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-800 leading-tight tracking-tight">
-          Know your candidates.
-        </h1>
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-indigo-500 mt-1 tracking-tight">
-          Vote with facts.
-        </h2>
-        <p className="text-base text-slate-500 mt-4 leading-relaxed">
-          Enter your PIN code to see your MP&apos;s attendance, wealth, criminal
-          cases, and development spending — all from official sources.
-        </p>
-      </div>
-
-      {/* PIN Code Entry Card */}
-      <div className="w-full max-w-sm bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-        <form onSubmit={handleSubmit}>
-          <label className="block text-sm font-medium text-slate-600 mb-2">
-            📍 Your PIN Code
-          </label>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              maxLength={6}
-              value={pincode}
-              onChange={(e) => {
-                const val = e.target.value.replace(/\D/g, "");
-                setPincode(val);
-                setError("");
-              }}
-              placeholder="e.g. 110001"
-              className="flex-1 h-12 px-4 text-base bg-slate-50 rounded-xl border border-slate-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 outline-none text-slate-800 placeholder:text-slate-400"
-              autoFocus
-            />
-            <button
-              type="submit"
-              className="h-12 px-5 bg-indigo-500 text-white font-semibold rounded-xl hover:bg-indigo-600 active:scale-95 shadow-sm"
-            >
-              Go →
-            </button>
+        {/* One box: a six-digit PIN goes on to the my-area page, anything else searches seats and people. */}
+        <form action="/seats" method="get" role="search" className="rounded-[24px] border border-line bg-surface p-5 shadow-[0_12px_36px_rgba(28,64,40,.07)] lg:mb-2">
+          <label htmlFor="home-seat-search" className="text-sm font-bold text-ink">{pin ? "Find your MP and MLA" : "Find your MP and everyone who contested"}</label>
+          <div className="mt-3 flex gap-2">
+            <input id="home-seat-search" name="q" placeholder={pin ? "PIN, seat or name" : "Your seat, state or a name"} autoComplete="off"
+              className="min-h-12 min-w-0 flex-1 rounded-xl border border-line-strong bg-surface px-4 text-base text-ink focus:border-link focus:outline-none focus:ring-4 focus:ring-eyebrow/10" />
+            <button type="submit" className="min-h-12 rounded-xl bg-brand px-5 text-sm font-bold text-white hover:bg-brand-strong">Search</button>
           </div>
-
-          {error && (
-            <p className="mt-2 text-sm text-red-500">{error}</p>
-          )}
-
-          <button
-            type="button"
-            onClick={() =>
-              setError(
-                "Location detection coming soon. Please enter your PIN code."
-              )
-            }
-            className="w-full mt-3 h-10 flex items-center justify-center gap-2 text-slate-500 bg-slate-50 rounded-xl hover:bg-slate-100 text-sm border border-slate-100"
-          >
-            📍 Detect My Location
-          </button>
+          <p className="mt-3 text-sm text-muted">
+            Try your constituency, like &ldquo;Varanasi&rdquo;, or a name{pin ? ". PIN codes work for Rajasthan, as a preview" : ""}. Or <Link href="/seats" className="font-semibold text-link underline underline-offset-4">browse by state</Link>.
+          </p>
         </form>
-      </div>
+      </header>
 
-      {/* Sample PINs */}
-      <div className="mt-6 text-center">
-        <p className="text-xs text-slate-400 mb-2">Try a sample PIN:</p>
-        <div className="flex flex-wrap justify-center gap-2">
-          {[
-            { pin: "110001", city: "Delhi" },
-            { pin: "411001", city: "Pune" },
-            { pin: "600001", city: "Chennai" },
-            { pin: "700001", city: "Kolkata" },
-            { pin: "226001", city: "Lucknow" },
-          ].map(({ pin, city }) => (
-            <button
-              key={pin}
-              onClick={() => router.push(`/area/${pin}`)}
-              className="px-3 py-1.5 text-xs bg-white text-slate-600 rounded-lg border border-slate-100 hover:border-indigo-200 hover:text-indigo-600 shadow-sm"
-            >
-              {city}
-              <span className="text-slate-400 ml-1">{pin}</span>
-            </button>
+      <Section id="next" eyebrow="01 / Elections" title="What's next" lead={<>Dates come from Election Commission press notes. <Link href="/elections" className="font-semibold text-link underline underline-offset-4">Full calendar</Link></>}>
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          {next.map((election) => <ElectionTile key={election.id} election={election} today={today} />)}
+        </div>
+      </Section>
+
+      <Section id="lok-sabha" eyebrow="02 / Results" title="Lok Sabha 2024" lead="Every seat, every candidate and the winning margin, from ECI's official results.">
+        <div className="grid gap-3">
+          <dl className="grid grid-cols-3 gap-4 rounded-[20px] border border-line bg-surface p-5 sm:p-6">
+            {stats.map((stat) => (
+              <div key={stat.label}>
+                <dt className="text-[13px] text-muted">{stat.label}</dt>
+                <dd className="text-2xl font-semibold tabular-nums tracking-[-0.03em] text-ink sm:text-3xl">{stat.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {fights.map((fight) => (
+              <Link key={fight.label} href={seatHref(fight.seat)} className="group rounded-[20px] border border-line bg-surface p-5 hover:border-line-strong">
+                <p className="text-[11px] font-extrabold uppercase tracking-[0.14em] text-eyebrow">{fight.label}</p>
+                <p className="mt-2 text-lg font-semibold tracking-[-0.03em] text-ink group-hover:underline">{fight.seat.name}, {fight.seat.state}</p>
+                <p className="text-sm text-muted">Won by {formatNumber(fight.margin)} {fight.margin === 1 ? "vote" : "votes"}</p>
+              </Link>
+            ))}
+          </div>
+          <p className="text-sm">
+            <Link href="/elections/lok-sabha-2024" className="font-semibold text-link underline underline-offset-4">Open the 2024 results →</Link>
+          </p>
+        </div>
+      </Section>
+
+      <Section id="learn" eyebrow="03 / Learn" title="In a minute" lead="Short reads made to share with friends who vote for the first time.">
+        <div className="grid gap-3 sm:grid-cols-2">
+          {LEARN.map((card) => (
+            <Link key={card.href} href={card.href} className="group rounded-[20px] border border-line bg-surface p-5 hover:border-line-strong">
+              <p className="text-[11px] font-extrabold uppercase tracking-[0.14em] text-eyebrow">{card.kicker}</p>
+              <p className="mt-2 text-lg font-semibold tracking-[-0.03em] text-ink group-hover:underline">{card.title}</p>
+              <p className="mt-1 text-sm leading-6 text-muted">{card.text}</p>
+            </Link>
           ))}
         </div>
-      </div>
+      </Section>
 
-      {/* What you'll see */}
-      <div className="mt-14 max-w-md w-full">
-        <p className="text-xs text-slate-400 text-center mb-4 uppercase tracking-wider font-medium">
-          What you&apos;ll see
-        </p>
-        <div className="grid grid-cols-4 gap-3">
-          {[
-            { icon: "🏛️", label: "Attendance", desc: "Did they show up?" },
-            { icon: "💰", label: "Wealth", desc: "How much they own" },
-            { icon: "⚖️", label: "Cases", desc: "Criminal record" },
-            { icon: "🏗️", label: "Fund Spent", desc: "Your area's money" },
-          ].map((item) => (
-            <div
-              key={item.label}
-              className="bg-white rounded-xl border border-slate-100 p-3 text-center shadow-sm"
-            >
-              <span className="text-2xl">{item.icon}</span>
-              <div className="text-xs font-semibold text-slate-700 mt-1.5">
-                {item.label}
-              </div>
-              <div className="text-[10px] text-slate-400 mt-0.5 leading-tight">
-                {item.desc}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <section className="mt-12 grid gap-6 rounded-[24px] bg-story px-6 py-7 text-white sm:grid-cols-3 sm:gap-8 sm:px-8" aria-label="How Vote Better handles records">
+        <div><span className="text-xs font-bold text-[#9fd5b3]">01</span><p className="mt-2 text-sm font-semibold">Every fact has a source</p></div>
+        <div><span className="text-xs font-bold text-[#9fd5b3]">02</span><p className="mt-2 text-sm font-semibold">Same fields for every candidate</p></div>
+        <div><span className="text-xs font-bold text-[#9fd5b3]">03</span><p className="mt-2 text-sm font-semibold">Unverified facts stay out</p></div>
+      </section>
     </div>
   );
 }

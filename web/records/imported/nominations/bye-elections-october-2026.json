@@ -1,0 +1,1281 @@
+{
+  "schemaVersion": 1,
+  "electionId": "bye-elections-october-2026",
+  "changedOn": "2026-11-01",
+  "source": {
+    "title": "Candidate affidavit portal",
+    "publisher": "Election Commission of India",
+    "url": "https://affidavit.eci.gov.in/",
+    "disclaimer": "ECI publishes this list as returning officers enter it and calls it tentative; the returning officer's list is final."
+  },
+  "seats": [
+    {
+      "kind": "lok-sabha",
+      "state": "Assam",
+      "stateSlug": "assam",
+      "number": 9,
+      "name": "Nagaon",
+      "sourceName": "Nagaon",
+      "slug": "nagaon",
+      "sourceUrl": "https://affidavit.eci.gov.in/CandidateCustomFilter?electionType=34-AC-BYE-4-63&election=34-PC-BYE-2-64&states=S03&phase=1&constId=9",
+      "papers": {
+        "all": 35,
+        "accepted": 24,
+        "rejected": 7,
+        "withdrawn": 4
+      },
+      "candidates": [
+        {
+          "name": "Devasish Sharma",
+          "sourceName": "DEVASISH SHARMA",
+          "party": "Bharatiya Janata Party",
+          "status": "contesting",
+          "ballot": 1,
+          "nominations": 4
+        },
+        {
+          "name": "Mohammed Badruddin Ajmal",
+          "sourceName": "MOHAMMED BADRUDDIN AJMAL",
+          "party": "All India United Democratic Front",
+          "status": "contesting",
+          "ballot": 2,
+          "nominations": 2
+        },
+        {
+          "name": "Sibamoni Bora",
+          "sourceName": "SIBAMONI BORA",
+          "party": "Indian National Congress",
+          "status": "contesting",
+          "ballot": 3,
+          "nominations": 2
+        },
+        {
+          "name": "Inamul Huda",
+          "sourceName": "INAMUL HUDA",
+          "party": "Revolutionary Communist Party of India (Rasik Bhatt)",
+          "status": "contesting",
+          "ballot": 4,
+          "nominations": 2
+        },
+        {
+          "name": "Barnali Sarma",
+          "sourceName": "BARNALI SARMA",
+          "party": "Socialist Unity Centre Of India (COMMUNIST)",
+          "status": "contesting",
+          "ballot": 5,
+          "nominations": 2
+        },
+        {
+          "name": "Hafiz Burhanuddin",
+          "sourceName": "HAFIZ BURHANUDDIN",
+          "party": "The National Road Map Party of India",
+          "status": "contesting",
+          "ballot": 6,
+          "nominations": 1
+        },
+        {
+          "name": "Ayush Kumar Singh",
+          "sourceName": "AYUSH KUMAR SINGH",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 7,
+          "nominations": 1
+        },
+        {
+          "name": "Younus Tamuly",
+          "sourceName": "YOUNUS TAMULY",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 8,
+          "nominations": 1
+        },
+        {
+          "name": "Emran Hussain",
+          "sourceName": "EMRAN HUSSAIN",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 9,
+          "nominations": 2
+        },
+        {
+          "name": "Saifur Rahman",
+          "sourceName": "SAIFUR RAHMAN",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 10,
+          "nominations": 1
+        },
+        {
+          "name": "Sabina Yasmin",
+          "sourceName": "SABINA YASMIN",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 11,
+          "nominations": 1
+        },
+        {
+          "name": "Nazrul Islam",
+          "sourceName": "NAZRUL ISLAM",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 12,
+          "nominations": 1
+        },
+        {
+          "name": "Faruk Khan",
+          "sourceName": "FARUK KHAN",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 13,
+          "nominations": 1
+        },
+        {
+          "name": "Monirul Hussain",
+          "sourceName": "MONIRUL HUSSAIN",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 14,
+          "nominations": 2
+        },
+        {
+          "name": "Mustakim Alam",
+          "sourceName": "MUSTAKIM ALAM",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 15,
+          "nominations": 1
+        },
+        {
+          "name": "Abdul Salam",
+          "sourceName": "ABDUL SALAM",
+          "party": "Mamata All India Trinamool Congress",
+          "status": "withdrawn",
+          "ballot": null,
+          "nominations": 2
+        },
+        {
+          "name": "Karimulla Shaik",
+          "sourceName": "KARIMULLA SHAIK",
+          "party": "Navarang Congress Party",
+          "status": "withdrawn",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Purusottam Behera",
+          "sourceName": "PURUSOTTAM BEHERA",
+          "party": "Independent",
+          "status": "withdrawn",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Khalil Uddin",
+          "sourceName": "KHALIL UDDIN",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Pankaj Maurya",
+          "sourceName": "PANKAJ MAURYA",
+          "party": "Jai Prakash Janata Dal",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Pranab Kaushik",
+          "sourceName": "PRANAB KAUSHIK",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Rabbul Hoque",
+          "sourceName": "RABBUL HOQUE",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Samsul Alam",
+          "sourceName": "SAMSUL ALAM",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Sekandar Ali",
+          "sourceName": "SEKANDAR ALI",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Shaha Alom",
+          "sourceName": "SHAHA ALOM",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        }
+      ]
+    },
+    {
+      "kind": "assembly",
+      "state": "Puducherry",
+      "stateSlug": "puducherry",
+      "number": 9,
+      "name": "Thattanchavady",
+      "sourceName": "THATTANCHAVADY",
+      "slug": "thattanchavady",
+      "sourceUrl": "https://affidavit.eci.gov.in/CandidateCustomFilter?electionType=34-AC-BYE-4-63&election=34-AC-BYE-4-63&states=U07&phase=1&constId=9",
+      "papers": {
+        "all": 15,
+        "accepted": 11,
+        "rejected": 4,
+        "withdrawn": 0
+      },
+      "candidates": [
+        {
+          "name": "Ashok Anand",
+          "sourceName": "ASHOK ANAND",
+          "party": "All India N.R. Congress",
+          "status": "contesting",
+          "ballot": 1,
+          "nominations": 1
+        },
+        {
+          "name": "K. Sethu @ Sethuselvam",
+          "sourceName": "K. SETHU @ SETHUSELVAM",
+          "party": "Dravida Munnetra Kazhagam",
+          "status": "contesting",
+          "ballot": 2,
+          "nominations": 1
+        },
+        {
+          "name": "E. Vinayagam",
+          "sourceName": "E. VINAYAGAM",
+          "party": "Indian National Congress",
+          "status": "contesting",
+          "ballot": 3,
+          "nominations": 1
+        },
+        {
+          "name": "Kalaivanan",
+          "sourceName": "KALAIVANAN",
+          "party": "Republican Party of India",
+          "status": "contesting",
+          "ballot": 4,
+          "nominations": 1
+        },
+        {
+          "name": "S. Karthikumari",
+          "sourceName": "S. KARTHIKUMARI",
+          "party": "Naam Tamilar Katchi",
+          "status": "contesting",
+          "ballot": 5,
+          "nominations": 2
+        },
+        {
+          "name": "A. M. Saleem",
+          "sourceName": "A. M. SALEEM",
+          "party": "Communist Party of India",
+          "status": "contesting",
+          "ballot": 6,
+          "nominations": 1
+        },
+        {
+          "name": "R. Saminadane",
+          "sourceName": "R. SAMINADANE",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 7,
+          "nominations": 1
+        },
+        {
+          "name": "M. Nithya",
+          "sourceName": "M. NITHYA",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 8,
+          "nominations": 1
+        },
+        {
+          "name": "A. Ragu @ Ragunathan",
+          "sourceName": "A. RAGU @ RAGUNATHAN",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 9,
+          "nominations": 1
+        },
+        {
+          "name": "S. Vasanthi",
+          "sourceName": "S. VASANTHI",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 10,
+          "nominations": 1
+        },
+        {
+          "name": "R. Jayabalan",
+          "sourceName": "R. JAYABALAN",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 11,
+          "nominations": 1
+        },
+        {
+          "name": "Anandane",
+          "sourceName": "ANANDANE",
+          "party": "All India N.R. Congress",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "C. Mouttouraman",
+          "sourceName": "C. MOUTTOURAMAN",
+          "party": "Dravida Munnetra Kazhagam",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "V. Poongothai",
+          "sourceName": "V. POONGOTHAI",
+          "party": "Indian National Congress",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        }
+      ]
+    },
+    {
+      "kind": "assembly",
+      "state": "Tamil Nadu",
+      "stateSlug": "tamil-nadu",
+      "number": 35,
+      "name": "Madurantakam",
+      "sourceName": "MADURANTAKAM",
+      "slug": "madurantakam",
+      "sourceUrl": "https://affidavit.eci.gov.in/CandidateCustomFilter?electionType=34-AC-BYE-4-63&election=34-AC-BYE-4-63&states=S22&phase=1&constId=35",
+      "papers": {
+        "all": 48,
+        "accepted": 27,
+        "rejected": 20,
+        "withdrawn": 1
+      },
+      "candidates": [
+        {
+          "name": "S.Kanithasampath",
+          "sourceName": "S.KANITHASAMPATH",
+          "party": "All India Anna Dravida Munnetra Kazhagam",
+          "status": "contesting",
+          "ballot": 1,
+          "nominations": 3
+        },
+        {
+          "name": "Suganthi.P",
+          "sourceName": "SUGANTHI.P",
+          "party": "Communist Party of India (Marxist)",
+          "status": "contesting",
+          "ballot": 2,
+          "nominations": 1
+        },
+        {
+          "name": "I.Paranthamen",
+          "sourceName": "I.PARANTHAMEN",
+          "party": "Dravida Munnetra Kazhagam",
+          "status": "contesting",
+          "ballot": 3,
+          "nominations": 4
+        },
+        {
+          "name": "K.Maragatham Kumaravel",
+          "sourceName": "K.MARAGATHAM KUMARAVEL",
+          "party": "Tamilaga Vettri Kazhagam",
+          "status": "contesting",
+          "ballot": 4,
+          "nominations": 2
+        },
+        {
+          "name": "G.Janakiraman",
+          "sourceName": "G.JANAKIRAMAN",
+          "party": "Naam Tamilar Katchi",
+          "status": "contesting",
+          "ballot": 5,
+          "nominations": 2
+        },
+        {
+          "name": "K.Bhuvaneswari",
+          "sourceName": "K.BHUVANESWARI",
+          "party": "Anaithinthiya Anna Dravida Makkal Seyal katchi",
+          "status": "contesting",
+          "ballot": 6,
+          "nominations": 1
+        },
+        {
+          "name": "V.Muthuselvam",
+          "sourceName": "V.MUTHUSELVAM",
+          "party": "Anti Corruption Dynamic Party",
+          "status": "contesting",
+          "ballot": 7,
+          "nominations": 1
+        },
+        {
+          "name": "J.Ravikumar",
+          "sourceName": "J.RAVIKUMAR",
+          "party": "Republican Party of India (Sivaraj)",
+          "status": "contesting",
+          "ballot": 8,
+          "nominations": 1
+        },
+        {
+          "name": "M.G.Ramu",
+          "sourceName": "M.G.RAMU",
+          "party": "Jebamani Janata",
+          "status": "contesting",
+          "ballot": 9,
+          "nominations": 1
+        },
+        {
+          "name": "G.Rajasekar",
+          "sourceName": "G.RAJASEKAR",
+          "party": "Desiya Makkal Sakthi Katchi",
+          "status": "contesting",
+          "ballot": 10,
+          "nominations": 1
+        },
+        {
+          "name": "K.Arumugam",
+          "sourceName": "K.ARUMUGAM",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 11,
+          "nominations": 1
+        },
+        {
+          "name": "S.Arumugam",
+          "sourceName": "S.ARUMUGAM",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 12,
+          "nominations": 1
+        },
+        {
+          "name": "K.Elaiyarasu",
+          "sourceName": "K.ELAIYARASU",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 13,
+          "nominations": 1
+        },
+        {
+          "name": "Ezhil.E",
+          "sourceName": "EZHIL.E",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 14,
+          "nominations": 1
+        },
+        {
+          "name": "M.Kadirvel",
+          "sourceName": "M.KADIRVEL",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 15,
+          "nominations": 1
+        },
+        {
+          "name": "Kayalvizhi",
+          "sourceName": "KAYALVIZHI",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 16,
+          "nominations": 1
+        },
+        {
+          "name": "Krishnakanth.E",
+          "sourceName": "KRISHNAKANTH.E",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 17,
+          "nominations": 1
+        },
+        {
+          "name": "N.Sathis Kumar",
+          "sourceName": "N.SATHIS KUMAR",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 18,
+          "nominations": 1
+        },
+        {
+          "name": "Navindar.V",
+          "sourceName": "NAVINDAR.V",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 19,
+          "nominations": 1
+        },
+        {
+          "name": "P.N.R.Baskaran",
+          "sourceName": "P.N.R.BASKARAN",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 20,
+          "nominations": 1
+        },
+        {
+          "name": "M.Manokar",
+          "sourceName": "M.MANOKAR",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 21,
+          "nominations": 1
+        },
+        {
+          "name": "S.Murugan",
+          "sourceName": "S.MURUGAN",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 22,
+          "nominations": 1
+        },
+        {
+          "name": "Dr.G.Moorthy",
+          "sourceName": "DR.G.MOORTHY",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 23,
+          "nominations": 1
+        },
+        {
+          "name": "Ranjitham.M",
+          "sourceName": "RANJITHAM.M",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 24,
+          "nominations": 1
+        },
+        {
+          "name": "Rajamani",
+          "sourceName": "RAJAMANI",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 25,
+          "nominations": 1
+        },
+        {
+          "name": "Logesh.K",
+          "sourceName": "LOGESH.K",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 26,
+          "nominations": 1
+        },
+        {
+          "name": "M.Jegan",
+          "sourceName": "M.JEGAN",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 27,
+          "nominations": 1
+        },
+        {
+          "name": "Sunalini",
+          "sourceName": "SUNALINI",
+          "party": "Independent",
+          "status": "withdrawn",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Agni Aalvar",
+          "sourceName": "AGNI AALVAR",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "B Thamaraikani",
+          "sourceName": "B THAMARAIKANI",
+          "party": "Naam Tamilar Katchi",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "C Dharmarajan",
+          "sourceName": "C DHARMARAJAN",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "E Sampathkumar",
+          "sourceName": "E SAMPATHKUMAR",
+          "party": "All India Anna Dravida Munnetra Kazhagam",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "G Mugunthakumar",
+          "sourceName": "G MUGUNTHAKUMAR",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "K Kannan",
+          "sourceName": "K KANNAN",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Krishnaveni S",
+          "sourceName": "KRISHNAVENI S",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "M Arjunkumar",
+          "sourceName": "M ARJUNKUMAR",
+          "party": "Communist Party of India (Marxist)",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "M Prema Paranthamen",
+          "sourceName": "M PREMA PARANTHAMEN",
+          "party": "Dravida Munnetra Kazhagam",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 2
+        },
+        {
+          "name": "S Jagadeesan",
+          "sourceName": "S JAGADEESAN",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "S Kumaravel",
+          "sourceName": "S KUMARAVEL",
+          "party": "Tamilaga Vettri Kazhagam",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "T Mariappan",
+          "sourceName": "T MARIAPPAN",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        }
+      ]
+    },
+    {
+      "kind": "assembly",
+      "state": "Tamil Nadu",
+      "stateSlug": "tamil-nadu",
+      "number": 101,
+      "name": "Dharapuram",
+      "sourceName": "DHARAPURAM",
+      "slug": "dharapuram",
+      "sourceUrl": "https://affidavit.eci.gov.in/CandidateCustomFilter?electionType=34-AC-BYE-4-63&election=34-AC-BYE-4-63&states=S22&phase=1&constId=101",
+      "papers": {
+        "all": 51,
+        "accepted": 30,
+        "rejected": 21,
+        "withdrawn": 0
+      },
+      "candidates": [
+        {
+          "name": "Karthika.M",
+          "sourceName": "KARTHIKA.M",
+          "party": "Naam Tamilar Katchi",
+          "status": "contesting",
+          "ballot": 1,
+          "nominations": 1
+        },
+        {
+          "name": "Sathyabama.P",
+          "sourceName": "SATHYABAMA.P",
+          "party": "Tamilaga Vettri Kazhagam",
+          "status": "contesting",
+          "ballot": 2,
+          "nominations": 2
+        },
+        {
+          "name": "Suganya.S",
+          "sourceName": "SUGANYA.S",
+          "party": "Dravida Munnetra Kazhagam",
+          "status": "contesting",
+          "ballot": 3,
+          "nominations": 4
+        },
+        {
+          "name": "Banumathi.K",
+          "sourceName": "BANUMATHI.K",
+          "party": "All India Anna Dravida Munnetra Kazhagam",
+          "status": "contesting",
+          "ballot": 4,
+          "nominations": 4
+        },
+        {
+          "name": "Lakshmanan.P",
+          "sourceName": "LAKSHMANAN.P",
+          "party": "Communist Party of India",
+          "status": "contesting",
+          "ballot": 5,
+          "nominations": 1
+        },
+        {
+          "name": "Arulraju.G",
+          "sourceName": "ARULRAJU.G",
+          "party": "Anaithinthiya Anna Dravida Makkal Seyal katchi",
+          "status": "contesting",
+          "ballot": 6,
+          "nominations": 1
+        },
+        {
+          "name": "Arumugam.R",
+          "sourceName": "ARUMUGAM.R",
+          "party": "Ganasangam Party of India",
+          "status": "contesting",
+          "ballot": 7,
+          "nominations": 1
+        },
+        {
+          "name": "Maheshwaran.S",
+          "sourceName": "MAHESHWARAN.S",
+          "party": "Anti Corruption Dynamic Party",
+          "status": "contesting",
+          "ballot": 8,
+          "nominations": 1
+        },
+        {
+          "name": "Sasipriya.S",
+          "sourceName": "SASIPRIYA.S",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 9,
+          "nominations": 1
+        },
+        {
+          "name": "Sathyabama.M",
+          "sourceName": "SATHYABAMA.M",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 10,
+          "nominations": 2
+        },
+        {
+          "name": "Sathishkumar.M",
+          "sourceName": "SATHISHKUMAR.M",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 11,
+          "nominations": 1
+        },
+        {
+          "name": "Dhanalakshmi.S",
+          "sourceName": "DHANALAKSHMI.S",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 12,
+          "nominations": 1
+        },
+        {
+          "name": "Nallasamy.P",
+          "sourceName": "NALLASAMY.P",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 13,
+          "nominations": 1
+        },
+        {
+          "name": "Banupriya.S",
+          "sourceName": "BANUPRIYA.S",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 14,
+          "nominations": 1
+        },
+        {
+          "name": "Banumathi.C",
+          "sourceName": "BANUMATHI.C",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 15,
+          "nominations": 1
+        },
+        {
+          "name": "Perumal.R",
+          "sourceName": "PERUMAL.R",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 16,
+          "nominations": 1
+        },
+        {
+          "name": "Mahendran.S",
+          "sourceName": "MAHENDRAN.S",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 17,
+          "nominations": 1
+        },
+        {
+          "name": "Marimuthu.N",
+          "sourceName": "MARIMUTHU.N",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 18,
+          "nominations": 1
+        },
+        {
+          "name": "Muthusamy.P",
+          "sourceName": "MUTHUSAMY.P",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 19,
+          "nominations": 1
+        },
+        {
+          "name": "Rajarathinam.S",
+          "sourceName": "RAJARATHINAM.S",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 20,
+          "nominations": 1
+        },
+        {
+          "name": "Rajeshwari.V",
+          "sourceName": "RAJESHWARI.V",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 21,
+          "nominations": 1
+        },
+        {
+          "name": "Jotheeshwari.D",
+          "sourceName": "JOTHEESHWARI.D",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 22,
+          "nominations": 1
+        },
+        {
+          "name": "Agni Aalvar.N",
+          "sourceName": "AGNI AALVAR.N",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Amuthapriya.S",
+          "sourceName": "AMUTHAPRIYA.S",
+          "party": "Naam Tamilar Katchi",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Annadurai.R",
+          "sourceName": "ANNADURAI.R",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Balakrishnan.P",
+          "sourceName": "BALAKRISHNAN.P",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Govindathal.L",
+          "sourceName": "GOVINDATHAL.L",
+          "party": "Communist Party of India",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Kanchana.G",
+          "sourceName": "KANCHANA.G",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Karthicka.G",
+          "sourceName": "KARTHICKA.G",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Krishna.P",
+          "sourceName": "KRISHNA.P",
+          "party": "Tamilaga Vettri Kazhagam",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 2
+        },
+        {
+          "name": "Mani.A",
+          "sourceName": "MANI.A",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Manivasagam.M",
+          "sourceName": "MANIVASAGAM.M",
+          "party": "Dravida Munnetra Kazhagam",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Murugan.V",
+          "sourceName": "MURUGAN.V",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Noor Muhamad.A",
+          "sourceName": "NOOR MUHAMAD.A",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Padmarajan.K",
+          "sourceName": "PADMARAJAN.K",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Pavithra.A",
+          "sourceName": "PAVITHRA.A",
+          "party": "All India Anna Dravida Munnetra Kazhagam",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 4
+        },
+        {
+          "name": "Prathab.M",
+          "sourceName": "PRATHAB.M",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Pushpanantham.V",
+          "sourceName": "PUSHPANANTHAM.V",
+          "party": "Tamizhaga Murpokku Makkal Katchi",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Suganya.A",
+          "sourceName": "SUGANYA.A",
+          "party": "Independent",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        }
+      ]
+    },
+    {
+      "kind": "assembly",
+      "state": "West Bengal",
+      "stateSlug": "west-bengal",
+      "number": 70,
+      "name": "Rejinagar",
+      "sourceName": "REJINAGAR",
+      "slug": "rejinagar",
+      "sourceUrl": "https://affidavit.eci.gov.in/CandidateCustomFilter?electionType=34-AC-BYE-4-63&election=34-AC-BYE-4-63&states=S25&phase=1&constId=70",
+      "papers": {
+        "all": 21,
+        "accepted": 21,
+        "rejected": 0,
+        "withdrawn": 0
+      },
+      "candidates": [
+        {
+          "name": "Abdullahil Kafi",
+          "sourceName": "ABDULLAHIL KAFI",
+          "party": "Indian National Congress",
+          "status": "contesting",
+          "ballot": 1,
+          "nominations": 2
+        },
+        {
+          "name": "Rabiul Alam Chowdhury",
+          "sourceName": "RABIUL ALAM CHOWDHURY",
+          "party": "Mamata All India Trinamool Congress",
+          "status": "contesting",
+          "ballot": 2,
+          "nominations": 3
+        },
+        {
+          "name": "Shankharavh Sarkar",
+          "sourceName": "SHANKHARAVH SARKAR",
+          "party": "Bharatiya Janata Party",
+          "status": "contesting",
+          "ballot": 3,
+          "nominations": 2
+        },
+        {
+          "name": "Safiuzzaman Saikh",
+          "sourceName": "SAFIUZZAMAN SAIKH",
+          "party": "Democratic Trinamool Congress",
+          "status": "contesting",
+          "ballot": 4,
+          "nominations": 1
+        },
+        {
+          "name": "Md. Sayeed",
+          "sourceName": "MD. SAYEED",
+          "party": "Communist Party of India (Marxist)",
+          "status": "contesting",
+          "ballot": 5,
+          "nominations": 2
+        },
+        {
+          "name": "Imran Mallik",
+          "sourceName": "IMRAN MALLIK",
+          "party": "Republican Party of India (Athawale)",
+          "status": "contesting",
+          "ballot": 6,
+          "nominations": 1
+        },
+        {
+          "name": "Golam Nabi Azad (Robin)",
+          "sourceName": "GOLAM NABI AZAD (ROBIN)",
+          "party": "Aam Janata Unnayan party",
+          "status": "contesting",
+          "ballot": 7,
+          "nominations": 2
+        },
+        {
+          "name": "Bikash Chandra Misra",
+          "sourceName": "BIKASH CHANDRA MISRA",
+          "party": "Revolutionary Socialist Party",
+          "status": "contesting",
+          "ballot": 8,
+          "nominations": 1
+        },
+        {
+          "name": "Sahin Saha",
+          "sourceName": "SAHIN SAHA",
+          "party": "Jatiya Unnayan Party",
+          "status": "contesting",
+          "ballot": 9,
+          "nominations": 1
+        },
+        {
+          "name": "Golak Banerjee",
+          "sourceName": "GOLAK BANERJEE",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 10,
+          "nominations": 1
+        },
+        {
+          "name": "Jalaluddin Midder",
+          "sourceName": "JALALUDDIN MIDDER",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 11,
+          "nominations": 1
+        },
+        {
+          "name": "Tushar Pandey",
+          "sourceName": "TUSHAR PANDEY",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 12,
+          "nominations": 1
+        },
+        {
+          "name": "Majiful Hoque",
+          "sourceName": "MAJIFUL HOQUE",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 13,
+          "nominations": 1
+        },
+        {
+          "name": "Mehebub Alam",
+          "sourceName": "MEHEBUB ALAM",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 14,
+          "nominations": 1
+        },
+        {
+          "name": "Saiful Islam",
+          "sourceName": "SAIFUL ISLAM",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 15,
+          "nominations": 1
+        }
+      ]
+    },
+    {
+      "kind": "assembly",
+      "state": "West Bengal",
+      "stateSlug": "west-bengal",
+      "number": 210,
+      "name": "Nandigram",
+      "sourceName": "NANDIGRAM",
+      "slug": "nandigram",
+      "sourceUrl": "https://affidavit.eci.gov.in/CandidateCustomFilter?electionType=34-AC-BYE-4-63&election=34-AC-BYE-4-63&states=S25&phase=1&constId=210",
+      "papers": {
+        "all": 19,
+        "accepted": 16,
+        "rejected": 1,
+        "withdrawn": 2
+      },
+      "candidates": [
+        {
+          "name": "Ehteshmul Haque",
+          "sourceName": "EHTESHMUL HAQUE",
+          "party": "Democratic Trinamool Congress",
+          "status": "contesting",
+          "ballot": 1,
+          "nominations": 1
+        },
+        {
+          "name": "Milan Pradhan",
+          "sourceName": "MILAN PRADHAN",
+          "party": "Indian National Congress",
+          "status": "contesting",
+          "ballot": 2,
+          "nominations": 3
+        },
+        {
+          "name": "Hasi Rani Rath",
+          "sourceName": "HASI RANI RATH",
+          "party": "Bharatiya Janata Party",
+          "status": "contesting",
+          "ballot": 3,
+          "nominations": 4
+        },
+        {
+          "name": "Ali Md Sabe Miraj Khan",
+          "sourceName": "ALI MD SABE MIRAJ KHAN",
+          "party": "All India Secular Front",
+          "status": "contesting",
+          "ballot": 4,
+          "nominations": 2
+        },
+        {
+          "name": "Santi Gopal Giri",
+          "sourceName": "SANTI GOPAL GIRI",
+          "party": "Communist Party of India",
+          "status": "contesting",
+          "ballot": 5,
+          "nominations": 2
+        },
+        {
+          "name": "Sk Hasibul",
+          "sourceName": "SK HASIBUL",
+          "party": "Jatiya Unnayan Party",
+          "status": "contesting",
+          "ballot": 6,
+          "nominations": 1
+        },
+        {
+          "name": "Abdul Raffiq Saha",
+          "sourceName": "ABDUL RAFFIQ SAHA",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 7,
+          "nominations": 1
+        },
+        {
+          "name": "Sayed Mahammad",
+          "sourceName": "SAYED MAHAMMAD",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 8,
+          "nominations": 1
+        },
+        {
+          "name": "Sk Mujibar Rahaman Ali",
+          "sourceName": "SK MUJIBAR RAHAMAN ALI",
+          "party": "Independent",
+          "status": "contesting",
+          "ballot": 9,
+          "nominations": 1
+        },
+        {
+          "name": "Dey Sanchita Pradhan",
+          "sourceName": "DEY SANCHITA PRADHAN",
+          "party": "Mamata All India Trinamool Congress",
+          "status": "withdrawn",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Shukla Das",
+          "sourceName": "SHUKLA DAS",
+          "party": "Bharatiya Nyay-Adhikar Raksha Party",
+          "status": "withdrawn",
+          "ballot": null,
+          "nominations": 1
+        },
+        {
+          "name": "Biduyt Kumar Karan",
+          "sourceName": "BIDUYT KUMAR KARAN",
+          "party": "Indian National Congress",
+          "status": "rejected",
+          "ballot": null,
+          "nominations": 1
+        }
+      ]
+    }
+  ]
+}
