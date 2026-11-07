@@ -11,6 +11,7 @@ import { fileURLToPath } from "node:url";
 
 const RAW = fileURLToPath(new URL("../raw/", import.meta.url));
 const WINNERS_PAGE = "https://www.myneta.info/LokSabha2024/index.php?action=show_winners&sort=default";
+const CANDIDATES_PAGE = "https://www.myneta.info/LokSabha2024/";
 
 export interface DatasetRow { [column: string]: string }
 
@@ -94,6 +95,20 @@ export function joinWinners(dataset: readonly DatasetRow[], page: readonly PageR
   });
 }
 
+// Every 2024 general-election candidate. Winners keep the figures joined above; for the others the public
+// dataset is the only readable copy, so their figures come from it alone and say so.
+export function allCandidates(dataset: readonly DatasetRow[], winners: readonly AdrWinner[]): AdrWinner[] {
+  const losers = dataset.filter((row) => row.election_year === "2024" && row.is_winner !== "True" && row.is_bye_election !== "True").map((row) => {
+    const [assets, liabilities] = [count(row.assets), count(row.liabilities)];
+    return {
+      state: row.state, constituency: row.constituency, name: row.name, party: row.party, byElection: false,
+      education: row.education ? row.education.replace(/(\d)Th\b/, "$1th") : null, age: count(row.age), cases: count(row.criminal_cases),
+      assets, liabilities, figuresFrom: assets !== null || liabilities !== null ? "dataset" as const : null, sourceUrl: CANDIDATES_PAGE,
+    };
+  });
+  return [...winners.filter((winner) => !winner.byElection), ...losers];
+}
+
 export async function exportAdrWinners(directory = RAW) {
   const copy = path.join(directory, "myneta-dashboard");
   const dataset = parseCsv(await readFile(path.join(copy, "candidates.csv"), "utf8"));
@@ -106,12 +121,17 @@ export async function exportAdrWinners(directory = RAW) {
   await mkdir(path.dirname(file), { recursive: true });
   await writeFile(`${file}.tmp`, `${JSON.stringify({ schemaVersion: 1, sourceLabel: "ADR/MyNeta", datasetCommit: commit, checkedOn: fetchedOn, winners }, null, 2)}\n`);
   await rename(`${file}.tmp`, file);
-  return { file, winners };
+  const candidates = allCandidates(dataset, winners);
+  const candidatesFile = path.join(directory, "public-profiles", "adr-candidates-2024.json");
+  await writeFile(`${candidatesFile}.tmp`, `${JSON.stringify({ schemaVersion: 1, sourceLabel: "ADR/MyNeta", datasetCommit: commit, checkedOn: fetchedOn, candidates })}\n`);
+  await rename(`${candidatesFile}.tmp`, candidatesFile);
+  return { file, winners, candidatesFile, candidates };
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const { file, winners } = await exportAdrWinners();
+  const { file, winners, candidatesFile, candidates } = await exportAdrWinners();
   const counts = new Map<string, number>();
   for (const { figuresFrom } of winners) counts.set(figuresFrom ?? "none", (counts.get(figuresFrom ?? "none") ?? 0) + 1);
   console.log(`${file}: ${winners.length} winners; figures from ${[...counts].map(([from, total]) => `${from} ${total}`).join(", ")}`);
+  console.log(`${candidatesFile}: ${candidates.length} candidates, ${candidates.filter((candidate) => candidate.assets !== null).length} with assets`);
 }

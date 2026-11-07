@@ -260,9 +260,9 @@ The `eci-nominations-<election>` sources read ECI's candidate affidavit portal (
 
 To follow a new election, add it to `NOMINATION_TARGETS` in `src/eci-nominations.ts` with the codes from the portal's drop-downs, once ECI has announced it and the portal lists it. The source runs once, then every three hours from the election's announcement to its last poll day (the poll window, taken from `web/records/elections.ts`), so the hourly workflow picks it up. Only names, parties and status are published; affidavit contents wait on decision 6.
 
-## ADR figures for sitting MPs (local only)
+## ADR figures for 2024 candidates (local only)
 
-`npm --prefix data run export:adr-winners` writes the ignored `data/raw/public-profiles/adr-winners-2024.json`, which the local MP pages read for declared cases, assets and liabilities. Without the file, those pages show none of these figures.
+`npm --prefix data run export:adr-winners` writes two ignored files in `data/raw/public-profiles/`: `adr-winners-2024.json`, which the local MP pages read for declared cases, assets and liabilities, and `adr-candidates-2024.json`, every 2024 general-election candidate, which the local candidate pages read. Winners in the second file carry the same joined figures; for other candidates the public dataset is the only readable copy, so their figures are marked as from it alone. On 2026-11-08 it held 7,680 candidates, 5,900 with assets. Without the files, pages show none of these figures.
 
 It needs three ignored files in `data/raw/myneta-dashboard/`: `candidates.csv` from [myneta-dashboard](https://github.com/AandK1412/myneta-dashboard), `source.json` naming that commit, and `winners-page.html`, one saved copy of MyNeta's 2024 winners page. Each copy leaves different rows blank. MyNeta replaces every ninth row of the page with a script; do not decode it. A blank stays blank and a disagreement between the copies drops the figure.
 

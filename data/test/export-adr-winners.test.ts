@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { joinWinners, parseCsv, parseWinnersPage, type DatasetRow } from "../src/export-adr-winners.js";
+import { allCandidates, joinWinners, parseCsv, parseWinnersPage, type DatasetRow } from "../src/export-adr-winners.js";
 
 // MyNeta's markup, cut down to what the parser reads. The people here are invented.
 const pageRow = (id: number, name: string, seat: string, cases: string, assets: string, liabilities: string) => `<tr><td>1</td>
@@ -62,4 +62,20 @@ test("keeps only 2024 winners and does not give a bye-election winner the genera
   assert.equal(winners.length, 1);
   assert.equal(winners[0].byElection, true);
   assert.equal(winners[0].assets, null);
+});
+
+test("every 2024 general candidate is listed; a loser's figures come from the dataset alone, and blanks stay blank", () => {
+  const dataset = parseCsv([
+    "election_year,state,constituency,seat_category,name,party,party_group,criminal_cases,education,age,assets,liabilities,net_worth,is_winner,is_bye_election",
+    "2024,Rajasthan,Jaipur,GEN,Asha,BJP,NDA,0,Graduate,50,100,10,90,True,False",
+    "2024,Rajasthan,Jaipur,GEN,Bina,INC,INDIA,2,12Th Pass,40,500,,500,False,False",
+    "2024,Rajasthan,Jaipur,GEN,Chand,IND,Other,0,Literate,30,,,,False,False",
+    "2024,Rajasthan,Anta,GEN,Dev,INC,INDIA,0,Graduate,45,1,0,1,False,True",
+    "2019,Rajasthan,Jaipur,GEN,Old,BJP,NDA,0,Graduate,60,1,0,1,False,False",
+  ].join("\n"));
+  const candidates = allCandidates(dataset, joinWinners(dataset, []));
+  assert.deepEqual(candidates.map((row) => [row.name, row.assets, row.liabilities, row.figuresFrom]), [
+    ["Asha", 100, 10, "dataset"], ["Bina", 500, null, "dataset"], ["Chand", null, null, null],
+  ]);
+  assert.equal(candidates[1].education, "12th Pass");
 });
