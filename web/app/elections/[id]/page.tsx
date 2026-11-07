@@ -52,23 +52,39 @@ function Sources({ election }: { election: Election }) {
 function LastTime({ election }: { election: Election }) {
   const last = previousResult(election);
   if (!last) return null;
-  const top = last.parties.slice(0, 4);
-  const rest = last.parties.slice(4).reduce((sum, party) => sum + party.seats, 0);
+  // The four biggest by seats, plus any party with a tenth of the vote, so a big vote with few seats shows.
+  const top = last.parties.filter((party, index) => (index < 4 && party.seats > 0) || (party.share ?? 0) >= 10);
+  const others = last.parties.filter((party) => !top.includes(party));
+  const rest = others.reduce((sum, party) => sum + party.seats, 0);
+  const restShare = others.reduce((sum, party) => sum + (party.share ?? 0), 0);
+  const share = (value: number | null) => (value === null ? "" : `${value.toFixed(1)}%`);
   const href = last.election.siteHref ?? `/elections/${last.election.id}`;
   return (
     <section className="mt-8 rounded-[24px] border border-line bg-white p-5 sm:p-7" aria-labelledby="last-time-heading">
       <h2 id="last-time-heading" className="text-lg font-semibold tracking-[-0.02em] text-ink">Last time</h2>
-      <p className="mt-1 text-sm text-muted">Seats won in {last.election.name.replace(/^General Election to /, "the ")}, counted {formatDay(last.election.countingOn!)}.</p>
+      <p className="mt-1 text-sm text-muted">Seats won and share of the vote in {last.election.name.replace(/^General Election to /, "the ")}, counted {formatDay(last.election.countingOn!)}.</p>
       <ul className="mt-4 grid gap-2 sm:grid-cols-2">
         {top.map((party) => (
           <li key={party.code} className="flex items-center gap-3 rounded-2xl border border-line-soft p-3">
             <span className="h-8 w-1.5 shrink-0 rounded-full" style={{ background: partyColor(party.code) }} aria-hidden="true" />
             <span className="min-w-0 flex-1 truncate text-sm text-body">{party.name}</span>
-            <span className="font-semibold tabular-nums text-ink">{party.seats}</span>
+            <span className="text-right">
+              <span className="block font-semibold tabular-nums text-ink">{party.seats} {party.seats === 1 ? "seat" : "seats"}</span>
+              <span className="block text-xs tabular-nums text-muted">{share(party.share)} of votes</span>
+            </span>
           </li>
         ))}
-        {rest > 0 && <li className="flex items-center gap-3 rounded-2xl border border-line-soft p-3 text-sm text-body"><span className="flex-1">Others</span><span className="font-semibold tabular-nums text-ink">{rest}</span></li>}
+        {others.length > 0 && (
+          <li className="flex items-center gap-3 rounded-2xl border border-line-soft p-3 text-sm text-body">
+            <span className="flex-1">Others</span>
+            <span className="text-right">
+              <span className="block font-semibold tabular-nums text-ink">{rest} {rest === 1 ? "seat" : "seats"}</span>
+              <span className="block text-xs tabular-nums text-muted">{share(restShare)} of votes</span>
+            </span>
+          </li>
+        )}
       </ul>
+      <p className="mt-3 text-xs text-subtle">Vote share counts NOTA in the total, as ECI&apos;s party report does.</p>
       <p className="mt-4 text-sm"><Link href={href} className="font-semibold text-link underline underline-offset-4">Every seat&apos;s result, with its ECI source</Link></p>
     </section>
   );

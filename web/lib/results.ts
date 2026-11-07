@@ -305,7 +305,8 @@ export function searchSeats(query: string, limit = 60): SeatMatch[] {
     .slice(0, limit);
 }
 
-// The last general election to the same house, for a page about the next one: its seat tally by party.
+// The last general election to the same house, for a page about the next one: seats and votes by party.
+// Vote share is over all valid votes including NOTA, the way ECI's party report counts it.
 export function previousResult(election: Pick<Election, "id" | "body" | "states">) {
   const same = (other: Election) => other.id !== election.id && other.body === election.body && other.states.join() === election.states.join();
   const earlier = calendar.filter((other) => same(other) && isResultElection(other.id) && other.countingOn)
@@ -314,12 +315,17 @@ export function previousResult(election: Pick<Election, "id" | "body" | "states"
     const results = loadResults(other.id as ResultElectionId);
     if (!results) continue;
     const won = new Map<string, number>();
+    const votes = new Map<string, number>();
+    let cast = 0;
     for (const seat of results.seats) {
       const winner = seatWinner(seat);
       if (winner) won.set(winner.party, (won.get(winner.party) ?? 0) + 1);
+      for (const candidate of seat.candidates) votes.set(candidate.party, (votes.get(candidate.party) ?? 0) + candidate.votes);
+      cast += (seat.validVotes ?? 0) + (seat.notaVotes ?? 0);
     }
-    const parties = [...won].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-      .map(([code, seats]) => ({ code, name: results.parties[code]?.name ?? code, seats }));
+    const parties = [...votes].map(([code, total]) => ({
+      code, name: code === "IND" ? "Independents" : results.parties[code]?.name ?? code, seats: won.get(code) ?? 0, votes: total, share: cast ? (total / cast) * 100 : null,
+    })).sort((a, b) => b.seats - a.seats || b.votes - a.votes || a.code.localeCompare(b.code));
     return { election: other, results, parties };
   }
   return undefined;
