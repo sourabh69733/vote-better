@@ -4,7 +4,7 @@ import path from "node:path";
 import { fetchText, type QuestionTarget } from "./sansad-questions.js";
 
 const API = "https://sansad.in/api_ls/debate/debate-search";
-const PAGE_SIZE = 100;
+export const DEBATE_PAGE_SIZE = 100;
 
 export interface PublishedDebate {
   id: string;
@@ -51,7 +51,9 @@ export function normalizeDebate(row: Record<string, unknown>, target: QuestionTa
   if (!title) throw new Error("Debate has no title");
   const participantNames = Array.isArray(row.memberName) ? row.memberName.map(clean).filter(Boolean) : [];
   const participants = Array.isArray(row.mpPartDetailList) ? row.mpPartDetailList : [];
-  if (!participantNames.includes(target.officialName) || !participants.some((item) => item?.mpCode === target.memberId && item?.mpName === target.officialName)) {
+  // Sansad's roster sometimes has a double space in a name ("Shri  Chhotelal"); spacing is not identity.
+  const officialName = clean(target.officialName);
+  if (!participantNames.includes(officialName) || !participants.some((item) => item?.mpCode === target.memberId && clean(item?.mpName) === officialName)) {
     throw new Error(`Member identity mismatch in debate ${dbSlno}`);
   }
   return {
@@ -102,11 +104,11 @@ export function buildDebatePublication(
   return { lokSabha: 18, collectedAt, source: "https://sansad.in/ls/debates/digitized", members };
 }
 
-function pageUrl(memberId: number, page: number): string {
+export function debatePageUrl(memberId: number, page: number): string {
   const query = new URLSearchParams({
     loksabha: "18", sessionNumber: "", mpCode: String(memberId), debateTypeId: "",
     searchKeyword: "", fromDate: "", toDate: "", debateKeyword: "",
-    page: String(page), size: String(PAGE_SIZE), locale: "en", house: "LS",
+    page: String(page), size: String(DEBATE_PAGE_SIZE), locale: "en", house: "LS",
   });
   return `${API}?${query}`;
 }
@@ -117,12 +119,12 @@ export async function collectDebates(output: string, targets: QuestionTarget[]):
   for (const target of targets) {
     const pages: { url: string; body: string }[] = [];
     for (let pageNumber = 1; ; pageNumber++) {
-      const url = pageUrl(target.memberId, pageNumber);
+      const url = debatePageUrl(target.memberId, pageNumber);
       const body = await fetchText(url);
       pages.push({ url, body });
       const meta = JSON.parse(body)?._metadata;
       if (!Number.isSafeInteger(meta?.totalElements)) throw new Error(`Invalid debate page ${pageNumber}`);
-      if (pageNumber * PAGE_SIZE >= meta.totalElements) break;
+      if (pageNumber * DEBATE_PAGE_SIZE >= meta.totalElements) break;
       await new Promise((resolve) => setTimeout(resolve, 300));
     }
     inputs.push({ target, pages });

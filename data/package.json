@@ -36,7 +36,8 @@
     "export:all": "node --import tsx src/export-all.ts",
     "import:sansad-questions-all": "node --import tsx src/sansad-all-members-archive.ts",
     "import:mplads-works": "node --import tsx src/mplads-works.ts",
-    "import:sansad-attendance": "node --import tsx src/sansad-attendance.ts"
+    "import:sansad-attendance": "node --import tsx src/sansad-attendance.ts",
+    "import:sansad-debates-all": "node --import tsx src/sansad-debates-all.ts"
   },
   "devDependencies": {
     "@types/node": "^20",
