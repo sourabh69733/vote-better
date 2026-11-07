@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { findAdrWinner, readAdrWinners } from "@/lib/adr-winners";
+import { adrMoney, findAdrWinner, readAdrWinners } from "@/lib/adr-winners";
 import { listAreaOverviews } from "@/lib/civic-area";
 import { formatShort, requireResults, seatHref, summaryOf } from "@/lib/results";
 import { sortableMpName } from "@/lib/mp-directory";
@@ -75,19 +75,9 @@ export default async function MpProfilePage({ params }: PageProps) {
   const missingText = missing.length > 1 ? `${missing.slice(0, -1).join(", ")} and ${missing.at(-1)}` : missing[0];
   const adr = await readAdrWinners();
   const declared = adr && findAdrWinner(adr.winners, profile);
-  const adrSource = declared && adr ? {
-    label: "ADR", title: `ADR / MyNeta summary of ${declared.name}'s 2024 affidavit`, url: declared.sourceUrl,
-    locator: "Self-declared figures compiled by ADR from the ECI affidavit. ECI's filing is the record if they differ.", checkedOn: day(adr.checkedOn),
-  } : undefined;
-  const money: ProfileMoney | undefined = declared ? {
-    election: declared.byElection ? "2024 bye-election" : "2024",
-    ...(declared.assets !== null ? { assets: declared.assets } : {}),
-    ...(declared.liabilities !== null ? { liabilities: declared.liabilities } : {}),
-    ...(declared.cases !== null ? { cases: declared.cases } : {}),
-    ...(declared.education ? { education: declared.education } : {}),
-    ...(declared.age !== null ? { age: declared.age } : {}),
-    source: adrSource,
-  } : undefined;
+  const adrFigures = declared && adr ? adrMoney(declared, day(adr.checkedOn)) : undefined;
+  const adrSource = adrFigures?.source;
+  const money: ProfileMoney | undefined = adrFigures?.money;
 
   const summary = link.status === "won-2024"
     ? `Sitting MP for ${seatLine}. ${winner ? summaryOf(link.seat, winner, partyName) : "Elected unopposed in 2024."}`
