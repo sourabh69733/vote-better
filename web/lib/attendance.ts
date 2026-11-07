@@ -43,15 +43,16 @@ export function summarizeAttendance(archive: AttendanceArchive, memberId: number
   };
 }
 
-let archive: AttendanceArchive | null | undefined;
+// Kept once read; a missing file is looked for again, so a local archive added later is picked up.
+let archive: AttendanceArchive | undefined;
 
 export function getMemberAttendance(memberId: number, path = process.env.VOTE_BETTER_ATTENDANCE_FILE ?? resolve(process.cwd(), "../data/raw/sansad-attendance/archive.json")) {
-  if (archive === undefined) {
+  if (!archive) {
     try {
       archive = JSON.parse(readFileSync(path, "utf8")) as AttendanceArchive;
     } catch {
-      archive = null;
+      return null;
     }
   }
-  return archive ? summarizeAttendance(archive, memberId) : null;
+  return summarizeAttendance(archive, memberId);
 }
