@@ -12,10 +12,10 @@ export const revalidate = 3600;
 // So it leads with story-shaped facts. Area pages such as Jaipur are reached through search, not listed here.
 
 const LEARN = [
-  { kicker: "First-time voter", title: "Voting for the first time?", text: "Three steps, from getting on the roll to poll day.", href: "/share/first-time-voter", tone: "bg-you" },
-  { kicker: "Explained", title: "What does an MP actually do?", text: "Four jobs, straight from the Constitution.", href: "/share/mp-role", tone: "bg-brand" },
-  { kicker: "Constitution", title: "Who does what in government", text: "Union, state and local, and how a bill becomes law.", href: "/constitution", tone: "bg-story" },
-  { kicker: "Quests", title: "Five small things to try", text: "Find your MLA, read a result, check a source yourself.", href: "/quests", tone: "bg-[#6b5418]" },
+  { kicker: "First-time voter", title: "Voting for the first time?", text: "Three steps, from getting on the roll to poll day.", href: "/share/first-time-voter", tone: "bg-you text-white" },
+  { kicker: "Explained", title: "What does an MP actually do?", text: "Four jobs, straight from the Constitution.", href: "/share/mp-role", tone: "bg-brand text-white" },
+  { kicker: "Constitution", title: "Who does what in government", text: "Union, state and local, and how a bill becomes law.", href: "/constitution", tone: "bg-story text-white" },
+  { kicker: "Quests", title: "Five small things to try", text: "Find your MLA, read a result, check a source yourself.", href: "/quests", tone: "bg-pop text-ink" },
 ];
 
 const TRY = ["Varanasi", "Jaipur", "Wayanad", "Mumbai North West"];
@@ -27,7 +27,7 @@ const PROMISES = [
 ];
 
 function Eyebrow({ children, light }: { children: ReactNode; light?: boolean }) {
-  return <p className={`text-xs font-extrabold uppercase tracking-[0.16em] ${light ? "text-[#9fd5b3]" : "text-eyebrow"}`}>{children}</p>;
+  return <p className={`text-xs font-extrabold uppercase tracking-[0.16em] ${light ? "text-pop" : "text-eyebrow"}`}>{children}</p>;
 }
 
 // A phone-shaped card in the style of an Instagram story, with the segment bar along the top.
@@ -55,7 +55,7 @@ function Ring({ percent }: { percent: number }) {
   return (
     <svg viewBox="0 0 100 100" className="h-28 w-28 -rotate-90" aria-hidden="true">
       <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,.15)" strokeWidth="10" />
-      <circle cx="50" cy="50" r="42" fill="none" stroke="#9fd5b3" strokeWidth="10" strokeLinecap="round" strokeDasharray={`${(percent / 100) * circumference} ${circumference}`} />
+      <circle cx="50" cy="50" r="42" fill="none" stroke="var(--color-pop)" strokeWidth="10" strokeLinecap="round" strokeDasharray={`${(percent / 100) * circumference} ${circumference}`} />
     </svg>
   );
 }
@@ -129,8 +129,8 @@ export default function Home() {
       {/* Hero: what the site is for, the search, and a stack of real facts shaped like the stories people share. */}
       <section className="relative">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute -left-40 -top-40 h-[480px] w-[480px] rounded-full bg-[radial-gradient(circle,rgba(67,137,106,.22),transparent_65%)]" />
-          <div className="absolute -right-32 top-10 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(91,63,143,.14),transparent_65%)]" />
+          <div className="absolute -left-40 -top-40 h-[480px] w-[480px] rounded-full bg-[radial-gradient(circle,rgba(198,241,106,.35),transparent_65%)]" />
+          <div className="absolute -right-32 top-10 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(106,63,209,.14),transparent_65%)]" />
         </div>
         <div className="mx-auto grid w-full max-w-[1320px] gap-12 px-4 pb-14 pt-10 sm:px-6 sm:pt-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,.85fr)] lg:items-center lg:px-8 lg:pb-20">
           <div>
@@ -143,10 +143,10 @@ export default function Home() {
                 {chip} <span aria-hidden="true">→</span>
               </Link>
             )}
-            <h1 className="mt-6 max-w-3xl text-[clamp(2.75rem,6.2vw,5.4rem)] font-semibold leading-[0.98] tracking-[-0.065em] text-ink">
+            <h1 className="mt-6 max-w-3xl text-[clamp(2.75rem,6.2vw,5.4rem)] font-bold leading-[0.98] tracking-[-0.03em] text-ink">
               Know who you&apos;re{" "}
               <span className="relative whitespace-nowrap text-brand">
-                <span className="absolute inset-x-0 bottom-[0.08em] -z-10 h-[0.32em] rounded-sm bg-[#9fd5b3]/70" aria-hidden="true" />
+                <span className="absolute inset-x-0 bottom-[0.08em] -z-10 h-[0.32em] rounded-sm bg-pop" aria-hidden="true" />
                 voting for.
               </span>
             </h1>
@@ -176,7 +176,7 @@ export default function Home() {
           <div className="relative mx-auto flex h-[400px] w-full max-w-[480px] items-center justify-center sm:h-[470px]" aria-label="Facts from the 2024 Lok Sabha election">
             {totals.turnout !== null && (
               <StoryCard label={`Lok Sabha 2024 turnout: ${totals.turnout.toFixed(1)} percent`} className="absolute right-0 top-0 hidden rotate-[6deg] sm:flex">
-                <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.14em] text-[#9fd5b3]">Lok Sabha 2024</p>
+                <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.14em] text-pop">Lok Sabha 2024</p>
                 <p className="mt-1 text-lg font-semibold leading-tight">How many came out to vote</p>
                 <div className="relative mt-5 grid place-items-center">
                   <Ring percent={totals.turnout} />
@@ -188,8 +188,8 @@ export default function Home() {
             {closest && closestWinner && (
               <StoryCard href={seatHref(closest.seat)} label={`Closest fight of 2024: ${closest.seat.name}, won by ${closest.margin} votes. Open the seat.`}
                 className="relative -rotate-[4deg] sm:absolute sm:bottom-0 sm:left-0">
-                <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.14em] text-[#9fd5b3]">Closest fight of 2024</p>
-                <p className="mt-3 text-[5.5rem] font-semibold leading-none tracking-[-0.06em] tabular-nums">{formatNumber(closest.margin)}</p>
+                <p className="mt-6 text-[11px] font-bold uppercase tracking-[0.14em] text-pop">Closest fight of 2024</p>
+                <p className="font-display mt-3 text-[5.5rem] font-bold leading-none tracking-[-0.035em] tabular-nums">{formatNumber(closest.margin)}</p>
                 <p className="text-xl font-semibold">votes</p>
                 <p className="mt-2 text-sm leading-snug text-white/75">decided {closest.seat.name}, out of {formatNumber(closest.seat.votesPolled ?? 0)} cast.</p>
                 <p className="mt-auto flex items-center gap-2 text-xs text-white/80">
@@ -209,7 +209,7 @@ export default function Home() {
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
                 <Eyebrow>Elections</Eyebrow>
-                <h2 id="next-heading" className="mt-2 text-3xl font-semibold tracking-[-0.05em] text-ink sm:text-4xl">Up next</h2>
+                <h2 id="next-heading" className="mt-2 text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">Up next</h2>
               </div>
               <Link href="/elections" className="text-sm font-semibold text-link underline underline-offset-4">Full calendar →</Link>
             </div>
@@ -221,18 +221,18 @@ export default function Home() {
         )}
 
         <section aria-labelledby="numbers-heading" className="relative overflow-hidden rounded-[28px] bg-story px-6 py-10 text-white sm:px-10 sm:py-12">
-          <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(159,213,179,.18),transparent_65%)]" />
+          <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(198,241,106,.16),transparent_65%)]" />
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <Eyebrow light>Lok Sabha 2024</Eyebrow>
-              <h2 id="numbers-heading" className="mt-2 max-w-xl text-3xl font-semibold tracking-[-0.05em] sm:text-4xl">The last general election, in four numbers</h2>
+              <h2 id="numbers-heading" className="mt-2 max-w-xl text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">The last general election, in four numbers</h2>
             </div>
-            <Link href="/elections/lok-sabha-2024" className="rounded-full bg-white px-5 py-2.5 text-sm font-bold text-story transition hover:bg-[#e6f4ea]">Explore every seat →</Link>
+            <Link href="/elections/lok-sabha-2024" className="rounded-full bg-white px-5 py-2.5 text-sm font-bold text-story transition hover:bg-pop">Explore every seat →</Link>
           </div>
           <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4">
             {numbers.map((item) => (
-              <div key={item.label} className="border-l-2 border-[#9fd5b3]/40 pl-4">
-                <dd className="whitespace-nowrap text-4xl font-semibold tabular-nums tracking-[-0.04em] sm:text-5xl">
+              <div key={item.label} className="border-l-2 border-pop/40 pl-4">
+                <dd className="font-display whitespace-nowrap text-4xl font-semibold tabular-nums tracking-[-0.025em] sm:text-5xl">
                   {item.value}{"unit" in item && <span className="ml-1.5 text-base font-semibold tracking-normal text-white/80 sm:text-lg">{item.unit}</span>}
                 </dd>
                 <dt className="mt-1 text-sm text-white/70">
@@ -245,16 +245,16 @@ export default function Home() {
 
         <section aria-labelledby="learn-heading" className="py-14">
           <Eyebrow>Learn</Eyebrow>
-          <h2 id="learn-heading" className="mt-2 text-3xl font-semibold tracking-[-0.05em] text-ink sm:text-4xl">60-second reads</h2>
+          <h2 id="learn-heading" className="mt-2 text-3xl font-semibold tracking-[-0.03em] text-ink sm:text-4xl">60-second reads</h2>
           <p className="mt-2 max-w-lg text-sm leading-6 text-muted">Short, made to share with a friend who is voting for the first time.</p>
           {/* Swipes sideways on a phone, like a carousel; a grid on wider screens. */}
           <div className="-mx-4 mt-6 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 lg:grid-cols-4">
             {LEARN.map((card, index) => (
-              <Link key={card.href} href={card.href} className={`group relative flex min-h-[260px] w-[72%] shrink-0 snap-start flex-col overflow-hidden rounded-[24px] p-5 text-white transition hover:-translate-y-1 sm:w-auto ${card.tone}`}>
-                <span aria-hidden="true" className="absolute -right-3 -top-6 text-[7rem] font-semibold leading-none tracking-[-0.06em] text-white/10">{String(index + 1).padStart(2, "0")}</span>
-                <p className="text-[11px] font-extrabold uppercase tracking-[0.14em] text-white/70">{card.kicker}</p>
-                <p className="mt-auto text-2xl font-semibold leading-tight tracking-[-0.03em]">{card.title}</p>
-                <p className="mt-2 text-sm leading-6 text-white/75">{card.text}</p>
+              <Link key={card.href} href={card.href} className={`group relative flex min-h-[260px] w-[72%] shrink-0 snap-start flex-col overflow-hidden rounded-[24px] p-5 transition hover:-translate-y-1 sm:w-auto ${card.tone}`}>
+                <span aria-hidden="true" className="font-display absolute -right-3 -top-6 text-[7rem] font-bold leading-none tracking-[-0.035em] opacity-10">{String(index + 1).padStart(2, "0")}</span>
+                <p className="text-[11px] font-extrabold uppercase tracking-[0.14em] opacity-70">{card.kicker}</p>
+                <p className="font-display mt-auto text-2xl font-semibold leading-tight tracking-[-0.03em]">{card.title}</p>
+                <p className="mt-2 text-sm leading-6 opacity-80">{card.text}</p>
                 <p className="mt-4 text-sm font-bold">Read <span aria-hidden="true" className="inline-block transition-transform group-hover:translate-x-1">→</span></p>
               </Link>
             ))}

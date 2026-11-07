@@ -141,16 +141,17 @@ Measure it without cookies: tag each template's links, and count visits from Ins
 
 ## Design system
 
-In code: colour tokens live in `web/app/globals.css` (use `text-ink`, `bg-brand`, `border-line` and so on, not hex values), shared pieces such as the breadcrumb, card, stat grid and not-collected block in `web/components/ui.tsx`, and the one scene format for on-site stories and share images in `web/lib/scenes.ts`. Every Lok Sabha seat page, in any year, is `web/components/election/SeatResult.tsx`. Older pages (rights, Constitution, Delhi, profiles) still use hex values and move to the tokens as they are next changed.
+In code: colour tokens live in `web/app/globals.css` (use `text-ink`, `bg-brand`, `border-line` and so on, not hex values), shared pieces such as the breadcrumb, card, stat grid and not-collected block in `web/components/ui.tsx`, and the one scene format for on-site stories and share images in `web/lib/scenes.ts`. Every Lok Sabha seat page, in any year, is `web/components/election/SeatResult.tsx`. Accent colours avoid every major party colour (saffron, red, blue, green flags), so the site never looks partisan.
 
 | Token | Value | Note |
 | --- | --- | --- |
-| Background | `#f5f7f2` | Existing |
-| Ink | `#18372a` | Existing heading color |
-| Primary | `#1e6b4d` | Existing brand green |
-| Line | `#dce6dc` | Existing card border |
-| Highlight | violet `#5b3f8f` | New; election ink, used only for "you" and "now" |
-| Fonts | Inter, plus Noto Sans Devanagari for Hindi | Hindi lines run about 20 percent longer; layouts must allow it |
+| Canvas | `#f7f6f0` | Warm paper, 2026-11-08 |
+| Ink | `#0f2a20` | Deep green-black for text and dark bands |
+| Brand | `#0a6a45` | Emerald for buttons and links |
+| Line | `#e3e1d6` | Warm card border |
+| Highlight | violet `#6a3fd1` | Used only for "you" and "now" |
+| Pop | lime `#c6f16a` | Markers and accents on dark bands; never a party colour |
+| Fonts | Bricolage Grotesque for headings and big numbers, Plus Jakarta Sans for text, plus Noto Sans Devanagari for Hindi | Hindi lines run about 20 percent longer; layouts must allow it |
 | Radius | 22 px cards, 999 px pills | Existing |
 | Motion | Bars grow once on first view; off with reduced motion | Existing `growX` keyframe |
 | Dark mode | Later; the site is light only today | Tokens first, so dark is a token swap |

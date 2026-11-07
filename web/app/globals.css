@@ -1,42 +1,52 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-inter);
-  --color-background: #f5f7f2;
-  --color-foreground: #0f172a;
+  --font-sans: var(--font-body-face), system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-display-face), var(--font-body-face), system-ui, sans-serif;
+  --color-background: var(--color-canvas);
+  --color-foreground: var(--color-ink);
 }
 
 /* Design tokens. Use these names (text-ink, bg-brand, border-line ...) instead of hex values.
-   Party colours come from lib/party-colors.ts and are only for telling parties apart. */
+   Party colours come from lib/party-colors.ts and are only for telling parties apart, so the site's
+   own accents (emerald, violet, lime) avoid every major party's colour. */
 @theme {
-  --color-canvas: #f5f7f2;
+  --color-canvas: #f7f6f0;
   --color-surface: #ffffff;
-  --color-surface-soft: #f8faf7;
-  --color-tint: #eff7ef;
-  --color-track: #eef3ed;
-  --color-ink: #19372d;
-  --color-body: #4f6455;
-  --color-muted: #66796d;
-  --color-subtle: #7a8c7e;
-  --color-eyebrow: #2a7658;
-  --color-link: #1d6547;
-  --color-brand: #1c6047;
-  --color-brand-strong: #154c38;
-  --color-line: #dce6dc;
-  --color-line-soft: #e3ebe3;
-  --color-line-strong: #bed6c4;
-  --color-you: #5b3f8f;
-  --color-you-soft: #f6f2fc;
-  --color-story: #163a34;
+  --color-surface-soft: #fbfaf6;
+  --color-tint: #e9f6ee;
+  --color-track: #efeee6;
+  --color-ink: #0f2a20;
+  --color-body: #3b5046;
+  --color-muted: #5c6e64;
+  --color-subtle: #75847b;
+  --color-eyebrow: #0c7a50;
+  --color-link: #0a6a45;
+  --color-brand: #0a6a45;
+  --color-brand-strong: #075236;
+  --color-line: #e3e1d6;
+  --color-line-soft: #ebe9e0;
+  --color-line-strong: #cdcabb;
+  --color-you: #6a3fd1;
+  --color-you-soft: #f2edfd;
+  --color-story: #0f2a20;
+  --color-pop: #c6f16a;
+  --color-pop-soft: #eefbd2;
   --color-warn: #8a6a1c;
 }
 
 body {
-  background-color: #f5f7f2;
-  color: #0f172a;
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings use the display face everywhere, so older pages pick it up too. */
+h1, h2, h3, .font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
 }
 
 /* Force light mode — no dark mode overrides */
@@ -47,12 +57,12 @@ html {
 /* Soft input styling */
 input[type="text"],
 input[inputmode="numeric"] {
-  background-color: #ffffff;
-  color: #0f172a;
+  background-color: var(--color-surface);
+  color: var(--color-ink);
 }
 
 input::placeholder {
-  color: #94a3b8;
+  color: var(--color-subtle);
 }
 
 /* Smooth transitions */
