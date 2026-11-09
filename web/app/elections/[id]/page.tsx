@@ -90,6 +90,64 @@ function LastTime({ election }: { election: Election }) {
   );
 }
 
+// Before a poll: who won each seat last time, grouped by Lok Sabha seat so a voter finds their area fast.
+// Bye-elections since then are not on the site, so this says "won", not "sits".
+function LastWinners({ election }: { election: Election }) {
+  const last = previousResult(election);
+  if (!last) return null;
+  const year = last.election.countingOn!.slice(0, 4);
+  const groups = new Map<string, { name: string; seats: typeof last.results.seats }>();
+  for (const seat of last.results.seats) {
+    const key = seat.parliament?.slug ?? seat.stateSlug;
+    if (!groups.has(key)) groups.set(key, { name: seat.parliament?.name ?? seat.state, seats: [] });
+    groups.get(key)!.seats.push(seat);
+  }
+  const ordered = [...groups.values()].sort((a, b) => (a.seats[0].number ?? 0) - (b.seats[0].number ?? 0));
+  return (
+    <section className="mt-8" aria-labelledby="winners-heading">
+      <h2 id="winners-heading" className="text-2xl font-semibold tracking-[-0.025em] text-ink">Who won each seat in {year}</h2>
+      <p className="mt-1 mb-5 max-w-2xl text-sm text-muted">
+        {ordered.length > 1 ? "Grouped by Lok Sabha seat. " : ""}Tap a seat for every candidate and the votes. Bye-elections since {year} are not on this site yet, so a few seats may have a different MLA now.
+      </p>
+      <SeatFilter target="winner-list" placeholder={`Type a seat, area or name, e.g. ${ordered[0].name}`} />
+      <div id="winner-list" className="mt-4 grid gap-3">
+        {ordered.map((group) => (
+          <details key={group.name} data-state-group className="group rounded-[20px] border border-line bg-white">
+            <summary className="cursor-pointer list-none px-5 py-4">
+              <span className="flex items-center justify-between gap-4 font-semibold text-ink">
+                <span>{group.name} <span className="ml-2 text-sm font-normal text-subtle">{group.seats.length} {group.seats.length === 1 ? "seat" : "seats"}</span></span>
+                <span className="text-subtle transition-transform group-open:rotate-180" aria-hidden="true">⌄</span>
+              </span>
+              <span className="mt-2 flex h-2 max-w-xs overflow-hidden rounded-full bg-track" aria-hidden="true">
+                {group.seats.map((seat) => <span key={seat.slug} className="h-full flex-1 border-r-2 border-white last:border-r-0" style={{ background: partyColor(seatWinner(seat)?.party) }} />)}
+              </span>
+            </summary>
+            <ul className="grid gap-2 p-3 sm:grid-cols-2">
+              {group.seats.map((seat) => {
+                const winner = seatWinner(seat);
+                return (
+                  <li key={seat.slug} data-search={`${seat.name} ${group.name} ${winner?.name ?? ""} ${winner ? last.results.parties[winner.party]?.name ?? winner.party : ""} ${winner?.party ?? ""}`.toLocaleLowerCase("en-IN")}>
+                    <Link href={seatHref(seat, last.results.election.id)} className="group/seat flex items-center gap-3 rounded-2xl border border-line-soft p-4 hover:border-line-strong">
+                      <span className="h-9 w-1.5 shrink-0 rounded-full" style={{ background: partyColor(winner?.party) }} aria-hidden="true" />
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-semibold text-ink group-hover/seat:underline">{seat.name}</span>
+                        <span className="block truncate text-sm text-body">{winner ? `${winner.name}, ${winner.party}` : "No result"}</span>
+                      </span>
+                      <span className="shrink-0 text-right text-xs text-muted">
+                        {winner?.margin !== null && winner?.margin !== undefined ? <>by <span className="font-semibold tabular-nums text-ink">{formatShort(winner.margin)}</span></> : null}
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function Results({ election, results }: { election: Election; results: ElectionResults }) {
   const totals = electionTotals(results);
   const party = (code: string) => results.parties[code]?.name ?? code;
@@ -206,6 +264,7 @@ export default async function ElectionPage({ params }: PageProps) {
 
       {!results && status !== "counted" && <LastTime election={election} />}
       {nominations && <NominationSeats electionId={election.id} nominations={nominations} />}
+      {!results && !nominations && status !== "counted" && <LastWinners election={election} />}
       {results ? <Results election={election} results={results} /> : status === "counted" && (
         <NotCollected title="Results not collected on this site yet." className="mt-8">
           {election.resultsUrl ? <a href={election.resultsUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-link underline">See them on the ECI results site ↗</a> : "They are on the Election Commission's results site."}
