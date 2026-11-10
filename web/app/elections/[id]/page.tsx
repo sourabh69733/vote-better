@@ -12,6 +12,7 @@ import { seatHref, electionTotals, formatNumber, formatShort, isResultElection, 
 import { loadNominations } from "@/lib/nominations";
 import { partyColor } from "@/lib/party-colors";
 import { elections } from "@/records/elections";
+import { heldByeElections } from "@/records/held-bye-elections";
 
 interface PageProps { params: Promise<{ id: string }> }
 
@@ -90,12 +91,18 @@ function LastTime({ election }: { election: Election }) {
   );
 }
 
+const monthYear = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-IN", { month: "short", year: "numeric", timeZone: "UTC" });
+
 // Before a poll: who won each seat last time, grouped by Lok Sabha seat so a voter finds their area fast.
-// Bye-elections since then are not on the site, so this says "won", not "sits".
+// Seats that held a bye-election since are marked: their results are not on the site, so the MLA may differ.
 function LastWinners({ election }: { election: Election }) {
   const last = previousResult(election);
   if (!last) return null;
   const year = last.election.countingOn!.slice(0, 4);
+  const held = heldByeElections.filter((item) => election.states.includes(item.state) && item.countedOn > last.election.countingOn!)
+    .sort((a, b) => a.countedOn.localeCompare(b.countedOn));
+  const heldAt = new Map(held.map((item) => [`${item.state}/${item.seat}`, item]));
+  const notices = [...new Map(held.map((item) => [item.source.title, item.source])).values()];
   const groups = new Map<string, { name: string; seats: typeof last.results.seats }>();
   for (const seat of last.results.seats) {
     const key = seat.parliament?.slug ?? seat.stateSlug;
@@ -107,7 +114,10 @@ function LastWinners({ election }: { election: Election }) {
     <section className="mt-8" aria-labelledby="winners-heading">
       <h2 id="winners-heading" className="text-2xl font-semibold tracking-[-0.025em] text-ink">Who won each seat in {year}</h2>
       <p className="mt-1 mb-5 max-w-2xl text-sm text-muted">
-        {ordered.length > 1 ? "Grouped by Lok Sabha seat. " : ""}Tap a seat for every candidate and the votes. Bye-elections since {year} are not on this site yet, so a few seats may have a different MLA now.
+        {ordered.length > 1 ? "Grouped by Lok Sabha seat. " : ""}Tap a seat for every candidate and the votes.
+        {held.length > 0
+          ? <> <span className="font-semibold text-you">{held.length} {held.length === 1 ? "seat has" : "seats have"} voted again</span> in a bye-election since {year}, so the MLA there may have changed. {held.length === 1 ? "It is" : "They are"} marked below. ECI has taken down those results, so they are not on this site yet.</>
+          : null}
       </p>
       <SeatFilter target="winner-list" placeholder={`Type a seat, area or name, e.g. ${ordered[0].name}`} />
       <div id="winner-list" className="mt-4 grid gap-3">
@@ -115,7 +125,13 @@ function LastWinners({ election }: { election: Election }) {
           <details key={group.name} data-state-group className="group rounded-[20px] border border-line bg-white">
             <summary className="cursor-pointer list-none px-5 py-4">
               <span className="flex items-center justify-between gap-4 font-semibold text-ink">
-                <span>{group.name} <span className="ml-2 text-sm font-normal text-subtle">{group.seats.length} {group.seats.length === 1 ? "seat" : "seats"}</span></span>
+                <span>
+                  {group.name} <span className="ml-2 text-sm font-normal text-subtle">{group.seats.length} {group.seats.length === 1 ? "seat" : "seats"}</span>
+                  {(() => {
+                    const count = group.seats.filter((seat) => heldAt.has(`${seat.state}/${seat.number}`)).length;
+                    return count ? <span className="ml-2 rounded-full bg-you-soft px-2 py-0.5 text-xs font-semibold text-you">{count} bye-election{count === 1 ? "" : "s"}</span> : null;
+                  })()}
+                </span>
                 <span className="text-subtle transition-transform group-open:rotate-180" aria-hidden="true">⌄</span>
               </span>
               <span className="mt-2 flex h-2 max-w-xs overflow-hidden rounded-full bg-track" aria-hidden="true">
@@ -125,13 +141,15 @@ function LastWinners({ election }: { election: Election }) {
             <ul className="grid gap-2 p-3 sm:grid-cols-2">
               {group.seats.map((seat) => {
                 const winner = seatWinner(seat);
+                const again = heldAt.get(`${seat.state}/${seat.number}`);
                 return (
-                  <li key={seat.slug} data-search={`${seat.name} ${group.name} ${winner?.name ?? ""} ${winner ? last.results.parties[winner.party]?.name ?? winner.party : ""} ${winner?.party ?? ""}`.toLocaleLowerCase("en-IN")}>
-                    <Link href={seatHref(seat, last.results.election.id)} className="group/seat flex items-center gap-3 rounded-2xl border border-line-soft p-4 hover:border-line-strong">
+                  <li key={seat.slug} data-search={`${seat.name} ${group.name} ${winner?.name ?? ""} ${winner ? last.results.parties[winner.party]?.name ?? winner.party : ""} ${winner?.party ?? ""} ${again ? "bye-election" : ""}`.toLocaleLowerCase("en-IN")}>
+                    <Link href={seatHref(seat, last.results.election.id)} className={`group/seat flex items-center gap-3 rounded-2xl border p-4 hover:border-line-strong ${again ? "border-you/30 bg-you-soft/40" : "border-line-soft"}`}>
                       <span className="h-9 w-1.5 shrink-0 rounded-full" style={{ background: partyColor(winner?.party) }} aria-hidden="true" />
                       <span className="min-w-0 flex-1">
                         <span className="block font-semibold text-ink group-hover/seat:underline">{seat.name}</span>
-                        <span className="block truncate text-sm text-body">{winner ? `${winner.name}, ${winner.party}` : "No result"}</span>
+                        <span className="block truncate text-sm text-body">{winner ? `${again ? `${year}: ` : ""}${winner.name}, ${winner.party}` : "No result"}</span>
+                        {again && <span className="mt-1 block text-xs font-semibold text-you">Bye-election, counted {monthYear(again.countedOn)}. MLA may have changed.</span>}
                       </span>
                       <span className="shrink-0 text-right text-xs text-muted">
                         {winner?.margin !== null && winner?.margin !== undefined ? <>by <span className="font-semibold tabular-nums text-ink">{formatShort(winner.margin)}</span></> : null}
@@ -144,6 +162,14 @@ function LastWinners({ election }: { election: Election }) {
           </details>
         ))}
       </div>
+      {notices.length > 0 && (
+        <details className="mt-4 text-sm text-muted">
+          <summary className="cursor-pointer font-semibold text-link">{notices.length === 1 ? "The ECI notice that called this bye-election" : `The ${notices.length} ECI notices that called these bye-elections`}</summary>
+          <ul className="mt-2 grid gap-1 pl-4">
+            {notices.map((notice) => <li key={notice.title} className="list-disc"><a href={notice.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">{notice.title} ↗</a></li>)}
+          </ul>
+        </details>
+      )}
     </section>
   );
 }
