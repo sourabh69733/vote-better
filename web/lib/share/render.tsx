@@ -10,11 +10,15 @@ import { FORMATS, type Deck, type Format } from "./decks";
 // The site's ink, with its lime and violet accents (web/app/globals.css).
 const C = { bg: "#0f2a20", ink: "#ffffff", soft: "#c9d6cf", mint: "#c6f16a", violet: "#c4b2ff", line: "rgba(255,255,255,0.18)", card: "rgba(255,255,255,0.08)" };
 
+// Inter for text, Bricolage Grotesque for titles and big numbers, as on the site.
+const DISPLAY = "Bricolage";
 let fonts: Promise<{ name: string; data: Buffer; weight: 400 | 700 | 800; style: "normal" }[]> | undefined;
 export function loadFonts() {
-  fonts ??= Promise.all(([400, 700, 800] as const).map(async (weight) => ({
-    name: "Inter", weight, style: "normal" as const, data: await readFile(join(process.cwd(), "assets", "fonts", `Inter-${weight}.ttf`)),
-  })));
+  const file = (name: string) => readFile(join(process.cwd(), "assets", "fonts", name));
+  fonts ??= Promise.all([
+    ...([400, 700, 800] as const).map(async (weight) => ({ name: "Inter", weight, style: "normal" as const, data: await file(`Inter-${weight}.ttf`) })),
+    ...([700, 800] as const).map(async (weight) => ({ name: DISPLAY, weight, style: "normal" as const, data: await file(`BricolageGrotesque-${weight}.ttf`) })),
+  ]);
   return fonts;
 }
 
@@ -26,7 +30,7 @@ function Mark({ size }: { size: number }) {
       <div style={{ width: size, height: size, borderRadius: size * 0.28, background: C.mint, display: "flex", alignItems: "center", justifyContent: "center" }}>
         <svg width={size * 0.6} height={size * 0.6} viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke={C.bg} strokeWidth={3.2} fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
       </div>
-      <div style={{ fontSize: size * 0.62, fontWeight: 800, letterSpacing: -1, color: C.ink }}>Vote Better</div>
+      <div style={{ fontSize: size * 0.62, fontWeight: 800, letterSpacing: -0.5, color: C.ink, fontFamily: DISPLAY }}>Vote Better</div>
     </div>
   );
 }
@@ -37,9 +41,9 @@ function Body({ frame, s }: { frame: Scene; s: number }) {
     case "person":
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: 30 * s }}>
-          <div style={{ width: 220 * s, height: 220 * s, borderRadius: 999, background: C.card, border: `10px solid ${frame.color}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 84 * s, fontWeight: 800 }}>{frame.initials}</div>
+          <div style={{ width: 220 * s, height: 220 * s, borderRadius: 999, background: C.card, border: `10px solid ${frame.color}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 84 * s, fontWeight: 800, fontFamily: DISPLAY }}>{frame.initials}</div>
           {kicker}
-          <div style={{ fontSize: 110 * s, fontWeight: 800, letterSpacing: -4 * s, lineHeight: 1.02 }}>{frame.name}</div>
+          <div style={{ fontSize: 110 * s, fontWeight: 800, letterSpacing: -2 * s, lineHeight: 1.02, fontFamily: DISPLAY }}>{frame.name}</div>
           {frame.party ? <div style={{ display: "flex", alignItems: "center", gap: 18 * s, fontSize: 44 * s, color: C.soft }}><div style={{ width: 30 * s, height: 30 * s, borderRadius: 999, background: frame.color }} />{frame.party}</div> : null}
           <div style={{ fontSize: 38 * s, color: C.soft }}>{frame.place}</div>
           <div style={{ display: "flex", alignSelf: "flex-start", padding: `${16 * s}px ${30 * s}px`, borderRadius: 999, background: C.ink, color: C.bg, fontSize: 36 * s, fontWeight: 800 }}>{frame.role}</div>
@@ -49,20 +53,20 @@ function Body({ frame, s }: { frame: Scene; s: number }) {
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: 30 * s }}>
           {kicker}
-          <div style={{ fontSize: 64 * s, fontWeight: 800, letterSpacing: -2 * s, lineHeight: 1.1 }}>{frame.title}</div>
-          {frame.assets ? <div style={{ display: "flex", flexDirection: "column" }}><div style={{ fontSize: 150 * s, fontWeight: 800, letterSpacing: -6 * s, color: C.violet }}>{frame.assets}</div><div style={{ fontSize: 40 * s, color: C.soft }}>declared assets</div></div> : null}
+          <div style={{ fontSize: 64 * s, fontWeight: 800, letterSpacing: -1 * s, lineHeight: 1.1, fontFamily: DISPLAY }}>{frame.title}</div>
+          {frame.assets ? <div style={{ display: "flex", flexDirection: "column" }}><div style={{ fontSize: 150 * s, fontWeight: 800, letterSpacing: -3 * s, color: C.violet, fontFamily: DISPLAY }}>{frame.assets}</div><div style={{ fontSize: 40 * s, color: C.soft }}>declared assets</div></div> : null}
           {frame.liabilities ? <div style={{ fontSize: 44 * s }}>{`Liabilities ${frame.liabilities}`}</div> : null}
-          {frame.cases !== undefined ? <div style={{ display: "flex", flexDirection: "column", gap: 8 * s }}><div style={{ fontSize: 96 * s, fontWeight: 800 }}>{String(frame.cases)}</div><div style={{ fontSize: 40 * s, color: C.soft }}>criminal cases declared. A declared case is not a conviction.</div></div> : null}
+          {frame.cases !== undefined ? <div style={{ display: "flex", flexDirection: "column", gap: 8 * s }}><div style={{ fontSize: 96 * s, fontWeight: 800, fontFamily: DISPLAY }}>{String(frame.cases)}</div><div style={{ fontSize: 40 * s, color: C.soft }}>criminal cases declared. A declared case is not a conviction.</div></div> : null}
         </div>
       );
     case "work":
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: 36 * s }}>
           {kicker}
-          <div style={{ fontSize: 96 * s, fontWeight: 800, letterSpacing: -4 * s }}>{frame.title}</div>
+          <div style={{ fontSize: 96 * s, fontWeight: 800, letterSpacing: -2 * s, fontFamily: DISPLAY }}>{frame.title}</div>
           <div style={{ display: "flex", gap: 70 * s }}>
-            {frame.questions !== undefined ? <div style={{ display: "flex", flexDirection: "column" }}><div style={{ fontSize: 150 * s, fontWeight: 800, color: C.violet }}>{String(frame.questions)}</div><div style={{ fontSize: 38 * s, color: C.soft }}>questions asked</div></div> : null}
-            {frame.debates !== undefined ? <div style={{ display: "flex", flexDirection: "column" }}><div style={{ fontSize: 150 * s, fontWeight: 800 }}>{String(frame.debates)}</div><div style={{ fontSize: 38 * s, color: C.soft }}>debates</div></div> : null}
+            {frame.questions !== undefined ? <div style={{ display: "flex", flexDirection: "column" }}><div style={{ fontSize: 150 * s, fontWeight: 800, color: C.violet, fontFamily: DISPLAY }}>{String(frame.questions)}</div><div style={{ fontSize: 38 * s, color: C.soft }}>questions asked</div></div> : null}
+            {frame.debates !== undefined ? <div style={{ display: "flex", flexDirection: "column" }}><div style={{ fontSize: 150 * s, fontWeight: 800, fontFamily: DISPLAY }}>{String(frame.debates)}</div><div style={{ fontSize: 38 * s, color: C.soft }}>debates</div></div> : null}
           </div>
           {frame.topics.map((topic) => (
             <div key={topic.name} style={{ display: "flex", flexDirection: "column", gap: 10 * s }}>
@@ -76,7 +80,7 @@ function Body({ frame, s }: { frame: Scene; s: number }) {
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: 36 * s }}>
           {kicker}
-          <div style={{ fontSize: 96 * s, fontWeight: 800, letterSpacing: -4 * s }}>{frame.title}</div>
+          <div style={{ fontSize: 96 * s, fontWeight: 800, letterSpacing: -2 * s, fontFamily: DISPLAY }}>{frame.title}</div>
           {frame.items.map((item) => (
             <div key={item.when + item.text} style={{ display: "flex", flexDirection: "column", gap: 6 * s, paddingLeft: 36 * s, borderLeft: `6px solid ${C.mint}` }}>
               <div style={{ fontSize: 34 * s, fontWeight: 800, color: C.mint }}>{item.when}</div>
@@ -88,7 +92,7 @@ function Body({ frame, s }: { frame: Scene; s: number }) {
     case "sources":
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: 36 * s }}>
-          <div style={{ fontSize: 100 * s, fontWeight: 800, letterSpacing: -4 * s, lineHeight: 1.05 }}>{frame.title}</div>
+          <div style={{ fontSize: 100 * s, fontWeight: 800, letterSpacing: -2 * s, lineHeight: 1.05, fontFamily: DISPLAY }}>{frame.title}</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 18 * s }}>
             {frame.labels.map((label) => <div key={label} style={{ display: "flex", padding: `${14 * s}px ${28 * s}px`, borderRadius: 999, border: `3px solid ${C.line}`, fontSize: 38 * s }}>{label}</div>)}
           </div>
@@ -98,7 +102,7 @@ function Body({ frame, s }: { frame: Scene; s: number }) {
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: 36 * s }}>
           {kicker}
-          <div style={{ fontSize: (frame.title.length > 22 ? 104 : 150) * s, fontWeight: 800, lineHeight: 1.0, letterSpacing: -5 * s }}>{frame.title}</div>
+          <div style={{ fontSize: (frame.title.length > 22 ? 104 : 150) * s, fontWeight: 800, lineHeight: 1.0, letterSpacing: -2.5 * s, fontFamily: DISPLAY }}>{frame.title}</div>
           <div style={{ fontSize: 52 * s, fontWeight: 700, color: C.violet }}>{frame.subtitle}</div>
         </div>
       );
@@ -106,7 +110,7 @@ function Body({ frame, s }: { frame: Scene; s: number }) {
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: 44 * s }}>
           {kicker}
-          <div style={{ fontSize: 96 * s, fontWeight: 800, letterSpacing: -4 * s }}>{frame.title}</div>
+          <div style={{ fontSize: 96 * s, fontWeight: 800, letterSpacing: -2 * s, fontFamily: DISPLAY }}>{frame.title}</div>
           {frame.rows.map((row) => (
             <div key={row.name} style={{ display: "flex", flexDirection: "column", gap: 14 * s }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 20 }}>
@@ -114,7 +118,7 @@ function Body({ frame, s }: { frame: Scene; s: number }) {
                   <div style={{ fontSize: 50 * s, fontWeight: 800, lineHeight: 1.1 }}>{row.name}</div>
                   <div style={{ fontSize: 30 * s, color: C.soft }}>{row.party}</div>
                 </div>
-                <div style={{ fontSize: 64 * s, fontWeight: 800 }}>{`${row.share.toFixed(1)}%`}</div>
+                <div style={{ fontSize: 64 * s, fontWeight: 800, fontFamily: DISPLAY }}>{`${row.share.toFixed(1)}%`}</div>
               </div>
               <div style={{ display: "flex", height: 26 * s, borderRadius: 13 * s, background: C.line }}>
                 <div style={{ width: `${Math.max(row.share, 1)}%`, height: "100%", borderRadius: 13 * s, background: row.color }} />
@@ -129,8 +133,8 @@ function Body({ frame, s }: { frame: Scene; s: number }) {
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: 30 * s }}>
           {kicker}
-          <div style={{ fontSize: (frame.value.length > 9 ? 170 : 210) * s, fontWeight: 800, letterSpacing: -8 * s, lineHeight: 1, color: frame.highlight ? C.violet : C.ink }}>{frame.value}</div>
-          <div style={{ fontSize: 60 * s, fontWeight: 800, letterSpacing: -2 * s }}>{frame.unit}</div>
+          <div style={{ fontSize: (frame.value.length > 9 ? 170 : 210) * s, fontWeight: 800, letterSpacing: -4 * s, lineHeight: 1, color: frame.highlight ? C.violet : C.ink, fontFamily: DISPLAY }}>{frame.value}</div>
+          <div style={{ fontSize: 60 * s, fontWeight: 800, letterSpacing: -1 * s, fontFamily: DISPLAY }}>{frame.unit}</div>
           <div style={{ fontSize: 44 * s, lineHeight: 1.3, color: C.ink }}>{frame.line}</div>
           {frame.detail ? <div style={{ fontSize: 40 * s, lineHeight: 1.3, color: C.mint, fontWeight: 700 }}>{frame.detail}</div> : null}
         </div>
@@ -139,7 +143,7 @@ function Body({ frame, s }: { frame: Scene; s: number }) {
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: 36 * s }}>
           {kicker}
-          <div style={{ fontSize: 92 * s, fontWeight: 800, letterSpacing: -4 * s, lineHeight: 1.05 }}>{frame.title}</div>
+          <div style={{ fontSize: 92 * s, fontWeight: 800, letterSpacing: -2 * s, lineHeight: 1.05, fontFamily: DISPLAY }}>{frame.title}</div>
           {frame.note ? <div style={{ fontSize: 32 * s, color: C.soft }}>{frame.note}</div> : null}
           {frame.rows.map((row) => (
             <div key={row.label + row.detail} style={{ display: "flex", flexDirection: "column", gap: 10 * s }}>
@@ -161,9 +165,9 @@ function Body({ frame, s }: { frame: Scene; s: number }) {
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: 40 * s }}>
           {kicker}
-          <div style={{ fontSize: 80 * s, fontWeight: 800, letterSpacing: -3 * s, lineHeight: 1.1 }}>{frame.question}</div>
+          <div style={{ fontSize: 80 * s, fontWeight: 800, letterSpacing: -1.5 * s, lineHeight: 1.1, fontFamily: DISPLAY }}>{frame.question}</div>
           {frame.options.map((option) => (
-            <div key={option} style={{ display: "flex", padding: `${30 * s}px ${40 * s}px`, borderRadius: 30 * s, border: `3px solid ${C.line}`, background: C.card, fontSize: 64 * s, fontWeight: 800 }}>{option}</div>
+            <div key={option} style={{ display: "flex", padding: `${30 * s}px ${40 * s}px`, borderRadius: 30 * s, border: `3px solid ${C.line}`, background: C.card, fontSize: 64 * s, fontWeight: 800, fontFamily: DISPLAY }}>{option}</div>
           ))}
           <div style={{ fontSize: 36 * s, color: C.violet, fontWeight: 700 }}>{frame.hint}</div>
         </div>
@@ -172,7 +176,7 @@ function Body({ frame, s }: { frame: Scene; s: number }) {
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: 40 * s }}>
           {kicker}
-          <div style={{ fontSize: 96 * s, fontWeight: 800, letterSpacing: -4 * s }}>{frame.title}</div>
+          <div style={{ fontSize: 96 * s, fontWeight: 800, letterSpacing: -2 * s, fontFamily: DISPLAY }}>{frame.title}</div>
           {frame.points.map((point) => (
             <div key={point.title} style={{ display: "flex", flexDirection: "column", gap: 12 * s, padding: 40 * s, borderRadius: 32 * s, background: C.card, border: `2px solid ${C.line}` }}>
               <div style={{ fontSize: 50 * s, fontWeight: 800, color: C.violet }}>{point.title}</div>
@@ -185,7 +189,7 @@ function Body({ frame, s }: { frame: Scene; s: number }) {
       return (
         <div style={{ display: "flex", flexDirection: "column", gap: 40 * s }}>
           {kicker}
-          <div style={{ fontSize: 120 * s, fontWeight: 800, letterSpacing: -5 * s, lineHeight: 1.0 }}>{frame.title}</div>
+          <div style={{ fontSize: 120 * s, fontWeight: 800, letterSpacing: -2.5 * s, lineHeight: 1.0, fontFamily: DISPLAY }}>{frame.title}</div>
           <div style={{ fontSize: 46 * s, lineHeight: 1.35, color: C.soft }}>{frame.text}</div>
           <div style={{ display: "flex", alignSelf: "flex-start", padding: `${28 * s}px ${44 * s}px`, borderRadius: 999, background: C.ink, color: C.bg, fontSize: 46 * s, fontWeight: 800 }}>
             {siteLabel() || "Link in bio"}
@@ -235,7 +239,7 @@ export function PreviewImage({ kicker, title, line, stat, statLabel, color }: { 
         </div>
         {stat ? (
           <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6, padding: "28px 36px", borderRadius: 28, background: C.card, border: `2px solid ${color ?? C.line}` }}>
-            <div style={{ fontSize: 76, fontWeight: 800, letterSpacing: -3, color: C.violet }}>{stat}</div>
+            <div style={{ fontSize: 76, fontWeight: 800, letterSpacing: -1.5, color: C.violet, fontFamily: DISPLAY }}>{stat}</div>
             <div style={{ fontSize: 24, color: C.soft }}>{statLabel}</div>
           </div>
         ) : null}
