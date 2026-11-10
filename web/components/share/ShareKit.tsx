@@ -104,6 +104,7 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
   const [reel, setReel] = useState<{ url: string; file: File } | null>(null);
   const [recording, setRecording] = useState<number | null>(null);
   const [next, setNext] = useState<{ label: string; href: string } | null>(null);
+  const [reelNote, setReelNote] = useState<{ text: string; links: boolean } | null>(null);
   const url = typeof window === "undefined" ? link : new URL(link, window.location.origin).toString();
   const text = useMemo(() => `${caption[language]}\n\n${url}\n\n${hashtags.join(" ")}`, [caption, language, url, hashtags]);
 
@@ -139,12 +140,23 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
     }
   }
 
+  // Where the browser can hand the video to an app, the share menu opens; elsewhere (most computers)
+  // the video is saved and the caption copied, and the message shows beside the button.
   async function shareReel() {
     if (!reel) return;
+    setReelNote(null);
+    const copied = await quietCopy();
     try {
-      if (navigator.canShare?.({ files: [reel.file] })) await navigator.share({ files: [reel.file], title, text });
-      else setStatus("This browser cannot share video directly. Save it and post from your phone.");
-    } catch { /* closed the share sheet */ }
+      if (navigator.canShare?.({ files: [reel.file] })) {
+        await navigator.share({ files: [reel.file], title, text });
+        setReelNote({ text: `Pick Instagram or YouTube in the share menu.${copied ? " The caption is copied, so paste it in." : ""}`, links: false });
+        return;
+      }
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") return;
+    }
+    saveAll([reel.file]);
+    setReelNote({ text: `This browser cannot send a video to an app, so the video is saved${copied ? " and the caption copied" : ""}. Post it from the Instagram or YouTube app, or upload it here:`, links: true });
   }
 
   async function quietCopy() {
@@ -241,10 +253,21 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
       {reel && (
         <div className="flex flex-wrap items-start gap-5 rounded-[22px] border border-line bg-white p-5">
           <video src={reel.url} controls playsInline className="w-40 rounded-xl" />
-          <div className="grid gap-2">
+          <div className="grid max-w-sm gap-2">
             <p className="font-semibold text-ink">Your reel</p>
-            <button type="button" onClick={shareReel} className="min-h-10 rounded-full bg-brand px-4 text-sm font-bold text-white">Share reel</button>
+            <button type="button" onClick={shareReel} className="min-h-10 justify-self-start rounded-full bg-brand px-4 text-sm font-bold text-white">Share reel</button>
             <a href={reel.url} download={reel.file.name} className="text-sm font-semibold text-link underline">Save video</a>
+            {reelNote && (
+              <div className="mt-1 rounded-xl bg-tint p-3 text-sm text-body" aria-live="polite">
+                <p>{reelNote.text}</p>
+                {reelNote.links && (
+                  <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-semibold">
+                    <a href={APPS.instagram.upload} target="_blank" rel="noopener noreferrer" className="text-link underline">Instagram ↗</a>
+                    <a href={APPS.youtube.upload} target="_blank" rel="noopener noreferrer" className="text-link underline">YouTube upload ↗</a>
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}
