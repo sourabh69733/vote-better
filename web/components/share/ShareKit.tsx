@@ -141,7 +141,7 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
   async function after(result: Awaited<ReturnType<typeof trySharing>>, files: File[], app: keyof typeof APPS | null) {
     setTap(null);
     if (result === "cancelled") { setStatus(""); return; }
-    if (result === "needs-tap") { setTap({ label: app ? `Ready: tap to share to ${APPS[app].label}` : "Ready: tap to share", files, app }); setStatus(""); return; }
+    if (result === "needs-tap") { setTap({ label: app ? `Open the share menu for ${APPS[app].label}` : "Open the share menu", files, app }); setStatus("Your browser needs one more tap to open the share menu."); return; }
     markQuest("share-a-story", deckKey);
     if (result === "shared") {
       setStatus(app ? `Pick ${APPS[app].label} in the share menu. The caption is copied, so paste it in.` : "Shared. The caption is copied, so paste it in.");
@@ -150,17 +150,23 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
     const copied = await quietCopy();
     saveAll(files);
     const video = files[0]?.type.startsWith("video/");
+    const why = window.matchMedia("(pointer: coarse)").matches ? `This browser cannot send ${video ? "a video" : "images"} to an app` : "On a computer, Instagram and YouTube cannot take files from a website";
     if (app) setNext({ label: app === "instagram" ? "Open Instagram" : "Open YouTube upload", href: APPS[app].upload });
     setStatus(video
-      ? `This browser cannot send a video to an app, so the video is saved${copied ? " and the caption copied" : ""}. Upload it on YouTube or Instagram: a vertical video under three minutes becomes a Short.`
-      : `This browser cannot send images to an app, so ${files.length} images are saved${copied ? " and the caption copied" : ""}. Instagram posts from its app: pick the saved images there${format === "story" ? " for your story" : " as one carousel post"}.`);
+      ? `${why}, so the video is saved${copied ? " and the caption copied" : ""}. Upload it on YouTube or Instagram: a vertical video under three minutes becomes a Short.`
+      : `${why}, so ${files.length} images are saved${copied ? " and the caption copied" : ""}. Instagram posts from its app: pick the saved images there${format === "story" ? " for your story" : " as one carousel post"}.`);
   }
 
-  async function shareFiles(files: File[], app: keyof typeof APPS | null, place: typeof where) {
+  // A computer's share menu has no Instagram or YouTube app, so for those the files are saved at once.
+  // A share refused even after the extra tap is given up on, and the files are saved instead.
+  async function shareFiles(files: File[], app: keyof typeof APPS | null, place: typeof where, retry = false) {
     setWhere(place);
     setNext(null);
     try {
-      await after(await trySharing(files), files, app);
+      const phone = window.matchMedia("(pointer: coarse)").matches;
+      let result: Awaited<ReturnType<typeof trySharing>> = app && !phone ? "unsupported" : await trySharing(files);
+      if (result === "needs-tap" && retry) result = "unsupported";
+      await after(result, files, app);
     } catch (error) {
       setTap(null);
       setStatus(`Sharing did not work${error instanceof Error && error.message ? ` (${error.message})` : ""}. Save the files below instead.`);
@@ -206,7 +212,13 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
     setNext(null);
     if (reel) { void shareFiles([reel.file], "youtube", "post"); return; }
     const file = await makeReel("post");
-    if (file) setTap({ label: "Video ready: tap to share to YouTube Shorts", files: [file], app: "youtube" });
+    if (!file) return;
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      setTap({ label: "Open the share menu for YouTube Shorts", files: [file], app: "youtube" });
+      setStatus("Video ready. One more tap opens the share menu.");
+    } else {
+      await after("unsupported", [file], "youtube");
+    }
   }
 
   async function copyCaption() {
@@ -218,7 +230,7 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
     <div className="mt-3 grid justify-items-start gap-2" aria-live="polite">
       {status && <p className="text-sm text-link">{status}</p>}
       {tap && (
-        <button type="button" onClick={() => shareFiles(tap.files, tap.app, where)} className="inline-flex min-h-12 items-center rounded-full bg-ink px-5 text-sm font-bold text-white">
+        <button type="button" onClick={() => shareFiles(tap.files, tap.app, where, true)} className="inline-flex min-h-12 items-center rounded-full bg-ink px-5 text-sm font-bold text-white">
           <span className="mr-2 text-pop" aria-hidden="true">↗</span>{tap.label}
         </button>
       )}
