@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { markQuest } from "@/lib/quests";
 
@@ -104,27 +104,78 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
   const [reel, setReel] = useState<{ url: string; file: File } | null>(null);
   const [recording, setRecording] = useState<number | null>(null);
   const [next, setNext] = useState<{ label: string; href: string } | null>(null);
-  const [reelNote, setReelNote] = useState<{ text: string; links: boolean } | null>(null);
+  // Which button the last message belongs to, so it shows beside that button.
+  const [where, setWhere] = useState<"post" | "kit" | "reel">("kit");
   const url = typeof window === "undefined" ? link : new URL(link, window.location.origin).toString();
   const text = useMemo(() => `${caption[language]}\n\n${url}\n\n${hashtags.join(" ")}`, [caption, language, url, hashtags]);
 
-  async function shareImages() {
-    setStatus("Preparing images…");
+  // Browsers only open the share menu within a moment of a tap, so files are prepared before the tap:
+  // the images as soon as the format is picked, the video when it is made. If a share is refused for
+  // coming too late, a "Tap to share" button gives it a fresh tap.
+  const [prepared, setPrepared] = useState<{ format: Format; files: File[] } | null>(null);
+  const [tap, setTap] = useState<{ label: string; files: File[]; app: keyof typeof APPS | null } | null>(null);
+  useEffect(() => {
+    let live = true;
+    asFiles(deckKey, format, frames).then((files) => { if (live) setPrepared({ format, files }); }).catch(() => {});
+    return () => { live = false; };
+  }, [deckKey, format, frames]);
+  const images = prepared?.format === format ? prepared.files : null;
+
+  // Starts the copy and the share in the same tap; returns what happened.
+  async function trySharing(files: File[]): Promise<"shared" | "cancelled" | "unsupported" | "needs-tap"> {
+    if (!navigator.canShare?.({ files })) return "unsupported";
+    navigator.clipboard?.writeText(text).catch(() => {});
     try {
-      const files = await asFiles(deckKey, format, frames);
-      if (navigator.canShare?.({ files })) {
-        await navigator.share({ files, title, text });
-        setStatus("Shared.");
-        markQuest("share-a-story", deckKey);
-      } else {
-        setStatus("This browser cannot share images directly. Save them below, then post from your phone.");
-      }
+      await navigator.share({ files, title, text });
+      return "shared";
     } catch (error) {
-      setStatus(error instanceof Error && error.name === "AbortError" ? "" : "Sharing did not work. Save the images below instead.");
+      if (error instanceof Error && error.name === "AbortError") return "cancelled";
+      if (error instanceof Error && error.name === "NotAllowedError") return "needs-tap";
+      // A file type the app or browser will not take, such as WebM video on some phones.
+      if (error instanceof Error && (error.name === "TypeError" || error.name === "DataError")) return "unsupported";
+      throw error;
     }
   }
 
-  async function makeReel() {
+  // What to do once the share was tried: a message, or the saved files and the app's upload page.
+  async function after(result: Awaited<ReturnType<typeof trySharing>>, files: File[], app: keyof typeof APPS | null) {
+    setTap(null);
+    if (result === "cancelled") { setStatus(""); return; }
+    if (result === "needs-tap") { setTap({ label: app ? `Ready: tap to share to ${APPS[app].label}` : "Ready: tap to share", files, app }); setStatus(""); return; }
+    markQuest("share-a-story", deckKey);
+    if (result === "shared") {
+      setStatus(app ? `Pick ${APPS[app].label} in the share menu. The caption is copied, so paste it in.` : "Shared. The caption is copied, so paste it in.");
+      return;
+    }
+    const copied = await quietCopy();
+    saveAll(files);
+    const video = files[0]?.type.startsWith("video/");
+    if (app) setNext({ label: app === "instagram" ? "Open Instagram" : "Open YouTube upload", href: APPS[app].upload });
+    setStatus(video
+      ? `This browser cannot send a video to an app, so the video is saved${copied ? " and the caption copied" : ""}. Upload it on YouTube or Instagram: a vertical video under three minutes becomes a Short.`
+      : `This browser cannot send images to an app, so ${files.length} images are saved${copied ? " and the caption copied" : ""}. Instagram posts from its app: pick the saved images there${format === "story" ? " for your story" : " as one carousel post"}.`);
+  }
+
+  async function shareFiles(files: File[], app: keyof typeof APPS | null, place: typeof where) {
+    setWhere(place);
+    setNext(null);
+    try {
+      await after(await trySharing(files), files, app);
+    } catch (error) {
+      setTap(null);
+      setStatus(`Sharing did not work${error instanceof Error && error.message ? ` (${error.message})` : ""}. Save the files below instead.`);
+    }
+  }
+
+  function shareImages(app: keyof typeof APPS | null) {
+    const place = app ? "post" : "kit";
+    if (!images) { setWhere(place); setStatus("Getting the images ready. Tap again in a moment."); return; }
+    void shareFiles(images, app, place);
+  }
+
+  async function makeReel(place: typeof where = "kit") {
+    setWhere(place);
+    setTap(null);
     setReel(null);
     setRecording(0);
     setStatus("Recording the reel. Keep this tab open.");
@@ -133,86 +184,47 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
       setReel({ url: URL.createObjectURL(file), file });
       markQuest("share-a-story", deckKey);
       setStatus(file.type.startsWith("video/mp4") ? "Reel ready." : "Reel ready as WebM. Some apps need MP4; try Safari or a recent Chrome for MP4.");
+      return file;
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Could not make the reel.");
+      return null;
     } finally {
       setRecording(null);
     }
   }
 
-  // Where the browser can hand the video to an app, the share menu opens; elsewhere (most computers)
-  // the video is saved and the caption copied, and the message shows beside the button.
   async function shareReel() {
-    if (!reel) return;
-    setReelNote(null);
-    const copied = await quietCopy();
-    try {
-      if (navigator.canShare?.({ files: [reel.file] })) {
-        await navigator.share({ files: [reel.file], title, text });
-        setReelNote({ text: `Pick Instagram or YouTube in the share menu.${copied ? " The caption is copied, so paste it in." : ""}`, links: false });
-        return;
-      }
-    } catch (error) {
-      if (error instanceof Error && error.name === "AbortError") return;
-    }
-    saveAll([reel.file]);
-    setReelNote({ text: `This browser cannot send a video to an app, so the video is saved${copied ? " and the caption copied" : ""}. Post it from the Instagram or YouTube app, or upload it here:`, links: true });
+    if (reel) void shareFiles([reel.file], null, "reel");
   }
 
   async function quietCopy() {
     try { await navigator.clipboard.writeText(text); return true; } catch { return false; }
   }
 
-  async function toInstagram() {
-    setNext(null);
-    setStatus("Preparing images…");
-    try {
-      const files = await asFiles(deckKey, format, frames);
-      const copied = await quietCopy();
-      if (navigator.canShare?.({ files })) {
-        await navigator.share({ files, title, text });
-        setStatus(`Pick Instagram in the share menu.${copied ? " The caption is copied, so paste it in." : ""}`);
-      } else {
-        saveAll(files);
-        setNext({ label: "Open Instagram", href: APPS.instagram.upload });
-        setStatus(`Saved ${files.length} images${copied ? " and copied the caption" : ""}. Instagram only posts from its app: open it on your phone and pick the saved images${format === "story" ? " for your story" : " as one carousel post"}.`);
-      }
-      markQuest("share-a-story", deckKey);
-    } catch (error) {
-      setStatus(error instanceof Error && error.name === "AbortError" ? "" : "That did not work. Save the images below instead.");
-    }
-  }
-
+  // A video takes seconds to make, longer than a tap lasts, so once it is ready the share needs one more tap.
   async function toYouTube() {
     setNext(null);
-    try {
-      let file = reel?.file;
-      if (!file) {
-        setRecording(0);
-        setStatus("Making a vertical video for Shorts. Keep this tab open, it takes a few seconds.");
-        file = await recordReel(deckKey, frames, setRecording);
-        setReel({ url: URL.createObjectURL(file), file });
-        setRecording(null);
-      }
-      const copied = await quietCopy();
-      if (navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ files: [file], title, text });
-        setStatus(`Pick YouTube in the share menu and post it as a Short.${copied ? " The caption is copied." : ""}`);
-      } else {
-        saveAll([file]);
-        setNext({ label: "Open YouTube upload", href: APPS.youtube.upload });
-        setStatus(`Saved the video${copied ? " and copied the caption" : ""}. Upload it on YouTube: a vertical video under three minutes becomes a Short.`);
-      }
-      markQuest("share-a-story", deckKey);
-    } catch (error) {
-      setRecording(null);
-      setStatus(error instanceof Error && error.name === "AbortError" ? "" : error instanceof Error ? error.message : "Could not make the video.");
-    }
+    if (reel) { void shareFiles([reel.file], "youtube", "post"); return; }
+    const file = await makeReel("post");
+    if (file) setTap({ label: "Video ready: tap to share to YouTube Shorts", files: [file], app: "youtube" });
   }
 
   async function copyCaption() {
     try { await navigator.clipboard.writeText(text); setStatus("Caption copied."); } catch { setStatus("Select the caption and copy it."); }
   }
+
+  // The message, the "tap to share" button and the upload link, shown beside the button that was used.
+  const feedback = (
+    <div className="mt-3 grid justify-items-start gap-2" aria-live="polite">
+      {status && <p className="text-sm text-link">{status}</p>}
+      {tap && (
+        <button type="button" onClick={() => shareFiles(tap.files, tap.app, where)} className="inline-flex min-h-12 items-center rounded-full bg-ink px-5 text-sm font-bold text-white">
+          <span className="mr-2 text-pop" aria-hidden="true">↗</span>{tap.label}
+        </button>
+      )}
+      {next && <a href={next.href} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-link underline underline-offset-4">{next.label} ↗</a>}
+    </div>
+  );
 
   const size = SIZE[format];
   return (
@@ -221,7 +233,7 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
         <h2 id="post-heading" className="text-lg font-semibold text-ink">Post it</h2>
         <p className="mt-1 text-sm text-muted">On a phone, this opens your share menu with everything attached. On a computer, it saves the files and copies the caption.</p>
         <div className="mt-4 flex flex-wrap gap-3">
-          <button type="button" onClick={toInstagram} className={`inline-flex min-h-12 items-center gap-2 rounded-full px-5 text-sm font-bold shadow-sm transition hover:-translate-y-0.5 ${APPS.instagram.tone}`}>
+          <button type="button" onClick={() => shareImages("instagram")} className={`inline-flex min-h-12 items-center gap-2 rounded-full px-5 text-sm font-bold shadow-sm transition hover:-translate-y-0.5 ${APPS.instagram.tone}`}>
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" /></svg>
             Share to Instagram
           </button>
@@ -230,9 +242,7 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
             {recording === null ? "Share to YouTube Shorts" : `Making video… ${Math.round(recording * 100)}%`}
           </button>
         </div>
-        {next && (
-          <a href={next.href} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-sm font-semibold text-link underline underline-offset-4">{next.label} ↗</a>
-        )}
+        {where === "post" && feedback}
       </section>
       <div className="flex flex-wrap items-center gap-3">
         <div className="inline-flex rounded-full border border-line-strong bg-white p-1" role="group" aria-label="Image size">
@@ -241,14 +251,14 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
               className={`min-h-10 rounded-full px-4 text-sm font-bold ${format === option ? "bg-brand text-white" : "text-link"}`}>{SIZE[option].label}</button>
           ))}
         </div>
-        <button type="button" onClick={shareImages} className="min-h-11 rounded-full bg-brand px-5 text-sm font-bold text-white hover:bg-brand-strong">Share {frames} images</button>
+        <button type="button" onClick={() => shareImages(null)} className="min-h-11 rounded-full bg-brand px-5 text-sm font-bold text-white hover:bg-brand-strong">Share {frames} images</button>
         {format === "story" && (
-          <button type="button" onClick={makeReel} disabled={recording !== null} className="min-h-11 rounded-full border border-line-strong bg-white px-5 text-sm font-bold text-link hover:bg-tint disabled:opacity-60">
+          <button type="button" onClick={() => makeReel()} disabled={recording !== null} className="min-h-11 rounded-full border border-line-strong bg-white px-5 text-sm font-bold text-link hover:bg-tint disabled:opacity-60">
             {recording === null ? "Make a reel" : `Recording… ${Math.round(recording * 100)}%`}
           </button>
         )}
       </div>
-      <p className="-mt-4 min-h-5 text-sm text-link" aria-live="polite">{status}</p>
+      {where === "kit" ? <div className="-mt-5">{feedback}</div> : null}
 
       {reel && (
         <div className="flex flex-wrap items-start gap-5 rounded-[22px] border border-line bg-white p-5">
@@ -257,17 +267,7 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
             <p className="font-semibold text-ink">Your reel</p>
             <button type="button" onClick={shareReel} className="min-h-10 justify-self-start rounded-full bg-brand px-4 text-sm font-bold text-white">Share reel</button>
             <a href={reel.url} download={reel.file.name} className="text-sm font-semibold text-link underline">Save video</a>
-            {reelNote && (
-              <div className="mt-1 rounded-xl bg-tint p-3 text-sm text-body" aria-live="polite">
-                <p>{reelNote.text}</p>
-                {reelNote.links && (
-                  <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-semibold">
-                    <a href={APPS.instagram.upload} target="_blank" rel="noopener noreferrer" className="text-link underline">Instagram ↗</a>
-                    <a href={APPS.youtube.upload} target="_blank" rel="noopener noreferrer" className="text-link underline">YouTube upload ↗</a>
-                  </p>
-                )}
-              </div>
-            )}
+            {where === "reel" && feedback}
           </div>
         </div>
       )}
