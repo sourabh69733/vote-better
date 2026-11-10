@@ -7,7 +7,8 @@ import { FORMATS, type Deck, type Format } from "./decks";
 // Draws one frame for next/og (Satori). Satori lays out with flexbox only, so every
 // element with more than one child is a flex container.
 
-const C = { bg: "#163a34", ink: "#ffffff", soft: "#c5dacf", mint: "#8ce0bf", violet: "#cdb8ff", line: "rgba(255,255,255,0.18)", card: "rgba(255,255,255,0.08)" };
+// The site's ink, with its lime and violet accents (web/app/globals.css).
+const C = { bg: "#0f2a20", ink: "#ffffff", soft: "#c9d6cf", mint: "#c6f16a", violet: "#c4b2ff", line: "rgba(255,255,255,0.18)", card: "rgba(255,255,255,0.08)" };
 
 let fonts: Promise<{ name: string; data: Buffer; weight: 400 | 700 | 800; style: "normal" }[]> | undefined;
 export function loadFonts() {
@@ -22,8 +23,8 @@ export const siteLabel = () => process.env.NEXT_PUBLIC_SITE_URL?.replace(/^https
 function Mark({ size }: { size: number }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: size * 0.4 }}>
-      <div style={{ width: size, height: size, borderRadius: size * 0.28, background: "#1e6b4d", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <svg width={size * 0.6} height={size * 0.6} viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" strokeWidth={3.2} fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
+      <div style={{ width: size, height: size, borderRadius: size * 0.28, background: C.mint, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <svg width={size * 0.6} height={size * 0.6} viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke={C.bg} strokeWidth={3.2} fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
       </div>
       <div style={{ fontSize: size * 0.62, fontWeight: 800, letterSpacing: -1, color: C.ink }}>Vote Better</div>
     </div>

@@ -3,7 +3,9 @@
 // frame carries its source. No photos, no predictions, no opinion about anyone.
 
 import { formatDay } from "../elections";
-import { ELECTION_INFO, findSeat, latestResult, pendingByElections, formatNumber, formatShort, isResultElection, loadResults, type ElectionResults, marginsInState, ordinal, type ResultElectionId, type ResultSeat, seatHistory, seatHref, seatWinner, turnout, yearOf } from "../results";
+import { elections as calendar } from "../../records/elections";
+import { heldByeElections } from "../../records/held-bye-elections";
+import { ELECTION_INFO, findSeat, latestResult, pendingByElections, previousResult, formatNumber, formatShort, isResultElection, loadResults, type ElectionResults, marginsInState, ordinal, type ResultElectionId, type ResultSeat, seatHistory, seatHref, seatWinner, turnout, yearOf } from "../results";
 import { partyColor } from "../party-colors";
 import type { Scene, Story } from "../scenes";
 
@@ -16,7 +18,7 @@ export const FORMATS: Record<Format, { width: number; height: number; label: str
 // Share decks use the site's one scene format, so the same deck plays on the site and renders as images.
 export interface Deck extends Story {
   key: string;
-  template: "seat" | "quiz" | "closest" | "mp-role" | "first-time-voter" | "reps";
+  template: "seat" | "quiz" | "closest" | "mp-role" | "first-time-voter" | "reps" | "upcoming";
   title: string;
   // The page on this site the deck comes from; every frame and caption points there.
   link: string;
@@ -191,6 +193,44 @@ function closestDeck(id: ResultElectionId, stateSlug: string): Deck | null {
   };
 }
 
+// A state that votes next: who won last time, by seats and votes, the closest fight, the seats that have
+// voted again since, and turnout. Built only from the last result and official notices.
+function upcomingDeck(electionId: string): Deck | null {
+  const election = calendar.find((item) => item.id === electionId);
+  const last = election && previousResult(election);
+  if (!election || !last || election.countingOn) return null;
+  const state = election.states.join(", ");
+  const year = last.election.countingOn!.slice(0, 4);
+  const nextYear = (election.polls[0]?.date ?? election.termEndsOn ?? "").slice(0, 4);
+  const results = last.results;
+  const total = results.seats.length;
+  const source = resultSource(results);
+  const top = last.parties.filter((party) => party.seats > 0).slice(0, 4);
+  const margins = marginsInState(results, results.seats[0].stateSlug).reverse();
+  const closest = margins[0];
+  const closestWinner = closest && seatWinner(closest.seat);
+  const held = heldByeElections.filter((item) => election.states.includes(item.state) && item.countedOn > last.election.countingOn!);
+  const share = stateTurnout(results, results.seats[0].stateSlug);
+  const when = election.polls.length ? `Polling from ${formatDay(election.polls[0].date)}` : election.termEndsOn ? `The house's term ends ${formatDay(election.termEndsOn)}` : "Dates not announced yet";
+  return {
+    key: `upcoming/${election.id}`, template: "upcoming", title: `${state} votes in ${nextYear}`, link: `/elections/${election.id}`, name: state, color: BRAND,
+    scenes: [
+      { kind: "cover", kicker: `${state.toUpperCase()} · ${formatNumber(total)} SEATS`, title: `${state} votes in ${nextYear}`, subtitle: `${when}. Here is what happened last time.`, source: "Election Commission of India" },
+      { kind: "list", kicker: `${state.toUpperCase()} ASSEMBLY ${year}`, title: `Who won in ${year}`, note: `Seats won, and share of the vote (NOTA counted in the total)`, source,
+        rows: top.map((party) => ({ label: party.name, detail: `${party.share === null ? "" : `${party.share.toFixed(1)}% of votes`}`, value: `${party.seats} of ${total}`, width: Math.max((party.seats / total) * 100, 2), color: partyColor(party.code) })) },
+      ...(closest && closestWinner ? [{ kind: "big" as const, kicker: `CLOSEST FIGHT OF ${year}`, value: formatNumber(closest.margin), unit: closest.margin === 1 ? "vote" : "votes", line: `decided ${closest.seat.name}`, detail: `${closestWinner.name} (${closestWinner.party}) won`, highlight: true, source }] : []),
+      ...(held.length ? [{ kind: "big" as const, kicker: `SINCE ${year}`, value: String(held.length), unit: held.length === 1 ? "seat" : "seats", line: `${held.length === 1 ? "has" : "have"} voted again in a bye-election`, detail: held.slice(0, 4).map((item) => item.name).join(", ") + (held.length > 4 ? " and more" : ""), source: "ECI bye-election notices" }] : []),
+      ...(share !== null ? [{ kind: "big" as const, kicker: `TURNOUT IN ${year}`, value: `${share.toFixed(1)}%`, unit: "voted", line: `of ${state}'s registered voters`, source }] : []),
+      cta("Who won your seat?", `Every ${state} seat, its ${year} winner and the votes, from the Election Commission of India.`),
+    ],
+    caption: {
+      en: `${state} votes in ${nextYear}. Last time, ${top[0].name} won ${top[0].seats} of ${total} seats${closest ? `, and ${closest.seat.name} was decided by just ${formatNumber(closest.margin)} votes` : ""}. Find your seat and who won it on Vote Better. Source: Election Commission of India.`,
+      hi: `${state} mein ${nextYear} mein chunav hai. Pichhli baar ${top[0].name} ne ${total} mein se ${top[0].seats} seats jeeti${closest ? `, aur ${closest.seat.name} sirf ${formatNumber(closest.margin)} votes se decide hua` : ""}. Apni seat aur uska result Vote Better par dekho. Source: Election Commission of India.`,
+    },
+    hashtags: ["#VoteBetter", tag(`${state}Elections${nextYear}`), tag(state), "#FirstTimeVoter"],
+  };
+}
+
 const MP_SOURCE = "Constitution of India, Articles 75, 107 and 113 · MPLADS guidelines, Ministry of Statistics";
 
 function mpRoleDeck(): Deck {
@@ -275,13 +315,14 @@ function repsDeck(stateSlug: string, seatSlug: string): Deck | null {
 }
 
 // Deck keys are path segments: seat/<election>/<state>/<seat>, quiz/<election>/<state>/<seat>,
-// closest/<election>/<state>, mp-role, first-time-voter.
+// closest/<election>/<state>, upcoming/<election>, mp-role, first-time-voter.
 export function resolveDeck(parts: readonly string[]): Deck | null {
   const [template, id, state, seat, ...rest] = parts;
   if (rest.length) return null;
   if (template === "mp-role" && !id) return mpRoleDeck();
   if (template === "first-time-voter" && !id) return firstTimeVoterDeck();
   if (template === "reps") return id && state && !seat ? repsDeck(id, state) : null;
+  if (template === "upcoming") return id && !state ? upcomingDeck(id) : null;
   if (!id || !isResultElection(id) || !state) return null;
   if (template === "seat" && seat) return seatDeck(id, state, seat);
   if (template === "quiz" && seat) return quizDeck(id, state, seat);
