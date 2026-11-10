@@ -86,7 +86,12 @@ function LastTime({ election }: { election: Election }) {
         )}
       </ul>
       <p className="mt-3 text-xs text-subtle">Vote share counts NOTA in the total, as ECI&apos;s party report does.</p>
-      <p className="mt-4 text-sm"><Link href={href} className="font-semibold text-link underline underline-offset-4">Every seat&apos;s result, with its ECI source</Link></p>
+      <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm">
+        <Link href={`/share/upcoming/${election.id}`} className="inline-flex min-h-11 items-center gap-2 rounded-full bg-ink px-5 font-bold text-white transition hover:-translate-y-0.5">
+          <span className="text-pop" aria-hidden="true">↗</span> Share this on Instagram or YouTube
+        </Link>
+        <Link href={href} className="font-semibold text-link underline underline-offset-4">Every seat&apos;s result, with its ECI source</Link>
+      </div>
     </section>
   );
 }
