@@ -17,7 +17,7 @@ export default function RightsPage() {
   const helpline = currentDslsaHelpline();
   const explorerIds = ["peaceful-protest", "dispersal", "questioning", "preventive-action", "arrest-safeguards", "fir-process"];
   return <div className="mx-auto w-full max-w-[1360px] px-4 pb-16 pt-8 sm:px-6 lg:px-10">
-    <Link href="/delhi" className="inline-flex min-h-11 items-center text-sm font-semibold text-brand hover:underline">← Delhi directory</Link>
+    <Link href="/constitution" className="inline-flex min-h-11 items-center text-sm font-semibold text-brand hover:underline">← The Constitution, simply</Link>
     <header className="mt-5 border-b border-line pb-8">
       <p className="text-xs font-bold uppercase tracking-[0.16em] text-eyebrow">India&apos;s laws / Delhi context</p>
       <div className="mt-4 grid items-end gap-6 lg:grid-cols-[1fr_300px]">

@@ -49,7 +49,6 @@ export default function RootLayout({
               >
                 Constitution
               </Link>
-              <Link href="/delhi" className="text-body transition-colors hover:text-brand">Delhi</Link>
               {process.env.NODE_ENV === "development" && <Link href="/mps" className="text-body transition-colors hover:text-brand">MPs</Link>}
               <Link
                 href="/about"
