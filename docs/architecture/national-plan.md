@@ -18,7 +18,7 @@ Every screen answers four questions, in this order:
 | Need | Today | Gap |
 | --- | --- | --- |
 | Find your area | 2 Jaipur areas, PIN preview in development | No national area list or location search |
-| Who represents you | 540 MPs from Digital Sansad (local export), Delhi preview | No MLAs or local bodies; MP export not public |
+| Who represents you | 540 MPs from Digital Sansad (local export) | No MLAs or local bodies; MP export not public |
 | How they got there | Full 2024 result only for Jaipur | No results for the other 541 seats |
 | What they declared | Jaipur affidavits, entered by hand | Nothing national |
 | What they did | Questions and debates for 2 MPs | Not collected for the other 538 |

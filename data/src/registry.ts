@@ -4,7 +4,6 @@ import type pg from "pg";
 
 import { openBlobStore } from "./blob-store.js";
 import { runAllBiographyBatches, rosterIds, missingBiographyIds } from "./batch-sansad-biographies.js";
-import { importInitialDelhiSources } from "./delhi/import.js";
 import { collectEciGe2024References, importEciGe2024 } from "./import-eci-2024.js";
 import { ECI_HISTORY, importEciHistory } from "./import-eci-history.js";
 import { importEciAssembly } from "./import-eci-assembly.js";
@@ -305,26 +304,6 @@ export const registry: SourceDefinition[] = [
       const publication = await collectWorks(targets, webImport("mplads-works.json"), raw("mplads"));
       const works = publication.members.reduce((sum, member) => sum + member.works.length, 0);
       return { outcome: "succeeded", items: works, detail: `${publication.members.length} members, ${works} works` };
-    },
-  },
-  {
-    id: "delhi-directory",
-    title: "Delhi government, MPs and office directory",
-    owner: "Government of NCT of Delhi",
-    url: "https://delhi.gov.in/",
-    format: "html",
-    refreshDays: 1,
-    reuse: { status: "to-confirm", note: "Official directory pages; tenure and reuse still under review." },
-    supplies: ["delhi.office", "delhi.appointment"],
-    review: "per-fact",
-    async run({ pool, store }) {
-      const results = await importInitialDelhiSources(pool, store, openBlobStore("delhi/"));
-      const failed = results.filter((item) => item.outcome !== "succeeded");
-      return {
-        outcome: failed.length === results.length ? "failed" : failed.length ? "partial" : "succeeded",
-        items: results.reduce((sum, item) => sum + item.drafts, 0),
-        detail: `${results.length - failed.length}/${results.length} pages collected`,
-      };
     },
   },
 ];

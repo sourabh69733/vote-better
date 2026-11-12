@@ -60,7 +60,7 @@ Scheduled workflows run only from the default branch, so the scheduled sync star
 3. Add the environment variable `NEXT_PUBLIC_SITE_URL` with the public address, for example `https://votebetter.in`. Link previews and share images use it.
 4. Add the domain.
 
-These stay off in production because their files are not in the repository: PIN search (`PIN_LOOKUP_FILE`, decision 8), the Sansad MP directory (`VOTE_BETTER_MP_EXPORT`, decision 5) and the Delhi publication (`DELHI_PUBLICATION_PATH`). Research and mockup pages answer only in development.
+These stay off in production because their files are not in the repository: PIN search (`PIN_LOOKUP_FILE`, decision 8), and the Sansad MP directory (`VOTE_BETTER_MP_EXPORT`, decision 5). Research and mockup pages answer only in development.
 
 ## Day to day
 

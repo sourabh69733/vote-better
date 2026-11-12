@@ -161,15 +161,6 @@
       "refreshDays": 7,
       "lastChecked": null,
       "failing": false
-    },
-    {
-      "id": "delhi-directory",
-      "title": "Delhi government, MPs and office directory",
-      "owner": "Government of NCT of Delhi",
-      "url": "https://delhi.gov.in/",
-      "refreshDays": 1,
-      "lastChecked": null,
-      "failing": false
     }
   ]
 }
