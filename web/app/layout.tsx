@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import QuestListener from "@/components/quests/QuestListener";
 import { Bricolage_Grotesque, Plus_Jakarta_Sans } from "next/font/google";
 import Link from "next/link";
@@ -8,13 +8,19 @@ import "./globals.css";
 const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-display-face", axes: ["opsz"] });
 const body = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-body-face" });
 
+const DESCRIPTION = "Who won your seat, what they did in Parliament, and who is on the ballot next. Every fact links to its official source.";
+
 export const metadata: Metadata = {
   // Set NEXT_PUBLIC_SITE_URL in production so link previews point at the public address.
   ...(process.env.NEXT_PUBLIC_SITE_URL ? { metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL) } : {}),
   title: "Vote Better",
-  description:
-    "Explore sourced public records about elected representatives and candidates in India.",
+  description: DESCRIPTION,
+  applicationName: "Vote Better",
+  openGraph: { type: "website", siteName: "Vote Better", locale: "en_IN", title: "Vote Better", description: DESCRIPTION },
+  twitter: { card: "summary_large_image" },
 };
+
+export const viewport: Viewport = { themeColor: "#f7f6f0" };
 
 export default function RootLayout({
   children,
