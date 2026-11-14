@@ -1,0 +1,124 @@
+name: Data sync
+
+# Runs every source that is due, rebuilds the site data and puts any change in one pull request.
+# Nothing is published until a person merges that pull request. Setup: docs/operations/deploy.md.
+
+on:
+  schedule:
+    # Hourly; each source's refresh interval decides whether it runs. Most sources run daily or
+    # weekly; candidate lists run every few hours while an election is between announcement and polling.
+    - cron: "15 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: data-sync
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  sync:
+    name: Sync and export
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    defaults:
+      run:
+        shell: bash
+        working-directory: data
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      BLOB_BUCKET: ${{ secrets.BLOB_BUCKET }}
+      BLOB_ENDPOINT: ${{ secrets.BLOB_ENDPOINT }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.BLOB_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.BLOB_SECRET_ACCESS_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: data/package-lock.json
+      - run: npm ci
+
+      - name: Check settings
+        run: |
+          for name in DATABASE_URL BLOB_BUCKET BLOB_ENDPOINT AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY; do
+            if [ -z "${!name}" ]; then echo "::error::Secret for $name is not set. See docs/operations/deploy.md."; exit 1; fi
+          done
+
+      # A failed source does not stop the export: what did succeed is still worth reviewing.
+      - name: Sync due sources
+        id: sync
+        continue-on-error: true
+        run: npm run sync -- --due 2>&1 | tee "$RUNNER_TEMP/sync.log"
+
+      # Most hours nothing is due; then there is nothing to export or report.
+      - name: Check whether anything ran
+        id: ran
+        run: |
+          if grep -q '^Nothing is due' "$RUNNER_TEMP/sync.log"; then echo "any=false" >> "$GITHUB_OUTPUT"; else echo "any=true" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Rebuild site data
+        if: steps.ran.outputs.any == 'true'
+        run: npm run export:all 2>&1 | tee "$RUNNER_TEMP/export.log"
+
+      - name: Write the pull request summary
+        if: steps.ran.outputs.any == 'true'
+        run: |
+          {
+            echo "Changes found by the scheduled sync on $(date -u +%F). Check them before merging; merging publishes them."
+            echo
+            echo "**Sources run**"
+            echo '```'
+            grep -E '^(▶|  (succeeded|partial|failed):)|^Nothing is due' "$RUNNER_TEMP/sync.log" || echo "(no sync output)"
+            echo '```'
+            echo "**Export**"
+            echo '```'
+            cat "$RUNNER_TEMP/export.log"
+            echo '```'
+          } > "$RUNNER_TEMP/pr-body.md"
+
+      - name: Open or update the data pull request
+        if: steps.ran.outputs.any == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          # A token other than GITHUB_TOKEN lets CI run on the pull request; GITHUB_TOKEN works without it.
+          token: ${{ secrets.DATA_PR_TOKEN || github.token }}
+          branch: data-sync
+          base: main
+          add-paths: web/records
+          commit-message: Update site data from the scheduled sync
+          title: Data update from the scheduled sync
+          body-path: ${{ runner.temp }}/pr-body.md
+          labels: data-update
+          delete-branch: true
+
+      - name: Report failed sources
+        if: steps.sync.outcome == 'failure' || failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create sync-failure --color B60205 --description "The scheduled data sync failed" --force
+          {
+            echo "The scheduled data sync failed on $(date -u +%F): [run log]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)."
+            echo
+            echo '```'
+            grep -E '^(▶|  (partial|failed):)' "$RUNNER_TEMP/sync.log" 2>/dev/null | tail -40 || true
+            echo '```'
+            echo "A failed source is retried after 1, 2, 4 hours and so on, up to a week. This issue closes on the next sync with no failures."
+          } > "$RUNNER_TEMP/alert.md"
+          open=$(gh issue list --label sync-failure --state open --json number --jq '.[0].number')
+          if [ -n "$open" ]; then gh issue comment "$open" --body-file "$RUNNER_TEMP/alert.md"
+          else gh issue create --title "Scheduled data sync failed" --label sync-failure --body-file "$RUNNER_TEMP/alert.md"; fi
+
+      - name: Close the alert after a clean run
+        if: steps.sync.outcome == 'success' && steps.ran.outputs.any == 'true' && success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for number in $(gh issue list --label sync-failure --state open --json number --jq '.[].number'); do
+            gh issue close "$number" --comment "The sync on $(date -u +%F) ran with no failures: [run log]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)."
+          done

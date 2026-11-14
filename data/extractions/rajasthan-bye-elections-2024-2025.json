@@ -1,0 +1,760 @@
+{
+  "status": "unreviewed-transcription",
+  "method": "manual-from-page-image",
+  "transcribedBy": "Claude (AI), reading the scanned page images; needs a person to compare it with each document",
+  "transcribedOn": "2026-11-01",
+  "returns": [
+    {
+      "electionId": "rajasthan-bye-elections-november-2024",
+      "sourceUrl": "https://election.rajasthan.gov.in/Bye_Election%20Nov2024/ElectionResults/Form21E/Form21E-27.pdf",
+      "snapshotSha256": "ffcb536a20d47b0de07e45fbcc01432899dd719ef81e1a4b78be61cdc8071793",
+      "page": 1,
+      "constituency": {
+        "number": 27,
+        "name": "Jhunjhunu",
+        "raw": "27-Jhunjhunu"
+      },
+      "documentDate": {
+        "raw": "23rd Nov., 2024",
+        "value": "2024-11-23"
+      },
+      "candidates": [
+        {
+          "row": 1,
+          "name": "Amit Ola",
+          "party": "Indian National Congress",
+          "votes": 47577
+        },
+        {
+          "row": 2,
+          "name": "Rajendra Bhamboo",
+          "party": "Bharatiya Janata Party",
+          "votes": 90425
+        },
+        {
+          "row": 3,
+          "name": "Amin",
+          "party": "Aazad Samaj Party (Kanshi Ram)",
+          "votes": 2043
+        },
+        {
+          "row": 4,
+          "name": "Madhu Murarka",
+          "party": "Rashtriya Mangalam Party",
+          "votes": 265
+        },
+        {
+          "row": 5,
+          "name": "Amit",
+          "party": "Independent",
+          "votes": 144
+        },
+        {
+          "row": 6,
+          "name": "Amit Kumar",
+          "party": "Independent",
+          "votes": 123
+        },
+        {
+          "row": 7,
+          "name": "Altif",
+          "party": "Independent",
+          "votes": 77
+        },
+        {
+          "row": 8,
+          "name": "Kailash Das Maharaj",
+          "party": "Independent",
+          "votes": 159
+        },
+        {
+          "row": 9,
+          "name": "Dan Singh Shekhawat",
+          "party": "Independent",
+          "votes": 1286
+        },
+        {
+          "row": 10,
+          "name": "Nisha Kanwar",
+          "party": "Independent",
+          "votes": 425
+        },
+        {
+          "row": 11,
+          "name": "Rajendra Singh Gudha",
+          "party": "Independent",
+          "votes": 38751
+        }
+      ],
+      "totals": {
+        "electors": 278008,
+        "validVotes": 181275,
+        "notaVotes": 1365,
+        "rejectedVotes": 296,
+        "tenderedVotes": 5
+      },
+      "elected": {
+        "row": 2,
+        "raw": "Shri Rajendra Bhamboo"
+      }
+    },
+    {
+      "electionId": "rajasthan-bye-elections-november-2024",
+      "sourceUrl": "https://election.rajasthan.gov.in/Bye_Election%20Nov2024/ElectionResults/Form21E/Form21E-67.pdf",
+      "snapshotSha256": "341820a12bb6fe15649fda9081e2f453c20957b68b8af56d695b737038ded30d",
+      "page": 1,
+      "constituency": {
+        "number": 67,
+        "name": "Ramgarh",
+        "raw": "67-Ramgarh"
+      },
+      "documentDate": {
+        "raw": "23 November, 2024",
+        "value": "2024-11-23"
+      },
+      "candidates": [
+        {
+          "row": 1,
+          "name": "Aryaan Zubair",
+          "party": "Indian National Congress",
+          "votes": 95175
+        },
+        {
+          "row": 2,
+          "name": "Sukhavant Singh",
+          "party": "Bharatiya Janata Party",
+          "votes": 108811
+        },
+        {
+          "row": 3,
+          "name": "Desh Bandhu",
+          "party": "Aam Nagrik Yuva Party",
+          "votes": 515
+        },
+        {
+          "row": 4,
+          "name": "Ramesh",
+          "party": "Indian Peoples Green Party",
+          "votes": 145
+        },
+        {
+          "row": 5,
+          "name": "Suman",
+          "party": "Aazad Samaj Party (Kanshi Ram)",
+          "votes": 331
+        },
+        {
+          "row": 6,
+          "name": "Anup Kumar",
+          "party": "Independent",
+          "votes": 75
+        },
+        {
+          "row": 7,
+          "name": "Jaisingh",
+          "party": "Independent",
+          "votes": 71
+        },
+        {
+          "row": 8,
+          "name": "Mukesh Kumar Chaudhary",
+          "party": "Independent",
+          "votes": 120
+        },
+        {
+          "row": 9,
+          "name": "Ramsingh Kasana",
+          "party": "Independent",
+          "votes": 179
+        },
+        {
+          "row": 10,
+          "name": "Advocate Vijay Choudhary",
+          "party": "Independent",
+          "votes": 672
+        }
+      ],
+      "totals": {
+        "electors": 275070,
+        "validVotes": 206094,
+        "notaVotes": 798,
+        "rejectedVotes": 78,
+        "tenderedVotes": 3
+      },
+      "elected": {
+        "row": 2,
+        "raw": "Shri Sukhavant Singh"
+      }
+    },
+    {
+      "electionId": "rajasthan-bye-elections-november-2024",
+      "sourceUrl": "https://election.rajasthan.gov.in/Bye_Election%20Nov2024/ElectionResults/Form21E/Form21E-88.pdf",
+      "snapshotSha256": "144256766c1ffac6663bbff650eddba5dcbf0ac9e7f9509c6c8eb80699a5967f",
+      "page": 1,
+      "constituency": {
+        "number": 88,
+        "name": "Dausa",
+        "raw": "(088) Dausa"
+      },
+      "documentDate": {
+        "raw": "23-11-2024",
+        "value": "2024-11-23"
+      },
+      "candidates": [
+        {
+          "row": 1,
+          "name": "Jag Mohan",
+          "party": "Bharatiya Janata Party",
+          "votes": 73236
+        },
+        {
+          "row": 2,
+          "name": "Deen Dayal",
+          "party": "Indian National Congress",
+          "votes": 75536
+        },
+        {
+          "row": 3,
+          "name": "Dulichand Saini",
+          "party": "Rajasthan Raj Party",
+          "votes": 758
+        },
+        {
+          "row": 4,
+          "name": "Beni Prasad Kaushik",
+          "party": "Rashtriya Sawarn Dal",
+          "votes": 231
+        },
+        {
+          "row": 5,
+          "name": "Mohan Lal",
+          "party": "Right To Recall Party",
+          "votes": 154
+        },
+        {
+          "row": 6,
+          "name": "Ritu Sharma",
+          "party": "Indian Peoples Green Party",
+          "votes": 411
+        },
+        {
+          "row": 7,
+          "name": "Devi Singh",
+          "party": "Independent",
+          "votes": 306
+        },
+        {
+          "row": 8,
+          "name": "Pooranmal Mourya",
+          "party": "Independent",
+          "votes": 302
+        },
+        {
+          "row": 9,
+          "name": "Makhan Lal Meena",
+          "party": "Independent",
+          "votes": 208
+        },
+        {
+          "row": 10,
+          "name": "Dr. Ram Roop Meena, Advocate",
+          "party": "Independent",
+          "votes": 97
+        },
+        {
+          "row": 11,
+          "name": "Vijay",
+          "party": "Independent",
+          "votes": 172
+        },
+        {
+          "row": 12,
+          "name": "Vipra Goyal",
+          "party": "Independent",
+          "votes": 1369
+        }
+      ],
+      "totals": {
+        "electors": 246424,
+        "validVotes": 152780,
+        "notaVotes": 908,
+        "rejectedVotes": 52,
+        "tenderedVotes": 3
+      },
+      "elected": {
+        "row": 2,
+        "raw": "Deen Dayal"
+      }
+    },
+    {
+      "electionId": "rajasthan-bye-elections-november-2024",
+      "sourceUrl": "https://election.rajasthan.gov.in/Bye_Election%20Nov2024/ElectionResults/Form21E/Form21E-97.pdf",
+      "snapshotSha256": "13384b702f11cdb2bd3aaabb9c00599fd41811e6f2caec3d35da25fb2b0897f7",
+      "page": 1,
+      "constituency": {
+        "number": 97,
+        "name": "Deoli-Uniara",
+        "raw": "97-Deoli-Uniara"
+      },
+      "documentDate": {
+        "raw": "23-11-2024",
+        "value": "2024-11-23"
+      },
+      "candidates": [
+        {
+          "row": 1,
+          "name": "KASTOOR CHAND MEENA",
+          "party": "Indian National Congress",
+          "votes": 31385
+        },
+        {
+          "row": 2,
+          "name": "RAJENDRA GURJAR",
+          "party": "Bharatiya Janata Party",
+          "votes": 100599
+        },
+        {
+          "row": 3,
+          "name": "YOGESH KUMAR SHARMA",
+          "party": "Right to Recall Party",
+          "votes": 1377
+        },
+        {
+          "row": 4,
+          "name": "JASRAM MEENA",
+          "party": "Independent",
+          "votes": 859
+        },
+        {
+          "row": 5,
+          "name": "DINESH KUMAR PRAJAPAT",
+          "party": "Independent",
+          "votes": 894
+        },
+        {
+          "row": 6,
+          "name": "NARESH MEENA",
+          "party": "Independent",
+          "votes": 59478
+        },
+        {
+          "row": 7,
+          "name": "PRAHALAD MALI",
+          "party": "Independent",
+          "votes": 1207
+        },
+        {
+          "row": 8,
+          "name": "SHAKEELURAHMAN",
+          "party": "Independent",
+          "votes": 1084
+        }
+      ],
+      "totals": {
+        "electors": 303246,
+        "validVotes": 196883,
+        "notaVotes": 1519,
+        "rejectedVotes": 45,
+        "tenderedVotes": 2
+      },
+      "elected": {
+        "row": 2,
+        "raw": "RAJENDRA GURJAR"
+      }
+    },
+    {
+      "electionId": "rajasthan-bye-elections-november-2024",
+      "sourceUrl": "https://election.rajasthan.gov.in/Bye_Election%20Nov2024/ElectionResults/Form21E/Form21E-110.pdf",
+      "snapshotSha256": "13acf0005fecbde39ee724790251a805bbe83579d69ae3aadb4311148624c120",
+      "page": 1,
+      "constituency": {
+        "number": 110,
+        "name": "Khinwsar",
+        "raw": "110-Khinwsar"
+      },
+      "documentDate": {
+        "raw": "23 November 2024",
+        "value": "2024-11-23"
+      },
+      "candidates": [
+        {
+          "row": 1,
+          "name": "KANIKA BENIWAL",
+          "party": "Rashtriya Loktantrik Party",
+          "votes": 94727
+        },
+        {
+          "row": 2,
+          "name": "Dr. RATAN CHAUDHARY",
+          "party": "Indian National Congress",
+          "votes": 5454
+        },
+        {
+          "row": 3,
+          "name": "REWANT RAM DANGA",
+          "party": "Bharatiya Janata Party",
+          "votes": 108628
+        },
+        {
+          "row": 4,
+          "name": "KISHNA RAM",
+          "party": "National Janmandal Party",
+          "votes": 1155
+        },
+        {
+          "row": 5,
+          "name": "BHIM RATAN",
+          "party": "Bharat Rakshak Party (Democratic)",
+          "votes": 1112
+        },
+        {
+          "row": 6,
+          "name": "OM PRAKASH SEN",
+          "party": "Independent",
+          "votes": 239
+        },
+        {
+          "row": 7,
+          "name": "JAGDISH",
+          "party": "Independent",
+          "votes": 210
+        },
+        {
+          "row": 8,
+          "name": "JETA RAM",
+          "party": "Independent",
+          "votes": 235
+        },
+        {
+          "row": 9,
+          "name": "NEMI CHAND",
+          "party": "Independent",
+          "votes": 340
+        },
+        {
+          "row": 10,
+          "name": "RAKESH",
+          "party": "Independent",
+          "votes": 628
+        },
+        {
+          "row": 11,
+          "name": "RAJ KUMAR JAT",
+          "party": "Independent",
+          "votes": 1264
+        },
+        {
+          "row": 12,
+          "name": "RAM BABU",
+          "party": "Independent",
+          "votes": 854
+        }
+      ],
+      "totals": {
+        "electors": 286813,
+        "validVotes": 214846,
+        "notaVotes": 2155,
+        "rejectedVotes": 65,
+        "tenderedVotes": 8
+      },
+      "elected": {
+        "row": 3,
+        "raw": "SHRI REWANT RAM DANGA"
+      }
+    },
+    {
+      "electionId": "rajasthan-bye-elections-november-2024",
+      "sourceUrl": "https://election.rajasthan.gov.in/Bye_Election%20Nov2024/ElectionResults/Form21E/Form21E-156.pdf",
+      "snapshotSha256": "7affb4e031b330ef840180fe34839b7d66cfa4b0b677317ddff3f2d94c2ea775",
+      "page": 1,
+      "constituency": {
+        "number": 156,
+        "name": "Salumber",
+        "raw": "156-Salumber (ST)"
+      },
+      "documentDate": {
+        "raw": "23 November 2024",
+        "value": "2024-11-23"
+      },
+      "candidates": [
+        {
+          "row": 1,
+          "name": "Reshma Meena",
+          "party": "Indian National Congress",
+          "votes": 26760
+        },
+        {
+          "row": 2,
+          "name": "Shanta Amrit Lal Meena",
+          "party": "Bharatiya Janata Party",
+          "votes": 84428
+        },
+        {
+          "row": 3,
+          "name": "Keshulal Meena",
+          "party": "Ambedkarite Party of India",
+          "votes": 2534
+        },
+        {
+          "row": 4,
+          "name": "Jitesh Kumar Katara",
+          "party": "Bharat Adivasi Party",
+          "votes": 83143
+        },
+        {
+          "row": 5,
+          "name": "Shankar Lal Meena",
+          "party": "Communist Party of India (Marxist-Leninist) (Liberation)",
+          "votes": 1771
+        },
+        {
+          "row": 6,
+          "name": "Dr. Savita Kumari Ahari",
+          "party": "Independent",
+          "votes": 1286
+        }
+      ],
+      "totals": {
+        "electors": 298002,
+        "validVotes": 199922,
+        "notaVotes": 2560,
+        "rejectedVotes": 80,
+        "tenderedVotes": 2
+      },
+      "elected": {
+        "row": 2,
+        "raw": "Shrimati Shanta Amrit Lal Meena"
+      }
+    },
+    {
+      "electionId": "rajasthan-bye-elections-november-2024",
+      "sourceUrl": "https://election.rajasthan.gov.in/Bye_Election%20Nov2024/ElectionResults/Form21E/Form21E-161.pdf",
+      "snapshotSha256": "93aef9e7dbe67cb2cf4789a79b22a79867dec600576e0c8f8b6a4b13fb323e7c",
+      "page": 1,
+      "constituency": {
+        "number": 161,
+        "name": "Chorasi",
+        "raw": "161-Chorasi (ST)"
+      },
+      "documentDate": {
+        "raw": "23 November 2024",
+        "value": "2024-11-23"
+      },
+      "candidates": [
+        {
+          "row": 1,
+          "name": "Karilal",
+          "party": "Bharatiya Janata Party",
+          "votes": 64791
+        },
+        {
+          "row": 2,
+          "name": "Mahesh Roat",
+          "party": "Indian National Congress",
+          "votes": 15915
+        },
+        {
+          "row": 3,
+          "name": "Anil Kumar Katara",
+          "party": "Bharat Adivasi Party",
+          "votes": 89161
+        },
+        {
+          "row": 4,
+          "name": "Laxman Lal Pargi",
+          "party": "Bahujan Mukti Party",
+          "votes": 1236
+        },
+        {
+          "row": 5,
+          "name": "Shankarlal Bamaniya",
+          "party": "Indian Peoples Green Party",
+          "votes": 682
+        },
+        {
+          "row": 6,
+          "name": "Anil Kumar Katara",
+          "party": "Independent",
+          "votes": 6652
+        },
+        {
+          "row": 7,
+          "name": "Jivram",
+          "party": "Independent",
+          "votes": 2807
+        },
+        {
+          "row": 8,
+          "name": "Pravesh Kumar",
+          "party": "Independent",
+          "votes": 1526
+        },
+        {
+          "row": 9,
+          "name": "Badamilal",
+          "party": "Independent",
+          "votes": 2873
+        },
+        {
+          "row": 10,
+          "name": "Vali Meena",
+          "party": "Independent",
+          "votes": 1347
+        }
+      ],
+      "totals": {
+        "electors": 255387,
+        "validVotes": 186990,
+        "notaVotes": 3144,
+        "rejectedVotes": 39,
+        "tenderedVotes": 8
+      },
+      "elected": {
+        "row": 3,
+        "raw": "Anil Kumar Katara"
+      }
+    },
+    {
+      "electionId": "rajasthan-bye-election-anta-2025",
+      "sourceUrl": "https://election.rajasthan.gov.in/Bye-Election_Nov2025/21%20E.pdf",
+      "snapshotSha256": "e160342157e7fc766f2b24d9645afaaeb97da465799b1fcc3be84c5ab91493df",
+      "page": 2,
+      "constituency": {
+        "number": 193,
+        "name": "Anta",
+        "raw": "193- Anta"
+      },
+      "documentDate": {
+        "raw": "November 14, 2025",
+        "value": "2025-11-14"
+      },
+      "candidates": [
+        {
+          "row": 1,
+          "name": "Pramod Jain \"Bhaya\"",
+          "party": "Indian National Congress",
+          "votes": 69571
+        },
+        {
+          "row": 2,
+          "name": "Morpal Suman",
+          "party": "Bharatiya Janata Party",
+          "votes": 53959
+        },
+        {
+          "row": 3,
+          "name": "Yogesh Kumar Sharma Brahman",
+          "party": "Right to Recall Party",
+          "votes": 680
+        },
+        {
+          "row": 4,
+          "name": "Rajpal Singh Shekhawat",
+          "party": "Parivartan Party of India",
+          "votes": 167
+        },
+        {
+          "row": 5,
+          "name": "Jamil Ahmed",
+          "party": "Independent",
+          "votes": 121
+        },
+        {
+          "row": 6,
+          "name": "Dildar",
+          "party": "Independent",
+          "votes": 456
+        },
+        {
+          "row": 7,
+          "name": "Dharamveer Bairwa Saheb",
+          "party": "Independent",
+          "votes": 612
+        },
+        {
+          "row": 8,
+          "name": "Naresh",
+          "party": "Independent",
+          "votes": 879
+        },
+        {
+          "row": 9,
+          "name": "Naresh Meena",
+          "party": "Independent",
+          "votes": 53800
+        },
+        {
+          "row": 10,
+          "name": "Naushad",
+          "party": "Independent",
+          "votes": 345
+        },
+        {
+          "row": 11,
+          "name": "Pankaj Pajantorivala",
+          "party": "Independent",
+          "votes": 294
+        },
+        {
+          "row": 12,
+          "name": "Pukharaj Sonel",
+          "party": "Independent",
+          "votes": 143
+        },
+        {
+          "row": 13,
+          "name": "Banshilal",
+          "party": "Independent",
+          "votes": 238
+        },
+        {
+          "row": 14,
+          "name": "Bilal Khan",
+          "party": "Independent",
+          "votes": 551
+        },
+        {
+          "row": 15,
+          "name": "Manjur Alam",
+          "party": "Independent",
+          "votes": 628
+        }
+      ],
+      "totals": {
+        "electors": 228264,
+        "validVotes": 182444,
+        "notaVotes": 925,
+        "rejectedVotes": 28,
+        "tenderedVotes": 6
+      },
+      "elected": {
+        "row": 1,
+        "raw": "Pramod Jain \"Bhaya\""
+      }
+    }
+  ],
+  "declarations": [
+    {
+      "electionId": "rajasthan-bye-election-bagidora-2024",
+      "sourceUrl": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/Notifications/Gazette%20Notification%20dated%2004.06.2024%20for%20165-Bagidora%20-%20Declaration%20of%20Result.pdf",
+      "snapshotSha256": "ea0cedb411cc0a4af265c3dcc98f376a868a91a36ef5ec9e59c041da1f146e27",
+      "page": 1,
+      "constituency": {
+        "number": 165,
+        "name": "Bagidora",
+        "raw": "165-बागीदोरा (अ.ज.जा.)"
+      },
+      "documentDate": {
+        "raw": "04 जून, 2024",
+        "value": "2024-06-04"
+      },
+      "elected": {
+        "name": "Jaikrishna Patel",
+        "raw": "श्री जयकृष्ण पटेल",
+        "party": "Bharat Adivasi Party",
+        "partyRaw": "भारत आदिवासी पार्टी"
+      },
+      "note": "The gazette declares the winner only; it gives no vote counts. The English spelling of the name is a transliteration."
+    }
+  ]
+}

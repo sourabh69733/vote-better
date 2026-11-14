@@ -1,0 +1,117 @@
+import type { CareerEventRecord, PersonBackgroundRecord, SourceRecord } from "@/lib/civic-records";
+
+export const otherBackgrounds: PersonBackgroundRecord[] = [{
+  id: "rao-digital-sansad-background",
+  personId: "rao-rajendra-singh",
+  educationDetail: "Honours in Public Administration, Rajasthan University",
+  workDescription: "Agriculturist",
+  context: "Digital Sansad member biography",
+  sourceId: "rao-member",
+}];
+
+export const jaipurCareerEvents: CareerEventRecord[] = [
+  {
+    id: "manju-ma-1983",
+    personId: "manju-sharma",
+    kind: "education",
+    title: "M.A., Rajasthan University",
+    period: "1983",
+    sortOn: "1983-01-01",
+    sourceId: "prs-manju-candidate-profile-2024",
+  },
+  {
+    id: "manju-llb-2004",
+    personId: "manju-sharma",
+    kind: "education",
+    title: "LL.B. (academic), Rajasthan University",
+    period: "2004",
+    sortOn: "2004-01-01",
+    sourceId: "prs-manju-candidate-profile-2024",
+  },
+  {
+    id: "manju-hawa-mahal-2008",
+    personId: "manju-sharma",
+    kind: "election",
+    title: "Hawa Mahal Assembly election, runner-up with 44,346 votes",
+    period: "2008",
+    sortOn: "2008-12-08",
+    partyAtEvent: "Bharatiya Janata Party",
+    sourceId: "eci-manju-hawa-mahal-2008",
+  },
+  {
+    id: "manju-pravasi-jaipur-2024",
+    personId: "manju-sharma",
+    kind: "party",
+    title: "Jaipur in-charge, Rajasthan Mahila Pravasi Abhiyan",
+    period: "By March 2024",
+    sortOn: "2024-03-25",
+    sourceId: "ndtv-manju-pravasi-2024",
+  },
+  {
+    id: "manju-jewellery-2024",
+    personId: "manju-sharma",
+    kind: "work",
+    title: "Declared jewellery business as her profession",
+    period: "2024",
+    sortOn: "2024-04-01",
+    sourceId: "adr-jaipur-2024-417",
+  },
+  {
+    id: "rao-rajasthan-mla-2003-2018",
+    personId: "rao-rajendra-singh",
+    title: "Member, Rajasthan Legislative Assembly",
+    period: "2003-2018",
+    sortOn: "2003-01-01",
+    sourceId: "rao-member",
+  },
+  {
+    id: "pratap-civil-lines-mla-2018",
+    personId: "jaipur-lok-sabha-2024-candidate-row-01",
+    title: "Elected MLA, Civil Lines",
+    period: "2018",
+    sortOn: "2018-01-01",
+    partyAtEvent: "Indian National Congress",
+    sourceId: "pratap-rajasthan-assembly-2018",
+  },
+  {
+    id: "pratap-transport-minister-2018-19",
+    personId: "jaipur-lok-sabha-2024-candidate-row-01",
+    title: "Listed as Transport Minister, Rajasthan",
+    period: "2018-19",
+    sortOn: "2019-01-01",
+    sourceId: "pratap-transport-abstract-2018-19",
+  },
+];
+
+export const jaipurCareerSources: SourceRecord[] = [
+  {
+    id: "prs-manju-candidate-profile-2024",
+    title: "PRS 2024 candidate record, education from ECI filing",
+    url: "https://prsindia.org/files/general-election-2024/General_Election_2024_Phase_I_Candidates.pdf#page=116",
+    checkedOn: "2026-10-06",
+  },
+  {
+    id: "eci-manju-hawa-mahal-2008",
+    title: "Election Commission, Hawa Mahal 2008 result",
+    url: "https://election.rajasthan.gov.in/constituency-summry.pdf#page=49",
+    checkedOn: "2026-10-06",
+  },
+  {
+    id: "ndtv-manju-pravasi-2024",
+    title: "NDTV Rajasthan, party role reported 25 March 2024",
+    url: "https://rajasthan.ndtv.in/rajasthan-news/who-is-manju-sharma-bjp-made-candidate-from-jaipur-city-seat-by-cutting-the-ticket-of-mp-ramcharan-bohra-5304210",
+    checkedOn: "2026-10-06",
+  },
+  {
+    id: "pratap-rajasthan-assembly-2018",
+    title: "Rajasthan CEO, 2018 Assembly successful candidates",
+    url: "https://election.rajasthan.gov.in/Vidhansabha%202018/Notification.pdf",
+    checkedOn: "2026-10-06",
+  },
+  {
+    id: "pratap-transport-abstract-2018-19",
+    title: "Rajasthan Transport Department statistical abstract 2018-19",
+    url: "https://www.tourism.rajasthan.gov.in/content/dam/transport/transport-dept/pdf/statistical-abstract2018-19/Trasport%20Department%20Abstract%20Book%2018-19.pdf",
+    checkedOn: "2026-10-06",
+  },
+];

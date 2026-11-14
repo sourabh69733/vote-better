@@ -1,17 +1,52 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-inter);
-  --color-background: #f8fafc;
-  --color-foreground: #0f172a;
+  --font-sans: var(--font-body-face), system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-display-face), var(--font-body-face), system-ui, sans-serif;
+  --color-background: var(--color-canvas);
+  --color-foreground: var(--color-ink);
+}
+
+/* Design tokens. Use these names (text-ink, bg-brand, border-line ...) instead of hex values.
+   Party colours come from lib/party-colors.ts and are only for telling parties apart, so the site's
+   own accents (emerald, violet, lime) avoid every major party's colour. */
+@theme {
+  --color-canvas: #f7f6f0;
+  --color-surface: #ffffff;
+  --color-surface-soft: #fbfaf6;
+  --color-tint: #e9f6ee;
+  --color-track: #efeee6;
+  --color-ink: #0f2a20;
+  --color-body: #3b5046;
+  --color-muted: #5c6e64;
+  --color-subtle: #75847b;
+  --color-eyebrow: #0c7a50;
+  --color-link: #0a6a45;
+  --color-brand: #0a6a45;
+  --color-brand-strong: #075236;
+  --color-line: #e3e1d6;
+  --color-line-soft: #ebe9e0;
+  --color-line-strong: #cdcabb;
+  --color-you: #6a3fd1;
+  --color-you-soft: #f2edfd;
+  --color-story: #0f2a20;
+  --color-pop: #c6f16a;
+  --color-pop-soft: #eefbd2;
+  --color-warn: #8a6a1c;
 }
 
 body {
-  background-color: #f8fafc;
-  color: #0f172a;
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings use the display face everywhere, so older pages pick it up too. */
+h1, h2, h3, .font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
 }
 
 /* Force light mode — no dark mode overrides */
@@ -22,12 +57,12 @@ html {
 /* Soft input styling */
 input[type="text"],
 input[inputmode="numeric"] {
-  background-color: #ffffff;
-  color: #0f172a;
+  background-color: var(--color-surface);
+  color: var(--color-ink);
 }
 
 input::placeholder {
-  color: #94a3b8;
+  color: var(--color-subtle);
 }
 
 /* Smooth transitions */
@@ -41,4 +76,53 @@ input::placeholder {
 *::before,
 *::after {
   transition: none;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes growX {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes growY {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(28px);
+  }
+}
+
+/* Desktop scroll story: sections rise as they enter the view. Movement only,
+   never transparency, so content is always fully visible. Browsers without
+   scroll-driven animations simply show the content. */
+@supports (animation-timeline: view()) {
+  @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+    .scroll-reveal {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
 }

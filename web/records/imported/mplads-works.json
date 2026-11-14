@@ -1,0 +1,3844 @@
+{
+  "schemaVersion": 1,
+  "collectedAt": "2026-10-31T20:48:00.607Z",
+  "source": {
+    "title": "MPLADS eSAKSHI public dashboard",
+    "publisher": "Ministry of Statistics and Programme Implementation",
+    "url": "https://mplads.mospi.gov.in/digigov/dashboard.html"
+  },
+  "members": [
+    {
+      "personId": "manju-sharma",
+      "officialName": "MANJU SHARMA",
+      "constituency": "JAIPUR",
+      "tenure": "18th Lok Sabha",
+      "tenureStart": "2024-06-04",
+      "allocated": 167082901.11,
+      "totals": {
+        "recommended": {
+          "count": 69,
+          "amount": 111587769
+        },
+        "sanctioned": {
+          "count": 39,
+          "amount": 55617769
+        },
+        "completed": {
+          "count": 17,
+          "amount": 14282689
+        },
+        "payments": {
+          "count": 31,
+          "amount": 23994861
+        }
+      },
+      "sources": [
+        {
+          "report": "member",
+          "sha256": "315f07b2297d381b533006492161a831c8945b499f352d0772cd8c630b4900e6"
+        },
+        {
+          "report": "tiles",
+          "sha256": "f17c3b74fdc7b8630139c2a3df1bd74926f6306ed06a90734112961213b80f53"
+        },
+        {
+          "report": "allocated",
+          "sha256": "ddb377ed38addfd3080fd6d1d6c0b2b248661f7adca6a81d0cd4f2aedc58511e"
+        },
+        {
+          "report": "recommended",
+          "sha256": "7ec03c1df6333bd9e7a3094a6610adda0154e8cbedc6ac54580404aa6f24b1de"
+        },
+        {
+          "report": "sanctioned",
+          "sha256": "0f80cecd3c04aa673a0b9c246299e3882cae80183093e5288d6783cc61f4df45"
+        },
+        {
+          "report": "completed",
+          "sha256": "af8c9a926b3764e7c388f27be19b3142989ef9e6bfd0386147d7f8e59760fd4d"
+        },
+        {
+          "report": "payments",
+          "sha256": "c8ca276b31a4aca3259036f6c55ac6598cf98b26eac04abfc410f93e2c047cc0"
+        }
+      ],
+      "works": [
+        {
+          "id": 318554,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "construction of a community building near Nijhra Dhobi Ghat, located near Hanuman Ji temple in the Adarsh Nagar Assembly (Vidhan Sabha) constituency",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-09-27",
+            "amount": 3000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 318552,
+          "code": null,
+          "activity": "Improvement of electricity distribution infrastructure",
+          "description": "Regarding shifting of the transformer installed outside Palle Walon Ke Darwaze Sethyon Ke Chowk situated on Nahargarh Road in Ward No. 107 of Kishanpol Assembly Constituency.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-09-27",
+            "amount": 500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 277725,
+          "code": "WS/MP18165/2026-2027/277725",
+          "activity": "Providing drains and gutters for public drainage",
+          "description": "Construction of a box drain from Mangodi Walon Ki to the Brahmapuri Nala.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-04-07",
+            "amount": 3000000
+          },
+          "sanctioned": {
+            "on": "2026-08-20",
+            "amount": 3000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 277604,
+          "code": "WS/MP18165/2026-2027/277604",
+          "activity": "Crematoriums / Energy efficient crematoriums or structures on burial / cremation ground",
+          "description": "For the expansion of the Jamdoli Moksha Dham construction.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-04-06",
+            "amount": 2000000
+          },
+          "sanctioned": {
+            "on": "2026-08-20",
+            "amount": 2000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 241671,
+          "code": "WS/MP18165/2026-2027/241671",
+          "activity": "Construction of community centers and community halls",
+          "description": "For the construction of a",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-10-12",
+            "amount": 1500000
+          },
+          "sanctioned": {
+            "on": "2026-08-20",
+            "amount": 1500000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 277601,
+          "code": "WS/MP18165/2026-2027/277601",
+          "activity": "Crematoriums / Energy efficient crematoriums or structures on burial / cremation ground",
+          "description": "Regarding the Provision of Deep Freezers",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-04-06",
+            "amount": 100000
+          },
+          "sanctioned": {
+            "on": "2026-08-19",
+            "amount": 100000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 301221,
+          "code": "WS/MP18165/2026-2027/301221",
+          "activity": "Development of public parks",
+          "description": "Regarding the construction of a yoga shed at Siddheshwar Park, Pratap Nagar (Sector 19, Block 191, Ward No. 118), within the Bagru Assembly constituency.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-08-04",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-08-18",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 250951,
+          "code": "WS/MP18165/2026-2027/250951",
+          "activity": "Construction of community centers and community halls",
+          "description": "Regarding construction of second floor at Valmiki Community Centre in Balanandaji Ka Rasta, Valmiki Colony Chandpol Bazaar, Ward No. 57, Kishanpol Vidya Sabha area.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-11-27",
+            "amount": 2000000
+          },
+          "sanctioned": {
+            "on": "2026-08-18",
+            "amount": 2000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 304787,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "Regarding the construction of a building for the Rana Rajput Seva Samiti, Jaipur, located opposite the Government Higher Primary School in Barna village (Ward No. 04 of the Vidyadhar Nagar Assembly constituency).",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-08-17",
+            "amount": 2000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 304365,
+          "code": null,
+          "activity": "Improvement of electricity distribution infrastructure",
+          "description": "aadarsh nagar vidyansbha kshetra ke parking parisar damodar das dalmia vidyalaya keshav vidyapeeth jamdoli, jaipur ke upar se ja rahi 132 kv vidyut line parking parisar ke bahar shift karne babat",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-08-16",
+            "amount": 5000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 303432,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "For construction of building at Kamla Devi Seva Bharti School, Shyam Vihar Colony, Khedi Mod, Buxawala, Sanganer Jaipur, Ward No. 98 of Sanganer Vidya Sabha area",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-08-13",
+            "amount": 2500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 302548,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "For various development works in the auditorium constructed on the upper floors of the District Council Jaipur in the Civil Lines Assembly constituency.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-08-10",
+            "amount": 2000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 302524,
+          "code": null,
+          "activity": "Crematoriums / Energy efficient crematoriums or structures on burial / cremation ground",
+          "description": "Regarding changing one room and tin shed and carrying out other development works at Mokshdwar located in Mansarovar, Sanganer Assembly constituency.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-08-10",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 286822,
+          "code": "WS/MP18165/2026-2027/286822",
+          "activity": "Street lights",
+          "description": "Regarding civil repair and conservation work for the preservation of Galta Tirth.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-07-02",
+            "amount": 5000000
+          },
+          "sanctioned": {
+            "on": "2026-08-06",
+            "amount": 5000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 301215,
+          "code": null,
+          "activity": "Construction of public libraries and reading rooms",
+          "description": "For the construction of a library hall and other related works on the roof of the library building at the Bhairon Singh Shekhawat Smriti Sansthan, located in Vidyadhar Nagar, Vidhyansabha.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-08-04",
+            "amount": 2000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 247101,
+          "code": "WS/MP18165/2025-2026/247101",
+          "activity": "Setting up public non-conventional energy plants",
+          "description": "For installing solar system in Pt. Deen Dayal Upadhyay Government Higher Secondary School, Brahmapuri, Jaipur, Ward No. 09 of Hawamahal Vidya Sabha.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "RAJASTHAN ELECTRONICS INSTRUMENT LTDJAIPUR",
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-11-09",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-02-16",
+            "amount": 1000000
+          },
+          "completed": {
+            "on": "2026-07-25",
+            "amount": 1000000
+          },
+          "paid": 0,
+          "paymentPending": 1000000
+        },
+        {
+          "id": 241668,
+          "code": "WS/MP18165/2025-2026/241668",
+          "activity": "Setting up public non-conventional energy plants",
+          "description": "Installing a solar plant for the Community Center in Sector 12, Ward No. 75, Sanganer, Jaipur,",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-10-12",
+            "amount": 800000
+          },
+          "sanctioned": {
+            "on": "2026-02-02",
+            "amount": 800000
+          },
+          "completed": {
+            "on": "2026-07-25",
+            "amount": 0
+          },
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 210687,
+          "code": "WS/MP18165/2025-2026/210687",
+          "activity": "Setting up public non-conventional energy plants",
+          "description": "For Solar Power Plant and Tin Shed in Shri Chitragupt Gyan Mandir Samiti, Bapu Nagar, Jaipur in Ward No. 138 of Malviya Nagar Assembly Constituency.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "RAJASTHAN ELECTRONICS INSTRUMENT LTDJAIPUR",
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-06-20",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-02-04",
+            "amount": 1000000
+          },
+          "completed": {
+            "on": "2026-07-25",
+            "amount": 1000000
+          },
+          "paid": 0,
+          "paymentPending": 1000000
+        },
+        {
+          "id": 297118,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "For construction of hall, toilet and other works in Senior Citizen Farm and Day Care Centre, SFS Mansarovar, Jaipur, Ward No. 84, Sanganer Vidhan Sabha.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-20",
+            "amount": 2500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 297112,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "From the Development Committee of Ward No. 75 of Sanganer Vidhan Sabha. 12. For false ceiling work at Vijay Path, Mansarovar, Jaipur.",
+          "category": "Repair and Renovation",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-20",
+            "amount": 400000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 297092,
+          "code": null,
+          "activity": "Construction of rooms and facilities for hospitals, FWC , PHC Centers and ANM centers",
+          "description": "For the construction and other work of JMA building located in the premises of SMS Medical Hospital of Malviya Nagar Vidya Sabha.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-20",
+            "amount": 5000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 296017,
+          "code": null,
+          "activity": "Construction of rooms and halls in school and colleges",
+          "description": "Regarding construction of library building in Government Maharaj Acharya Sanskrit College, Gandhi Nagar, Jaipur, Ward No. 138, Malviya Nagar Vidyanasama area.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-16",
+            "amount": 2000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 206102,
+          "code": "WS/MP18165/2025-2026/206102",
+          "activity": "Purchase of hospital equipment",
+          "description": "Regarding providing X-ray machine and other equipment (Reader, Printer, CR, Cassette 2 Computer set-Up) at Urban Community Health Center, Vatika Jaipur of Bagru Assembly. Regarding providing X-ray machine and other equipment (Reader, Printer, CR, Cassette 2 Computer set-Up) at Urban Community Health Center, Vatika Jaipur of Bagru Assembly.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-06-03",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-02-02",
+            "amount": 1000000
+          },
+          "completed": {
+            "on": "2026-07-14",
+            "amount": 0
+          },
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 294024,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "The construction of the community hall on the first floor of the Amritpuri Panchayat Ghar (D-51, Amritpuri Ghatgate, Agra Road, Ward No. 88, Jaipur) falls under the Adarsh Nagar Vidhan Sabha",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-10",
+            "amount": 2000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 293974,
+          "code": null,
+          "activity": "Providing CCTV camera system for security of public areas",
+          "description": "Regarding installation of cameras in Banipark Extension Scheme, Shastri Nagar, Jaipur.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-10",
+            "amount": 500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 286801,
+          "code": null,
+          "activity": "Crematoriums / Energy efficient crematoriums or structures on burial / cremation ground",
+          "description": "Regarding replacement of a room and tin shed and getting other development work done.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-02",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 284133,
+          "code": null,
+          "activity": "Transport vehicles for inmates of govt instns such as orphanage, shelter/old-age/correctional homes",
+          "description": "Regarding the provision of a hearse for the cremation ground.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-05-27",
+            "amount": 1425000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 182561,
+          "code": "WS/MP18165/2025-2026/182561",
+          "activity": "Crematoriums / Energy efficient crematoriums or structures on burial / cremation ground",
+          "description": "Public crematorium boundary wall and tin shed construction work, Degado ki Dhani, Gram Panchayat Ajayrajpura",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Gram Panchayat Ajairajpura",
+          "stage": "Work Completed",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-03-17",
+            "amount": 1500000
+          },
+          "sanctioned": {
+            "on": "2025-06-17",
+            "amount": 1500000
+          },
+          "completed": {
+            "on": "2026-05-11",
+            "amount": 1492000
+          },
+          "paid": 1492000,
+          "paymentPending": 0
+        },
+        {
+          "id": 279630,
+          "code": null,
+          "activity": "Construction of roads, link roads, pathways or any other road with or without drainage system",
+          "description": "From Tejaji Temple to cremation ground in Mandau village, Ward No. 59, Bagru Vidhansabha constituency For construction of CC road.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-05-05",
+            "amount": 3000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 279627,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "Regarding construction of permanent stage, kitchen and toilet in SFS Community Centre, Ward No. 84, Sanganer Vidhansabha area.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-05-05",
+            "amount": 2000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 279626,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "Regarding construction and expansion work.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-05-05",
+            "amount": 500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 279625,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "For construction of hall on the first floor.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-05-05",
+            "amount": 1800000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 278164,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "Regarding the Hall Construction Work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-04-15",
+            "amount": 2500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 268330,
+          "code": "WS/MP18165/2026-2027/268330",
+          "activity": "Purchase of training equipment",
+          "description": "For providing computers to Government College, Jaipur Gandhi Circle J.L.N Marg, Jaipur.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Rajkiya Mahavidhyalaya vikas samiti",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-02-14",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-04-13",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 998988,
+          "paymentPending": 0
+        },
+        {
+          "id": 206100,
+          "code": "WS/MP18165/2025-2026/206100",
+          "activity": "Crematoriums / Energy efficient crematoriums or structures on burial / cremation ground",
+          "description": "Interlocking tile construction work in public Mokshadham main population in Dahmikala of Bagru Vidyasabha",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Gram Panchayat Dehmikallan",
+          "stage": "Work Completed",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-06-03",
+            "amount": 800000
+          },
+          "sanctioned": {
+            "on": "2025-11-04",
+            "amount": 800000
+          },
+          "completed": {
+            "on": "2026-04-10",
+            "amount": 798318
+          },
+          "paid": 798318,
+          "paymentPending": 0
+        },
+        {
+          "id": 218095,
+          "code": "WS/MP18165/2026-2027/218095",
+          "activity": "Construction of community centers and community halls",
+          "description": "For expansion of new construction in 11 Ramchandrapura, Jagatpura, To Jaipur of Bagru Assembly Constituency.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-07-14",
+            "amount": 5000000
+          },
+          "sanctioned": {
+            "on": "2026-04-09",
+            "amount": 5000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 275664,
+          "code": null,
+          "activity": "Crematoriums / Energy efficient crematoriums or structures on burial / cremation ground",
+          "description": "For construction and development works at the Chandpole Crematorium, Kishanpole Assembly Constituency.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-04-07",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 277603,
+          "code": null,
+          "activity": "Construction of rooms and halls in school and colleges",
+          "description": "Regarding the construction of classrooms at the Government Senior Secondary School, Harmada, Jaipur (Ward No. 04, Vidyadhar Nagar Assembly Constituency.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-04-06",
+            "amount": 2000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 230338,
+          "code": "WS/MP18165/2026-2027/230338",
+          "activity": "Improvement of electricity distribution infrastructure",
+          "description": "Work of Transformer Shifting in Kishanpole Vidhan Sabha Ward No. 66, House No. 384, Heeda Ki Mori, Ramganj Bazaar, Jaipur.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "AEN (E-ll) Ramganj JVVNL JPR",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-09-04",
+            "amount": 2191248
+          },
+          "sanctioned": {
+            "on": "2026-04-02",
+            "amount": 2191248
+          },
+          "completed": null,
+          "paid": 2191248,
+          "paymentPending": 0
+        },
+        {
+          "id": 231436,
+          "code": "WS/MP18165/2026-2027/231436",
+          "activity": "Construction of community centers and community halls",
+          "description": "Construction work of 1 hall in Government Higher Secondary School, Narsinghpura (Sanganer) Jaipur, Bagru Vidhan Sabha area.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-09-04",
+            "amount": 1250000
+          },
+          "sanctioned": {
+            "on": "2026-04-01",
+            "amount": 1250000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 272668,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "For construction of public community building at Sai 4, Pratap Nagar, Sanganer, Ward No. 111 of Bagru Vidhansabha area.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-09",
+            "amount": 1500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 272667,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "For construction of Maharishi Valmiki Community Hall in Indra Nagar Phase 2, Jhalana Dungri, Ward No. 113, Bagru Vidhansabha area.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-09",
+            "amount": 1500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 141159,
+          "code": "WS/MP18165/2024-2025/141159",
+          "activity": "Providing drains and gutters for public drainage",
+          "description": "bagru vidhansabha ka ward no. 104 ka rameshwar colony tonk road ma civir line nirman",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "NAGAR NIGAM JAIPUR GREATER_2",
+          "stage": "Work Completed",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2024-09-16",
+            "amount": 800000
+          },
+          "sanctioned": {
+            "on": "2024-11-28",
+            "amount": 800000
+          },
+          "completed": {
+            "on": "2026-02-19",
+            "amount": 612876
+          },
+          "paid": 612876,
+          "paymentPending": 0
+        },
+        {
+          "id": 268331,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "Construction work of the first floor in the Rangmanch Bhawan located at Shivaji Park in Ward No. 77 of Sanganer Vidhansabha area. Regarding minor repairs and other necessary works on the ground floor of the Rangmanch Hall located at Shivaji Park, Ward No. 77, Sanganer Vidhansabha area.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-02-14",
+            "amount": 2000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 182563,
+          "code": "WS/MP18165/2025-2026/182563",
+          "activity": "Crematoriums / Energy efficient crematoriums or structures on burial / cremation ground",
+          "description": "Public crematorium boundary wall, Gram Panchayat Awaniyan",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Gram Panchayat Awaniya",
+          "stage": "Work Completed",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-03-17",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2025-05-20",
+            "amount": 1000000
+          },
+          "completed": {
+            "on": "2026-02-04",
+            "amount": 998251
+          },
+          "paid": 998251,
+          "paymentPending": 0
+        },
+        {
+          "id": 182562,
+          "code": "WS/MP18165/2025-2026/182562",
+          "activity": "Crematoriums / Energy efficient crematoriums or structures on burial / cremation ground",
+          "description": "Public crematorium boundary wall, Chimanpura, Gram Panchayat Awaniyan",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Gram Panchayat Awaniya",
+          "stage": "Work Completed",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-03-17",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2025-05-20",
+            "amount": 1000000
+          },
+          "completed": {
+            "on": "2026-02-04",
+            "amount": 997864
+          },
+          "paid": 997864,
+          "paymentPending": 0
+        },
+        {
+          "id": 206101,
+          "code": "WS/MP18165/2025-2026/206101",
+          "activity": "Crematoriums / Energy efficient crematoriums or structures on burial / cremation ground",
+          "description": "For overall development work at the public crematorium in Teelawala of Bagru Vidhan Sabha.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Gram Panchayat Pawaliya",
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-06-03",
+            "amount": 998496
+          },
+          "sanctioned": {
+            "on": "2025-07-10",
+            "amount": 998496
+          },
+          "completed": {
+            "on": "2026-02-03",
+            "amount": 998496
+          },
+          "paid": 998496,
+          "paymentPending": 0
+        },
+        {
+          "id": 206099,
+          "code": "WS/MP18165/2025-2026/206099",
+          "activity": "Construction of roads, link roads, pathways or any other road with or without drainage system",
+          "description": "Construction work of C.C. road from Balaji Bamboriya asphalt road of Bagru Vidya Sabha Bad towards Narayan Baba Ki Dhani.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Gram Panchyat Bhambhoriya",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-06-03",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-02-02",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 997900,
+          "paymentPending": 0
+        },
+        {
+          "id": 261929,
+          "code": null,
+          "activity": "Purchase of hospital equipment",
+          "description": "For installation of 11 solar geysers at the Psychiatry Centre, Ward No. 122",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-01-26",
+            "amount": 945000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 261926,
+          "code": null,
+          "activity": "Crematoriums / Energy efficient crematoriums or structures on burial / cremation ground",
+          "description": "For Construction of Cremation ground in Vinayak Enclave ward 99",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-01-26",
+            "amount": 1500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 250354,
+          "code": "WS/MP18165/2025-2026/250354",
+          "activity": "Construction of community centers and community halls",
+          "description": "For the construction of community building in village Ramsinghpura of Bagru Vidya Sabha.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "GRAM PANCHYAT DADIYA",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-11-25",
+            "amount": 1500000
+          },
+          "sanctioned": {
+            "on": "2026-01-22",
+            "amount": 1500000
+          },
+          "completed": null,
+          "paid": 750000,
+          "paymentPending": 0
+        },
+        {
+          "id": 247271,
+          "code": "WS/MP18165/2025-2026/247271",
+          "activity": " Providing sports equipment, except consumable items",
+          "description": "Regarding providing necessary sports material for the MP Sports Festival to be held in the parliamentary constituency Jaipur city.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Secretary District Sports Council Chaugan Stadium Jaipur",
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-11-10",
+            "amount": 481010
+          },
+          "sanctioned": {
+            "on": "2025-12-02",
+            "amount": 481010
+          },
+          "completed": {
+            "on": "2026-01-22",
+            "amount": 481010
+          },
+          "paid": 481010,
+          "paymentPending": 0
+        },
+        {
+          "id": 244878,
+          "code": "WS/MP18165/2025-2026/244878",
+          "activity": "Construction of roads, link roads, pathways or any other road with or without drainage system",
+          "description": "Tiles construction work in village Sawala Talai Wali Dhani (in front of ward member house) of Bagru Vidhan Sabha.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "PANCHAYAT SAMITI SANGANER",
+          "stage": "Work Completed",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-10-30",
+            "amount": 600000
+          },
+          "sanctioned": {
+            "on": "2025-11-14",
+            "amount": 600000
+          },
+          "completed": {
+            "on": "2026-01-22",
+            "amount": 334225
+          },
+          "paid": 334225,
+          "paymentPending": 0
+        },
+        {
+          "id": 210686,
+          "code": "WS/MP18165/2025-2026/210686",
+          "activity": "Providing drains and gutters for public drainage",
+          "description": "For sewer line extension in Rameshwaram Colony, Zone 4, Tonk Road, Ward 104, Bagru Vidhan Sabha area.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "NAGAR NIGAM JAIPUR GREATER_2",
+          "stage": "Work Completed",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-06-20",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2025-10-16",
+            "amount": 1000000
+          },
+          "completed": {
+            "on": "2026-01-21",
+            "amount": 719689
+          },
+          "paid": 719689,
+          "paymentPending": 0
+        },
+        {
+          "id": 141467,
+          "code": "WS/MP18165/2024-2025/141467",
+          "activity": "Providing CCTV camera system for security of public areas",
+          "description": null,
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "EXECUTIVE ENGNIEER (electrical) PWD-2",
+          "stage": "Work Completed",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2024-09-17",
+            "amount": 2500000
+          },
+          "sanctioned": {
+            "on": "2025-01-05",
+            "amount": 2500000
+          },
+          "completed": {
+            "on": "2026-01-16",
+            "amount": 2308863
+          },
+          "paid": 2308863,
+          "paymentPending": 0
+        },
+        {
+          "id": 181099,
+          "code": "WS/MP18165/2025-2026/181099",
+          "activity": "Construction of common work sheds / common covered sitting area",
+          "description": "Regarding construction of RCC verandah and tin shed, platform and other works in the Collectorate premises of Civil Lines Assembly constituency, Jaipur.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "OFFICE OF THE EXECUTIVE ENGINEER PWD CITY DIV-I JAIPUR",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-03-11",
+            "amount": 2000000
+          },
+          "sanctioned": {
+            "on": "2025-12-23",
+            "amount": 2000000
+          },
+          "completed": null,
+          "paid": 1040975,
+          "paymentPending": 0
+        },
+        {
+          "id": 195235,
+          "code": "WS/MP18165/2025-2026/195235",
+          "activity": "Construction of community centers and community halls",
+          "description": "Building construction work in Parvatiya Samaj Jaipur, Kumaon Community Centre 15, Shri Gopal Nagar South, Gopalpura Bypass, Jaipur.",
+          "category": "Trust and Society",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Parvatiya Samaj Jaipur",
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-04-28",
+            "amount": 1099760
+          },
+          "sanctioned": {
+            "on": "2025-06-17",
+            "amount": 1099760
+          },
+          "completed": {
+            "on": "2025-12-05",
+            "amount": 1099760
+          },
+          "paid": 1099760,
+          "paymentPending": 0
+        },
+        {
+          "id": 247103,
+          "code": null,
+          "activity": "Providing CCTV camera system for security of public areas",
+          "description": "For installation of cameras in Vigyan Nagar Colony, Mahal Road, Jagatpura, Jaipur, Ward No. 119, Bagru Vidhan Sabha.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2025-11-09",
+            "amount": 400000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 231437,
+          "code": "WS/MP18165/2025-2026/231437",
+          "activity": "Construction of roads, link roads, pathways or any other road with or without drainage system",
+          "description": "Construction work of C.C. road from crematorium to cowshed Rampura Uti in village panchayat Rampura Uti of Bagru Vidhan Sabha area. Construction work of C.C. road from asphalt road to Shri Ram Dagar ki Dhani in village panchayat Rampura Unti of Bagru Vidhan Sabha area.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Gram Panchayat Rampura Unti",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-09-04",
+            "amount": 2500000
+          },
+          "sanctioned": {
+            "on": "2025-10-09",
+            "amount": 2500000
+          },
+          "completed": null,
+          "paid": 1883501,
+          "paymentPending": 0
+        },
+        {
+          "id": 140304,
+          "code": "WS/MP18165/2024-2025/140304",
+          "activity": "Construction of rooms and halls in school and colleges",
+          "description": "sanaganer ward 68 ka govt sr. sec. school manyawas ma room",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "NAGAR NIGAM JAIPUR GREATER_2",
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2024-09-11",
+            "amount": 758307
+          },
+          "sanctioned": {
+            "on": "2024-11-20",
+            "amount": 758307
+          },
+          "completed": {
+            "on": "2025-08-19",
+            "amount": 758307
+          },
+          "paid": 758307,
+          "paymentPending": 0
+        },
+        {
+          "id": 200344,
+          "code": "WS/MP18165/2025-2026/200344",
+          "activity": "Crematoriums / Energy efficient crematoriums or structures on burial / cremation ground",
+          "description": null,
+          "category": "Repair and Renovation",
+          "districtAuthority": "Jaipur Gramin(DISTRICT COLLECTOR Jaipur Gramin_IDA)",
+          "implementingAgency": "Executive Engineer PWD Distt Dn Phulera_2",
+          "stage": "Vendor Identification",
+          "milestone": "sanctioned",
+          "recommended": null,
+          "sanctioned": {
+            "on": "2025-08-04",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 688661,
+          "paymentPending": 0
+        },
+        {
+          "id": 220931,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "For building construction in Kamla Devi Vihar Colony, Baksawala Seva Bharti School, Shyam Sanganer Jaipur, Ward No. 98 of Sanganer Assembly Constituency.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2025-07-22",
+            "amount": 2500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 190055,
+          "code": "WS/MP18165/2025-2026/190055",
+          "activity": "Improvement of electricity distribution infrastructure",
+          "description": "Regarding undergrounding of electric line near Siddheshwar Hanuman Temple in Ward No. 51 of Civil Line Assembly Constituency",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-04-08",
+            "amount": 2000000
+          },
+          "sanctioned": {
+            "on": "2025-07-08",
+            "amount": 2000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 181140,
+          "code": "WS/MP18165/2025-2026/181140",
+          "activity": "Construction of boundary walls of existing public and community buildings",
+          "description": "For the repair work of boundary wall, footpath, line pole, gate and main gate etc. in the Central Park of 21 South Colony located in Ward No. 28 of Vidhadhar Nagar Assembly Constituency.",
+          "category": "Repair and Renovation",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Time Estimation",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-03-12",
+            "amount": 1300000
+          },
+          "sanctioned": {
+            "on": "2025-05-26",
+            "amount": 1300000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 181141,
+          "code": "WS/MP18165/2025-2026/181141",
+          "activity": "Construction of footpaths and pedestrian ways",
+          "description": "Regarding installation of inter-locking tiles around the school from Main Tonk Road near Central-6, Sector-3, Pratap Nagar, Ward No. 95, Sanganer Assembly Constituency.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-03-12",
+            "amount": 250000
+          },
+          "sanctioned": {
+            "on": "2025-05-24",
+            "amount": 250000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 1313,
+          "code": null,
+          "activity": "Crematoriums / Energy efficient crematoriums or structures on burial / cremation ground",
+          "description": null,
+          "category": "Repair and Renovation",
+          "districtAuthority": "Jaipur Gramin(DISTRICT COLLECTOR Jaipur Gramin_IDA)",
+          "implementingAgency": null,
+          "stage": null,
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2025-05-16",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 174628,
+          "code": "WS/MP18165/2024-2025/174628",
+          "activity": "Purchase of training equipment",
+          "description": "Regarding setting up of media center for the students studying in Rajasthan University, Jaipur of Malviya Nagar Assembly Constituency.",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-02-09",
+            "amount": 1500000
+          },
+          "sanctioned": {
+            "on": "2025-03-07",
+            "amount": 1500000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 163057,
+          "code": "WS/MP18165/2024-2025/163057",
+          "activity": "Establishing public ground water recharging facilities",
+          "description": "Regarding laying of sewerage line in Govind Nagar III, Pawanpuri F in ward no. 12 of Vidhadhar Nagar assembly constituency",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "NAGAR NIGAM JAIPUR GREATER_2",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-01-01",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2025-01-19",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 763102,
+          "paymentPending": 0
+        },
+        {
+          "id": 151480,
+          "code": "WS/MP18165/2024-2025/151480",
+          "activity": "Construction of additional rooms and halls in the existing public and community building",
+          "description": null,
+          "category": "Trust and Society",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Adarsh Shiksha Parishad samiti",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2024-11-08",
+            "amount": 500000
+          },
+          "sanctioned": {
+            "on": "2025-01-18",
+            "amount": 500000
+          },
+          "completed": null,
+          "paid": 397797,
+          "paymentPending": 0
+        },
+        {
+          "id": 147543,
+          "code": "WS/MP18165/2024-2025/147543",
+          "activity": "Purchase of hospital equipment",
+          "description": null,
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "RMRS PDDU HOSPITAL",
+          "stage": "Work Completed",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2024-10-15",
+            "amount": 688948
+          },
+          "sanctioned": {
+            "on": "2024-12-04",
+            "amount": 688948
+          },
+          "completed": {
+            "on": "2025-01-08",
+            "amount": 683030
+          },
+          "paid": 683030,
+          "paymentPending": 0
+        }
+      ]
+    },
+    {
+      "personId": "rao-rajendra-singh",
+      "officialName": "Rao Rajendra Singh",
+      "constituency": "JAIPUR RURAL",
+      "tenure": "18th Lok Sabha",
+      "tenureStart": "2024-06-04",
+      "allocated": 147000000,
+      "totals": {
+        "recommended": {
+          "count": 103,
+          "amount": 70018558
+        },
+        "sanctioned": {
+          "count": 57,
+          "amount": 39888558
+        },
+        "completed": {
+          "count": 10,
+          "amount": 7169783
+        },
+        "payments": {
+          "count": 42,
+          "amount": 18434356
+        }
+      },
+      "sources": [
+        {
+          "report": "member",
+          "sha256": "7750f507552652122b4190a2925ace29cf52fceb39b5ff6c7b22a329df9e1bd6"
+        },
+        {
+          "report": "tiles",
+          "sha256": "4f225002f3841d2d7fd7456c084724263031aceb5a8feae55f80e5b1b9670bf9"
+        },
+        {
+          "report": "allocated",
+          "sha256": "81a6a77837f940f874904726ae7dfabb056b7b16025a5841c799cd666861616d"
+        },
+        {
+          "report": "recommended",
+          "sha256": "ae4efcf142b9a3993e23491d8837226198dcab308b3600b72e7ec8f323b21b79"
+        },
+        {
+          "report": "sanctioned",
+          "sha256": "1da5237c5f99b347a3f42805c7ed99662ea0211b3cd1f42c18869009e93db2cd"
+        },
+        {
+          "report": "completed",
+          "sha256": "1c636d8fffd72357e2f0674312c2d2efc6007676e2fe950425cfd66db0d29d85"
+        },
+        {
+          "report": "payments",
+          "sha256": "31f8ca28038cfc525bba52f76b816a3618787ded31f70ba4dbdd96e96d419f39"
+        }
+      ],
+      "works": [
+        {
+          "id": 296994,
+          "code": "WS/MP18372/2026-2027/296994",
+          "activity": "Construction of common work sheds / common covered sitting area",
+          "description": "Constructing a tin shed with interlocking tile flooring",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-07-19",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-09-30",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 287780,
+          "code": "WS/MP18372/2026-2027/287780",
+          "activity": "Construction of buildings for sports facilities",
+          "description": "for development work in the playground",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-06-30",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-09-24",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 296998,
+          "code": "WS/MP18372/2026-2027/296998",
+          "activity": "Construction of common work sheds / common covered sitting area",
+          "description": "Construction of common work sheds/ common covered sitting area",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-07-19",
+            "amount": 500000
+          },
+          "sanctioned": {
+            "on": "2026-09-16",
+            "amount": 500000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 296996,
+          "code": "WS/MP18372/2026-2027/296996",
+          "activity": "Lighting of public spaces",
+          "description": "Construction of High Mast Lights",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-07-19",
+            "amount": 500000
+          },
+          "sanctioned": {
+            "on": "2026-09-16",
+            "amount": 500000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 287785,
+          "code": "WS/MP18372/2026-2027/287785",
+          "activity": "Construction of rooms and halls in school and colleges",
+          "description": "for classroom and other Construction work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-06-30",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-09-16",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270139,
+          "code": "WS/MP18372/2026-2027/270139",
+          "activity": "Installing community drinking water plants",
+          "description": "RO Water cooler work",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": "PS BANSUR",
+          "stage": "Physical Inspection",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": {
+            "on": "2026-09-16",
+            "amount": 90000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 89690
+        },
+        {
+          "id": 270133,
+          "code": "WS/MP18372/2026-2027/270133",
+          "activity": "Installing community drinking water plants",
+          "description": "RO Water cooler work",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": "PS BANSUR",
+          "stage": "Physical Inspection",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": {
+            "on": "2026-09-16",
+            "amount": 90000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 89690
+        },
+        {
+          "id": 270067,
+          "code": "WS/MP18372/2026-2027/270067",
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": {
+            "on": "2026-09-16",
+            "amount": 90000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270062,
+          "code": "WS/MP18372/2026-2027/270062",
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": {
+            "on": "2026-09-16",
+            "amount": 90000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 287787,
+          "code": "WS/MP18372/2026-2027/287787",
+          "activity": "Construction of rooms and halls in school and colleges",
+          "description": "for classroom and other Construction work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-06-30",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-09-14",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270059,
+          "code": "WS/MP18372/2026-2027/270059",
+          "activity": "Installing community drinking water plants",
+          "description": "RO Water cooler work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Time Estimation",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": {
+            "on": "2026-09-14",
+            "amount": 90000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270058,
+          "code": "WS/MP18372/2026-2027/270058",
+          "activity": "Installing community drinking water plants",
+          "description": "RO Water cooler work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Time Estimation",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": {
+            "on": "2026-09-14",
+            "amount": 90000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 300948,
+          "code": "WS/MP18372/2026-2027/300948",
+          "activity": "Street lights",
+          "description": "high mast 2 lights",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-08-03",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-08-18",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 287777,
+          "code": "WS/MP18372/2026-2027/287777",
+          "activity": "Construction of community centers and community halls",
+          "description": "Construction of community centers and community halls",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-06-30",
+            "amount": 1100000
+          },
+          "sanctioned": {
+            "on": "2026-08-14",
+            "amount": 1100000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 279960,
+          "code": "WS/MP18372/2026-2027/279960",
+          "activity": "Construction of roads, link roads, pathways or any other road with or without drainage system",
+          "description": "CC Road and Interlocking Construction Work",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": "GP AJABPURA_2",
+          "stage": "Physical Inspection",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-05-08",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-08-12",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 998307
+        },
+        {
+          "id": 302698,
+          "code": null,
+          "activity": "Construction of roads, link roads, pathways or any other road with or without drainage system",
+          "description": "Construction of roads",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-08-11",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 294275,
+          "code": "WS/MP18372/2026-2027/294275",
+          "activity": "Purchase of prosthetics, wheel chairs, tricycles (manual or motorized), elect scooties, hearing aids",
+          "description": "Purchase of prosthetics, wheel chairs, tricycles (manual or motorized), elect scooties, hearing aids",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Deputy Director, Social Justice & Empowerment Department, Jaipur Rural",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-07-11",
+            "amount": 1500000
+          },
+          "sanctioned": {
+            "on": "2026-08-07",
+            "amount": 1500000
+          },
+          "completed": null,
+          "paid": 918890,
+          "paymentPending": 0
+        },
+        {
+          "id": 287782,
+          "code": "WS/MP18372/2026-2027/287782",
+          "activity": "Development of public parks",
+          "description": "Development of public parks",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-06-30",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-08-07",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270071,
+          "code": "WS/MP18372/2026-2027/270071",
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": {
+            "on": "2026-08-07",
+            "amount": 90000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270070,
+          "code": "WS/MP18372/2026-2027/270070",
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": {
+            "on": "2026-08-07",
+            "amount": 90000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270061,
+          "code": "WS/MP18372/2026-2027/270061",
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": {
+            "on": "2026-08-07",
+            "amount": 90000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270060,
+          "code": "WS/MP18372/2026-2027/270060",
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": {
+            "on": "2026-08-07",
+            "amount": 90000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270057,
+          "code": "WS/MP18372/2026-2027/270057",
+          "activity": "Installing community drinking water plants",
+          "description": "RO Water cooler work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": {
+            "on": "2026-08-07",
+            "amount": 90000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270056,
+          "code": "WS/MP18372/2026-2027/270056",
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": {
+            "on": "2026-08-07",
+            "amount": 90000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 301660,
+          "code": null,
+          "activity": "Purchase of prosthetics, wheel chairs, tricycles (manual or motorized), elect scooties, hearing aids",
+          "description": "Purchase of hearing aids",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-08-06",
+            "amount": 500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 300719,
+          "code": null,
+          "activity": "Purchase of prosthetics, wheel chairs, tricycles (manual or motorized), elect scooties, hearing aids",
+          "description": "Purchase of 5 scooties,",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-08-02",
+            "amount": 500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 238770,
+          "code": "WS/MP18372/2025-2026/238770",
+          "activity": "Construction of roads, link roads, pathways or any other road with or without drainage system",
+          "description": "Construction of CC Roads",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Gram Panchayat Jahota_5",
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-09-28",
+            "amount": 998344
+          },
+          "sanctioned": {
+            "on": "2026-02-17",
+            "amount": 998344
+          },
+          "completed": {
+            "on": "2026-07-27",
+            "amount": 998344
+          },
+          "paid": 998344,
+          "paymentPending": 0
+        },
+        {
+          "id": 298610,
+          "code": null,
+          "activity": "Construction of public libraries and reading rooms",
+          "description": "Construction of public libraries",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-24",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 273234,
+          "code": "WS/MP18372/2026-2027/273234",
+          "activity": "Development of playfields and sports grounds",
+          "description": "Construction of multipurpose hall",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-07-23",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 256851,
+          "code": "WS/MP18372/2026-2027/256851",
+          "activity": "Construction of community centers and community halls",
+          "description": "Construction of community centers and community halls",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-01-03",
+            "amount": 1500000
+          },
+          "sanctioned": {
+            "on": "2026-07-23",
+            "amount": 1500000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 256852,
+          "code": "WS/MP18372/2026-2027/256852",
+          "activity": "Construction of community centers and community halls",
+          "description": "Construction of community centers and community halls",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-01-03",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-07-22",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 296990,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "Construction of community centers and community halls",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-19",
+            "amount": 500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 296989,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "Construction of community centers and community halls",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-19",
+            "amount": 500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 296988,
+          "code": null,
+          "activity": "Purchase of hospital equipment",
+          "description": "Purchase of hospital equipment",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-19",
+            "amount": 800000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 296987,
+          "code": null,
+          "activity": "Construction of rooms and halls in school and colleges",
+          "description": "Construction of rooms and halls in school",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-19",
+            "amount": 500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 296986,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "Construction of community centers and community halls",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-19",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 296985,
+          "code": null,
+          "activity": "Construction of rooms and halls in school and colleges",
+          "description": "Construction of rooms and halls in school",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-19",
+            "amount": 500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 296984,
+          "code": null,
+          "activity": "Construction of public libraries and reading rooms",
+          "description": "Construction of public libraries",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-19",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 296981,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "Construction of community centers and community halls",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-19",
+            "amount": 500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 296980,
+          "code": null,
+          "activity": "Construction of boundary walls of existing public and community buildings",
+          "description": "Construction of boundary walls",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-19",
+            "amount": 500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 296978,
+          "code": null,
+          "activity": "Construction of rooms and halls in school and colleges",
+          "description": "Construction of Hostel Bullding mahatma jyotiba phule sansthan kotputli",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-19",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 296975,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "Construction of community centers and community halls",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-07-19",
+            "amount": 1100000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270069,
+          "code": "WS/MP18372/2026-2027/270069",
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": {
+            "on": "2026-07-15",
+            "amount": 90000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270068,
+          "code": "WS/MP18372/2026-2027/270068",
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": {
+            "on": "2026-07-15",
+            "amount": 90000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 278920,
+          "code": "WS/MP18372/2026-2027/278920",
+          "activity": "Development of playfields and sports grounds",
+          "description": "Tin Shed Construction Work on Multipurpose hall and Audience Gallery",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "GRAM PANCHAYAT CHANDWAJI",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-04-23",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-07-13",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 612519,
+          "paymentPending": 0
+        },
+        {
+          "id": 278919,
+          "code": "WS/MP18372/2026-2027/278919",
+          "activity": "Development of playfields and sports grounds",
+          "description": "Construction of Spectator gallery, stage, toilet and track",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-04-23",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-07-13",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 274640,
+          "code": "WS/MP18372/2026-2027/274640",
+          "activity": "Development of playfields and sports grounds",
+          "description": "Construction of multipurpose hall and staircase",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-07-13",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 287784,
+          "code": null,
+          "activity": "Construction of roads, link roads, pathways or any other road with or without drainage system",
+          "description": "for cc block construction work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-06-30",
+            "amount": 600000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 287783,
+          "code": null,
+          "activity": "Development of public parks",
+          "description": "Development of public parks",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-06-30",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 287779,
+          "code": null,
+          "activity": "Construction of buildings for sports facilities",
+          "description": "Construction of development work in playground",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-06-30",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 286172,
+          "code": null,
+          "activity": "Construction of rooms and halls in school and colleges",
+          "description": "Construction of rooms in school",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-06-20",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 2083,
+          "code": null,
+          "activity": "Construction of public libraries and reading rooms",
+          "description": "Construction of public libraries and reading rooms",
+          "category": "Normal/Others",
+          "districtAuthority": "BARMER(DISTRICT COLLECTOR BARMER_IDA)",
+          "implementingAgency": null,
+          "stage": null,
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-06-20",
+            "amount": 2100000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 281980,
+          "code": "WS/MP18372/2026-2027/281980",
+          "activity": "Construction of community centers and community halls",
+          "description": "Boundary wall construction work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-05-19",
+            "amount": 500000
+          },
+          "sanctioned": {
+            "on": "2026-06-18",
+            "amount": 500000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270074,
+          "code": "WS/MP18372/2026-2027/270074",
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": {
+            "on": "2026-06-16",
+            "amount": 90000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270072,
+          "code": "WS/MP18372/2026-2027/270072",
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": {
+            "on": "2026-06-16",
+            "amount": 90000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 279959,
+          "code": null,
+          "activity": "Construction of common work sheds / common covered sitting area",
+          "description": "Construction of Concrete Cemented Litigant Shed",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-05-08",
+            "amount": 2500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 216829,
+          "code": "WS/MP18372/2025-2026/216829",
+          "activity": "Construction of additional rooms and halls in the existing public and community building",
+          "description": "interlock construction work at prayer place",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": "Gram panchayat Mandha_8",
+          "stage": "Work Completed",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-07-10",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2025-11-27",
+            "amount": 1000000
+          },
+          "completed": {
+            "on": "2026-04-28",
+            "amount": 991225
+          },
+          "paid": 991225,
+          "paymentPending": 0
+        },
+        {
+          "id": 278921,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "Community Building Construction Work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-04-23",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 221361,
+          "code": "WS/MP18372/2025-2026/221361",
+          "activity": "Construction of roads, link roads, pathways or any other road with or without drainage system",
+          "description": "Construction of CC road and Tin shed",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Gram Panchayat khorashyamdas",
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-07-23",
+            "amount": 699714
+          },
+          "sanctioned": {
+            "on": "2025-10-07",
+            "amount": 699714
+          },
+          "completed": {
+            "on": "2026-03-25",
+            "amount": 699714
+          },
+          "paid": 699714,
+          "paymentPending": 0
+        },
+        {
+          "id": 274642,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 273239,
+          "code": null,
+          "activity": "Development of playfields and sports grounds",
+          "description": "Construction of multipurpose hall and track",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 273237,
+          "code": null,
+          "activity": "Development of playfields and sports grounds",
+          "description": "Construction of stage, toilet and track with spectator galleries",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 273228,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO Water cooler work",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 273226,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO Water cooler work",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 273225,
+          "code": null,
+          "activity": "Development of playfields and sports grounds",
+          "description": "Construction of Tin sheds and multipurpose hall on two spectator galleries",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270148,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270144,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO Water cooler work",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270142,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270140,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO Water cooler work",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270137,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO Water cooler work",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270135,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO Water cooler work",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270131,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO Water cooler work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270092,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO Water cooler work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270091,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270079,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270078,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO Water cooler work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270075,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270066,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 270065,
+          "code": null,
+          "activity": "Installing community drinking water plants",
+          "description": "RO WATER COOLER WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-16",
+            "amount": 90000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 216868,
+          "code": "WS/MP18372/2025-2026/216868",
+          "activity": "Construction of community centers and community halls",
+          "description": "Construction of community Building",
+          "category": "Normal/Others",
+          "districtAuthority": "TONK(DISTRICT COLLECTOR TONK_IDA)",
+          "implementingAgency": "PWD Uniara Aligarh",
+          "stage": "Vendor Identification",
+          "milestone": "sanctioned",
+          "recommended": null,
+          "sanctioned": {
+            "on": "2026-03-13",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 891172
+        },
+        {
+          "id": 273218,
+          "code": null,
+          "activity": "Construction of public staircase/ stair ghat for public convenience",
+          "description": "Construction of public staircase",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-03-09",
+            "amount": 500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 221278,
+          "code": "WS/MP18372/2025-2026/221278",
+          "activity": "Construction of community centers and community halls",
+          "description": "Construction of community centers and community halls",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Gram Panchayat Khoraladkhani",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-07-23",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-02-25",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 999720,
+          "paymentPending": 0
+        },
+        {
+          "id": 221277,
+          "code": "WS/MP18372/2025-2026/221277",
+          "activity": "Construction of community centers and community halls",
+          "description": "Construction of community centers and community halls",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "GRAM PANCHAYAT KARIRI_4",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-07-23",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-02-23",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 986586
+        },
+        {
+          "id": 216826,
+          "code": "WS/MP18372/2025-2026/216826",
+          "activity": "Construction of community centers and community halls",
+          "description": "Community Building Rajput Basti Gram Pachhudala",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Sanction",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-07-10",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2026-02-20",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 227460,
+          "code": "WS/MP18372/2025-2026/227460",
+          "activity": "Improvement of electricity distribution infrastructure",
+          "description": "11 kv line shiftung work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "AEN(O&M) JVVNL Manoharpur",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-08-18",
+            "amount": 170000
+          },
+          "sanctioned": {
+            "on": "2026-02-04",
+            "amount": 170000
+          },
+          "completed": null,
+          "paid": 166785,
+          "paymentPending": 0
+        },
+        {
+          "id": 255093,
+          "code": "WS/MP18372/2025-2026/255093",
+          "activity": " Providing sports equipment, except consumable items",
+          "description": "Providing sports equipment, except consumable items",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Secretary District Sports Council Chaugan Stadium Jaipur",
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-12-22",
+            "amount": 997776
+          },
+          "sanctioned": {
+            "on": "2025-12-26",
+            "amount": 997776
+          },
+          "completed": {
+            "on": "2026-01-22",
+            "amount": 997776
+          },
+          "paid": 997776,
+          "paymentPending": 0
+        },
+        {
+          "id": 249883,
+          "code": "WS/MP18372/2025-2026/249883",
+          "activity": "Purchase of immovable sports equipment",
+          "description": "Purchase of immovable sports equipment",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Secretary District Sports Council Chaugan Stadium Jaipur",
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-11-21",
+            "amount": 499785
+          },
+          "sanctioned": {
+            "on": "2025-12-02",
+            "amount": 499785
+          },
+          "completed": {
+            "on": "2026-01-22",
+            "amount": 499785
+          },
+          "paid": 499785,
+          "paymentPending": 0
+        },
+        {
+          "id": 221354,
+          "code": "WS/MP18372/2025-2026/221354",
+          "activity": "Lighting of public spaces",
+          "description": "high mast light construction work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Gram Panchayat Radawas_2",
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-07-23",
+            "amount": 491107
+          },
+          "sanctioned": {
+            "on": "2025-12-09",
+            "amount": 491107
+          },
+          "completed": {
+            "on": "2026-01-13",
+            "amount": 491107
+          },
+          "paid": 491107,
+          "paymentPending": 0
+        },
+        {
+          "id": 221353,
+          "code": "WS/MP18372/2025-2026/221353",
+          "activity": "Lighting of public spaces",
+          "description": "high mast light construction work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Gram Panchayat Radawas_2",
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-07-23",
+            "amount": 492832
+          },
+          "sanctioned": {
+            "on": "2025-12-09",
+            "amount": 492832
+          },
+          "completed": {
+            "on": "2026-01-13",
+            "amount": 492832
+          },
+          "paid": 492832,
+          "paymentPending": 0
+        },
+        {
+          "id": 256853,
+          "code": null,
+          "activity": "Construction of public libraries and reading rooms",
+          "description": "Construction of public libraries",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2026-01-03",
+            "amount": 1500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 221287,
+          "code": "WS/MP18372/2025-2026/221287",
+          "activity": "Construction of roads, link roads, pathways or any other road with or without drainage system",
+          "description": "Interlocking road Construction work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Gram Panchayat saiwar",
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-07-23",
+            "amount": 499548
+          },
+          "sanctioned": {
+            "on": "2025-08-27",
+            "amount": 499548
+          },
+          "completed": {
+            "on": "2025-12-26",
+            "amount": 499548
+          },
+          "paid": 499548,
+          "paymentPending": 0
+        },
+        {
+          "id": 221286,
+          "code": "WS/MP18372/2025-2026/221286",
+          "activity": "Construction of roads, link roads, pathways or any other road with or without drainage system",
+          "description": "Interlocking road Construction work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Gram Panchayat saiwar",
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-07-23",
+            "amount": 499552
+          },
+          "sanctioned": {
+            "on": "2025-08-27",
+            "amount": 499552
+          },
+          "completed": {
+            "on": "2025-12-26",
+            "amount": 499552
+          },
+          "paid": 499552,
+          "paymentPending": 0
+        },
+        {
+          "id": 218166,
+          "code": "WS/MP18372/2025-2026/218166",
+          "activity": "Setting up public non-conventional energy plants",
+          "description": "Construction of Solar Power Plant System (20KW)",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Shri Rajput sabha",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": null,
+          "sanctioned": {
+            "on": "2025-12-16",
+            "amount": 600000
+          },
+          "completed": null,
+          "paid": 600000,
+          "paymentPending": 0
+        },
+        {
+          "id": 218163,
+          "code": "WS/MP18372/2025-2026/218163",
+          "activity": "Setting up public non-conventional energy plants",
+          "description": "Construction of Solar Power Plant System (10kw)",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Shri Rajput sabha",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": null,
+          "sanctioned": {
+            "on": "2025-12-16",
+            "amount": 400000
+          },
+          "completed": null,
+          "paid": 400000,
+          "paymentPending": 0
+        },
+        {
+          "id": 218161,
+          "code": "WS/MP18372/2025-2026/218161",
+          "activity": "Setting up public non-conventional energy plants",
+          "description": "Construction of Solar Power Plant Systeam (50kw)",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Shri Rajput sabha",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": null,
+          "sanctioned": {
+            "on": "2025-12-16",
+            "amount": 1500000
+          },
+          "completed": null,
+          "paid": 1500000,
+          "paymentPending": 0
+        },
+        {
+          "id": 230790,
+          "code": "WS/MP18372/2025-2026/230790",
+          "activity": "Construction of community centers and community halls",
+          "description": "Work Agency Gram Panchayat Kabro ka bas",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Gram Panchayat Kabro Ka Bas",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-09-02",
+            "amount": 1500000
+          },
+          "sanctioned": {
+            "on": "2025-12-09",
+            "amount": 1500000
+          },
+          "completed": null,
+          "paid": 1155581,
+          "paymentPending": 0
+        },
+        {
+          "id": 230791,
+          "code": "WS/MP18372/2025-2026/230791",
+          "activity": "Construction of community centers and community halls",
+          "description": "community building and boundary wall construction work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": "Vendor Identification",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-09-02",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2025-11-04",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 221285,
+          "code": "WS/MP18372/2025-2026/221285",
+          "activity": "Construction of roads, link roads, pathways or any other road with or without drainage system",
+          "description": "Interlocking tiles Construction Including Painting Work",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "GRAM PANCHAYAT NATATA",
+          "stage": "Physical Inspection",
+          "milestone": "completed",
+          "recommended": {
+            "on": "2025-07-23",
+            "amount": 999900
+          },
+          "sanctioned": {
+            "on": "2025-09-10",
+            "amount": 999900
+          },
+          "completed": {
+            "on": "2025-10-24",
+            "amount": 999900
+          },
+          "paid": 999900,
+          "paymentPending": 0
+        },
+        {
+          "id": 221351,
+          "code": "WS/MP18372/2025-2026/221351",
+          "activity": "Construction of community centers and community halls",
+          "description": "Construction of community centers and community halls",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": "Gram Panchayat Asalpur",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-07-23",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2025-10-06",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 971089,
+          "paymentPending": 0
+        },
+        {
+          "id": 1554,
+          "code": null,
+          "activity": "Improvement of electricity distribution infrastructure",
+          "description": "132 KV H.T. LINE SHIFTING WORK",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": null,
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2025-08-30",
+            "amount": 2500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 1445,
+          "code": null,
+          "activity": "Setting up public non-conventional energy plants",
+          "description": "Construction of Solar Power Plant System (20KW)",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": null,
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2025-07-14",
+            "amount": 600000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 1444,
+          "code": null,
+          "activity": "Setting up public non-conventional energy plants",
+          "description": "Construction of Solar Power Plant System (10kw)",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": null,
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2025-07-14",
+            "amount": 400000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 1443,
+          "code": null,
+          "activity": "Setting up public non-conventional energy plants",
+          "description": "Construction of Solar Power Plant Systeam (50kw)",
+          "category": "Normal/Others",
+          "districtAuthority": "JAIPUR(DISTRICT COLLECTOR JAIPUR_IDA)",
+          "implementingAgency": null,
+          "stage": null,
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2025-07-14",
+            "amount": 1500000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 1438,
+          "code": null,
+          "activity": "Construction of community centers and community halls",
+          "description": "Construction of community Building",
+          "category": "Normal/Others",
+          "districtAuthority": "TONK(DISTRICT COLLECTOR TONK_IDA)",
+          "implementingAgency": null,
+          "stage": null,
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2025-07-10",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 174480,
+          "code": "WS/MP18372/2025-2026/174480",
+          "activity": "Construction of boundary walls of existing public and community buildings",
+          "description": "Construction of Public Community Building with boundary wall Village Lunaji, G.P. Kerodi",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Vendor Identification",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-02-15",
+            "amount": 1000000
+          },
+          "sanctioned": {
+            "on": "2025-05-09",
+            "amount": 1000000
+          },
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        },
+        {
+          "id": 174478,
+          "code": "WS/MP18372/2025-2026/174478",
+          "activity": "Construction of community centers and community halls",
+          "description": "Construction of community Building Near Khatiko ka Mohalla Ward No.13 Nagar Palika Jobner",
+          "category": "Normal/Others",
+          "districtAuthority": "Jaipur Gramin(DISTRICT COLLECTOR Jaipur Gramin_IDA)",
+          "implementingAgency": "Nagar Palika Mandal Jobner",
+          "stage": "Work partially Completed",
+          "milestone": "sanctioned",
+          "recommended": {
+            "on": "2025-02-15",
+            "amount": 2500000
+          },
+          "sanctioned": {
+            "on": "2025-04-03",
+            "amount": 2500000
+          },
+          "completed": null,
+          "paid": 884544,
+          "paymentPending": 0
+        },
+        {
+          "id": 174484,
+          "code": null,
+          "activity": "Construction of rooms and halls in school and colleges",
+          "description": "Construction of Meghwal Women Hostel Building",
+          "category": "Normal/Others",
+          "districtAuthority": "Kotputli-Behror(DISTRICT COLLECTOR Kotputli Behror_IDA)",
+          "implementingAgency": null,
+          "stage": "Pending for Sanction",
+          "milestone": "recommended",
+          "recommended": {
+            "on": "2025-02-15",
+            "amount": 1000000
+          },
+          "sanctioned": null,
+          "completed": null,
+          "paid": 0,
+          "paymentPending": 0
+        }
+      ]
+    }
+  ]
+}
