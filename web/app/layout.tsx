@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import QuestListener from "@/components/quests/QuestListener";
+import SiteNav from "@/components/SiteNav";
 import { Bricolage_Grotesque, Plus_Jakarta_Sans } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
@@ -33,37 +34,22 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-canvas text-ink font-sans">
         {/* Header */}
         <header className="sticky top-0 z-50 border-b border-line bg-canvas/90 backdrop-blur-md">
-          <div className="mx-auto flex h-[72px] w-full max-w-[1320px] items-center justify-between px-4 sm:px-6 lg:px-8">
+          <div className="relative mx-auto flex h-16 w-full sm:h-[72px] max-w-[1320px] items-center justify-between px-4 sm:px-6 lg:px-8">
             <Link href="/" className="flex shrink-0 items-center gap-2.5 group">
               <span className="grid h-9 w-9 -rotate-6 place-items-center rounded-xl bg-ink text-xl font-black text-pop transition-transform group-hover:rotate-0" aria-hidden="true">✓</span>
               <span className="font-display whitespace-nowrap text-xl font-bold tracking-[-0.025em] text-ink">
                 Vote Better
               </span>
             </Link>
-            <nav className="ml-4 flex min-w-0 items-center gap-4 overflow-x-auto whitespace-nowrap [scrollbar-width:none] text-sm font-semibold sm:gap-7">
-              <Link
-                href="/seats"
-                className="text-body transition-colors hover:text-brand"
-              >
-                Seats
-              </Link>
-              <Link href="/elections" className="text-body transition-colors hover:text-brand">Elections</Link>
-              <Link href="/how-it-works" className="text-body transition-colors hover:text-brand">How it works</Link>
-              <Link href="/quests" className="text-body transition-colors hover:text-brand">Quests</Link>
-              <Link
-                href="/constitution"
-                className="text-body transition-colors hover:text-brand"
-              >
-                Constitution
-              </Link>
-              {process.env.NODE_ENV === "development" && <Link href="/mps" className="text-body transition-colors hover:text-brand">MPs</Link>}
-              <Link
-                href="/about"
-                className="text-body transition-colors hover:text-brand"
-              >
-                About
-              </Link>
-            </nav>
+            <SiteNav links={[
+              { href: "/seats", label: "Seats" },
+              { href: "/elections", label: "Elections" },
+              { href: "/how-it-works", label: "How it works" },
+              { href: "/constitution", label: "Constitution" },
+              { href: "/quests", label: "Quests" },
+              ...(process.env.NODE_ENV === "development" ? [{ href: "/mps", label: "MPs" }] : []),
+              { href: "/about", label: "About" },
+            ]} />
           </div>
         </header>
 
