@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { currentDslsaHelpline, rightsSituations, rightsSources, validateRightsGuide, validateRightsArticles, type RightsGuide } from "./rights";
+import { currentLegalAidHelpline, rightsSituations, rightsSources, validateRightsGuide, validateRightsArticles, type RightsGuide } from "./rights";
 
 test("public rights articles reject uncited paragraphs and unknown references", () => {
   const validate = validateRightsArticles;
@@ -18,7 +18,7 @@ const guide: RightsGuide = {
   id: "arrested", situation: "Arrested", custodyPath: "ordinary", steps: [{ kind: "legal", text: "Ask for the grounds of arrest.", citationIds: ["bnss-47"] }],
   citations: [{ id: "bnss-47", url: "https://www.indiacode.nic.in/indiacode/handle/123456789/20099?view_type=browse", section: "BNSS section 47", checkedAt: "2026-10-09T00:00:00.000Z" }],
   lawEffectiveOn: "2024-07-01", sourceCheckedAt: "2026-10-09T00:00:00.000Z", legallyReviewedAt: "2026-10-09T01:00:00.000Z", reviewer: "Qualified legal reviewer", exceptions: ["preventive-detention"],
-  helpContacts: [{ label: "DSLSA", url: "https://delhi.nalsa.gov.in/", checkedAt: "2026-10-09T00:00:00.000Z" }],
+  helpContacts: [{ label: "NALSA", url: "https://nalsa.gov.in/", checkedAt: "2026-10-09T00:00:00.000Z" }],
 };
 
 test("rights guide requires citations, legal review and current help contact", () => {
@@ -36,8 +36,8 @@ test("a 24-hour claim needs preventive-detention exception and amendment re-revi
 });
 
 test("a stored legal-aid phone is hidden after its check expires", () => {
-  assert.equal(currentDslsaHelpline(new Date("2026-10-10T00:00:00.000Z")), "1516");
-  assert.equal(currentDslsaHelpline(new Date("2026-12-01T00:00:00.000Z")), null);
+  assert.equal(currentLegalAidHelpline(new Date("2026-11-20T00:00:00.000Z")), "15100");
+  assert.equal(currentLegalAidHelpline(new Date("2027-01-01T00:00:00.000Z")), null);
 });
 
 test("every visible rights summary has official sources and a detention exception", () => {

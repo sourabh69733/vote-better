@@ -22,14 +22,6 @@ export const protestTopics: RightsTopic[] = [
     ],
   },
   {
-    id: "delhi-permission", group: "freedom", title: "Permissions, routes and public spaces in Delhi",
-    summary: "Organising a public event involves conditions that differ from simply attending.",
-    paragraphs: [
-      { text: "Delhi Traffic Police's published NOC page says a traffic NOC is mandatory for organising public rallies, meetings, processions, morchas and protest gatherings in public spaces. This requirement concerns organisers. The page does not say every attendee needs an individual NOC. A traffic NOC also does not establish that every other permission or restriction has been satisfied.", references: ["delhi-noc"] },
-      { text: "The Delhi Police Act provides powers to regulate traffic and order in public places and to issue directions and specified prohibitions. The actual event permission, route, place, time and conditions therefore matter. The linked notification index helps locate documents, but its listings do not establish that a particular order applies to your event. An old event approval is not permission for a new event.", references: ["delhi-police-28", "delhi-orders"] },
-    ],
-  },
-  {
     id: "restriction-order", group: "freedom", title: "What BNSS section 163 actually does",
     summary: "It authorises a written urgent restriction, rather than a blanket arrest power.",
     paragraphs: [
@@ -74,7 +66,7 @@ export const protestTopics: RightsTopic[] = [
     summary: "These are distinct routes, with distinct conditions and custody limits.",
     paragraphs: [
       { text: "BNSS section 170 allows preventive arrest when an officer knows of a design to commit a cognizable offence and considers it cannot otherwise be prevented. The planned offence need not already have happened. Section 170(2) does not allow custody beyond 24 hours from arrest unless another provision of BNSS or another law requires or authorises further detention. The word 'preventive' does not create unlimited custody.", references: ["bnss-170"] },
-      { text: "Section 172 concerns lawful police directions in the preventive-action chapter. It allows detention or removal for disregarding them and either production before a magistrate or, in petty cases, release as soon as possible within 24 hours. Delhi Police Act section 65 separately concerns reasonable directions under that Act, with production before a magistrate or release within 24 hours of removal. Detention under a separate preventive-detention law has a different constitutional framework in Article 22(3)-(7). The provision and actual order must be identified before interpreting the custody period.", references: ["bnss-172", "delhi-police-65", "constitution-22"] },
+      { text: "Section 172 concerns lawful police directions in the preventive-action chapter. It allows detention or removal for disregarding them and either production before a magistrate or, in petty cases, release as soon as possible within 24 hours. State police laws can add their own powers to give directions, so the law of the state you are in also matters. Detention under a separate preventive-detention law has a different constitutional framework in Article 22(3)-(7). The provision and actual order must be identified before interpreting the custody period.", references: ["bnss-172", "constitution-22"] },
     ],
   },
   {
@@ -138,7 +130,7 @@ export const protestTopics: RightsTopic[] = [
     summary: "Review routes exist. Which route fits depends on the order and circumstances.",
     paragraphs: [
       { text: "BNSS section 163(5)-(7) allows an aggrieved person to apply for alteration or rescission, with written reasons for rejection. Article 226 empowers High Courts to issue writs, including habeas corpus, for enforcing fundamental rights and other purposes. Reviewing a public-order restriction and asking a court to examine allegedly unlawful custody are distinct mechanisms, rather than interchangeable forms.", references: ["bnss-163", "constitution-226"] },
-      { text: "NALSA describes advice, assistance and representation through legal-services institutions, with eligibility and application procedures. Its FAQ provides an urgent legal-assistance contact. DSLSA's introduction lists round-the-clock helplines. The recently checked Delhi contact appears separately on this page; the linked official pages provide current numbers. These services provide a human legal-help path for examining a notice, order, FIR or custody concern. An application or call does not guarantee immediate representation or a particular outcome.", references: ["nalsa", "dslsa"] },
+      { text: "NALSA describes advice, assistance and representation through legal-services institutions in every state and district, with eligibility and application procedures. Its FAQ provides an urgent legal-assistance contact, and its national helpline appears separately on this page. These services provide a human legal-help path for examining a notice, order, FIR or custody concern. An application or call does not guarantee immediate representation or a particular outcome.", references: ["nalsa"] },
     ],
   },
   {
@@ -146,7 +138,7 @@ export const protestTopics: RightsTopic[] = [
     summary: "Arrest information and missing-person reporting are different sources of help.",
     paragraphs: [
       { text: "BNSS sections 36-37 and 48 provide for arrest information: the designated officer maintains specified information, and a nominated person must be informed of the arrest and place of custody. These provisions do not mean Vote Better has access to a live custody register or can locate someone using a PIN code.", references: ["bnss-36", "bnss-47"] },
-      { text: "Delhi Police publishes a telephone directory and a missing-person registration service. They are contact and reporting paths, rather than proof someone was arrested. DSLSA and NALSA provide legal-help routes for a custody concern and examination of a possible court remedy, including whether a habeas corpus petition fits the facts.", references: ["police-directory", "missing-person", "dslsa", "nalsa", "constitution-226"] },
+      { text: "A missing person can be reported at a police station, and 112 reaches the police, fire service and ambulances in an emergency. These are reporting paths, rather than proof someone was arrested. Legal services authorities provide a legal-help route for a custody concern and for examining a possible court remedy, including whether a habeas corpus petition fits the facts.", references: ["emergency-112", "nalsa", "constitution-226"] },
     ],
   },
 ];
@@ -161,7 +153,7 @@ export const rightsGroups = [
 ] as const;
 
 export const rightsPaths = [
-  { id: "protesting", title: "Planning to attend a protest", topics: ["peaceful-protest", "alone-or-group", "delhi-permission", "restriction-order", "possible-offences", "dispersal"] },
+  { id: "protesting", title: "Planning to attend a protest", topics: ["peaceful-protest", "alone-or-group", "restriction-order", "possible-offences", "dispersal"] },
   { id: "stopped", title: "Stopped by police", topics: ["alone-or-group", "restriction-order", "dispersal", "preventive-action", "arrest-power"] },
   { id: "questioned", title: "Called for questioning", topics: ["questioning", "arrest-power", "arrest-safeguards"] },
   { id: "detained", title: "Detained or removed", topics: ["preventive-action", "custody-clock", "arrest-safeguards", "challenge-and-help"] },

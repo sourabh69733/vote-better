@@ -68,24 +68,23 @@ export const rightsSources = {
   constitution: { title: "Constitution of India, Article 22", url: "https://www.legislative.gov.in/static/uploads/2025/08/7af1daa22d65f9d04c00ae9b9aa5a799.pdf" },
   bnss: { title: "India Code, Bharatiya Nagarik Suraksha Sanhita, 2023", url: "https://www.indiacode.nic.in/indiacode/handle/123456789/20099?view_type=browse" },
   bnssText: { title: "BNSS full text (India Code PDF)", url: "https://www.indiacode.nic.in/bitstream/123456789/21180/1/bharatiya_nagarik_suraksha_sanhita%2C_2023_1723877824_66c049c04ad7c_%281%29.pdf" },
-  dslsa: { title: "Delhi State Legal Services Authority", url: "https://delhi.nalsa.gov.in/" },
-  dslsaAbout: { title: "DSLSA legal aid and helplines", url: "https://delhi.nalsa.gov.in/introduction/" },
-  police: { title: "Delhi Police station finder", url: "https://delhipolice.gov.in/kyps" },
-  policeContacts: { title: "Delhi Police helplines", url: "https://delhipolice.gov.in/telephonedirectory" },
-  missingReport: { title: "Delhi Police missing-person registration", url: "https://cctns.delhipolice.gov.in/citizenservices/missingpersonregistration.htm" },
+  nalsa: { title: "National Legal Services Authority (NALSA), free legal aid", url: "https://nalsa.gov.in/" },
+  emergency: { title: "Pan-India emergency number 112 (PIB)", url: "https://www.pib.gov.in/newsite/PrintRelease.aspx?relid=188727" },
 } as const;
 
 export const rightsSituations = [
-  { id: "stopped", title: "Stopped by police", summary: "A stop and an arrest can involve different legal powers. BNSS section 35 describes when police may arrest without a warrant.", sourceIds: ["bnssText", "dslsa"], summaryReference: "BNSS section 35" },
-  { id: "questioned", title: "Called for questioning", summary: "In specified cases, police can issue a written notice to appear. The BNSS notice form identifies the case, station, date and time.", sourceIds: ["bnssText", "dslsa"], summaryReference: "BNSS section 35(3) and Second Schedule" },
-  { id: "detained", title: "Detained", summary: "Article 22 generally requires an arrested person to be brought before a magistrate within 24 hours, excluding travel time. Its first two clauses do not apply to enemy aliens or detention under a preventive-detention law.", sourceIds: ["constitution", "bnssText", "dslsa"], summaryReference: "Constitution, Article 22(1)-(3)" },
-  { id: "arrested", title: "Arrested", summary: "For an arrest without warrant, BNSS requires the grounds to be given. It also covers informing a nominated person and meeting an advocate during interrogation.", sourceIds: ["bnssText", "constitution", "dslsa"], summaryReference: "BNSS sections 38, 47 and 48" },
-  { id: "injured", title: "Injured in custody", summary: "BNSS requires a medical examination soon after arrest. The report should record injuries and be given to the arrested person or their nominee.", sourceIds: ["bnssText", "dslsa"], summaryReference: "BNSS section 53" },
-  { id: "family-member-missing", title: "Looking for someone", summary: "Delhi Police offers missing-person registration and a 1094 helpline. Its emergency response number is 112.", sourceIds: ["missingReport", "policeContacts", "police"], summaryReference: "Delhi Police missing-person service and telephone directory" },
-  { id: "legal-aid", title: "Need legal aid", summary: "DSLSA offers legal-aid services for eligible people, including accused persons and victims. Its official page lists helpline 1516.", sourceIds: ["dslsaAbout", "dslsa"], summaryReference: "DSLSA introduction" },
+  { id: "stopped", title: "Stopped by police", summary: "A stop and an arrest can involve different legal powers. BNSS section 35 describes when police may arrest without a warrant.", sourceIds: ["bnssText", "nalsa"], summaryReference: "BNSS section 35" },
+  { id: "questioned", title: "Called for questioning", summary: "In specified cases, police can issue a written notice to appear. The BNSS notice form identifies the case, station, date and time.", sourceIds: ["bnssText", "nalsa"], summaryReference: "BNSS section 35(3) and Second Schedule" },
+  { id: "detained", title: "Detained", summary: "Article 22 generally requires an arrested person to be brought before a magistrate within 24 hours, excluding travel time. Its first two clauses do not apply to enemy aliens or detention under a preventive-detention law.", sourceIds: ["constitution", "bnssText", "nalsa"], summaryReference: "Constitution, Article 22(1)-(3)" },
+  { id: "arrested", title: "Arrested", summary: "For an arrest without warrant, BNSS requires the grounds to be given. It also covers informing a nominated person and meeting an advocate during interrogation.", sourceIds: ["bnssText", "constitution", "nalsa"], summaryReference: "BNSS sections 38, 47 and 48" },
+  { id: "injured", title: "Injured in custody", summary: "BNSS requires a medical examination soon after arrest. The report should record injuries and be given to the arrested person or their nominee.", sourceIds: ["bnssText", "nalsa"], summaryReference: "BNSS section 53" },
+  { id: "family-member-missing", title: "Looking for someone", summary: "BNSS requires police to tell a person the arrested person names where they are held. You can report a missing person at any police station, and call 112 in an emergency.", sourceIds: ["bnssText", "emergency"], summaryReference: "BNSS sections 36, 37 and 48" },
+  { id: "legal-aid", title: "Need legal aid", summary: "Legal services authorities in every state and district give free legal aid to eligible people, including accused persons and victims. NALSA's national helpline is 15100.", sourceIds: ["nalsa"], summaryReference: "NALSA, legal aid and helpline" },
 ] as const;
 
-export function currentDslsaHelpline(now = new Date()): string | null {
-  const checkedAt = Date.parse("2026-10-10T00:00:00.000Z");
-  return now.getTime() - checkedAt <= 30 * day ? "1516" : null;
+// NALSA's national legal-aid helpline, as its home page showed it on 13 November 2026. A number older
+// than 30 days is hidden until someone checks it again, and the page links the site instead.
+export const LEGAL_AID_CHECKED_ON = "2026-11-13";
+export function currentLegalAidHelpline(now = new Date()): string | null {
+  return now.getTime() - Date.parse(`${LEGAL_AID_CHECKED_ON}T00:00:00.000Z`) <= 30 * day ? "15100" : null;
 }

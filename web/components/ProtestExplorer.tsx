@@ -47,7 +47,7 @@ export default function ProtestExplorer({ topics }: { topics: RightsTopic[] }) {
           <RightsCitation ids={["bnss-148", "bnss-172"]} />
           {connector("Only if the applicable preventive power's conditions are met")}
           {node("detained", "Preventive action, removal or detention")}
-          <RightsCitation ids={["bnss-170", "bnss-172", "delhi-police-65"]} />
+          <RightsCitation ids={["bnss-170", "bnss-172"]} />
         </div>
         <div>
           {connector("If information alleges a cognizable offence")}

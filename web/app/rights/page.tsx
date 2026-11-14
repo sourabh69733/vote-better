@@ -5,29 +5,29 @@ import RightsCitation from "@/components/RightsCitation";
 import RightsCustodyTimeline from "@/components/RightsCustodyTimeline";
 import RightsReading from "@/components/RightsReading";
 import { protestTopics, rightsGlossary, rightsGroups, rightsPaths } from "@/lib/protest-guide";
-import { currentDslsaHelpline, rightsSources } from "@/lib/rights";
+import { LEGAL_AID_CHECKED_ON, currentLegalAidHelpline, rightsSources } from "@/lib/rights";
 import { rightsReferences } from "@/lib/rights-references";
 
 export const metadata: Metadata = {
   title: "Protest, police and your rights | Vote Better",
-  description: "Explore India's core protest laws, Delhi permissions, FIRs, arrest safeguards and legal aid with official citations.",
+  description: "Explore India's core protest laws, police directions, FIRs, arrest safeguards and free legal aid, with official citations.",
 };
 
 export default function RightsPage() {
-  const helpline = currentDslsaHelpline();
+  const helpline = currentLegalAidHelpline();
   const explorerIds = ["peaceful-protest", "dispersal", "questioning", "preventive-action", "arrest-safeguards", "fir-process"];
   return <div className="mx-auto w-full max-w-[1360px] px-4 pb-16 pt-8 sm:px-6 lg:px-10">
     <Link href="/constitution" className="inline-flex min-h-11 items-center text-sm font-semibold text-brand hover:underline">← The Constitution, simply</Link>
     <header className="mt-5 border-b border-line pb-8">
-      <p className="text-xs font-bold uppercase tracking-[0.16em] text-eyebrow">India&apos;s laws / Delhi context</p>
+      <p className="text-xs font-bold uppercase tracking-[0.16em] text-eyebrow">India&apos;s laws</p>
       <div className="mt-4 grid items-end gap-6 lg:grid-cols-[1fr_300px]">
         <div><h1 className="max-w-3xl text-[clamp(2.5rem,5vw,4.6rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-ink">Understand your rights.<br /><span className="text-[#39775a]">One situation at a time.</span></h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-[#526858]">Protesting, going alone or in a group, police directions, FIRs and arrest. Start with the map, then open a topic for the detail and the law behind it.</p></div>
         <div className="rounded-2xl border border-[#c9ddce] bg-white p-5">
           <p className="text-sm font-bold text-[#254e38]">Need a lawyer now?</p>
-          <a href={helpline ? "tel:" + helpline : rightsSources.dslsaAbout.url} className="mt-2 inline-flex min-h-11 items-center text-2xl font-semibold text-brand underline underline-offset-4">{helpline ? "Delhi legal aid: " + helpline : "Open Delhi legal aid ↗"}</a>
-          <p className="mt-2 text-sm leading-6 text-[#617567]">Source checked 10 Oct 2026.</p>
-          <RightsCitation ids={["dslsa"]} />
+          <a href={helpline ? "tel:" + helpline : rightsSources.nalsa.url} className="mt-2 inline-flex min-h-11 items-center text-2xl font-semibold text-brand underline underline-offset-4">{helpline ? "Free legal aid: " + helpline : "Open NALSA legal aid ↗"}</a>
+          <p className="mt-2 text-sm leading-6 text-[#617567]">National helpline of the National Legal Services Authority, checked {new Date(`${LEGAL_AID_CHECKED_ON}T00:00:00Z`).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" })}.</p>
+          <RightsCitation ids={["nalsa"]} />
         </div>
       </div>
       <div className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-sm leading-6 text-[#58705e]">
@@ -44,7 +44,7 @@ export default function RightsPage() {
         <section className="rounded-[24px] border border-[#e0d2b4] bg-[#faf6ea] p-5 sm:p-6" aria-labelledby="location-heading">
           <h2 id="location-heading" className="text-xl font-semibold text-[#66532b]">Your location and date still matter</h2>
           <p className="mt-3 text-base leading-7 text-[#665b40]">A section 163 order can apply to an individual, an area or people visiting it. This page has not verified an order for your event. The written order, its boundaries, dates, prohibited acts and any amendments must be examined before drawing a conclusion.</p>
-          <RightsCitation ids={["bnss-163", "delhi-orders"]} />
+          <RightsCitation ids={["bnss-163"]} />
         </section>
         <RightsCustodyTimeline />
         <section aria-labelledby="detail-heading" id="detailed-guide" className="scroll-mt-28">

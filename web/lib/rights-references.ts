@@ -4,7 +4,6 @@ export const rightsCheckedOn = "2026-10-10";
 const bnss = "https://www.mha.gov.in/sites/default/files/2024-04/250884_2_english_01042024.pdf";
 const bns = "https://www.indiacode.nic.in/indiacode/bitstream/123456789/20062/1/a202345.pdf";
 const constitution = "https://www.legislative.gov.in/static/uploads/2025/08/7af1daa22d65f9d04c00ae9b9aa5a799.pdf";
-const delhiPoliceAct = "https://www.indiacode.nic.in/bitstream/123456789/13669/1/delhi_police_act.pdf";
 
 function law(label: string, document: string, page: number, locator: string): RightsReference {
   return { label, url: `${document}#page=${page}`, locator: `${locator}; PDF page ${page}`, checkedAt: rightsCheckedOn, kind: "statute" };
@@ -41,14 +40,8 @@ export const rightsReferences: Record<string, RightsReference> = {
   "bns-190": law("BNS, sections 190 and 191", bns, 67, "Common-object liability and rioting"),
   "bns-221": law("BNS, section 221", bns, 73, "Obstructing a public servant in discharge of public functions"),
   "bns-223": law("BNS, section 223", bns, 74, "Section 223(a)-(b) and explanation, knowledge and harmful consequences"),
-  "delhi-police-28": law("Delhi Police Act, sections 28-33", delhiPoliceAct, 14, "Public-place regulations and directions; continued on PDF pages 15-18"),
-  "delhi-police-65": law("Delhi Police Act, section 65", delhiPoliceAct, 28, "Section 65(1)-(2), reasonable directions and removal"),
-  "delhi-noc": service("Delhi Traffic Police, public-event NOC", "https://traffic.delhipolice.gov.in/en/no-objection-certificate-noc", "NOC for Public Events and Activities"),
-  "delhi-orders": service("Delhi Police, notifications", "https://delhipolice.gov.in/notification", "Notification index; each actual order must be opened separately"),
-  "dslsa": service("DSLSA, legal aid and helplines", "https://delhi.nalsa.gov.in/introduction/", "Introduction; helplines 15100 and 1516"),
+  "emergency-112": service("PIB, pan-India emergency number 112", "https://www.pib.gov.in/newsite/PrintRelease.aspx?relid=188727", "One number for police, fire and ambulance"),
   "nalsa": service("NALSA, legal-aid FAQs", "https://nalsa.gov.in/faqs/", "Eligibility, legal advice, application and urgent assistance"),
-  "police-directory": service("Delhi Police, telephone directory", "https://delhipolice.gov.in/telephonedirectory", "Official helplines and local police contacts"),
-  "missing-person": service("Delhi Police, missing-person registration", "https://cctns.delhipolice.gov.in/citizenservices/missingpersonregistration.htm", "Citizen missing-person reporting service"),
   "amit-sahni": {
     label: "Supreme Court, Amit Sahni (2020)",
     url: "https://api.sci.gov.in/supremecourt/2020/2418/2418_2020_36_1501_24294_Judgement_07-Oct-2020.pdf#page=7",
