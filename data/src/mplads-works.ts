@@ -146,7 +146,7 @@ export function reportRows(body: string, name: ReportName): Row[] {
 }
 
 function checkRow(row: Row, target: MpladsTarget, name: ReportName) {
-  if (text(row.MP_NAME) !== target.officialName) throw new Error(`Report ${name} lists another MP: ${row.MP_NAME}`);
+  if (text(row.MP_NAME) !== text(target.officialName)) throw new Error(`Report ${name} lists another MP: ${row.MP_NAME}`);
   if (text(row.CONSTITUENCY) !== target.constituency) throw new Error(`Report ${name} lists another seat: ${row.CONSTITUENCY}`);
   if (row.CONSTITUENCY_ID !== undefined && row.CONSTITUENCY_ID !== target.constituencyId) throw new Error(`Report ${name} lists seat ${row.CONSTITUENCY_ID}`);
 }
@@ -162,8 +162,9 @@ const dated = (row: Row | undefined, date: string, field: string) =>
   row && text(row[date]) ? { on: feedDate(row[date]), amount: amount(row, field) } : null;
 
 export function buildMember(target: MpladsTarget, responses: MpladsResponses): MpladsMember {
+  // eSAKSHI sometimes lists one MP under two accounts; every report row must still name the target.
   const members = JSON.parse(responses.member) as { ID: number; CAPTION: string }[];
-  if (members.length !== 1 || members[0].CAPTION !== target.officialName) {
+  if (!members.some((member) => text(member.CAPTION) === text(target.officialName))) {
     throw new Error(`${target.constituency} has ${members.map((member) => member.CAPTION).join(", ") || "no MP"} on eSAKSHI, expected ${target.officialName}`);
   }
   const tiles = JSON.parse(responses.tiles) as Record<string, unknown>;
@@ -270,7 +271,7 @@ export function buildPublication(targets: readonly MpladsTarget[], responses: re
   };
 }
 
-async function post(endpoint: string, body: object, request: typeof fetch = fetch): Promise<string> {
+export async function post(endpoint: string, body: object, request: typeof fetch = fetch): Promise<string> {
   for (let attempt = 1; ; attempt++) {
     try {
       const response = await request(`${API}/${endpoint}`, {

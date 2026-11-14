@@ -14,6 +14,7 @@ import { importJaipurForm21E } from "./import-jaipur.js";
 import { importSansadBiography } from "./import-sansad-biography.js";
 import { importSansadMembers } from "./import-sansad-members.js";
 import { listCollectedBiographyIds } from "./profile-draft.js";
+import { updateAllMembersFunds } from "./mplads-all-members.js";
 import { collectWorks } from "./mplads-works.js";
 import { AFFIDAVIT_SEATS, collectSeatAffidavits, writeWorklist } from "./eci-affidavits.js";
 import { buildPublication, collectNominations, NOMINATION_TARGETS, portalFetcher, writePublication } from "./eci-nominations.js";
@@ -369,6 +370,24 @@ export const registry: SourceDefinition[] = [
       const publication = await collectWorks(targets, webImport("mplads-works.json"), raw("mplads"));
       const works = publication.members.reduce((sum, member) => sum + member.works.length, 0);
       return { outcome: "succeeded", items: works, detail: `${publication.members.length} members, ${works} works` };
+    },
+  },
+  {
+    id: "mospi-mplads-works-all",
+    title: "MP Local Area Development Scheme works for every Lok Sabha seat (local only)",
+    owner: "Ministry of Statistics and Programme Implementation, eSAKSHI",
+    url: "https://mplads.mospi.gov.in/digigov/dashboard.html",
+    format: "json",
+    refreshDays: 7,
+    reuse: { status: "to-confirm", note: "Kept in data/raw and not published until MoSPI's reuse terms are confirmed (decision 10)." },
+    supplies: ["outcome.fundWork"],
+    review: "file-export",
+    localOnly: true,
+    timeoutMinutes: 180,
+    async run() {
+      const { archive, excluded, fetched, seats } = await updateAllMembersFunds();
+      const works = archive.members.reduce((sum, member) => sum + member.works.length, 0);
+      return { outcome: excluded.length ? "partial" : "succeeded", items: works, detail: `${archive.members.length} of ${seats} seats, ${works} works, ${fetched} seats fetched${excluded.length ? `, ${excluded.length} seats left out` : ""}` };
     },
   },
 ];
