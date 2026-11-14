@@ -17,7 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
   return [
     page("/", undefined, 1),
-    ...["/elections", "/seats", "/constitution", "/rights", "/quests", "/about"].map((path) => page(path, undefined, 0.8)),
+    ...["/elections", "/seats", "/how-it-works", "/constitution", "/rights", "/quests", "/about"].map((path) => page(path, undefined, 0.8)),
     ...elections.map((election) => page(`/elections/${election.id}`, undefined, election.countingOn ? 0.6 : 0.9)),
     ...seats,
     ...listPersonSlugs().map((slug) => page(`/people/${slug}`, undefined, 0.5)),

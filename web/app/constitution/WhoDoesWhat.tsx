@@ -2,7 +2,17 @@
 
 import { useRef, useState } from "react";
 
+import Link from "next/link";
+
 import { CONSTITUTION_TEXT, EVERYDAY_ISSUES_CHECKED_ON, everydayIssues, type Level } from "@/records/everyday-issues";
+
+// Problems that have a step-by-step process on the How it works page.
+const STEPS: Record<string, { id: string; label: string }> = {
+  police: { id: "police-complaint", label: "From an FIR to court, step by step" },
+  voter: { id: "voter-list", label: "Getting on the voter list, step by step" },
+  consumer: { id: "consumer", label: "A consumer complaint, step by step" },
+  "central-office": { id: "central-grievance", label: "A grievance on CPGRAMS, step by step" },
+};
 
 const levels: { id: Level; name: string; body: string }[] = [
   { id: "union", name: "Union", body: "Parliament and the central government" },
@@ -88,6 +98,12 @@ export default function WhoDoesWhat() {
             </div>
           )}
         </dl>
+
+        {STEPS[issue.id] && (
+          <Link href={`/how-it-works#${STEPS[issue.id].id}`} className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-full border border-line-strong bg-surface px-4 text-sm font-bold text-link hover:bg-tint">
+            {STEPS[issue.id].label} →
+          </Link>
+        )}
 
         {issue.basis.length > 0 && (
           <div className="mt-4 text-sm leading-6 text-muted">
