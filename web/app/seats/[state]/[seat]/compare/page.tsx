@@ -73,13 +73,13 @@ export default async function ComparePage({ params, searchParams }: PageProps) {
       </form>
 
       <section className="mt-4 overflow-hidden rounded-[24px] border border-line bg-white" aria-label="Comparison">
-        <div className="grid grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)_minmax(0,1fr)] border-b border-line-soft bg-surface-soft">
+        <div className="grid grid-cols-[6rem_minmax(0,1fr)_minmax(0,1fr)] sm:grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)_minmax(0,1fr)] border-b border-line-soft bg-surface-soft">
           <span />
           {[a, b].map((candidate) => (
-            <Link key={candidate.slug} href={candidateHref(seat, candidate)} className="p-3 text-sm font-bold text-ink hover:underline sm:p-4 sm:text-base">{candidate.name}</Link>
+            <Link key={candidate.slug} href={candidateHref(seat, candidate)} className="px-2.5 py-3 text-[13px] font-bold leading-snug text-ink [overflow-wrap:break-word] hover:underline sm:p-4 sm:text-base">{candidate.name}</Link>
           ))}
         </div>
-        <div className="grid grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)_minmax(0,1fr)] border-b border-track px-0 py-3">
+        <div className="grid grid-cols-[6rem_minmax(0,1fr)_minmax(0,1fr)] sm:grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)_minmax(0,1fr)] border-b border-track px-0 py-3">
           <span className="px-3 text-xs font-bold uppercase tracking-[0.1em] text-subtle sm:px-4">Vote share</span>
           {[a, b].map((candidate) => (
             <div key={candidate.slug} className="px-3 sm:px-4">
@@ -91,10 +91,10 @@ export default async function ComparePage({ params, searchParams }: PageProps) {
         </div>
         <dl>
           {rows.map((row) => (
-            <div key={row.label} className="grid grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)_minmax(0,1fr)] border-b border-track text-sm last:border-0">
-              <dt className="p-3 text-muted sm:p-4">{row.label}</dt>
+            <div key={row.label} className="grid grid-cols-[6rem_minmax(0,1fr)_minmax(0,1fr)] sm:grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)_minmax(0,1fr)] border-b border-track text-sm last:border-0">
+              <dt className="p-3 text-muted hyphens-auto [overflow-wrap:break-word] sm:p-4">{row.label}</dt>
               {[a, b].map((candidate) => (
-                <dd key={candidate.slug} className={`p-3 sm:p-4 ${row.pending ? "text-subtle" : "font-semibold text-ink"}`}>{row.value(candidate)}</dd>
+                <dd key={candidate.slug} className={`p-3 hyphens-auto [overflow-wrap:break-word] sm:p-4 ${row.pending ? "text-subtle" : "font-semibold text-ink"}`}>{row.value(candidate)}</dd>
               ))}
             </div>
           ))}

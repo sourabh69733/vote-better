@@ -66,7 +66,7 @@ export default async function SeatsPage({ searchParams }: PageProps) {
         <p className="mt-3 max-w-xl text-[15px] leading-7 text-body">Search your constituency, your state, or the name of anyone who contested in the last three Lok Sabha elections or the 2023 Rajasthan assembly election. Every result comes from the Election Commission of India.</p>
         <form action="/seats" method="get" className="mt-6 flex max-w-2xl gap-2" role="search">
           <label htmlFor="seat-search" className="sr-only">Search seats, states or candidates</label>
-          <input id="seat-search" name="q" defaultValue={query} placeholder="e.g. Jaipur, Kerala or a candidate's name" autoComplete="off"
+          <input id="seat-search" name="q" defaultValue={query} placeholder="Seat, state or a name" autoComplete="off"
             className="min-h-12 min-w-0 flex-1 rounded-xl border border-line-strong bg-surface px-4 text-base text-ink focus:border-link focus:outline-none focus:ring-4 focus:ring-link/10" />
           <button type="submit" className="min-h-12 rounded-xl bg-brand px-5 text-sm font-bold text-white hover:bg-brand-strong">Search</button>
         </form>

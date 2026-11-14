@@ -159,8 +159,8 @@ export default function Home() {
               <label htmlFor="home-seat-search" className="sr-only">{pin ? "Find your MP and MLA" : "Find your MP and everyone who contested"}</label>
               <div className="flex gap-2 rounded-[20px] border border-line-strong bg-surface p-2 shadow-[0_16px_40px_rgba(28,64,40,.10)] focus-within:border-link focus-within:ring-4 focus-within:ring-eyebrow/10">
                 <input id="home-seat-search" name="q" placeholder={pin ? "PIN, seat or name" : "Seat, state or name"} autoComplete="off"
-                  className="min-h-12 min-w-0 flex-1 bg-transparent px-3 text-base text-ink placeholder:text-subtle focus:outline-none" />
-                <button type="submit" className="min-h-12 rounded-[14px] bg-brand px-6 text-sm font-bold text-white transition hover:bg-brand-strong">Find my MP</button>
+                  className="min-h-12 min-w-0 flex-1 bg-transparent px-2 text-base text-ink placeholder:text-subtle focus:outline-none sm:px-3" />
+                <button type="submit" className="min-h-12 shrink-0 rounded-[14px] bg-brand px-4 text-sm font-bold text-white transition hover:bg-brand-strong sm:px-6"><span className="min-[360px]:hidden">Search</span><span className="hidden min-[360px]:inline">Find my MP</span></button>
               </div>
             </form>
             <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">

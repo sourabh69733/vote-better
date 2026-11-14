@@ -245,11 +245,11 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
         <h2 id="post-heading" className="text-lg font-semibold text-ink">Post it</h2>
         <p className="mt-1 text-sm text-muted">On a phone, this opens your share menu with everything attached. On a computer, it saves the files and copies the caption.</p>
         <div className="mt-4 flex flex-wrap gap-3">
-          <button type="button" onClick={() => shareImages("instagram")} className={`inline-flex min-h-12 items-center gap-2 rounded-full px-5 text-sm font-bold shadow-sm transition hover:-translate-y-0.5 ${APPS.instagram.tone}`}>
+          <button type="button" onClick={() => shareImages("instagram")} className={`inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full sm:w-auto px-5 text-sm font-bold shadow-sm transition hover:-translate-y-0.5 ${APPS.instagram.tone}`}>
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" /></svg>
             Share to Instagram
           </button>
-          <button type="button" onClick={toYouTube} disabled={recording !== null} className={`inline-flex min-h-12 items-center gap-2 rounded-full px-5 text-sm font-bold shadow-sm transition hover:-translate-y-0.5 disabled:opacity-60 ${APPS.youtube.tone}`}>
+          <button type="button" onClick={toYouTube} disabled={recording !== null} className={`inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full sm:w-auto px-5 text-sm font-bold shadow-sm transition hover:-translate-y-0.5 disabled:opacity-60 ${APPS.youtube.tone}`}>
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2a2.6 2.6 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.6 2.6 0 0 0 2.4 7.2 27 27 0 0 0 2 12a27 27 0 0 0 .4 4.8 2.6 2.6 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.6 2.6 0 0 0 1.8-1.8A27 27 0 0 0 22 12a27 27 0 0 0-.4-4.8zM10 15V9l5.2 3z" /></svg>
             {recording === null ? "Share to YouTube Shorts" : `Making video… ${Math.round(recording * 100)}%`}
           </button>
@@ -257,15 +257,15 @@ export default function ShareKit({ deckKey, title, frames, link, caption, hashta
         {where === "post" && feedback}
       </section>
       <div className="flex flex-wrap items-center gap-3">
-        <div className="inline-flex rounded-full border border-line-strong bg-white p-1" role="group" aria-label="Image size">
+        <div className="flex w-full rounded-full border border-line-strong bg-white p-1 sm:inline-flex sm:w-auto" role="group" aria-label="Image size">
           {(Object.keys(SIZE) as Format[]).map((option) => (
             <button key={option} type="button" onClick={() => setFormat(option)} aria-pressed={format === option}
-              className={`min-h-10 rounded-full px-4 text-sm font-bold ${format === option ? "bg-brand text-white" : "text-link"}`}>{SIZE[option].label}</button>
+              className={`min-h-10 flex-1 rounded-full px-3 text-sm font-bold sm:flex-none sm:px-4 ${format === option ? "bg-brand text-white" : "text-link"}`}>{SIZE[option].label}</button>
           ))}
         </div>
-        <button type="button" onClick={() => shareImages(null)} className="min-h-11 rounded-full bg-brand px-5 text-sm font-bold text-white hover:bg-brand-strong">Share {frames} images</button>
+        <button type="button" onClick={() => shareImages(null)} className="min-h-11 flex-1 rounded-full bg-brand px-5 sm:flex-none text-sm font-bold text-white hover:bg-brand-strong">Share {frames} images</button>
         {format === "story" && (
-          <button type="button" onClick={() => makeReel()} disabled={recording !== null} className="min-h-11 rounded-full border border-line-strong bg-white px-5 text-sm font-bold text-link hover:bg-tint disabled:opacity-60">
+          <button type="button" onClick={() => makeReel()} disabled={recording !== null} className="min-h-11 flex-1 rounded-full border border-line-strong sm:flex-none bg-white px-5 text-sm font-bold text-link hover:bg-tint disabled:opacity-60">
             {recording === null ? "Make a reel" : `Recording… ${Math.round(recording * 100)}%`}
           </button>
         )}

@@ -43,6 +43,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* A grid with no column template gets one column that can shrink to the screen. Without this, one long
+   line that is cut off with an ellipsis sets the column's width and pushes the page sideways on a phone.
+   Column utilities such as sm:grid-cols-2 sit in a later layer and still win. */
+@layer base {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 /* Headings use the display face everywhere, so older pages pick it up too. */
 h1, h2, h3, .font-display {
   font-family: var(--font-display);

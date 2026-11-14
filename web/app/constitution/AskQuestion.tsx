@@ -22,7 +22,7 @@ export default function AskQuestion({ questions }: { questions: ConstitutionQues
           type="text"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="e.g. Can police arrest me without a reason?"
+          placeholder="e.g. Can police arrest me?"
           autoComplete="off"
           className="min-h-12 w-full bg-transparent text-base outline-none"
         />

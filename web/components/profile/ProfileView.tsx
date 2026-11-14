@@ -112,9 +112,12 @@ export default function ProfileView({ model, data }: { model: ProfileModel; data
             </div>
             <h1 className="mt-5 text-[clamp(2.2rem,6vw,4rem)] font-semibold leading-[1.02] tracking-[-0.03em]">{model.name}</h1>
             {model.party && (
-              <p className="mt-2 flex flex-wrap items-center gap-x-2 text-white/80">
-                <span className="h-2.5 w-2.5 rounded-full" style={{ background: color }} aria-hidden="true" />
-                {model.party.name}{model.party.symbol ? <span className="text-white/55">· symbol: {model.party.symbol}</span> : null}
+              <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-white/80">
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: color }} aria-hidden="true" />
+                  {model.party.name}
+                </span>
+                {model.party.symbol ? <span className="text-sm text-white/55">Symbol: {model.party.symbol}</span> : null}
               </p>
             )}
             <p className="mt-1 text-sm text-white/60">{model.place}</p>
