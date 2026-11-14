@@ -5,6 +5,8 @@ import { findCandidacy2024, findMpForSeat } from "@/lib/mp-seat-link";
 import { adrMoney, findAdrCandidate, readAdrCandidates } from "@/lib/adr-winners";
 import { eciChip, moneyStats, partyOf, resultStats, type ProfileModel } from "@/lib/profile-model";
 import { getPersonProfile, listPersonSlugs } from "@/lib/verified-profile";
+import { getMpFunds } from "@/lib/mp-funds";
+import { NO_QUESTIONS_NOTE, WORK_NOTE, missingNote, mpWorkRecords } from "@/lib/mp-work";
 import ProfileView from "@/components/profile/ProfileView";
 
 interface PageProps {
@@ -45,6 +47,9 @@ export default async function CandidatePage({ params }: PageProps) {
     return row?.seat.slug === seat.slug && row.seat.stateSlug === seat.stateSlug && row.candidate.slug === candidate.slug;
   });
   const sittingMp = won ? await findMpForSeat(seat) : undefined;
+  // The winner's record in Parliament, the same as on their MP page, and their local area fund works.
+  const record = sittingMp ? mpWorkRecords(sittingMp.memberId, day) : undefined;
+  const funds = curatedPerson ? getMpFunds(curatedPerson.slug) : undefined;
   const namesake = seat.candidates.some((other) => other.slug !== candidate.slug && other.name === candidate.name);
   // ADR's summary of the 2024 affidavit, from a local export only; without it the page shows no such figures.
   const adr = await readAdrCandidates();
@@ -67,6 +72,13 @@ export default async function CandidatePage({ params }: PageProps) {
       ...moneyStats(money),
     ],
     money,
+    ...(record?.found ? {
+      work: {
+        ...record.work,
+        note: record.noQuestions ? NO_QUESTIONS_NOTE : record.missing.length ? missingNote(record.missing) : WORK_NOTE,
+      },
+    } : {}),
+    ...(funds ? { funds } : {}),
     timeline: [{
       when: "2024 · Lok Sabha", strong: won, source: eci,
       text: `${won ? "Won" : "Contested"} ${seat.name} for ${party?.name ?? candidate.party} with ${formatNumber(candidate.votes)} votes.`,
@@ -82,13 +94,16 @@ export default async function CandidatePage({ params }: PageProps) {
       ...(curatedPerson ? [{ label: "Open the hand-checked profile: affidavit, career and parliamentary work", href: `/people/${curatedPerson.slug}` }] : []),
       ...(sittingMp && !curatedPerson ? [{ label: "Open the full MP profile: career and committees", href: `/mps/${sittingMp.memberId}` }] : []),
     ],
-    sources: adrFigures ? [
-      { title: adrFigures.source.title, url: adrFigures.source.url, checkedOn: adrFigures.source.checkedOn },
-      { title: "Candidate affidavit portal, Election Commission of India", url: "https://affidavit.eci.gov.in/", checkedOn: adrFigures.source.checkedOn },
-    ] : [],
+    sources: [
+      ...(adrFigures ? [
+        { title: adrFigures.source.title, url: adrFigures.source.url, checkedOn: adrFigures.source.checkedOn },
+        { title: "Candidate affidavit portal, Election Commission of India", url: "https://affidavit.eci.gov.in/", checkedOn: adrFigures.source.checkedOn },
+      ] : []),
+      ...(record?.sources ?? []),
+    ],
     coming: [
       ...(money?.assets === undefined ? ["declared assets"] : []), ...(money?.cases === undefined ? ["declared cases"] : []),
-      ...(money?.education ? [] : ["education"]), "earlier elections", ...(won ? ["parliamentary work"] : []),
+      ...(money?.education ? [] : ["education"]), "earlier elections", ...(won && !record?.found ? ["parliamentary work"] : []),
     ],
     ...(namesake ? { warning: `Another candidate in ${seat.name} has the same name. This profile is the ${party?.name ?? candidate.party} candidate.` } : {}),
   };
