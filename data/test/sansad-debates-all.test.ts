@@ -24,4 +24,11 @@ test("every member's debates are collected, and a member whose records name some
   assert.match(excluded[0].reason, /identity mismatch/);
   const spaced = buildAllMembersDebates([{ member: { mpNo: 4, mpName: "Shri  Dev" }, pages: [page([debate(13, 4, "Shri Dev")])] }], [{ mpNo: 4, mpName: "Shri  Dev" }], "2026-11-07T00:00:00.000Z");
   assert.equal(spaced.archive.members[0].totalRecords, 1, "a double space in the roster name is not a different person");
+  const titled = buildAllMembersDebates([
+    { member: { mpNo: 5, mpName: "Dr. Esha Rao" }, pages: [page([debate(14, 5, "Prof. Esha Rao")])] },
+    { member: { mpNo: 6, mpName: "Smt. Kanimozhi Rajathi Karunanidhi" }, pages: [page([debate(15, 6, "Smt. Kanimozhi Karunanidhi")])] },
+    { member: { mpNo: 7, mpName: "Shri Farid Khan" }, pages: [page([debate(16, 8, "Shri Farid Khan")])] },
+  ], [{ mpNo: 5, mpName: "Dr. Esha Rao" }, { mpNo: 6, mpName: "Smt. Kanimozhi Rajathi Karunanidhi" }, { mpNo: 7, mpName: "Shri Farid Khan" }], "2026-11-15T00:00:00.000Z");
+  assert.deepEqual(titled.archive.members.map((member) => member.totalRecords), [1, 1], "another title or a shorter name, under the same member number, is the same person");
+  assert.deepEqual(titled.excluded.map((item) => item.mpNo), [7], "the member number must still match");
 });

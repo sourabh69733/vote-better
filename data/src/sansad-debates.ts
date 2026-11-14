@@ -34,6 +34,19 @@ function clean(value: unknown): string {
   return typeof value === "string" ? value.replace(/\s+/g, " ").trim() : "";
 }
 
+// Sansad gives one member different titles in different records ("Dr." in the roster, "Prof." or "Thiru"
+// on a debate) and sometimes a shorter name. The member number must match exactly; the name must then
+// match ignoring titles, or be the same person's shorter name of at least two words.
+const TITLES = new Set(["shri", "smt", "dr", "prof", "thiru", "thirumathi", "selvi", "kumari", "sushri", "km", "adv", "advocate", "sh", "mr", "mrs", "ms", "er", "col", "capt", "maj", "gen", "lt", "retd", "sardar", "pandit", "sant", "swami", "mahant", "kunwar", "rajkumari", "rani"]);
+const nameWords = (name: string) => name.toLowerCase().normalize("NFKD").replace(/[^a-z]+/g, " ").trim().split(" ").filter((word) => word && !TITLES.has(word));
+
+export function sameMemberName(a: string, b: string): boolean {
+  const [x, y] = [nameWords(a), nameWords(b)];
+  if (x.join(" ") === y.join(" ")) return x.length > 0;
+  const [short, long] = x.length <= y.length ? [x, y] : [y, x];
+  return short.length >= 2 && short.every((word) => long.includes(word));
+}
+
 function debateDate(value: unknown): string {
   const match = clean(value).match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
   if (!match) throw new Error("Invalid debate date");
@@ -51,9 +64,9 @@ export function normalizeDebate(row: Record<string, unknown>, target: QuestionTa
   if (!title) throw new Error("Debate has no title");
   const participantNames = Array.isArray(row.memberName) ? row.memberName.map(clean).filter(Boolean) : [];
   const participants = Array.isArray(row.mpPartDetailList) ? row.mpPartDetailList : [];
-  // Sansad's roster sometimes has a double space in a name ("Shri  Chhotelal"); spacing is not identity.
-  const officialName = clean(target.officialName);
-  if (!participantNames.includes(officialName) || !participants.some((item) => item?.mpCode === target.memberId && clean(item?.mpName) === officialName)) {
+  const listed = participants.find((item) => item?.mpCode === target.memberId);
+  const listedName = clean(listed?.mpName);
+  if (!listed || !sameMemberName(listedName, target.officialName) || !participantNames.includes(listedName)) {
     throw new Error(`Member identity mismatch in debate ${dbSlno}`);
   }
   return {
