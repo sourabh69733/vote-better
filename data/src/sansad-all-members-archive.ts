@@ -1,9 +1,10 @@
-import { readFile, rename, writeFile } from "node:fs/promises";
+import { readFile, rename, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { buildQuestionArchive, type QuestionArchive } from "./sansad-question-archive.js";
-import { buildQuestionPublication, type QuestionTarget } from "./sansad-questions.js";
+import { buildQuestionPublication, collectQuestions, type QuestionTarget } from "./sansad-questions.js";
+import { loadSessionPlan, type SessionPlan } from "./sansad-sessions.js";
 
 // Questions for every sitting MP, rebuilt offline from the saved Sansad session pages.
 // Digital Sansad reuse is still under review, so the archive stays in data/raw and is not published.
@@ -42,15 +43,24 @@ export async function buildAllMembersArchive(sessions: number[]): Promise<{ arch
   return { archive: buildQuestionArchive(publications, sessions), excluded };
 }
 
+// Fetches any session not yet saved, and again any session still sitting or just ended, then rebuilds the
+// archive from every saved session.
+export async function updateAllMembersQuestions(plan: SessionPlan, targets: QuestionTarget[], collect = collectQuestions) {
+  for (const session of plan.held) {
+    const saved = await stat(raw(`ls18-s${session}`, "publication.json")).then(() => true, () => false);
+    if (!saved || plan.refresh.includes(session)) await collect(session, raw(`ls18-s${session}`, "publication.json"), targets);
+  }
+  const { archive, excluded } = await buildAllMembersArchive(plan.held);
+  const temporary = `${ALL_MEMBERS_ARCHIVE}.tmp`;
+  await writeFile(temporary, `${JSON.stringify(archive)}\n`);
+  await rename(temporary, ALL_MEMBERS_ARCHIVE);
+  const questions = archive.sessions.reduce((sum, item) => sum + item.members.reduce((n, m) => n + m.questions.length, 0), 0);
+  return { archive, excluded, questions };
+}
+
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
-  const sessions = [1, 2, 3, 4, 5, 6, 7, 8];
-  buildAllMembersArchive(sessions).then(async ({ archive, excluded }) => {
-    const temporary = `${ALL_MEMBERS_ARCHIVE}.tmp`;
-    await writeFile(temporary, `${JSON.stringify(archive)}\n`);
-    await rename(temporary, ALL_MEMBERS_ARCHIVE);
-    const members = archive.sessions[0].members.length;
-    const questions = archive.sessions.reduce((sum, s) => sum + s.members.reduce((n, m) => n + m.questions.length, 0), 0);
-    console.log(`${members} members, ${questions} member-question listings across ${archive.sessions.length} sessions written to ${ALL_MEMBERS_ARCHIVE}.`);
-    for (const item of excluded) console.log(`  not included: ${item.mpNo} ${item.mpName} (${item.reason})`);
-  }).catch((error) => { console.error(error); process.exitCode = 1; });
+  const targets = JSON.parse(await readFile(fileURLToPath(new URL("../config/sansad-question-targets.json", import.meta.url)), "utf8")) as QuestionTarget[];
+  const { archive, excluded, questions } = await updateAllMembersQuestions(await loadSessionPlan(), targets);
+  console.log(`${archive.sessions[0].members.length} members, ${questions} member-question listings across ${archive.sessions.length} sessions written to ${ALL_MEMBERS_ARCHIVE}.`);
+  for (const item of excluded) console.log(`  not included: ${item.mpNo} ${item.mpName} (${item.reason})`);
 }

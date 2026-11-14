@@ -19,6 +19,11 @@ import { AFFIDAVIT_SEATS, collectSeatAffidavits, writeWorklist } from "./eci-aff
 import { buildPublication, collectNominations, NOMINATION_TARGETS, portalFetcher, writePublication } from "./eci-nominations.js";
 import { collectDebates } from "./sansad-debates.js";
 import { collectQuestionArchive } from "./sansad-question-archive.js";
+import { collectQuestions } from "./sansad-questions.js";
+import { updateAllMembersQuestions } from "./sansad-all-members-archive.js";
+import { updateAttendance } from "./sansad-attendance.js";
+import { updateAllMembersDebates } from "./sansad-debates-all.js";
+import { loadSessionPlan } from "./sansad-sessions.js";
 import { CivicStore } from "./store.js";
 
 // Every source the pipeline collects, in one place. A source not listed here is not collected.
@@ -60,6 +65,9 @@ export interface SourceDefinition {
   pollWindow?: { electionId: string; everyHours: number };
   // Runs only when named: it needs OCR tools the scheduled job does not install, and people to check what it reads.
   onRequestOnly?: boolean;
+  // Writes only to ignored data/raw, which the cloud job does not keep, and is not published yet: it is due
+  // on a local machine running `sync --due`, and skipped in the scheduled cloud job.
+  localOnly?: boolean;
   run: (context: RunContext) => Promise<RunResult>;
 }
 
@@ -267,8 +275,11 @@ export const registry: SourceDefinition[] = [
     review: "file-export",
     timeoutMinutes: 180,
     async run() {
-      const sessions = [1, 2, 3, 4, 5, 6, 7, 8];
-      const archive = await collectQuestionArchive(sessions, webImport("lok-sabha-18-question-archive.json"), await questionTargets(), true);
+      // Sessions that have begun come from Digital Sansad; one sitting now or just ended is fetched again.
+      const plan = await loadSessionPlan();
+      const targets = await questionTargets();
+      for (const session of plan.refresh) await collectQuestions(session, raw(`sansad-questions/ls18-s${session}/publication.json`), targets);
+      const archive = await collectQuestionArchive(plan.held, webImport("lok-sabha-18-question-archive.json"), targets, true);
       const questions = archive.sessions.reduce((sum, session) => sum + session.members.reduce((count, member) => count + member.questions.length, 0), 0);
       return { outcome: "succeeded", items: questions, detail: `${archive.sessions.length} sessions, ${questions} questions` };
     },
@@ -287,6 +298,60 @@ export const registry: SourceDefinition[] = [
       const publication = await collectDebates(webImport("lok-sabha-18-debates.json"), await questionTargets());
       const records = publication.members.reduce((sum, member) => sum + member.totalRecords, 0);
       return { outcome: "succeeded", items: records, detail: `${publication.members.length} members, ${records} records` };
+    },
+  },
+  {
+    id: "sansad-ls-questions-all",
+    title: "Lok Sabha questions for every sitting member (local only)",
+    owner: "Parliament of India, Digital Sansad",
+    url: "https://sansad.in/ls/questions/questions-and-answers",
+    format: "json",
+    refreshDays: 7,
+    reuse: { status: "under-review", note: "Kept in data/raw and not published until the Digital Sansad reuse decision (decision 5)." },
+    supplies: ["activity.question"],
+    review: "file-export",
+    localOnly: true,
+    timeoutMinutes: 120,
+    async run() {
+      const { archive, questions } = await updateAllMembersQuestions(await loadSessionPlan(), await questionTargets());
+      return { outcome: "succeeded", items: questions, detail: `${archive.sessions.length} sessions, ${questions} member-question listings` };
+    },
+  },
+  {
+    id: "sansad-ls-attendance",
+    title: "Lok Sabha attendance for every sitting member (local only)",
+    owner: "Parliament of India, Digital Sansad",
+    url: "https://sansad.in/ls/members",
+    format: "json",
+    refreshDays: 7,
+    reuse: { status: "under-review", note: "Kept in data/raw and not published until the Digital Sansad reuse decision (decision 5)." },
+    supplies: ["activity.attendance"],
+    review: "file-export",
+    localOnly: true,
+    timeoutMinutes: 120,
+    async run() {
+      const archive = await updateAttendance(await loadSessionPlan());
+      const records = archive.sessions.reduce((sum, session) => sum + Object.keys(session.members).length, 0);
+      return { outcome: "succeeded", items: records, detail: `${archive.sessions.length} sessions, ${records} member records` };
+    },
+  },
+  {
+    id: "sansad-ls-debates-all",
+    title: "Lok Sabha debate records for every sitting member (local only)",
+    owner: "Parliament of India, Digital Sansad",
+    url: "https://sansad.in/ls/debates",
+    format: "json",
+    refreshDays: 7,
+    reuse: { status: "under-review", note: "Kept in data/raw and not published until the Digital Sansad reuse decision (decision 5)." },
+    supplies: ["activity.debate"],
+    review: "file-export",
+    localOnly: true,
+    timeoutMinutes: 120,
+    async run() {
+      // Each member's first page is checked again; a member whose total changed is fetched again in full.
+      const { archive, excluded, fetched } = await updateAllMembersDebates({ recheck: true });
+      const records = archive.members.reduce((sum, member) => sum + member.totalRecords, 0);
+      return { outcome: excluded.length ? "partial" : "succeeded", items: records, detail: `${archive.members.length} members, ${records} records, ${fetched} pages fetched${excluded.length ? `, ${excluded.length} members left out` : ""}` };
     },
   },
   {

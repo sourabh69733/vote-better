@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 import { buildDebatePublication, debatePageUrl, DEBATE_PAGE_SIZE, type DebatePublication } from "./sansad-debates.js";
 import { fetchText } from "./sansad-questions.js";
+import { loadRoster } from "./sansad-sessions.js";
 
 // Debates for every sitting MP, from Digital Sansad's debate search. Each member's pages are saved once,
 // so an interrupted run resumes. Digital Sansad reuse is still under review, so the pages and the archive
@@ -11,17 +12,33 @@ import { fetchText } from "./sansad-questions.js";
 
 const raw = (...parts: string[]) => fileURLToPath(new URL(`../raw/sansad-debates/${parts.join("/")}`, import.meta.url));
 export const ALL_MEMBERS_DEBATES = raw("archive-all-members.json");
-const ROSTER = fileURLToPath(new URL("../raw/sansad-questions/ls18-s8/members.json", import.meta.url));
 
 interface Member { mpNo: number; mpName: string }
 
-async function memberPages(memberId: number, pauseMs: number, request?: typeof fetch) {
+const total = (body: string) => JSON.parse(body)?._metadata?.totalElements as number;
+
+// With `recheck`, page 1 is fetched again: if the member's total has changed, every page is fetched again,
+// so new debates are picked up; if not, the saved pages stand.
+async function memberPages(memberId: number, pauseMs: number, request?: typeof fetch, recheck = false) {
   const pages: { url: string; body: string; file: string }[] = [];
   let fetched = 0;
+  let stale = false;
+  if (recheck) {
+    const savedFirst = await readFile(raw("all", `member-${memberId}-page-1.json`), "utf8").catch(() => null);
+    const fresh = await fetchText(debatePageUrl(memberId, 1), request);
+    fetched++;
+    await new Promise((done) => setTimeout(done, pauseMs));
+    stale = savedFirst === null || total(savedFirst) !== total(fresh);
+    if (stale) {
+      const file = raw("all", `member-${memberId}-page-1.json`);
+      await writeFile(`${file}.tmp`, fresh);
+      await rename(`${file}.tmp`, file);
+    }
+  }
   for (let number = 1; ; number++) {
     const url = debatePageUrl(memberId, number);
     const file = raw("all", `member-${memberId}-page-${number}.json`);
-    let body = await readFile(file, "utf8").catch(() => null);
+    let body = stale && number > 1 ? null : await readFile(file, "utf8").catch(() => null);
     if (body === null) {
       body = await fetchText(url, request);
       if (!Number.isSafeInteger(JSON.parse(body)?._metadata?.totalElements)) throw new Error(`invalid debate page ${url}`);
@@ -52,14 +69,16 @@ export function buildAllMembersDebates(inputs: { member: Member; pages: { url: s
   return { archive, excluded };
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
-  const roster = JSON.parse(await readFile(ROSTER, "utf8")) as Member[];
+// Every current member's debates. With `recheck`, each member's first page is fetched again to find
+// members with new debates; without it, only members never saved are fetched.
+export async function updateAllMembersDebates(options: { recheck?: boolean; pauseMs?: number } = {}) {
+  const roster = await loadRoster();
   await mkdir(raw("all"), { recursive: true });
   const inputs: { member: Member; pages: { url: string; body: string }[] }[] = [];
   let fetched = 0;
   let latest = 0;
   for (const member of roster) {
-    const result = await memberPages(member.mpNo, 700);
+    const result = await memberPages(member.mpNo, options.pauseMs ?? 700, undefined, options.recheck);
     fetched += result.fetched;
     for (const page of result.pages) latest = Math.max(latest, (await stat(page.file)).mtimeMs);
     inputs.push({ member, pages: result.pages });
@@ -67,6 +86,11 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.a
   const { archive, excluded } = buildAllMembersDebates(inputs, roster, new Date(latest).toISOString());
   await writeFile(`${ALL_MEMBERS_DEBATES}.tmp`, `${JSON.stringify(archive)}\n`);
   await rename(`${ALL_MEMBERS_DEBATES}.tmp`, ALL_MEMBERS_DEBATES);
+  return { archive, excluded, fetched };
+}
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+  const { archive, excluded, fetched } = await updateAllMembersDebates({ recheck: process.argv.includes("--recheck") });
   const records = archive.members.reduce((sum, member) => sum + member.totalRecords, 0);
   console.log(`${fetched} pages fetched; ${archive.members.length} members, ${records} member-debate records written to ${ALL_MEMBERS_DEBATES}.`);
   for (const item of excluded) console.log(`  not included: ${item.mpNo} ${item.mpName} (${item.reason})`);

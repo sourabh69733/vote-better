@@ -244,9 +244,15 @@ The 2022 winners list names each seat and winner only, with no seat number, vote
 
 ## Attendance for every MP
 
-`npm --prefix data run import:sansad-attendance` saves each sitting MP's Lok Sabha attendance record for sessions 1 to 8, one Digital Sansad request per member per session, paced and resumable: a saved record is not fetched again. Pass the sessions as a list (`-- 1,2,3,4,5,6,7,8,9`) once a new session has sat. An empty record, for a session not yet held or a member not yet elected, is not saved, so it is asked for again on the next run. While a session is still sitting, add `--refresh=9` to fetch its records again. Each record lists the session's sitting days by how the member marked the register: signed (in the register, by mobile or both), present but did not sign, not signed, or not required. Ministers, the Speaker and the Leader of the Opposition are not required to sign, so those days are left out of their share.
+`npm --prefix data run import:sansad-attendance` saves each sitting MP's Lok Sabha attendance record for every session that has begun, one Digital Sansad request per member per session, paced and resumable: a saved record is not fetched again. An empty record, for a member not yet elected, is not saved, so it is asked for again on the next run. To collect chosen sessions instead, pass them as a list (`-- 1,2,3`), and add `--refresh=9` to fetch a session's records again. Each record lists the session's sitting days by how the member marked the register: signed (in the register, by mobile or both), present but did not sign, not signed, or not required. Ministers, the Speaker and the Leader of the Opposition are not required to sign, so those days are left out of their share.
 
 The archive, `raw/sansad-attendance/archive.json`, gives each session's sitting days (the count most records list), each member's counts, and the median share of days signed among members who had to sign every day. Records that list a different number of days, mostly members who joined or left mid-session, are named in `differentDays`. Like the questions, it stays local while Digital Sansad reuse is under review; local MP pages read it. Signing the register shows an MP came to Parliament, not that they spoke or voted, and pages say so.
+
+## Keeping every MP's record current
+
+The three all-member sources above are in the sync registry as `sansad-ls-questions-all`, `sansad-ls-attendance` and `sansad-ls-debates-all`, refreshed weekly. They read which sessions have begun from Digital Sansad's session dates and the member list from its question directory, so a new session or a new member is picked up without editing a list. A session that is sitting, or ended within 30 days, is fetched again, since its answers and attendance are still being filled in. Debates check each member's first page and fetch the member again in full when their total has changed.
+
+Their files live in ignored `data/raw`, which the hosted scheduled sync does not keep, so these sources are marked local only and are skipped there. Run `npm --prefix data run sync -- --due` on the machine that holds the archives, at least weekly, to keep the local MP and candidate pages current.
 
 ## MP fund works (MPLADS)
 

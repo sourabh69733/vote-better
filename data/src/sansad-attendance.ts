@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { fetchText } from "./sansad-questions.js";
+import { loadRoster, loadSessionPlan, type SessionPlan } from "./sansad-sessions.js";
 
 // Lok Sabha attendance for every sitting MP, one Digital Sansad record per member per session. Each record
 // lists the session's sitting days by how the member marked the register. Digital Sansad reuse is still
@@ -10,7 +11,6 @@ import { fetchText } from "./sansad-questions.js";
 
 const raw = (...parts: string[]) => fileURLToPath(new URL(`../raw/sansad-attendance/${parts.join("/")}`, import.meta.url));
 export const ATTENDANCE_ARCHIVE = raw("archive.json");
-const MEMBERS = fileURLToPath(new URL("../raw/sansad-questions/ls18-s8/members.json", import.meta.url));
 
 export const attendanceUrl = (session: number, memberId: number) =>
   `https://sansad.in/api_ls/member/getMemberAttendanceByMpsno?loksabha=18&session=${session}&mpsno=${memberId}`;
@@ -128,15 +128,25 @@ export async function collectAttendance(sessions: number[], memberIds: number[],
   return { records, collectedAt: new Date(latest).toISOString() };
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
-  const args = process.argv.slice(2);
-  const sessions = (args.find((arg) => !arg.startsWith("--")) ?? "1,2,3,4,5,6,7,8").split(",").map(Number);
-  const refresh = args.find((arg) => arg.startsWith("--refresh="))?.slice("--refresh=".length).split(",").map(Number) ?? [];
-  const members = JSON.parse(await readFile(MEMBERS, "utf8")) as { mpNo: number }[];
-  const { records, collectedAt } = await collectAttendance(sessions, members.map((member) => member.mpNo), { log: console.log, refresh });
+// Collects every session that has begun for every current member, fetching again the sessions whose
+// records may still change, and rebuilds the archive.
+export async function updateAttendance(plan: SessionPlan, options: { log?: (line: string) => void } = {}) {
+  const roster = await loadRoster();
+  const { records, collectedAt } = await collectAttendance(plan.held, roster.map((member) => member.mpNo), { log: options.log, refresh: plan.refresh });
   const archive = buildAttendanceArchive(records, collectedAt);
   await writeFile(`${ATTENDANCE_ARCHIVE}.tmp`, `${JSON.stringify(archive)}\n`);
   await rename(`${ATTENDANCE_ARCHIVE}.tmp`, ATTENDANCE_ARCHIVE);
+  return archive;
+}
+
+// Sessions and --refresh can be given by hand; without them, the session list decides.
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+  const args = process.argv.slice(2);
+  const given = args.find((arg) => !arg.startsWith("--"));
+  const refresh = args.find((arg) => arg.startsWith("--refresh="))?.slice("--refresh=".length).split(",").map(Number);
+  const planned = await loadSessionPlan();
+  const plan = { held: given ? given.split(",").map(Number) : planned.held, refresh: refresh ?? planned.refresh };
+  const archive = await updateAttendance(plan, { log: console.log });
   for (const item of archive.sessions) {
     console.log(`session ${item.session}: ${item.days} sitting days, ${Object.keys(item.members).length} members, median ${item.medianPercent?.toFixed(1) ?? "n/a"}%, ${item.differentDays.length} with a different day count`);
   }
