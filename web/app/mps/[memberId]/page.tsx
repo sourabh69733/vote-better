@@ -4,6 +4,8 @@ import { adrMoney, findAdrWinner, readAdrWinners } from "@/lib/adr-winners";
 import { listAreaOverviews } from "@/lib/civic-area";
 import { formatShort, requireResults, seatHref, summaryOf } from "@/lib/results";
 import { sortableMpName } from "@/lib/mp-directory";
+import { getMpFunds } from "@/lib/mp-funds";
+import { getSeatFunds } from "@/lib/mp-funds-local";
 import { linkMpToSeat } from "@/lib/mp-seat-link";
 import { NO_QUESTIONS_NOTE, WORK_NOTE, joinList, missingNote, mpWorkRecords } from "@/lib/mp-work";
 import { eciChip, moneyStats, partyOf, resultStats, type ProfileModel, type ProfileMoney, type ProfileStat } from "@/lib/profile-model";
@@ -63,6 +65,8 @@ export default async function MpProfilePage({ params }: PageProps) {
   const terms = positions.filter((position) => lokSabhaTerm.test(position.title)).length;
   const educationText = text(education)?.replace(/^[\s;,.]+|[\s;,]+$/g, "") || undefined;
   const record = mpWorkRecords(profile.memberId, day);
+  // Local area fund works: the hand-checked file first, then the local all-seat archive.
+  const funds = (curated ? getMpFunds(curated.slug) : null) ?? (seat ? getSeatFunds(seat, { names: [profile.name], winner2024: link.status === "won-2024" }) : null) ?? undefined;
   const missing = record.missing;
   const adr = await readAdrWinners();
   const declared = adr && findAdrWinner(adr.winners, profile);
@@ -103,6 +107,7 @@ export default async function MpProfilePage({ params }: PageProps) {
       ...record.work,
       note: record.noQuestions ? NO_QUESTIONS_NOTE : !missing.length ? WORK_NOTE : curated && !record.found ? undefined : missingNote(missing),
     } : undefined,
+    ...(funds ? { funds } : {}),
     money,
     timeline,
     timelineNote: "From the positions Digital Sansad lists for this member.",

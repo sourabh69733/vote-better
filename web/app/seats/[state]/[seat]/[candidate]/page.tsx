@@ -6,6 +6,7 @@ import { adrMoney, findAdrCandidate, readAdrCandidates } from "@/lib/adr-winners
 import { eciChip, moneyStats, partyOf, resultStats, type ProfileModel } from "@/lib/profile-model";
 import { getPersonProfile, listPersonSlugs } from "@/lib/verified-profile";
 import { getMpFunds } from "@/lib/mp-funds";
+import { getSeatFunds } from "@/lib/mp-funds-local";
 import { NO_QUESTIONS_NOTE, WORK_NOTE, missingNote, mpWorkRecords } from "@/lib/mp-work";
 import ProfileView from "@/components/profile/ProfileView";
 
@@ -49,7 +50,8 @@ export default async function CandidatePage({ params }: PageProps) {
   const sittingMp = won ? await findMpForSeat(seat) : undefined;
   // The winner's record in Parliament, the same as on their MP page, and their local area fund works.
   const record = sittingMp ? mpWorkRecords(sittingMp.memberId, day) : undefined;
-  const funds = curatedPerson ? getMpFunds(curatedPerson.slug) : undefined;
+  const funds = (curatedPerson ? getMpFunds(curatedPerson.slug) : null) ??
+    (won ? getSeatFunds(seat, { names: [candidate.sourceName, ...(sittingMp ? [sittingMp.name] : [])], winner2024: true }) : null) ?? undefined;
   const namesake = seat.candidates.some((other) => other.slug !== candidate.slug && other.name === candidate.name);
   // ADR's summary of the 2024 affidavit, from a local export only; without it the page shows no such figures.
   const adr = await readAdrCandidates();
