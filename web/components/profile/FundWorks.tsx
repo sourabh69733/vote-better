@@ -43,7 +43,8 @@ function WorkItem({ work }: { work: FundWork }) {
 }
 
 // A short version for seat and area pages; the full list stays on the MP's profile.
-export function FundSummary({ funds, name, className = "" }: { funds: MpFunds; name: string; className?: string }) {
+// `href` opens the full list of works; it defaults to the hand-checked profile.
+export function FundSummary({ funds, name, href = `/people/${funds.personId}#funds`, className = "" }: { funds: MpFunds; name: string; href?: string; className?: string }) {
   return (
     <section className={`rounded-[24px] border border-line bg-surface p-5 sm:p-6 ${className}`} aria-labelledby="fund-summary-heading">
       <p className="text-[11px] font-extrabold uppercase tracking-[0.14em] text-eyebrow">MP fund (MPLADS)</p>
@@ -62,7 +63,7 @@ export function FundSummary({ funds, name, className = "" }: { funds: MpFunds; n
         ))}
       </dl>
       <p className="mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-sm">
-        <a href={`/people/${funds.personId}#funds`} className="font-semibold text-link underline underline-offset-4">See every work and its status →</a>
+        <a href={href} className="font-semibold text-link underline underline-offset-4">See every work and its status →</a>
         <span className="text-xs text-subtle">{funds.source.title} · collected {formatDay(funds.collectedOn)}</span>
       </p>
     </section>
