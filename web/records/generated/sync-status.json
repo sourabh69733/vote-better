@@ -1,0 +1,166 @@
+{
+  "sources": [
+    {
+      "id": "eci-ge2024-results",
+      "title": "Lok Sabha 2024 results: reports 33, 4, 3 and 2A",
+      "owner": "Election Commission of India",
+      "url": "https://www.eci.gov.in/general-election-to-loksabha-2024-statistical-reports",
+      "refreshDays": 30,
+      "lastChecked": "2026-10-31",
+      "failing": false
+    },
+    {
+      "id": "eci-ge2019-results",
+      "title": "Lok Sabha 2019 results: detailed result, winners and parties",
+      "owner": "Election Commission of India",
+      "url": "https://old.eci.gov.in/files/file/13539-33-constituency-wise-detailed-result/",
+      "refreshDays": null,
+      "lastChecked": "2026-10-25",
+      "failing": false
+    },
+    {
+      "id": "eci-ge2014-results",
+      "title": "Lok Sabha 2014 results: detailed result, winners and parties",
+      "owner": "Election Commission of India",
+      "url": "https://old.eci.gov.in/files/file/2785-constituency-wise-detailed-result/",
+      "refreshDays": null,
+      "lastChecked": "2026-10-31",
+      "failing": false
+    },
+    {
+      "id": "eci-rajasthan-assembly-2023-results",
+      "title": "Rajasthan assembly 2023 results: detailed results, winners, voters and parties",
+      "owner": "Election Commission of India",
+      "url": "https://www.eci.gov.in/eci-backend/public/all_files/full-statistical-reports/rajasthan/2023_Including/Detailed_Results.xlsx",
+      "refreshDays": null,
+      "lastChecked": "2026-11-06",
+      "failing": false
+    },
+    {
+      "id": "eci-goa-assembly-2022-results",
+      "title": "Goa assembly 2022 results: detailed results, winners, voters and parties",
+      "owner": "Election Commission of India",
+      "url": "https://old.eci.gov.in/files/file/14168-goa-general-legislative-election-2022/#detailed",
+      "refreshDays": null,
+      "lastChecked": "2026-11-06",
+      "failing": false
+    },
+    {
+      "id": "eci-manipur-assembly-2022-results",
+      "title": "Manipur assembly 2022 results: detailed results, winners, voters and parties",
+      "owner": "Election Commission of India",
+      "url": "https://old.eci.gov.in/files/file/14166-manipur-general-legislative-election-2022/#detailed",
+      "refreshDays": null,
+      "lastChecked": "2026-11-06",
+      "failing": false
+    },
+    {
+      "id": "eci-punjab-assembly-2022-results",
+      "title": "Punjab assembly 2022 results: detailed results, winners, voters and parties",
+      "owner": "Election Commission of India",
+      "url": "https://old.eci.gov.in/files/file/14165-punjab-general-legislative-election-2022/#detailed",
+      "refreshDays": null,
+      "lastChecked": "2026-11-06",
+      "failing": false
+    },
+    {
+      "id": "eci-uttarakhand-assembly-2022-results",
+      "title": "Uttarakhand assembly 2022 results: detailed results, winners, voters and parties",
+      "owner": "Election Commission of India",
+      "url": "https://old.eci.gov.in/files/file/14169-uttarakhand-general-legislative-election-2022/#detailed",
+      "refreshDays": null,
+      "lastChecked": "2026-11-06",
+      "failing": false
+    },
+    {
+      "id": "eci-uttar-pradesh-assembly-2022-results",
+      "title": "Uttar Pradesh assembly 2022 results: detailed results, winners, voters and parties",
+      "owner": "Election Commission of India",
+      "url": "https://old.eci.gov.in/files/file/14185-uttar-pradesh-general-legislative-election-2022/#detailed",
+      "refreshDays": null,
+      "lastChecked": "2026-11-06",
+      "failing": false
+    },
+    {
+      "id": "ceo-rajasthan-bye-election-returns",
+      "title": "Rajasthan assembly bye-elections since 2023: transcribed returns and result gazette",
+      "owner": "Chief Electoral Officer, Rajasthan",
+      "url": "https://election.rajasthan.gov.in/Bye_Election%20Nov2024/Form20_21D_21E.aspx",
+      "refreshDays": null,
+      "lastChecked": "2026-10-31",
+      "failing": false
+    },
+    {
+      "id": "eci-nominations-bye-elections-october-2026",
+      "title": "Candidates and nominations: bye-elections, October 2026",
+      "owner": "Election Commission of India",
+      "url": "https://affidavit.eci.gov.in/",
+      "refreshDays": null,
+      "lastChecked": "2026-11-01",
+      "failing": false
+    },
+    {
+      "id": "eci-affidavits-jaipur-2024",
+      "title": "Candidate affidavits: Jaipur and Jaipur Rural, 2024",
+      "owner": "Election Commission of India",
+      "url": "https://affidavit.eci.gov.in/",
+      "refreshDays": null,
+      "lastChecked": "2026-11-02",
+      "failing": false
+    },
+    {
+      "id": "rajasthan-form21e-jaipur",
+      "title": "Jaipur 2024 return of election (Form 21E)",
+      "owner": "Chief Electoral Officer, Rajasthan",
+      "url": "https://election.rajasthan.gov.in/Lok_Sabha_Election_2024/ElectionResults/Form21E/Form21E-7.pdf",
+      "refreshDays": null,
+      "lastChecked": null,
+      "failing": false
+    },
+    {
+      "id": "sansad-ls-members",
+      "title": "Sitting Lok Sabha members",
+      "owner": "Parliament of India, Digital Sansad",
+      "url": "https://sansad.in/ls/members",
+      "refreshDays": 1,
+      "lastChecked": null,
+      "failing": false
+    },
+    {
+      "id": "sansad-ls-biographies",
+      "title": "Lok Sabha member biographies",
+      "owner": "Parliament of India, Digital Sansad",
+      "url": "https://sansad.in/ls/members",
+      "refreshDays": 7,
+      "lastChecked": null,
+      "failing": false
+    },
+    {
+      "id": "sansad-ls-questions",
+      "title": "Lok Sabha questions for tracked members",
+      "owner": "Parliament of India, Digital Sansad",
+      "url": "https://sansad.in/ls/questions/questions-and-answers",
+      "refreshDays": 7,
+      "lastChecked": null,
+      "failing": false
+    },
+    {
+      "id": "sansad-ls-debates",
+      "title": "Lok Sabha debate records for tracked members",
+      "owner": "Parliament of India, Digital Sansad",
+      "url": "https://sansad.in/ls/debates",
+      "refreshDays": 7,
+      "lastChecked": null,
+      "failing": false
+    },
+    {
+      "id": "mospi-mplads-works",
+      "title": "MP Local Area Development Scheme works for tracked members",
+      "owner": "Ministry of Statistics and Programme Implementation, eSAKSHI",
+      "url": "https://mplads.mospi.gov.in/digigov/dashboard.html",
+      "refreshDays": 7,
+      "lastChecked": null,
+      "failing": false
+    }
+  ]
+}
